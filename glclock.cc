@@ -47,39 +47,56 @@ glclock::~glclock ()
 }
 
 glclock::glclock ()
-  : m (new module),
-    drawing_area (gtk_drawing_area_new ()),
+  : m (NULL),
+    drawing_area (NULL),
     context (NULL),
     rot_velocity (0),
     rot_x (0), rot_y (1), rot_z (0)
 {
-  gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
+  try
+    {
+      /* Objects are allocated here to avoid leaks when an exception
+	 is thrown in the middle of the ctor.  */
+      m = new module ();
+      drawing_area = gtk_drawing_area_new ();
 
-  gtk_widget_set_events (drawing_area, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-  gtk_signal_connect (GTK_OBJECT (drawing_area), "configure_event",
-		      reinterpret_cast <GtkSignalFunc> (handle_configure_event),
-		      this);
-  gtk_signal_connect (GTK_OBJECT (drawing_area), "destroy_event",
-		      reinterpret_cast <GtkSignalFunc> (handle_destroy_event),
-		      this);
+      gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
+
+      gtk_widget_set_events (drawing_area, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+      gtk_signal_connect (GTK_OBJECT (drawing_area), "configure_event",
+			  reinterpret_cast <GtkSignalFunc> (handle_configure_event),
+			  this);
+      gtk_signal_connect (GTK_OBJECT (drawing_area), "destroy_event",
+			  reinterpret_cast <GtkSignalFunc> (handle_destroy_event),
+			  this);
 #if 0
-  gtk_signal_connect (GTK_OBJECT (drawing_area), "expose_event",
-		      reinterpret_cast <GtkSignalFunc> (handle_expose_event),
-		      this);
+      gtk_signal_connect (GTK_OBJECT (drawing_area), "expose_event",
+			  reinterpret_cast <GtkSignalFunc> (handle_expose_event),
+			  this);
 #endif
-  gtk_signal_connect (GTK_OBJECT (drawing_area), "button_press_event",
-		      reinterpret_cast <GtkSignalFunc> (handle_button_event),
-		      this);
-  gtk_signal_connect (GTK_OBJECT (drawing_area), "button_release_event",
-		      reinterpret_cast <GtkSignalFunc> (handle_button_event),
-		      this);
-  gtk_widget_show (drawing_area);
+      gtk_signal_connect (GTK_OBJECT (drawing_area), "button_press_event",
+			  reinterpret_cast <GtkSignalFunc> (handle_button_event),
+			  this);
+      gtk_signal_connect (GTK_OBJECT (drawing_area), "button_release_event",
+			  reinterpret_cast <GtkSignalFunc> (handle_button_event),
+			  this);
+      gtk_widget_show (drawing_area);
 
-  time (&t);
+      time (&t);
 
-  timeout_id = gtk_timeout_add (100,
-				reinterpret_cast <GtkFunction> (update),
-				this);
+      timeout_id = gtk_timeout_add (100,
+				    reinterpret_cast <GtkFunction> (update),
+				    this);
+    }
+  catch (...)
+    {
+      /* These are safe as they are initialized to NULLs before
+         entering the try block.  */
+      if (drawing_area != NULL)
+	gtk_widget_unref (drawing_area);
+      delete m;
+      throw;
+    }
 }
 
 gint
