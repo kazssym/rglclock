@@ -47,6 +47,9 @@ module::draw_clock (const struct tm *tm) const
 
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  /* Use flat shading for the dial disk.  */
+  glShadeModel (GL_FLAT);
+
   const GLfloat vs[4] = {0.6, 0.6, 0.6, 1.};
   glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
   glMaterialf (GL_FRONT, GL_SHININESS, 16.);
@@ -68,6 +71,11 @@ module::draw_clock (const struct tm *tm) const
     gluDeleteQuadric (qobj);
   }
 
+#if 0
+  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+#endif
+
+  glShadeModel (GL_SMOOTH);
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
   glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
   glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
@@ -115,6 +123,10 @@ module::draw_clock (const struct tm *tm) const
   glVertex3f (-2., 2., 3.);
   glEnd ();
   glPopMatrix ();
+
+#if 0
+  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
+#endif
 }
 
 static GLfloat rot[16] =
