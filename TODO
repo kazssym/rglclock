@@ -1,12 +1,14 @@
 To-Do List for rglclock
 
-$Date: Thu, 18 Nov 1999 21:02:22 +0900 $
+$Date: Thu, 18 Nov 1999 21:27:01 +0900 $
 
 * Test the existence of ~/.rglclock before mkdir.  To mkdir without
 testing is harmless but ugly.
 
 * chdir into ~/.rglclock as rglclock uses no document file?  This will
 make file naming simpler.
+
+* Add new menu command "Reset Rotation".
 
 * Save texture options.  (Before 1.4.1.)
 
