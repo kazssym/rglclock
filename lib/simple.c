@@ -207,6 +207,47 @@ set_texture()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
+/* Draws a disk for dial.  If BACK is true, the back face is drawn,
+   otherwise the front.  */
+static int
+draw_dial_disk(int back)
+{
+  GLUquadricObj *qobj;
+
+  qobj = gluNewQuadric ();
+  if (qobj == NULL)
+    return -1;
+
+  /* Use flat shading for the dial disk.  */
+  glShadeModel(GL_FLAT);
+#ifdef ENABLE_LOCAL_VIEWER
+  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
+#endif
+
+  if (texture_mapping && texture_width != 0)
+    {
+      glEnable(GL_TEXTURE_2D);
+      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vt);
+      gluQuadricTexture(qobj, GL_TRUE);
+    }
+  else
+    {
+      glDisable(GL_TEXTURE_2D);
+      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
+    }
+
+  glMaterialfv(GL_FRONT, GL_SPECULAR, vs);
+  glMaterialf(GL_FRONT, GL_SHININESS, 0.);
+
+  if (back)
+    gluQuadricOrientation(qobj, GLU_INSIDE);
+
+  gluDisk(qobj, 0., 45., 36, 1);
+
+  gluDeleteQuadric (qobj);
+  return 0;
+}
+
 int
 simple_draw_clock(void)
 {
@@ -233,50 +274,11 @@ simple_draw_clock(void)
 
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  {
-    GLUquadricObj *qobj;
+  glDisable(GL_DEPTH_TEST);
+  if (draw_dial_disk(0) == -1)
+    return -1;
 
-    qobj = gluNewQuadric ();
-    if (qobj == NULL)
-      return -1;
-
-    /* Use flat shading for the dial disk.  */
-    glShadeModel (GL_FLAT);
-#ifdef ENABLE_LOCAL_VIEWER
-    glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
-#endif
-
-    if (texture_mapping && texture_width != 0)
-      {
-	glEnable(GL_TEXTURE_2D);
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vt);
-	gluQuadricTexture(qobj, GL_TRUE);
-      }
-    else
-      {
-	glDisable(GL_TEXTURE_2D);
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
-      }
-
-    glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
-    glMaterialf (GL_FRONT, GL_SHININESS, 0.);
-
-    gluDisk (qobj, 0., 45., 36, 1);
-
-    /* Draw the back.  */
-#if 0
-    glPushMatrix ();
-    glRotatef (180., 0., 1., 0.);
-#endif
-    gluQuadricOrientation(qobj, GLU_INSIDE);
-    gluDisk (qobj, 0., 45., 36, 1);
-#if 0
-    glPopMatrix ();
-#endif
-
-    gluDeleteQuadric (qobj);
-  }
-
+  glEnable(GL_DEPTH_TEST);
   glDisable(GL_TEXTURE_2D);
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
   glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
@@ -352,6 +354,10 @@ simple_draw_clock(void)
   glEnd ();
   glPopMatrix ();
 
+  glDisable(GL_DEPTH_TEST);
+  if (draw_dial_disk(1) == -1)
+    return -1;
+
   return 0;
 }
 
@@ -393,7 +399,9 @@ simple_init(void)
 	     0, 0, 0,
 	     0, 1, 0);
 
+#if 0
   glEnable (GL_DEPTH_TEST);
+#endif
   glEnable (GL_CULL_FACE);
 
   glEnable (GL_LIGHTING);

@@ -1,5 +1,10 @@
 1999-08-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/simple.c (draw_dial_disk): New function.
+	(simple_draw_clock): Use draw_dial_disk and disable depth tests
+	while drawing disks.
+	(simple_init): #if-out depth test setting.
+
 	* configure.in: Test deflate for -lz.
 
 	* bin/main.cc (create_window): Add accel group.
