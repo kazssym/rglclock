@@ -168,6 +168,10 @@
 	Define _GNU_SOURCE.
 	Add checks for <getopt.h> and getopt_long.
 
+1998-09-22  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc (glclock): Update menu entries.
+
 1998-09-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Update.
