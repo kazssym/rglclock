@@ -1,13 +1,15 @@
 News and History of User-Visible Changes in rglclock
 
-$Date: Tue, 16 Nov 1999 20:41:38 +0900 $
+$Date: Sat, 04 Mar 2000 09:04:58 +0900 $
 
 Version 1.4.0 (snapshot for 1.4)
 
 * Texture mapping of a PNG image.
 
 * The message catalog for Japanese is now installed under directory
-ja.eucJP.
+ja_JP.eucJP.
+
+* A DTD is supplied for the options file.
 
 Version 1.3.5
 

@@ -1,5 +1,5 @@
 /* rglclock - Rotating GL Clock.
-   Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
+   Copyright (C) 1998, 2000 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -58,6 +58,12 @@ using namespace std;
 #ifndef DEFAULT_TIMEOUT_RATE
 # define DEFAULT_TIMEOUT_RATE 10
 #endif
+
+void
+glclock::show_options_dialog(GtkWindow *w)
+{
+  options.act(w);
+}
 
 GtkWidget *
 glclock::create_widget()
@@ -128,6 +134,7 @@ glclock::glclock ()
   : m (NULL),
     timeout_rate(DEFAULT_TIMEOUT_RATE),
     context (NULL),
+    options(this),
     rot_velocity (0),
     rot_x (0), rot_y (1), rot_z (0)
 {
@@ -160,26 +167,29 @@ glclock::update (gpointer opaque)
   time(&t);
 #endif
 
+  if (object->context != NULL)
+    {
 #ifdef HAVE_GETTIMEOFDAY
-  double angle = 0;
-  {
-    // FIXME.  The last update time should be kept in the object.
-    static struct timeval tv_last = {0};
-    struct timeval tv;
-    gettimeofday (&tv, NULL);
-    if (tv_last.tv_sec != 0)
+      double angle = 0;
       {
-	double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
-	t += tv.tv_sec - tv_last.tv_sec;
-	angle = object->rot_velocity * t;
+	// FIXME.  The last update time should be kept in the object.
+	static struct timeval tv_last = {0};
+	struct timeval tv;
+	gettimeofday (&tv, NULL);
+	if (tv_last.tv_sec != 0)
+	  {
+	    double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
+	    t += tv.tv_sec - tv_last.tv_sec;
+	    angle = object->rot_velocity * t;
+	  }
+	tv_last = tv;
       }
-    tv_last = tv;
-  }
 #else /* !HAVE_GETTIMEOFDAY */
-  double angle = object->rot_velocity / timeout_rate;
+      double angle = object->rot_velocity / timeout_rate;
 #endif /* !HAVE_GETTIMEOFDAY */
-  object->m->rotate (angle * (180. / 3.14159),
-		     object->rot_x, object->rot_y, object->rot_z);
+      object->m->rotate (angle * (180. / 3.14159),
+			 object->rot_x, object->rot_y, object->rot_z);
+    }
 
   for (vector<GtkWidget *>::iterator i = object->widgets.begin();
        i != object->widgets.end();

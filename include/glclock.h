@@ -1,6 +1,6 @@
 /* -*-C++-*- */
 /* rglclock - Rotating GL Clock.
-   Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
+   Copyright (C) 1998, 2000 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -32,6 +32,34 @@
 #include <gdk/gdktypes.h>
 #include <time.h>
 
+class glclock;
+
+/* The options dialog.  */
+class clock_options_dialog: public options_dialog
+{
+public:
+  class general_options_page
+    : public options_page
+  {
+  private:
+    glclock *target;
+  public:
+    explicit general_options_page(glclock *);
+  public:
+    GtkWidget *create_widget();
+
+    /* Updates the state of subwidgets.  */
+    void update(GtkWidget *page);
+
+    /* Applies the current state.  */
+    void apply(GtkWidget *page);
+  };
+private:
+  general_options_page general;
+public:
+  explicit clock_options_dialog(glclock *);
+};
+
 /* Clock application.  */
 class glclock
 {
@@ -59,6 +87,10 @@ private:
   guint timeout_id;
   GdkGLContext *context;
   std::vector<GtkWidget *> widgets;
+
+  /* `Options' dialog.  */
+  clock_options_dialog options;
+
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   double press_x, press_y;
@@ -82,50 +114,10 @@ public:
     {m->set_prop(name, value);}
 
   GtkWidget *create_widget();
-};
 
-/* The options dialog.  */
-class clock_options_dialog
-  : public options_dialog
-{
 public:
-  class general_options_page
-    : public options_page
-  {
-  private:
-    glclock *target;
-  public:
-    explicit general_options_page(glclock *);
-  public:
-    GtkWidget *create_widget();
-
-    /* Updates the state of subwidgets.  */
-    void update(GtkWidget *page);
-
-    /* Applies the current state.  */
-    void apply(GtkWidget *page);
-  };
-private:
-  general_options_page general;
-public:
-  explicit clock_options_dialog(glclock *);
-};
-
-/* The about dialog.  */
-class about_dialog
-  : public modal_dialog
-{
-public:
-  /* Handles an OK.  */
-  void handle_ok(GtkWidget *button);
-
-protected:
-  /* Configures a dialog widget.  */
-  void configure(GtkDialog *widget);
-
-protected:
-  /* Populates a dialog with subwidgets.  */
-  void populate(GtkDialog *widget);
+  /* Shows the `Options' dialog.  */
+  void show_options_dialog(GtkWindow *);
 };
 
 #endif /* not GLCLOCK_H */

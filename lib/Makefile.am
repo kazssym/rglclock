@@ -16,7 +16,7 @@ simple_la_LDFLAGS = -module -avoid-version
 simple_la_SOURCES = simple.c
 simple_la_LIBADD = ${GL_LIBS}
 
-libclock_a_SOURCES = module.cc glclock.cc clockoptions.cc about.cc
+libclock_a_SOURCES = module.cc glclock.cc clockoptions.cc
 
 noinst_HEADERS = simple.h
 

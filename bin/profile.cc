@@ -89,6 +89,18 @@ profile::save(glclock *clock)
 
       try
 	{
+	  if (doc->intSubset != NULL)
+	    {
+	      xmlFreeDtd(doc->intSubset);
+	      doc->intSubset = NULL;
+	    }
+
+#ifdef OPTIONS_DTD
+	  xmlCreateIntSubset(doc, reinterpret_cast<const CHAR *>(PACKAGE),
+			     NULL,
+			     reinterpret_cast<const CHAR *>(OPTIONS_DTD));
+#endif
+
 	  if (doc->root == NULL)
 	    {
 	      doc->root

@@ -29,6 +29,8 @@
 #include "module.h"
 
 #include "simple.h"
+#include <rglclockmod.h>
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <time.h>

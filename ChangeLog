@@ -1,3 +1,95 @@
+2000-03-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/Makefile.am (rglclock_LDFLAGS): New macro.
+	(rglclock_LDADD): Remove libsimple.a.
+
+	* lib/Makefile.am (LIBS): Set to empty.
+	(pkglib_LTLIBRARIES): New macro.
+	(noinst_LIBRARIES): Remove libsimple.a.
+	(simple_la_LDFLAGS): New macro.
+	(simple_la_SOURCES): Renamed from libsimple_a_SOURCES.
+	(simple_la_LIBADD): New macro.
+
+	* Makefile.am (SUBDIRS): Add libltdl.
+
+	* configure.in: Add libtool/libltdl support.
+
+2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* lib/module.cc: Include <rglclockmod.h>.
+
+	* lib/simple.c: Include <rglclockmod.h>.
+
+	* include/Makefile.am (include_HEADERS): New macro.
+
+	* include/rglclockmod.h: New file.
+
+	* bin/main.cc (class clock_app): Remove members edit_options and
+	dialog.  Add new member show_options_dialog.
+	(edit_options): Removed.
+	(handle_options_command): New function.
+	(create_window): Use handle_options_command for menu.
+	(clock_app): Remove initialization of the removed member.
+
+	* lib/glclock.cc (show_options_dialog): New function.
+	(glclock): Initialize options.
+
+	* include/glclock.h (class about_dialog): Removed.
+	(class clock_options_dialog): Moved before class glclock.
+	(class glclock): Add new member show_options_dialog.
+	(class glclock): Add new member options.
+
+	* lib/about.cc: Removed.
+
+	* lib/Makefile.am (libclock_a_SOURCES): Remove about.cc.
+
+	* lib/simple.c: Modify the material parameters.
+	(simple_init): Set the ambient parameters for lights.
+
+2000-03-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/Makefile.am (EXTRA_DIST): Add options-0.dtd.
+
+	* NEWS: Updated.
+
+	* bin/main.cc (show_about_dialog): Remove _() for version_format.
+
+	* configure.in (ALL_LINGUAS): Changed.
+
+	* bin/main.cc (PROGRAM, COPYRIGHT_YEAR): New macros.
+	(class clock_app): Remove members describe and ad.  Add new
+	members main_window and show_about_dialog.
+	(handle_about_ok_clicked): New function.
+	(show_about_dialog): New function.
+	(describe): Removed.
+	(handle_about_command): New function.
+	(create_window): Create window only if not created yet.
+	(clock_app): Initialize main_window.
+	(edit_options): Cast data to clock_app*.
+	(show_about_dialog): Show the dialog at the end.
+	(create_window): Add box1 to the main window first.
+	(show_about_dialog): Add cleanup for exceptions.
+
+	* lib/glclock.cc (update): Rotate only if there is a context.
+
+1999-12-12  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/main.cc (class clock_app): Moved out of unnamed namespace.
+	(class clock_app): Add static variables for options.
+	(namespace): Remove options variable moved to class clock_app.
+	(parse_options): Change options handling.
+	(create_window, clock_app): Use new variables for options.
+	(namespace): Moved just before main.
+
+	* NEWS: Modified.
+
+	* bin/profile.cc (save): Set DTD.
+
+	* bin/Makefile.am (pkgdata_DATA): Add options-0.dtd.
+	(INCLUDES): Define OPTIONS_DTD.
+
+	* bin/options-0.dtd: New file.
+
 1999-11-18  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* TODO: Modified.
