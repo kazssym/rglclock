@@ -117,6 +117,7 @@ protected:
   /* Configures a dialog widget.  */
   void configure(GtkDialog *widget);
 
+protected:
   GtkWidget *create_widget();
 
   /* Populates a dialog with subwidgets.  */
