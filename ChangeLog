@@ -1,3 +1,7 @@
+2002-04-30  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
+
+	* configure.in: Rename ja_JP.eucJP to ja.
+
 2002-04-24  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
 	* bin/profile.cc (class xmlNode_iterator): Add oprator!=.
