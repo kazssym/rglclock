@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-05-03 17:57+0900\n"
+"POT-Creation-Date: 1999-05-04 12:05+0900\n"
 "PO-Revision-Date: 1999-04-07 22:51+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -21,19 +21,19 @@ msgstr "更新頻度 [回/s]:"
 msgid "General"
 msgstr "一般"
 
-#: main.cc:162
+#: main.cc:119
 msgid "/_File/E_xit"
 msgstr "/ファイル(_F)/終了(_X)"
 
-#: main.cc:163
+#: main.cc:122
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
-#: main.cc:164
+#: main.cc:123
 msgid "/_File/_About..."
 msgstr "/ファイル(_F)/バージョン情報(_A)..."
 
-#: main.cc:200
+#: main.cc:201
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
