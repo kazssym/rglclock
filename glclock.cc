@@ -24,7 +24,7 @@
 #undef const
 
 #include <math.h>
-#ifdef HAVE_GETTIMEOFDAY
+#ifdef HAVE_SYS_TIME_H
 # include <sys/time.h>
 #endif
 #include <gtk/gtk.h>

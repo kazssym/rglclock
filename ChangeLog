@@ -1,5 +1,7 @@
 1998-07-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc: Test HAVE_SYS_TIME_H for sys/time.h.
+
 	* module.cc (draw_clock): Reduce the number of rings.
 
 	* configure.in: Add check for sys/time.h.  Add AC_HEADER_TIME.
