@@ -103,7 +103,7 @@ VERSION = @VERSION@
 
 EXTRA_DIST = README.ja MEMO.ja VERSION-ID
 
-SUBDIRS = libltdl intl include lib modules programs doc po
+SUBDIRS = intl include lib @subdirs@ modules programs doc po
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h

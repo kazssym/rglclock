@@ -1,5 +1,7 @@
 2002-05-01  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
+	* Makefile.am (SUBDIRS): Use @subdirs@.
+
 	* configure.in: Use AC_PROG_LIBTOOL.
 
 	* COPYING.LIB: Removed.
