@@ -1,5 +1,17 @@
 1998-06-30  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* module.cc (draw_clock): Use GL_AMBIENT_AND_DIFFUSE.
+	(draw_clock): Raise the shininess to 8.
+
+	* Version 0.10 released.
+
+	* module.cc (draw_clock): Clear also the depth buffer.
+	(draw_clock): Draw a disk behind the hands.
+	(draw_clock): Set the material parameters.
+
+	* glclock.cc (create_context): Enable GL_DEPTH_TEST.
+	(create_context): Move the eye position back.
+
 	* NEWS: Update doc.
 
 	* glclock.cc (update): Use module::rotate.

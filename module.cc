@@ -40,7 +40,22 @@ module::draw_clock (const struct tm *tm) const
 	     0, 1, 0);
 #endif
 
-  glClear (GL_COLOR_BUFFER_BIT);
+  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  GLfloat vs[4] = {0.2, 0.2, 0.2, 1.};
+  glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
+  glMaterialf (GL_FRONT, GL_SHININESS, 8.);
+
+  {
+    GLfloat v[4] = {0.1, 0.0, 0.4, 1.};
+    glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
+    GLUquadricObj *qobj = gluNewQuadric ();
+    gluDisk (qobj, 0., 45., 24, 2);
+    gluDeleteQuadric (qobj);
+  }
+
+  GLfloat vd[4] = {0.2, 0.2, 0.2, 1.};
+  glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vd);
 
   /* Short hand.  */
   glPushMatrix ();

@@ -1,7 +1,9 @@
 NEWS of rglclock:
-$ProjectVersion: 0.10 $
+$ProjectVersion: 0.11 $
 
 Changes since version 0.8:
+
+* Draws a disk.
 
 Changes since version 0.3:
 

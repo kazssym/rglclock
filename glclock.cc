@@ -119,7 +119,7 @@ glclock::create_context (GtkWidget *widget, gpointer opaque)
 
   glMatrixMode (GL_MODELVIEW);
   glLoadIdentity ();
-  gluLookAt (0, 0, 100,
+  gluLookAt (0, 0, 150,
 	     0, 0, 0,
 	     0, 1, 0);
 
@@ -133,7 +133,8 @@ glclock::create_context (GtkWidget *widget, gpointer opaque)
   glMatrixMode (GL_PROJECTION);
   glLoadIdentity ();
   //gluPerspective (35.0, 1., 1., 1000.);
-  glFrustum (-5., 5., -5., 5., 10., 200.);
+  glFrustum (-5., 5., -5., 5., 15., 250.);
+  glEnable (GL_DEPTH_TEST);
 
   gdk_gl_unset_current ();
 }
