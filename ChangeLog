@@ -1,5 +1,12 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/about.cc (handle_ok): Rewrote as non-static method.
+	(deliver_ok): New function.
+	(populate): Use deliver_ok for signal.
+
+	* include/glclock.h (class about_dialog): Make method handle_ok
+ 	non-static.
+
 	* lib/options.cc (deliver_ok, deliver_cancel): New functions.
 	(populate): Use the new functions for signals.
 	(handle_ok, handle_cancel): Rewrote as non-static member.

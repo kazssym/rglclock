@@ -110,8 +110,9 @@ public:
 class about_dialog
   : public modal_dialog
 {
-protected:
-  static void handle_ok(GtkWidget *, gpointer);
+public:
+  /* Handles an OK.  */
+  void handle_ok(GtkWidget *button);
 
 protected:
   /* Configures a dialog widget.  */

@@ -49,6 +49,26 @@ using namespace std;
 
 #define YEARS "1998, 1999"
 
+/* Handles a click on the OK button.  */
+void
+about_dialog::handle_ok(GtkWidget *button)
+{
+  close(positive_action());
+}
+
+namespace
+{
+  /* Delivers an OK to the options dialog.  */
+  void
+  deliver_ok(GtkWidget *w, gpointer data) throw ()
+  {
+    about_dialog *recipient = static_cast<about_dialog *>(data);
+    I(recipient != NULL);
+
+    recipient->handle_ok(w);
+  }
+} // (unnamed)
+
 /* Populates a dialog with children.  */
 void
 about_dialog::populate(GtkDialog *dialog)
@@ -78,7 +98,7 @@ about_dialog::populate(GtkDialog *dialog)
   const char *ok_text = _("OK");
   GtkObject_ptr<GtkWidget> ok_button(gtk_button_new_with_label(ok_text));
   gtk_signal_connect(GTK_OBJECT(ok_button.get()), "clicked",
-		     GTK_SIGNAL_FUNC(handle_ok), this);
+		     GTK_SIGNAL_FUNC(&deliver_ok), this);
   gtk_widget_show(ok_button.get());
   gtk_box_pack_start(GTK_BOX(dialog->action_area), ok_button.get(),
 		     FALSE, FALSE, 0);
@@ -106,16 +126,5 @@ about_dialog::configure(GtkDialog *dialog)
   gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
 
   populate(dialog);
-}
-
-/* Handles a click on the OK button.  */
-void
-about_dialog::handle_ok(GtkWidget *dialog,
-			gpointer data)
-{
-  about_dialog *d = static_cast<about_dialog *>(data);
-  I(d != NULL);
-
-  d->close(positive_action());
 }
 
