@@ -14,7 +14,6 @@ rglclock_SOURCES = glclock.cc about.cc main.cc
 rglclock_LDADD = libclock.a libgdkgl.a ${GL_LIBS} ${GTK_LIBS}
 
 noinst_HEADERS = options.h glclock.h module.h simple.h autowidget.h gdkgl.h
-pkgdata_DATA = gtkrc
 
 man_MANS = rglclock.1
 

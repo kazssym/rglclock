@@ -1,5 +1,9 @@
 1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* gtkrc: Removed.
+
+	* Makefile.am (pkgdata_DATA): Removed.
+
 	* glclock.h (class glclock): Update members.
 	(class glclock): Remove member t.
 
