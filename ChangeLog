@@ -1,3 +1,16 @@
+1999-07-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/Makefile.am: New file.
+
+	* lib/Makefile.am: New file.
+
+	* include/Makefile.am: New file.
+
+	* Makefile.am: Updated.
+
+	* Move library sources to lib, library headers to include, and
+	other sources to bin.
+
 1999-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Modified.
