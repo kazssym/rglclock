@@ -1,5 +1,5 @@
 /* rglclock - Rotating GL Clock.
-   Copyright (C) 1998 Hypercore Software Design, Ltd.
+   Copyright (C) 1999 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -33,8 +33,8 @@
 # include <gdk/gdkx.h>
 #endif
 
-static
-void ok(GtkWidget *w)
+static void
+handle_ok(GtkWidget *w)
 {
   gtk_main_quit();
 }
@@ -57,27 +57,14 @@ handle_configure_event(GtkWidget *widget, GdkEventConfigure *event,
 #endif /* ENABLE_TRANSIENT_FOR_HINT */
 
 void
-show_about(GtkWidget *parent)
+about_dialog::show(GtkWidget *parent)
 {
-  GtkWidget *dialog = gtk_dialog_new();
-  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
 #ifdef ENABLE_TRANSIENT_FOR_HINT
-  gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
-		     GTK_SIGNAL_FUNC(handle_configure_event), parent);
+  guint h;
+  if (parent != NULL)
+    h = gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
+			   GTK_SIGNAL_FUNC(handle_configure_event), parent);
 #endif /* ENABLE_TRANSIENT_FOR_HINT */
-  GtkWidget *child;
-
-  child = gtk_label_new(PACKAGE " " VERSION "\n"
-			"Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.");
-  gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
-  gtk_misc_set_padding(GTK_MISC(child), 10, 10);
-  gtk_widget_show(child);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), child, FALSE, FALSE, 0);
-
-  child =  gtk_button_new_with_label("OK");
-  gtk_signal_connect(GTK_OBJECT(child), "clicked", GTK_SIGNAL_FUNC(ok), NULL);
-  gtk_widget_show(child);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child, TRUE, FALSE, 0);
 
   gtk_widget_show(dialog);
 
@@ -85,6 +72,48 @@ show_about(GtkWidget *parent)
   gtk_main();
   gtk_widget_set_sensitive(parent, TRUE);
 
+  gtk_widget_hide(dialog);
+#ifdef ENABLE_TRANSIENT_FOR_HINT
+  if (parent != NULL)
+    gtk_signal_disconnect(GTK_OBJECT(dialog), h);
+#endif /* ENABLE_TRANSIENT_FOR_HINT */
+}
+
+about_dialog::~about_dialog()
+{
   gtk_widget_destroy(dialog);
+}
+
+about_dialog::about_dialog()
+  : dialog(NULL)
+{
+  dialog = gtk_dialog_new();
+  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+
+  populate(dialog);
+}
+
+/* Populates a dialog with children.  */
+void
+about_dialog::populate(GtkWidget *dialog)
+{
+  GtkWidget *child;
+
+  /* Makes the vbox area.  */
+  child = gtk_label_new(PACKAGE " " VERSION "\n"
+			"Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.");
+  gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
+  gtk_misc_set_padding(GTK_MISC(child), 10, 10);
+  gtk_widget_show(child);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), child,
+		     FALSE, FALSE, 0);
+
+  /* Makes the action area.  */
+  child =  gtk_button_new_with_label("OK");
+  gtk_signal_connect(GTK_OBJECT(child), "clicked",
+		     GTK_SIGNAL_FUNC(handle_ok), dialog);
+  gtk_widget_show(child);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child,
+		     TRUE, FALSE, 0);
 }
 
