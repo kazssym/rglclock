@@ -1,5 +1,7 @@
 1999-02-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* README: Modified.
+
 	* main.cc: Undef inline at first.
 	Modify comments.
 	(main): Add exception handling.
