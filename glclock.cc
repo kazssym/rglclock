@@ -45,8 +45,6 @@ glclock::operator GtkWidget *() const
   return drawing_area;
 }
 
-void show_about(GtkWidget *);	// XXX
-
 void
 glclock::describe (GtkWidget *widget)
 {

@@ -1,8 +1,17 @@
 1999-01-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* about.cc: #include "glclock.h".
+	* glclock.cc: Remove delaration of show_about.
+	* glclock.h: Declare show_about.
+
 	* about.cc (show_about): Disallow the dialog resize.
 	(show_about): Update the label text.
 	(show_about): Use gtk_box_pack_start.
+	[ENABLE_TRANSIENT_FOR_HINT]: #include <gdk/gdkx.h>.
+	[ENABLE_TRANSIENT_FOR_HINT] (handle_configure_event): New
+	function.
+	(show_about) [ENABLE_TRANSIENT_FOR_HINT]: Connect
+	"configure_event" to its handler.
 
 	* simple.c (simple_draw_clock): Use gettimeofday if available.
 

@@ -21,7 +21,17 @@
 #endif
 #undef const
 
+#include "glclock.h"
+
 #include <gtk/gtk.h>
+
+#ifndef DISABLE_TRANSIENT_FOR_HINT
+# define ENABLE_TRANSIENT_FOR_HINT 1
+#endif
+
+#ifdef ENABLE_TRANSIENT_FOR_HINT
+# include <gdk/gdkx.h>
+#endif
 
 static
 void ok(GtkWidget *w)
@@ -29,11 +39,32 @@ void ok(GtkWidget *w)
   gtk_main_quit();
 }
 
+#ifdef ENABLE_TRANSIENT_FOR_HINT
+
+static gint
+handle_configure_event(GtkWidget *widget, GdkEventConfigure *event,
+		       gpointer opaque)
+{
+  GtkWidget *par = static_cast <GtkWidget *> (opaque);
+  GdkWindow *w = widget->window;
+
+  XSetTransientForHint(GDK_WINDOW_XDISPLAY(w), GDK_WINDOW_XWINDOW(w),
+		       GDK_WINDOW_XWINDOW(par->window));
+
+  return 0;
+}
+
+#endif /* ENABLE_TRANSIENT_FOR_HINT */
+
 void
 show_about(GtkWidget *parent)
 {
   GtkWidget *dialog = gtk_dialog_new();
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+#ifdef ENABLE_TRANSIENT_FOR_HINT
+  gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
+		     GTK_SIGNAL_FUNC(handle_configure_event), parent);
+#endif /* ENABLE_TRANSIENT_FOR_HINT */
   GtkWidget *child;
 
   child = gtk_label_new(PACKAGE " " VERSION "\n"
