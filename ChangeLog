@@ -1,5 +1,8 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (edit_options, describe): New function.
+	(create_widget): Modify the menu.
+
 	* TODO: Modified.
 
 	* NEWS: Modified.

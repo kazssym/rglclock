@@ -102,6 +102,27 @@ namespace
 	}
     }
 
+  void edit_options(gpointer data, guint, GtkWidget *item)
+    {
+      glclock *clock = static_cast<glclock *>(data);
+
+      clock_options_dialog dialog(clock);
+
+      GtkWidget *widget = dialog.create_widget();
+      gtk_window_set_transient_for(GTK_WINDOW(widget),
+				   GTK_WINDOW(gtk_widget_get_toplevel(item)));
+
+      gtk_widget_show(widget);
+      gtk_main();
+      gtk_widget_destroy(widget);
+    }
+
+  void describe(gpointer, guint, GtkWidget *item)
+    {
+      about_dialog about(gtk_widget_get_toplevel(item));
+      about.show();
+    }
+
   GtkWidget *create_widget(glclock *glc)
     {
       GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -116,17 +137,20 @@ namespace
 	  GtkItemFactoryEntry entries[]
 	    =
 	  {
+	    {_("/_File/_Options..."), NULL,
+	     reinterpret_cast<GtkItemFactoryCallback>(&edit_options), 3,
+	     "<Item>"},
+	    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
 	    {_("/_File/E_xit"), NULL,
 	     reinterpret_cast<GtkItemFactoryCallback>(&gtk_main_quit), 1,
 	     "<Item>"},
 	    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
-	    {_("/_File/_About..."), NULL, NULL, 2, "<Item>"}
+	    {_("/_File/_About..."), NULL,
+	     reinterpret_cast<GtkItemFactoryCallback>(&describe), 2, "<Item>"}
 	  };
-	  gtk_item_factory_create_items(ifactory.get(), 3, entries, glc);
-	  // Unimplemented menu items.
-	  gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory.get(),
-									 2),
-				   FALSE);
+	  gtk_item_factory_create_items(ifactory.get(),
+					sizeof entries / sizeof entries[0],
+					entries, glc);
 
 	  gtk_widget_show(ifactory->widget);
 	  gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
