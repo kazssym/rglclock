@@ -10,6 +10,8 @@
 	(create_window): Create window only if not created yet.
 	(clock_app): Initialize main_window.
 	(edit_options): Cast data to clock_app*.
+	(show_about_dialog): Show the dialog at the end.
+	(create_window): Add box1 to the main window first.
 
 	* lib/glclock.cc (update): Rotate only if there is a context.
 

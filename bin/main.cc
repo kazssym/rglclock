@@ -114,7 +114,6 @@ void
 clock_app::show_about_dialog()
 {
   GtkWidget *dialog = gtk_dialog_new();
-  gtk_widget_show(dialog);
   gtk_window_set_policy(GTK_WINDOW(dialog), false, false, false);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
   if (main_window != NULL)
@@ -211,6 +210,8 @@ clock_app::show_about_dialog()
   gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
 		     GTK_SIGNAL_FUNC(&handle_about_ok_clicked), this);
   gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
+
+  gtk_widget_show(dialog);
 }
 
 void
@@ -253,6 +254,9 @@ clock_app::create_window()
 
       {
 	GtkObject_ptr<GtkWidget> box1(gtk_vbox_new(FALSE, 0));
+	gtk_widget_show(box1.get());
+	gtk_container_add(GTK_CONTAINER(main_window), box1.get());
+
 	{
 	  GtkObject_ptr<GtkItemFactory> ifactory
 	    (gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", ag));
@@ -284,8 +288,6 @@ clock_app::create_window()
 	  gtk_window_set_geometry_hints(GTK_WINDOW(main_window), content.get(),
 					&geometry, GDK_HINT_RESIZE_INC);
 	}
-	gtk_widget_show(box1.get());
-	gtk_container_add(GTK_CONTAINER(main_window), box1.get());
       }
     }
 
