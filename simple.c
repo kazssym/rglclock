@@ -32,13 +32,13 @@
 
 static const GLfloat vs[4] = {0, 0, 0, 1};
 #ifdef LOGO128
-static const GLfloat v[4] = {0.6, 0.6, 0.6, 1.};
+static const GLfloat v[4] = {0.60, 0.60, 0.60, 1.};
 #else
-static const GLfloat v[4] = {0.1, 0.1, 0.4, 1.};
+static const GLfloat v[4] = {0.10, 0.10, 0.40, 1.};
 #endif
 
-static const GLfloat HAND_ADC[4] = {0.05, 0.05, 0.05, 1};
-static const GLfloat HAND_SC[4] = {0.4, 0.4, 0.4, 1};
+static const GLfloat HAND_ADC[4] = {0.05, 0.05, 0.10, 1};
+static const GLfloat HAND_SC[4] = {0.40, 0.40, 0.40, 1};
 static const GLfloat HAND_SR = 16;
 
 #ifndef DISABLE_LOCAL_VIEWER
@@ -147,9 +147,10 @@ simple_draw_clock(void)
   return 0;
 }
 
-static const GLfloat LIGHT0_POSITION[] = {-1, 1, 1, 0};
+static const GLfloat LIGHT0_POSITION[] = {-200, 200, 200, 0};
+static const GLfloat LIGHT0_INTENSITY[] = {0.80, 0.80, 0.80, 1};
 static const GLfloat LIGHT1_POSITION[] = {200, 200, 0, 0};
-static const GLfloat LIGHT1_INTENSITY[] = {0.8, 0.8, 0.8, 1};
+static const GLfloat LIGHT1_INTENSITY[] = {0.60, 0.60, 0.60, 1};
 
 int
 simple_init(void)
@@ -170,6 +171,8 @@ simple_init(void)
   glEnable (GL_LIGHTING);
   glEnable (GL_LIGHT0);
   glLightfv (GL_LIGHT0, GL_POSITION, LIGHT0_POSITION);
+  glLightfv (GL_LIGHT0, GL_DIFFUSE, LIGHT0_INTENSITY);
+  glLightfv (GL_LIGHT0, GL_SPECULAR, LIGHT0_INTENSITY);
   glEnable (GL_LIGHT1);
   glLightfv (GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
   glLightfv (GL_LIGHT1, GL_DIFFUSE, LIGHT1_INTENSITY);
