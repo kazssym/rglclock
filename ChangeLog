@@ -1,5 +1,7 @@
 2002-05-01  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
+	* COPYING.LIB: Removed.
+
 	* lib/glclock.cc: Use "gdk_gl.h" instead of "gdkgl.h".
 	(~glclock, handle_expose_event, best_visual): Use "gdk_gl.h" functions.
 
