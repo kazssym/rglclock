@@ -10,7 +10,7 @@ AC_DEFINE(_GNU_SOURCE)
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 AC_ISC_POSIX
 dnl Checks for libraries.
 AC_CHECK_LIB(z, deflate)

@@ -1,5 +1,7 @@
 2002-05-01  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
+	* configure.in: Use AC_PROG_LIBTOOL.
+
 	* COPYING.LIB: Removed.
 
 	* lib/glclock.cc: Use "gdk_gl.h" instead of "gdkgl.h".
