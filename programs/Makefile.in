@@ -96,7 +96,7 @@ INCLUDES = -I${top_srcdir}/include -DPKGDATADIR=\"${pkgdatadir}\" -DLOCALEDIR=\"
 bin_PROGRAMS = rglclock
 
 rglclock_SOURCES = getopt.c getopt1.c profile.cc main.cc
-rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a ../lib/libutils.a ../lib/libgdkgl.a ${GL_LIBS} ${GTK_LIBS}
+rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a ../lib/libutils.a ${GL_LIBS} ${GTK_LIBS}
 
 
 noinst_HEADERS = getopt.h profile.h
@@ -118,7 +118,7 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 rglclock_OBJECTS =  getopt.o getopt1.o profile.o main.o
 rglclock_DEPENDENCIES =  ../lib/libclock.a ../lib/libsimple.a \
-../lib/libutils.a ../lib/libgdkgl.a
+../lib/libutils.a
 rglclock_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)

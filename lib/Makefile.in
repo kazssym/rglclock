@@ -93,17 +93,15 @@ VERSION = @VERSION@
 INCLUDES = -I${top_srcdir}/include ${GTK_CFLAGS}
 
 
-noinst_LIBRARIES = libgdkgl.a libutils.a libsimple.a libclock.a
+noinst_LIBRARIES = libutils.a libsimple.a libclock.a
 
-libgdkgl_a_SOURCES = gdkgl.c
-
-libutils_a_SOURCES = modaldialog.cc options.cc
+libutils_a_SOURCES = modaldialog.cc options.cc gdk_gl.cc
 
 libsimple_a_SOURCES = simple.c
 
 libclock_a_SOURCES = module.cc glclock.cc clockoptions.cc
 
-noinst_HEADERS = simple.h
+noinst_HEADERS = gdk_gl.h simple.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -114,10 +112,8 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-libgdkgl_a_LIBADD = 
-libgdkgl_a_OBJECTS =  gdkgl.o
 libutils_a_LIBADD = 
-libutils_a_OBJECTS =  modaldialog.o options.o
+libutils_a_OBJECTS =  modaldialog.o options.o gdk_gl.o
 libsimple_a_LIBADD = 
 libsimple_a_OBJECTS =  simple.o
 libclock_a_LIBADD = 
@@ -140,10 +136,10 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/clockoptions.P .deps/gdkgl.P .deps/glclock.P \
+DEP_FILES =  .deps/clockoptions.P .deps/gdk_gl.P .deps/glclock.P \
 .deps/modaldialog.P .deps/module.P .deps/options.P .deps/simple.P
-SOURCES = $(libgdkgl_a_SOURCES) $(libutils_a_SOURCES) $(libsimple_a_SOURCES) $(libclock_a_SOURCES)
-OBJECTS = $(libgdkgl_a_OBJECTS) $(libutils_a_OBJECTS) $(libsimple_a_OBJECTS) $(libclock_a_OBJECTS)
+SOURCES = $(libutils_a_SOURCES) $(libsimple_a_SOURCES) $(libclock_a_SOURCES)
+OBJECTS = $(libutils_a_OBJECTS) $(libsimple_a_OBJECTS) $(libclock_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -180,11 +176,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 maintainer-clean-compile:
-
-libgdkgl.a: $(libgdkgl_a_OBJECTS) $(libgdkgl_a_DEPENDENCIES)
-	-rm -f libgdkgl.a
-	$(AR) cru libgdkgl.a $(libgdkgl_a_OBJECTS) $(libgdkgl_a_LIBADD)
-	$(RANLIB) libgdkgl.a
 
 libutils.a: $(libutils_a_OBJECTS) $(libutils_a_DEPENDENCIES)
 	-rm -f libutils.a

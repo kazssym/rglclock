@@ -3,15 +3,13 @@
 INCLUDES = -I${top_srcdir}/include \
 ${GTK_CFLAGS}
 
-noinst_LIBRARIES = libgdkgl.a libutils.a libsimple.a libclock.a
+noinst_LIBRARIES = libutils.a libsimple.a libclock.a
 
-libgdkgl_a_SOURCES = gdkgl.c
-
-libutils_a_SOURCES = modaldialog.cc options.cc
+libutils_a_SOURCES = modaldialog.cc options.cc gdk_gl.cc
 
 libsimple_a_SOURCES = simple.c
 
 libclock_a_SOURCES = module.cc glclock.cc clockoptions.cc
 
-noinst_HEADERS = simple.h
+noinst_HEADERS = gdk_gl.h simple.h
 

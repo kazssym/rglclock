@@ -25,12 +25,14 @@
 #ifndef GLCLOCK_H
 #define GLCLOCK_H 1
 
+#include "gl_context.h"
 #include "utils.h"
-#include "gdkgl.h"
 #include <module.h>
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
 #include <time.h>
+
+using rglclock::gl_context;
 
 class glclock;
 
@@ -85,7 +87,7 @@ private:
   std::vector<options_callback *> callbacks;
   int timeout_rate;
   guint timeout_id;
-  GdkGLContext *context;
+  gl_context context;
   std::vector<GtkWidget *> widgets;
 
   /* `Options' dialog.  */
