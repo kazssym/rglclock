@@ -24,6 +24,13 @@ fi
 
 dnl Checks for header files.
 AC_CHECK_HEADERS(getopt.h sys/time.h unistd.h)
+AC_ARG_WITH(nana,
+[  --with-nana             use GNU Nana for testing [no]],, with_nana=no)
+if test "$with_nana" != no; then
+  AC_CHECK_LIB(nana, _I_default_handler)
+  AC_CHECK_HEADERS(nana.h)
+fi
+
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_STRUCT_TM
 AC_HEADER_TIME

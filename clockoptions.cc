@@ -34,6 +34,7 @@
 
 #ifdef HAVE_NANA_H
 # include <nana.h>
+# include <cstdio>
 #else
 # include <assert.h>
 # define I assert
@@ -51,7 +52,7 @@ clock_options_dialog::general_options_page::apply(GtkWidget *widget)
   I(update_input != NULL);
   I(GTK_IS_ENTRY(update_input));
 #ifdef L
-  L("value = %d", atoi(gtk_entry_get_text(GTK_ENTRY(update_input))));
+  L("update frequency = %d\n", atoi(gtk_entry_get_text(GTK_ENTRY(update_input))));
 #endif
 }
 

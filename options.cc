@@ -35,6 +35,7 @@
 
 #ifdef HAVE_NANA_H
 # include <nana.h>
+# include <cstdio>
 #else
 # include <cassert>
 # define I assert

@@ -1,5 +1,7 @@
 1999-04-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Add `--with-nana'.
+
 	* glclock.cc (edit_options): Rewrote using the new dialog classes.
 
 	* glclock.h (class clock_options_dialog): Use the new
