@@ -67,6 +67,19 @@ module::draw_clock (const struct tm *tm) const
   const GLfloat vd[4] = {0.2, 0.2, 0.2, 1.};
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vd);
 
+  glBegin (GL_QUADS);
+  glNormal3f (1., 0., 1.);
+  glVertex3f (1., 37., 0.);
+  glVertex3f (1., 43., 0.);
+  glVertex3f (0., 43., 1.);
+  glVertex3f (0., 37., 1.);
+  glNormal3f (-1., 0., 1.);
+  glVertex3f (0., 37., 1.);
+  glVertex3f (0., 43., 1.);
+  glVertex3f (-1., 43., 0.);
+  glVertex3f (-1., 37., 0.);
+  glEnd ();
+
   /* Short hand.  */
   glPushMatrix ();
   glRotatef (((tm->tm_hour * 60 + tm->tm_min) * 60
