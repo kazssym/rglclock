@@ -1,25 +1,41 @@
 To-Do List for rglclock
 
-$Date: Tue, 16 Nov 1999 20:41:38 +0900 $
+$Date: Thu, 18 Nov 1999 21:02:22 +0900 $
 
-Version 1.4 or later
+* Test the existence of ~/.rglclock before mkdir.  To mkdir without
+testing is harmless but ugly.
 
-* Code clean-up.
+* chdir into ~/.rglclock as rglclock uses no document file?  This will
+make file naming simpler.
+
+* Save texture options.  (Before 1.4.1.)
+
+* Implement the choose button for texture file.  (Before 1.4.1.)
+
+* Make the options dialog pages look better using frames.
+
+* Add new page Startup to the options dialog that specify startup
+options such as initial window size and position.
+
+* Add a command line option to specify an alternative for ~/.rglclock.
+
+* Implement "options set" that selects a set of pre-configured options
+while running.
+
+* Clean the code up.  (Ambiguous?)
 
 * Documentation, including better web/mailing-list linkage.
-Volunteers wanted.
+Volunteers are welcome in this area.
 
-* getopt_long bundling.
-
-* Visual setup in class glclock.
-
-* Texture mapping.
+* Write rglclock.xml.
 
 * Real session manager support.
 
 * Tooltips.
+
+After version 1.4
 
-* Chime and alarm.
+* Chime and alarm, hopofully using ALSA.
 
 Version 2:
 
