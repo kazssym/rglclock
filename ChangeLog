@@ -1,3 +1,12 @@
+1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* rglclock.1: Remove keyword substitutions for Package and
+	Version.
+
+	* configure.in: Remove PRCS keyword substitutions.
+
+	* TODO: Modified.
+
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* TODO: Modified.
