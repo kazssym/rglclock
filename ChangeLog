@@ -1,5 +1,8 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* Makefile.am (libclock_a_SOURCES): Move glclock.cc and about.cc
+	from rglclock_SOURCES.
+
 	* glclock.cc (glclock): Remove creation of a item factory.
 	(handle_button_event): Remove the case for button-3.
 	(menu_quit, menu_about, edit_options): Removed.

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-05-04 12:05+0900\n"
+"POT-Creation-Date: 1999-05-04 16:05+0900\n"
 "PO-Revision-Date: 1999-04-07 22:51+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -21,38 +21,26 @@ msgstr "更新頻度 [回/s]:"
 msgid "General"
 msgstr "一般"
 
-#: main.cc:119
-msgid "/_File/E_xit"
-msgstr "/ファイル(_F)/終了(_X)"
+#: main.cc:140
+msgid "/_File/_Options..."
+msgstr "/ファイル(_F)/オプション(_O)..."
 
-#: main.cc:122
+#: main.cc:143 main.cc:147
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
-#: main.cc:123
+#: main.cc:144
+msgid "/_File/E_xit"
+msgstr "/ファイル(_F)/終了(_X)"
+
+#: main.cc:148
 msgid "/_File/_About..."
 msgstr "/ファイル(_F)/バージョン情報(_A)..."
 
-#: main.cc:201
+#: main.cc:225
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
-
-#: glclock.cc:124
-msgid "/Reset Rotation"
-msgstr "/回転を元に戻す"
-
-#: glclock.cc:126
-msgid "/Options..."
-msgstr "/オプション..."
-
-#: glclock.cc:127
-msgid "/About..."
-msgstr "/バージョン情報..."
-
-#: glclock.cc:129
-msgid "/Exit"
-msgstr "/終了"
 
 #. Label for the OK button.
 #: about.cc:127 options.cc:69
@@ -78,6 +66,15 @@ msgid ""
 msgstr ""
 "%s %s\n"
 "Copyright (C) %s 有限会社ハイパーコア"
+
+#~ msgid "/Reset Rotation"
+#~ msgstr "/回転を元に戻す"
+
+#~ msgid "/About..."
+#~ msgstr "/バージョン情報..."
+
+#~ msgid "/Exit"
+#~ msgstr "/終了"
 
 #~ msgid "Update frequency:"
 #~ msgstr "更新頻度:"
