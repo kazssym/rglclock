@@ -74,8 +74,7 @@ glclock::glclock ()
 		      this);
   gtk_widget_show (drawing_area);
 
-  time_t now = time (NULL);
-  tm = *localtime (&now);
+  time (&t);
 
   timeout_id = gtk_timeout_add (100,
 				reinterpret_cast <GtkFunction> (update),
@@ -88,8 +87,7 @@ glclock::update (gpointer opaque)
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
 
-  time_t now = time (NULL);
-  object->tm = *localtime (&now);
+  time (&object->t);
 
   object->m->rotate (object->rot_velocity / 10. * (180. / 3.14159),
 		     object->rot_x, object->rot_y, object->rot_z);
@@ -99,7 +97,7 @@ glclock::update (gpointer opaque)
     {
       gdk_gl_set_current (object->context, widget->window);
 
-      object->m->draw_clock (&object->tm);
+      object->m->draw_clock (localtime (&object->t));
       gdk_gl_swap_buffers (widget->window);
 
       gdk_gl_unset_current ();
@@ -145,13 +143,6 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
   g_assert (object->drawing_area == widget);
-
-  gdk_gl_set_current (object->context, widget->window);
-
-  object->m->draw_clock (&object->tm);
-  gdk_gl_swap_buffers (widget->window);
-
-  gdk_gl_unset_current ();
 
   return 0;
 }

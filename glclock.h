@@ -44,7 +44,7 @@ private:
   module *m;
   GtkWidget *drawing_area;
   GdkGLContext *context;
-  struct tm tm;
+  time_t t;
   guint timeout_id;
   double rot_velocity;
   double rot_x, rot_y, rot_z;

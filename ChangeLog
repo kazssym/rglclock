@@ -1,6 +1,10 @@
 1998-07-11  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
-	* rglclock.prj: 
+	* glclock.h (class glclock): Remove member tm and add t.
+	* glclock.cc (glclock): Set the new member.
+	(update): Update and use the new member.
+
+	* glclock.cc (handle_expose_event): Do not draw here.
 
 	* main.cc (clean): New function.
 	(handle_delete_event): Call gtk_main_quit instead.
@@ -8,8 +12,6 @@
 	(handle_sig_by_exit): Removed.
 	(set_handlers): Removed.
 	(main): Remove a call to set_handlers.
-
-	* rglclock.prj: 
 
 	* main.cc (handle_delete_event): New function.
 	(main): Connect a "delete_event" handler for toplevel.
