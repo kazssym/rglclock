@@ -1,3 +1,13 @@
+1998-07-12  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc: Update the FSF address.
+	* glclock.h: Likewise.
+	* main.cc: Likewise.
+	* module.cc: Likewise.
+	* module.h: Likewise.
+
+	* README: Add license information.
+
 1998-07-11  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Updated.
