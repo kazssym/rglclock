@@ -22,14 +22,12 @@ msgid "General"
 msgstr "一般"
 
 #: main.cc:162
-#, fuzzy
 msgid "/_File/E_xit"
-msgstr "/終了"
+msgstr "/ファイル(_F)/終了(_X)"
 
 #: main.cc:163
-#, fuzzy
 msgid "/_Help/_About..."
-msgstr "/バージョン情報..."
+msgstr "/ヘルプ(_H)/バージョン情報(_A)..."
 
 #: main.cc:199
 #, c-format
