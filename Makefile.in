@@ -92,7 +92,7 @@ VERSION = @VERSION@
 
 EXTRA_DIST = README.ja MEMO.ja VERSION-ID
 
-SUBDIRS = intl include lib bin doc po
+SUBDIRS = intl include lib programs doc po
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
@@ -377,9 +377,6 @@ install uninstall-am uninstall all-redirect all-am all installdirs-am \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-update-po:
-	cd po && ${MAKE} update-po
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

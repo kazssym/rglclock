@@ -42,5 +42,5 @@ AC_CHECK_FUNCS(asprintf gettimeofday mkdir)
 ALL_LINGUAS="ja"
 AM_GNU_GETTEXT
 AC_OUTPUT(Makefile intl/Makefile \
-include/Makefile lib/Makefile bin/Makefile \
+include/Makefile lib/Makefile programs/Makefile \
 doc/Makefile po/Makefile.in)
