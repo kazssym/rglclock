@@ -43,9 +43,9 @@ module::draw_clock (const struct tm *tm) const
 
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  const GLfloat vs[4] = {0.2, 0.2, 0.2, 1.};
+  const GLfloat vs[4] = {0.6, 0.6, 0.6, 1.};
   glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
-  glMaterialf (GL_FRONT, GL_SHININESS, 8.);
+  glMaterialf (GL_FRONT, GL_SHININESS, 16.);
 
   {
     const GLfloat v[4] = {0.1, 0.0, 0.4, 1.};
@@ -102,6 +102,12 @@ module::rotate (double deg,
 }
 
 void
+module::viewport (int x, int y, int width, int height)
+{
+  glViewport (x, y, width, height);
+}
+
+void
 module::init ()
 {
   glMatrixMode (GL_MODELVIEW);
@@ -115,6 +121,14 @@ module::init ()
   {
     const GLfloat position[] = {-1., 1., 1., 0.};
     glLightfv (GL_LIGHT0, GL_POSITION, position);
+  }
+  glEnable (GL_LIGHT1);
+  {
+    const GLfloat position[] = {200., 200., 0., 0.};
+    glLightfv (GL_LIGHT1, GL_POSITION, position);
+    const GLfloat intensity[] = {0.8, 0.8, 0.8, 1.};
+    glLightfv (GL_LIGHT1, GL_DIFFUSE, intensity);
+    glLightfv (GL_LIGHT1, GL_SPECULAR, intensity);
   }
 
   glMatrixMode (GL_PROJECTION);

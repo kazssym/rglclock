@@ -1,3 +1,21 @@
+1998-07-09  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* gdkGL/Makefile.am (libgdkGL_a_SOURCES): Drop gdkGL_gdkutils.c.
+	(noinst_HEADERS): Drop gdkGL_gdkutils.h.
+
+	* module.cc (draw_clock): Raise the GL_SPECULAR values.
+	(init): Add another light.
+	(draw_clock): Raise the GL_SHININESS value.
+
+	* glclock.h (class glclock): Update the definition.
+	* glclock.cc (handle_configure_event): New function.
+	(glclock): Connect "configure_event" to the handler.
+	(handle_expose_event): Do not call glViewport.
+	Remove #include <GL/gl.h>.
+
+	* module.h (class module): Update the definition.
+	* module.cc (viewport): New function.
+
 1998-07-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* glclock.h (class glclock): Update the definition.

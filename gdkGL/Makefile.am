@@ -4,6 +4,6 @@ INCLUDES = -I${top_srcdir} ${GTK_CFLAGS}
 
 noinst_LIBRARIES = libgdkGL.a
 
-libgdkGL_a_SOURCES = gdkGL.c gdkGLcontext.c gdkGL_gdkutils.c
+libgdkGL_a_SOURCES = gdkGL.c gdkGLcontext.c
 
-noinst_HEADERS = gdkGL.h gdkGLtypes.h gdkGLprivate.h gdkGL_gdkutils.h
+noinst_HEADERS = gdkGL.h gdkGLtypes.h gdkGLprivate.h

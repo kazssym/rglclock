@@ -29,6 +29,7 @@ public:
   ~module ();
 public:
   void init ();
+  void viewport (int, int, int, int);
   void rotate (double, double, double, double);
   void draw_clock (const struct tm *) const;
 };

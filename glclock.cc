@@ -25,7 +25,6 @@
 
 #include <gtk/gtk.h>
 #include <gdkGL/gdkGL.h>
-#include <GL/gl.h>
 #include <GL/glu.h>
 #include "module.h"
 
@@ -56,6 +55,9 @@ glclock::glclock ()
   gtk_signal_connect_after (GTK_OBJECT (drawing_area), "realize",
 			    reinterpret_cast <GtkSignalFunc> (create_context),
 			    this);
+  gtk_signal_connect (GTK_OBJECT (drawing_area), "configure_event",
+		      reinterpret_cast <GtkSignalFunc> (handle_configure_event),
+		      this);
   gtk_signal_connect (GTK_OBJECT (drawing_area), "expose_event",
 		      reinterpret_cast <GtkSignalFunc> (handle_expose_event),
 		      this);
@@ -95,13 +97,31 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
 
   gdk_gl_set_current (object->context, widget->window);
 
-  /* glViewport can be in configure handler?  */
-  glViewport (widget->allocation.x, widget->allocation.y,
-	      widget->allocation.width, widget->allocation.height);
   object->m->draw_clock (&object->tm);
   gdk_gl_swap_buffers (widget->window);
 
   gdk_gl_unset_current ();
+
+  return 0;
+}
+
+gint
+glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
+				 gpointer opaque)
+{
+  glclock *object = static_cast <glclock *> (opaque);
+  g_assert (object != NULL);
+  g_assert (object->drawing_area == widget);
+
+  if (object->context != NULL)
+    {
+      gdk_gl_set_current (object->context, widget->window);
+
+      object->m->viewport (event->x, event->y,
+			   event->width, event->height);
+
+      gdk_gl_unset_current ();
+    }
 
   return 0;
 }

@@ -36,6 +36,7 @@ public:
   operator GtkWidget *() const;
 protected:
   static void create_context (GtkWidget *, gpointer);
+  static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint update (gpointer);
 private:
