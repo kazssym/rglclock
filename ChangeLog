@@ -1,5 +1,7 @@
 1999-01-25  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* simple.c (simple_draw_clock): Modify parameters.
+
 	* module.cc (draw_clock): Move the core code to simple.c.
 	(init): Likewise.
 
