@@ -18,9 +18,31 @@ License along with this program; if not, write to the Free
 Software Foundation, Inc., 59 Temple Place, Suite 330,
 Boston, MA 02111-1307, USA.
 
-CONTACT:
+* DESCRIPTION
 
-Send any comments or bug reports to:
+rglclock is a rotating 3D clock program using Mesa/OpenGL
+and GTK+.  You can set the rotation direction and speed by
+just a mouse drag in the window.
+
+* LATEST INFORMATION
+
+The latest information about rglclock will be available at:
+
+<URL:http://www.hypercore.co.jp/rglclock/> (Japanese) and
+<URL:http://www.hypercore.co.jp/rglclock/en.html> (English).
+
+New releases and snapshots will also be available there.
+
+* INSTALL
+
+This package uses a configure script.  Common instructions
+for compiling and installing the program are described in
+INSTALL file in this directory.
+
+* CONTACT
+
+Send any comments or bug reports to a developers' mailing
+list:
 
      rglclock@lists.hypercore.co.jp
 
