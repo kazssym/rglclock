@@ -81,27 +81,28 @@ profile::save(glclock *clock)
 #ifdef HAVE_GNOME_XML_PARSER_H
   xmlDocPtr doc = xmlParseFile(file_name.c_str());
   if (doc == NULL)
-    doc = xmlNewDoc(reinterpret_cast<CHAR *>("1.0"));
+    doc = xmlNewDoc(reinterpret_cast<const CHAR *>("1.0"));
 
   try
     {
       if (doc->root == NULL)
 	{
-	  doc->root = xmlNewDocNode(doc, NULL,
-				    reinterpret_cast<CHAR *>(PACKAGE), NULL);
+	  doc->root
+	    = xmlNewDocNode(doc, NULL,
+			    reinterpret_cast<const CHAR *>(PACKAGE), NULL);
 	  xmlNewChild(doc->root, NULL,
-		      reinterpret_cast<CHAR *>("misc"), NULL);
+		      reinterpret_cast<const CHAR *>("misc"), NULL);
 	}
 
       for (xmlNode_iterator i = doc->root->childs;
 	   i != xmlNode_iterator();
 	   ++i)
 	{
-	  if (xmlStrcmp(i->name, reinterpret_cast<CHAR *>("misc")) == 0)
+	  if (xmlStrcmp(i->name, reinterpret_cast<const CHAR *>("misc")) == 0)
 	    {
 	      char v[10];
 	      sprintf(v, "%d", clock->update_rate());
-	      xmlSetProp(&*i, reinterpret_cast<CHAR *>("update"),
+	      xmlSetProp(&*i, reinterpret_cast<const CHAR *>("update"),
 			 reinterpret_cast<CHAR *>(v));
 	    }
 	}
@@ -135,10 +136,10 @@ profile::restore(glclock *clock)
 	   i != xmlNode_iterator();
 	   ++i)
 	{
-	  if (xmlStrcmp(i->name, reinterpret_cast<CHAR *>("misc")) == 0)
+	  if (xmlStrcmp(i->name, reinterpret_cast<const CHAR *>("misc")) == 0)
 	    {
 	      const CHAR *value
-		= xmlGetProp(&*i, reinterpret_cast<CHAR *>("update"));
+		= xmlGetProp(&*i, reinterpret_cast<const CHAR *>("update"));
 	      if (value != NULL && value[0] != '\0')
 		{
 		  int rate = atoi(reinterpret_cast<const char *>(value));
