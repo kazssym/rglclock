@@ -1,5 +1,9 @@
 1998-07-11  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* NEWS: Updated.
+
+	* TODO: Updated.
+
 	* glclock.h (class glclock): Remove member tm and add t.
 	(class glclock): Update the definition.  Reorder data members.
 	* glclock.cc (glclock): Set the new member.

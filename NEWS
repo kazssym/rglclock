@@ -1,6 +1,10 @@
 NEWS of rglclock:
-$ProjectVersion: 0.23 $
+$ProjectVersion: 0.29 $
 
+Changes since version 0.24:
+
+* Signal handling has been improved.
+
 Changes since version 0.21:
 
 * Rotation speed and direction have been changeable by mouse drags.
