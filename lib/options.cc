@@ -81,9 +81,57 @@ controller::remove_widget(GtkObject *object, gpointer data) throw ()
 }
 
 void
+options_dialog::handle_ok(GtkWidget *button)
+{
+  GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
+  I(GTK_IS_DIALOG(dialog));
+
+  GList *dialog_children
+    = gtk_container_children(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox));
+  I(dialog_children != NULL);
+
+  GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
+  I(GTK_IS_NOTEBOOK(notebook));
+
+  int j = 0;
+  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+       i != pages.end();
+       ++i)
+    {
+      GtkWidget *page_widget
+	= gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
+      I(page_widget != NULL);
+      i->second->apply(page_widget);
+    }
+
+  close(positive_action());
+}
+
+void
+options_dialog::handle_cancel(GtkWidget *button)
+{
+  close(negative_action());
+}
+
+void
 options_dialog::update(GtkDialog *widget)
 {
-  /* FIXME */
+  GList *children = gtk_container_children(GTK_CONTAINER(widget->vbox));
+  I(children != NULL);
+
+  /* This assumes the first child is a GtkNotebook.  */
+  GtkWidget *notebook = GTK_WIDGET(children->data);
+  I(GTK_IS_NOTEBOOK(notebook));
+
+  int j = 0;
+  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+       i != pages.end(); ++i)
+    {
+      GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
+      I(page != NULL);
+
+      i->second->update(page);
+    }
 }
 
 namespace
@@ -160,39 +208,6 @@ options_dialog::configure(GtkDialog *widget)
   gtk_window_set_position(GTK_WINDOW(widget), GTK_WIN_POS_CENTER);
 
   populate(widget);
-}
-
-void
-options_dialog::handle_ok(GtkWidget *button)
-{
-  GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
-  I(GTK_IS_DIALOG(dialog));
-
-  GList *dialog_children
-    = gtk_container_children(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox));
-  I(dialog_children != NULL);
-
-  GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
-  I(GTK_IS_NOTEBOOK(notebook));
-
-  int j = 0;
-  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
-       i != pages.end();
-       ++i)
-    {
-      GtkWidget *page_widget
-	= gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
-      I(page_widget != NULL);
-      i->second->apply(page_widget);
-    }
-
-  close(positive_action());
-}
-
-void
-options_dialog::handle_cancel(GtkWidget *button)
-{
-  close(negative_action());
 }
 
 void

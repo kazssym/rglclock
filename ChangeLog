@@ -1,5 +1,10 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* include/utils.h (struct options_page): Add new member update.
+
+	* lib/options.cc: Move handle_ok and handle_cancel.
+	(update): Invoke page callbacks.
+
 	* lib/about.cc (handle_ok): Rewrote as non-static method.
 	(deliver_ok): New function.
 	(populate): Use deliver_ok for signal.

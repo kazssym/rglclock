@@ -113,6 +113,7 @@ protected:
 struct options_page
 {
   virtual GtkWidget *create_widget() = 0;
+  virtual void update(GtkWidget *) {} // = 0;
   virtual void apply(GtkWidget *) = 0;
 };
 
