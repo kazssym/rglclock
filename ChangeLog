@@ -1,3 +1,7 @@
+1999-03-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (update-po): New target.
+
 1999-03-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* main.cc (clean): Removed.

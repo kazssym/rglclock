@@ -18,6 +18,9 @@ EXTRA_DIST = README.ja gtkrc ${man_MANS}
 
 SUBDIRS = intl po
 
+update-po:
+	cd po && ${MAKE} update-po
+
 dist-snapshot:
 	${MAKE} VERSION=${VERSION}x.`date +%Y%m%d` dist
 
