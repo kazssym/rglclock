@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-02-13 21:12+0900\n"
+"POT-Creation-Date: 1999-02-13 23:16+0900\n"
 "PO-Revision-Date: 1999-02-13 21:42+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -13,19 +13,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. {path, accelerator, callback, callback_data, widget}
-#: glclock.cc:111
+#: glclock.cc:112
 msgid "Reset Rotation"
 msgstr "回転を止める"
 
-#: glclock.cc:113
+#: glclock.cc:114
 msgid "Properties..."
 msgstr "プロパティ..."
 
-#: glclock.cc:114
+#: glclock.cc:115
 msgid "About..."
 msgstr "バージョン情報..."
 
-#: glclock.cc:116
+#: glclock.cc:117
 msgid "Exit"
 msgstr "終了"
 
