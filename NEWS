@@ -1,6 +1,6 @@
 List of User-Visible Changes
 
-$Version: 1.2.2 $ ($ProjectVersion: 1.2.2 $)
+$Version: 1.2.2 $ ($ProjectVersion: 1.2.3 $)
 
 * New configure options: --disable-wm-command, and
 --disable-wm-transient-for.
@@ -24,23 +24,24 @@ hopes this will improve performance on real OpenGL systems.
 * New look.
 
 Version 1.1.6 Release
-[Changes since version 0.24]
+
+[Since version 0.24]
 
 * Signal handling has been improved.
 
 * Rotation has been corrected but got slower.
-
-Changes since version 0.21:
+
+[Since version 0.21]
 
 * Rotation speed and direction have been changeable by mouse drags.
-
-Changes since version 0.17:
+
+[Since version 0.17]
 
 * A signal handling bug has been fixed.
 
 * Some lighting parameters have been changed.
-
-Changes since version 0.10:
+
+[Since version 0.10]
 
 * The configure script will check for OpenGL libraries.
 
@@ -49,12 +50,12 @@ Changes since version 0.10:
 * Back faces have been culled.
 
 * libtool has been added.
-
-Changes since version 0.8:
+
+[Since version 0.8]
 
 * A dial has been added.
-
-Changes since version 0.3:
+
+[Since version 0.3]
 
 * Now rotates!
 
