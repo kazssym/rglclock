@@ -28,4 +28,4 @@ AC_HEADER_TIME
 AC_C_CONST
 dnl Checks for library functions.
 AC_CHECK_FUNCS(getopt_long gettimeofday)
-AC_OUTPUT(Makefile gdkGL/Makefile)
+AC_OUTPUT(Makefile)

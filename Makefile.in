@@ -72,16 +72,14 @@ INCLUDES = ${GTK_CFLAGS} -DSESSION
 
 bin_PROGRAMS = rglclock
 
-rglclock_SOURCES = main.cc glclock.cc module.cc
-rglclock_LDADD = gdkGL/libgdkGL.a ${GL_LIBS} ${GTK_LIBS}
+rglclock_SOURCES = main.cc glclock.cc module.cc gdkgl.c
+rglclock_LDADD = ${GL_LIBS} ${GTK_LIBS}
 
-noinst_HEADERS = glclock.h module.h
+noinst_HEADERS = glclock.h module.h gdkgl.h
 
 man_MANS = rglclock.1
 
 EXTRA_DIST = ${man_MANS}
-
-SUBDIRS = gdkGL
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES = 
@@ -92,12 +90,15 @@ DEFS = @DEFS@ -I. -I$(srcdir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-rglclock_OBJECTS =  main.o glclock.o module.o
-rglclock_DEPENDENCIES =  gdkGL/libgdkGL.a
+rglclock_OBJECTS =  main.o glclock.o module.o gdkgl.o
+rglclock_DEPENDENCIES = 
 rglclock_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
 CXXLINK = $(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 man1dir = $(mandir)/man1
 MANS = $(man_MANS)
 
@@ -113,12 +114,12 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DEP_FILES =  .deps/glclock.P .deps/main.P .deps/module.P
+DEP_FILES =  .deps/gdkgl.P .deps/glclock.P .deps/main.P .deps/module.P
 CXXMKDEP = $(CXX) -M $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
 SOURCES = $(rglclock_SOURCES)
 OBJECTS = $(rglclock_OBJECTS)
 
-all: all-recursive all-am
+all: Makefile $(PROGRAMS) $(MANS) $(HEADERS)
 
 .SUFFIXES:
 .SUFFIXES: .S .c .cc .o .s
@@ -223,55 +224,15 @@ uninstall-man:
 	@$(NORMAL_UNINSTALL)
 	$(MAKE) uninstall-man1
 
-# This directory's subdirectories are mostly independent; you can cd
-# into them and run `make' without going through this Makefile.
-# To change the values of `make' variables: instead of editing Makefiles,
-# (1) if the variable is set in `config.status', edit `config.status'
-#     (which will cause the Makefiles to be regenerated when you run `make');
-# (2) otherwise, pass the desired values on the `make' command line.
-
-@SET_MAKE@
-
-all-recursive install-data-recursive install-exec-recursive \
-installdirs-recursive install-recursive uninstall-recursive  \
-check-recursive installcheck-recursive info-recursive dvi-recursive:
-	@set fnord $(MAKEFLAGS); amf=$$2; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  target=`echo $@ | sed s/-recursive//`; \
-	  echo "Making $$target in $$subdir"; \
-	  (cd $$subdir && $(MAKE) $$target) \
-	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done && test -z "$$fail"
-
-mostlyclean-recursive clean-recursive distclean-recursive \
-maintainer-clean-recursive:
-	@set fnord $(MAKEFLAGS); amf=$$2; \
-	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
-	  rev="$$subdir $$rev"; \
-	done; \
-	for subdir in $$rev; do \
-	  target=`echo $@ | sed s/-recursive//`; \
-	  echo "Making $$target in $$subdir"; \
-	  (cd $$subdir && $(MAKE) $$target) \
-	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
-	done && test -z "$$fail"
-tags-recursive:
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  (cd $$subdir && $(MAKE) tags); \
-	done
-
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP)
 	here=`pwd` && cd $(srcdir) \
 	  && mkid -f$$here/ID $(SOURCES) $(HEADERS) $(LISP)
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
-	done; \
 	list='$(SOURCES) $(HEADERS)'; \
 	unique=`for i in $$list; do echo $$i; done | \
 	  awk '    { files[$$0] = 1; } \
@@ -335,14 +296,6 @@ distdir: $(DISTFILES)
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
-	for subdir in $(SUBDIRS); do \
-	  test -d $(distdir)/$$subdir \
-	  || mkdir $(distdir)/$$subdir \
-	  || exit 1; \
-	  chmod 777 $(distdir)/$$subdir; \
-	  (cd $$subdir && $(MAKE) top_distdir=../$(distdir) distdir=../$(distdir)/$$subdir distdir) \
-	    || exit 1; \
-	done
 
 DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 
@@ -378,33 +331,25 @@ maintainer-clean-depend:
 	@-sed -e 's/^\([^:]*\)\.o:/\1.lo \1.o:/' \
 	  < .deps/$(*F).p > .deps/$(*F).P
 	@-rm -f .deps/$(*F).p
-info: info-recursive
-dvi: dvi-recursive
-check: all-am
-	$(MAKE) check-recursive
-installcheck: installcheck-recursive
-all-am: Makefile $(PROGRAMS) $(MANS) $(HEADERS)
-
-install-exec-am: install-binPROGRAMS
-
-install-data-am: install-man
-
-uninstall-am: uninstall-binPROGRAMS uninstall-man
-
-install-exec: install-exec-recursive install-exec-am
+info:
+dvi:
+check: all
+	$(MAKE)
+installcheck:
+install-exec: install-binPROGRAMS
 	@$(NORMAL_INSTALL)
 
-install-data: install-data-recursive install-data-am
+install-data: install-man
 	@$(NORMAL_INSTALL)
 
-install: install-recursive install-exec-am install-data-am
+install: install-exec install-data all
 	@:
 
-uninstall: uninstall-recursive uninstall-am
+uninstall: uninstall-binPROGRAMS uninstall-man
 
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
-installdirs: installdirs-recursive
+installdirs:
 	$(mkinstalldirs)  $(DATADIR)$(bindir) $(DESTDIR)$(mandir)/man1
 
 
@@ -422,28 +367,19 @@ distclean-generic:
 maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
+mostlyclean:  mostlyclean-binPROGRAMS mostlyclean-compile \
 		mostlyclean-tags mostlyclean-depend mostlyclean-generic
 
-clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
-		clean-generic mostlyclean-am
+clean:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean
 
-distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
-		distclean-depend distclean-generic clean-am
-
-maintainer-clean-am:  maintainer-clean-binPROGRAMS \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-depend maintainer-clean-generic \
-		distclean-am
-
-mostlyclean:  mostlyclean-recursive mostlyclean-am
-
-clean:  clean-recursive clean-am
-
-distclean:  distclean-recursive distclean-am
+distclean:  distclean-binPROGRAMS distclean-compile distclean-tags \
+		distclean-depend distclean-generic clean
 	-rm -f config.status
 
-maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
+maintainer-clean:  maintainer-clean-binPROGRAMS maintainer-clean-compile \
+		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-generic distclean
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f config.status
@@ -452,19 +388,12 @@ maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile install-man1 uninstall-man1 install-man \
-uninstall-man install-data-recursive uninstall-data-recursive \
-install-exec-recursive uninstall-exec-recursive installdirs-recursive \
-uninstalldirs-recursive all-recursive check-recursive \
-installcheck-recursive info-recursive dvi-recursive \
-mostlyclean-recursive distclean-recursive clean-recursive \
-maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir \
-mostlyclean-depend distclean-depend clean-depend \
-maintainer-clean-depend info dvi installcheck all-am install-exec-am \
-install-data-am uninstall-am install-exec install-data install \
-uninstall all installdirs mostlyclean-generic distclean-generic \
-clean-generic maintainer-clean-generic clean mostlyclean distclean \
-maintainer-clean
+uninstall-man tags mostlyclean-tags distclean-tags clean-tags \
+maintainer-clean-tags distdir mostlyclean-depend distclean-depend \
+clean-depend maintainer-clean-depend info dvi installcheck install-exec \
+install-data install uninstall all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

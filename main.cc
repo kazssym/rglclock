@@ -16,8 +16,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
    02111-1307, USA.  */
 
-#define _GNU_SOURCE 1
-
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
@@ -148,6 +146,14 @@ main (int argc, char **argv)
     }
 
   ATEXIT (clean);
+
+  static int attr[] = {GDK_GL_RGBA,
+		       GDK_GL_DOUBLEBUFFER,
+		       GDK_GL_DEPTH_SIZE, 4,
+		       GDK_GL_NONE};
+  GdkVisual *visual = gdk_gl_choose_visual(attr);
+  gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
+  gtk_widget_set_default_visual(visual);
 
   toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 #ifdef SESSION

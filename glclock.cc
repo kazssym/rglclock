@@ -16,23 +16,21 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
    02111-1307, USA.  */
 
-#define _GNU_SOURCE 1
-
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
 #undef const
 
+#include "glclock.h"
+#include "module.h"
+#include "gdkgl.h"
+
+#include <gtk/gtk.h>
+#include <GL/glu.h>
 #include <math.h>
 #ifdef HAVE_SYS_TIME_H
 # include <sys/time.h>
 #endif
-#include <gtk/gtk.h>
-#include <gdkGL/gdkGL.h>
-#include <GL/glu.h>
-#include "module.h"
-
-#include "glclock.h"
 
 void
 glclock::menu_listener::menu_activate (GtkWidget *widget, gpointer opaque)
@@ -163,12 +161,10 @@ glclock::update (gpointer opaque)
   /* If a context is available, a window must also be available here.  */
   if (object->context != NULL)
     {
-      gdk_gl_set_current (object->context, widget->window);
+      gdk_gl_make_current (widget->window, object->context);
 
       object->m->draw_clock (localtime (&object->t));
       gdk_gl_swap_buffers (widget->window);
-
-      gdk_gl_unset_current ();
     }
 
   return 1;			// Do not remove this callback.
@@ -270,17 +266,15 @@ glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
     {
       object->context = gdk_gl_context_new (gdk_window_get_visual (widget->window));
 
-      gdk_gl_set_current (object->context, widget->window);
+      gdk_gl_make_current (widget->window, object->context);
 
       object->m->init ();
     }
   else
-    gdk_gl_set_current (object->context, widget->window);
+    gdk_gl_make_current (widget->window, object->context);
 
   object->m->viewport (event->x, event->y,
 		       event->width, event->height);
-
-  gdk_gl_unset_current ();
 
   return 0;
 }
