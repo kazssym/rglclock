@@ -47,9 +47,6 @@ public:
   /* Returns the best visual for this class.  */
   static GdkVisual *best_visual();
 
-public:
-  glclock ();
-  ~glclock ();
 protected:
   static void remove_widget(GtkObject *, gpointer);
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
@@ -65,6 +62,14 @@ private:
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   double press_x, press_y;
+
+public:
+  /* Constructs this clock with default properties.  */
+  glclock();
+
+  /* Destructs this clock.  */
+  ~glclock();
+
 public:
   void add_callback(options_callback *);
   void remove_callback(options_callback *);

@@ -132,6 +132,7 @@ namespace
 	}
     }
 
+  /* Clock application.  */
   class clock_app
   {
   protected:
@@ -141,6 +142,9 @@ namespace
   private:
     glclock clock;
     class profile profile;
+
+    /* Dialog for clock options.  */
+    clock_options_dialog dialog;
 
   public:
     clock_app();
@@ -158,10 +162,9 @@ clock_app::edit_options(gpointer data, guint, GtkWidget *item)
   gpointer ud = gtk_object_get_user_data(GTK_OBJECT(window));
   clock_app *d = static_cast<clock_app *>(ud);
 
-  clock_options_dialog dialog(&d->clock);
-  dialog.act(GTK_WINDOW(window));
+  d->dialog.act(GTK_WINDOW(window));
 
-  d->profile.save(&d->clock);
+  //d->profile.save(&d->clock);
 }
 
 void
@@ -231,9 +234,12 @@ clock_app::create_window()
 
 clock_app::~clock_app()
 {
+  // FIXME This seems too late.
+  profile.save(&clock);
 }
 
 clock_app::clock_app()
+  : dialog(&clock)
 {
   string s(getenv("HOME"));
   s.append("/.rglclock");

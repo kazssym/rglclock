@@ -83,24 +83,24 @@ controller::remove_widget(GtkObject *object, gpointer data) throw ()
 void
 modal_dialog::act(GtkWindow *parent)
 {
-  GtkWidget *widget = create_widget();
-  I(GTK_IS_WINDOW(widget));
+  if (widget == NULL)
+    {
+      widget = create_widget();
+      I(GTK_IS_WINDOW(widget));
 
-  if (parent != NULL)
-    gtk_window_set_transient_for(GTK_WINDOW(widget), parent);
-  gtk_window_set_modal(GTK_WINDOW(widget), true);
-  gtk_signal_connect(GTK_OBJECT(widget), "delete_event",
-		     GTK_SIGNAL_FUNC(handle_delete_event), func_data());
+      gtk_window_set_modal(GTK_WINDOW(widget), true);
+      gtk_signal_connect(GTK_OBJECT(widget), "delete_event",
+			 GTK_SIGNAL_FUNC(handle_delete_event), func_data());
+    }
 
+  gtk_window_set_transient_for(GTK_WINDOW(widget), parent);
   gtk_widget_show(widget);
-  gtk_main();
-  gtk_widget_destroy(widget);
 }
 
 void
 modal_dialog::quit()
 {
-  gtk_main_quit();
+  gtk_widget_hide(widget);
 }
 
 /* Handles a delete event on the dialog.  */
@@ -114,6 +114,17 @@ modal_dialog::handle_delete_event(GtkWidget *dialog,
 
   d->quit();
   return 1;
+}
+
+modal_dialog::~modal_dialog()
+{
+  if (widget != NULL)
+    gtk_widget_destroy(widget);
+}
+
+modal_dialog::modal_dialog()
+  : widget(NULL)
+{
 }
 
 void

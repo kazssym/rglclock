@@ -47,12 +47,25 @@ protected:
   void add(GtkWidget *);
 };
 
+/* Control for modal dialogs.  */
 class modal_dialog
   : public controller
 {
 protected:
   static gint handle_delete_event(GtkWidget *, GdkEventAny *,
 				  gpointer) throw ();
+
+private:
+  /* Widget created for this dialog.  */
+  GtkWidget *widget;
+
+public:
+  /* Constructs this dialog.  */
+  modal_dialog();
+
+  /* Destructs this dialog.  */
+  virtual ~modal_dialog();
+
 public:
   void act(GtkWindow *parent);
 protected:

@@ -1,3 +1,20 @@
+1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* include/utils.h (class modal_dialog): Add member widget and
+ 	constructor and destructor.
+
+	* lib/options.cc (act): Use member widget and avoid gtk_main.
+	(quit): Just hide the widget.
+	(~modal_dialog): New function.  Destroy the widget.
+	(modal_dialog): Construct with no widget.
+
+	* bin/main.cc (class clock_app): Add member dialog.
+	(edit_options): Avoid local dialog instance.
+	(~clock_app): Add save.
+	(clock_app): Add initialization of dialog.
+
+	* include/glclock.h (class glclock): Just move members.
+
 1999-10-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* bin/main.cc (parse_options): Move long options to function
