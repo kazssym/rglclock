@@ -1,5 +1,17 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* options.h (class options_dialog): Remove duplicate members.
+
+	* options.cc (act, quit, handle_delete_event): New functions of
+	modal_dialog.
+	(create_widget): Do not connect delete_event.
+	(act, handle_delete_event): Removed from options_dialog.
+	(handle_ok, handle_cancel): Use modal_dialog::quit.
+
+	* options.h (class modal_dialog): New class.
+	(class options_dialog): Change the base class to modal_dialog from
+	controller.
+
 	* profile.h: Add comments.
 	Remove unneccesary struct decl.
 
