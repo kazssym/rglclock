@@ -106,9 +106,9 @@ glclock::glclock ()
 
       about.target = this;
       about.activate = &glclock::describe;
+      /* {path, accelerator, callback, callback_data, widget} */
       GtkMenuEntry entries[] =
       {
-	/* {path, accelerator, callback, callback_data, widget} */
 	{_("Reset Rotation"), NULL, NULL, NULL, NULL},
 	{"<separator>", NULL, NULL, NULL, NULL},
 	{_("Options..."), NULL, edit_options, this, NULL},
