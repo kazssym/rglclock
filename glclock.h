@@ -44,6 +44,7 @@ protected:
     static void menu_activate (GtkWidget *, gpointer);
   };
 protected:
+  static void finish_realize(GtkWidget *, gpointer);
   static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
   static gint handle_destroy_event (GtkWidget *, GdkEventAny *, gpointer);
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
@@ -71,9 +72,9 @@ private:
   GtkWidget *dialog;
 protected:
   static void populate(GtkWidget *);
-  static void handle_ok(GtkWidget *, gpointer);
+  static void finish_realize(GtkWidget *, gpointer);
   static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
-  static gint handle_configure_event(GtkWidget *, GdkEventConfigure *, gpointer);
+  static void handle_ok(GtkWidget *, gpointer);
 public:
   explicit about_dialog(GtkWidget *parent);
   ~about_dialog();

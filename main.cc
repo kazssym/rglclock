@@ -23,6 +23,8 @@
 
 #include "glclock.h"
 
+#include <gtk/gtk.h>
+#include <libintl.h>
 #ifdef HAVE_GETOPT_H
 # include <getopt.h>
 #endif
@@ -30,12 +32,70 @@
 # include <unistd.h>
 #endif
 #include <signal.h>
-#include <gtk/gtk.h>
+#include <string>
 
 #ifdef SESSION
 # include <gdk/gdkx.h>
 # include <algorithm>
 #endif
+
+#define _(MSG) gettext(MSG)
+
+using namespace std;
+
+namespace
+{
+  int opt_version = 0;
+
+#ifdef HAVE_GETOPT_LONG
+  const struct option longopts[] =
+  {
+    {"version", no_argument, &opt_version, 1},
+    {NULL, 0, NULL, 0}
+  };
+#endif
+
+  bool parse_options(int argc, char **argv)
+    {
+      int optc;
+      do
+	{
+#ifdef HAVE_GETOPT_LONG
+	  int index;
+	  optc = getopt_long(argc, argv, "", longopts, &index);
+#else /* not HAVE_GETOPT_LONG */
+	  optc = getopt(argc, argv, "");
+#endif /* not HAVE_GETOPT_LONG */
+
+	  switch (optc)
+	    {
+	    case 0:		// long option
+	      break;
+	    case '?':
+	      return false;
+	    }
+	}
+      while (optc != -1);
+
+      return true;
+    }
+
+  void parse_gtkrcs()
+    {
+#ifdef PKGDATADIR
+      gtk_rc_parse(PKGDATADIR "/gtkrc");
+#endif /* PKGDATADIR */
+
+      const char *homedir = getenv("HOME");
+      if (homedir != NULL)
+	{
+	  string gtkrc (homedir);
+	  gtkrc.append("/.rglclock");
+	  gtkrc.append("/gtkrc");
+	  gtk_rc_parse(gtkrc.c_str());
+	}
+    }
+} // *unnamed*
 
 static GtkWidget *toplevel;
 static glclock *glc;
@@ -85,45 +145,7 @@ set_command (GtkWidget *widget)
 		 GDK_WINDOW_XWINDOW (widget->window),
 		 argv_save, argc_save);
 }
-#endif
-
-namespace
-{
-  int opt_version = 0;
-
-#ifdef HAVE_GETOPT_LONG
-  const struct option longopts[] =
-  {
-    {"version", no_argument, &opt_version, 1},
-    {NULL, 0, NULL, 0}
-  };
-#endif
-
-  bool parse_options(int argc, char **argv)
-    {
-      int optc;
-      do
-	{
-#ifdef HAVE_GETOPT_LONG
-	  int index;
-	  optc = getopt_long(argc, argv, "", longopts, &index);
-#else /* not HAVE_GETOPT_LONG */
-	  optc = getopt(argc, argv, "");
-#endif /* not HAVE_GETOPT_LONG */
-
-	  switch (optc)
-	    {
-	    case 0:		// long option
-	      break;
-	    case '?':
-	      return false;
-	    }
-	}
-      while (optc != -1);
-
-      return true;
-    }
-} // *unnamed*
+#endif /* SESSION */
 
 int
 main (int argc, char **argv)
@@ -140,6 +162,12 @@ main (int argc, char **argv)
   if (!parse_options(argc, argv))
     return EXIT_FAILURE;
 
+  /* Initialize NLS.  */
+#ifdef LOCALEDIR
+  bindtextdomain(PACKAGE, LOCALEDIR);
+#endif
+  textdomain(PACKAGE);
+
   if (opt_version)
     {
       printf("%s %s\n", PACKAGE, VERSION);
@@ -147,6 +175,8 @@ main (int argc, char **argv)
     }
 
   ATEXIT (clean);
+
+  parse_gtkrcs();
 
   static int attr[] = {GDK_GL_RGBA,
 		       GDK_GL_DOUBLEBUFFER,

@@ -27,10 +27,15 @@
 
 #include <gtk/gtk.h>
 #include <GL/glu.h>
+#include <libintl.h>
 #ifdef HAVE_SYS_TIME_H
 # include <sys/time.h>
 #endif
 #include <math.h>
+
+#define _(MSG) gettext(MSG)
+
+using namespace std;
 
 void
 glclock::menu_listener::menu_activate (GtkWidget *widget, gpointer opaque)
@@ -79,9 +84,10 @@ glclock::glclock ()
       gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
 
       gtk_widget_set_events (drawing_area, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-      gtk_signal_connect (GTK_OBJECT (drawing_area), "configure_event",
-			  reinterpret_cast <GtkSignalFunc> (handle_configure_event),
-			  this);
+      gtk_signal_connect_after(GTK_OBJECT(drawing_area), "realize",
+			       GTK_SIGNAL_FUNC(finish_realize), this);
+      gtk_signal_connect(GTK_OBJECT(drawing_area), "configure_event",
+			  GTK_SIGNAL_FUNC(handle_configure_event), this);
       gtk_signal_connect (GTK_OBJECT (drawing_area), "destroy_event",
 			  reinterpret_cast <GtkSignalFunc> (handle_destroy_event),
 			  this);
@@ -103,12 +109,12 @@ glclock::glclock ()
       GtkMenuEntry entries[] =
       {
 	/* {path, accelerator, callback, callback_data, widget} */
-	{"Reset Rotation", NULL, NULL, NULL, NULL},
+	{_("Reset Rotation"), NULL, NULL, NULL, NULL},
 	{"<separator>", NULL, NULL, NULL, NULL},
-	{"Properties...", NULL, NULL, NULL, NULL},
-	{"About...", NULL, menu_listener::menu_activate, &about, NULL},
+	{_("Properties..."), NULL, NULL, NULL, NULL},
+	{_("About..."), NULL, menu_listener::menu_activate, &about, NULL},
 	{"<separator>", NULL, NULL, NULL, NULL},
-	{"Exit", NULL, menu_quit, this, NULL}
+	{_("Exit"), NULL, menu_quit, this, NULL}
       };
       gtk_menu_factory_add_entries (menu_factory, entries, 6);
 
@@ -256,9 +262,29 @@ glclock::handle_destroy_event (GtkWidget *widget, GdkEventAny *event,
   return 0;
 }
 
+/* Handles "configure_event"s.  */
 gint
 glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
 				 gpointer opaque)
+{
+  glclock *object = static_cast <glclock *> (opaque);
+  g_assert (object != NULL);
+
+  if (object->context != NULL)
+    {
+      gdk_gl_make_current (widget->window, object->context);
+
+      object->m->viewport (event->x, event->y,
+			   event->width, event->height);
+    }
+
+  return 0;
+}
+
+/* Finish realizing.  */
+void
+glclock::finish_realize(GtkWidget *widget,
+			gpointer opaque)
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
@@ -272,13 +298,6 @@ glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
 
       object->m->init ();
     }
-  else
-    gdk_gl_make_current (widget->window, object->context);
-
-  object->m->viewport (event->x, event->y,
-		       event->width, event->height);
-
-  return 0;
 }
 
 void
