@@ -72,10 +72,10 @@ INCLUDES = ${GTK_CFLAGS} -DSESSION
 
 bin_PROGRAMS = rglclock
 
-rglclock_SOURCES = main.cc glclock.cc module.cc gdkgl.c
+rglclock_SOURCES = main.cc glclock.cc module.cc simple.c gdkgl.c
 rglclock_LDADD = ${GL_LIBS} ${GTK_LIBS}
 
-noinst_HEADERS = glclock.h module.h gdkgl.h
+noinst_HEADERS = glclock.h module.h simple.h gdkgl.h
 
 man_MANS = rglclock.1
 
@@ -91,7 +91,7 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I.
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-rglclock_OBJECTS =  main.o glclock.o module.o gdkgl.o
+rglclock_OBJECTS =  main.o glclock.o module.o simple.o gdkgl.o
 rglclock_DEPENDENCIES = 
 rglclock_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
@@ -115,7 +115,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DEP_FILES =  .deps/gdkgl.P .deps/glclock.P .deps/main.P .deps/module.P
+DEP_FILES =  .deps/gdkgl.P .deps/glclock.P .deps/main.P .deps/module.P \
+.deps/simple.P
 CXXMKDEP = $(CXX) -M $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
 SOURCES = $(rglclock_SOURCES)
 OBJECTS = $(rglclock_OBJECTS)

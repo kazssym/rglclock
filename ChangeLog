@@ -1,5 +1,8 @@
 1999-01-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* simple.h: New file.
+	* simple.c: New file.
+	
 	* configure.in: Add the config header.
 
 	* acconfig.h: New file.
