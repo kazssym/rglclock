@@ -1,5 +1,7 @@
 1998-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* NEWS: Updated.
+
 	* module.cc (draw_clock): Draw a mark at the top of the dial.
 	(rotate): Correct rotation.
 
