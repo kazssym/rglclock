@@ -1,5 +1,7 @@
 1998-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Check unistd.h and gettimeofday.
+
 	* module.cc (draw_clock): Use glXXXf functions instead of glXXXd.
 
 1998-07-12  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
