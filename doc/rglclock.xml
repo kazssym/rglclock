@@ -33,6 +33,44 @@
     </sect1>
   </chapter>
   <chapter>
+    <title>rglclock Internals</title>
+    <para>
+      This chapter describes the internals of rglclock.
+    </para>
+    <para>
+      The internal of rglclock can be divided into several layers:
+      <itemizedlist>
+	<listitem>
+	  <para>Clock model</para>
+	</listitem>
+	<listitem>
+	  <para>Window component</para>
+	</listitem>
+	<listitem>
+	  <para>Application</para>
+	</listitem>
+      </itemizedlist>
+    </para>
+  </chapter>
+  <chapter>
+    <title>Loadable Module Interface</title>
+    <note>
+      <para>
+	The module interface described in this chapter is not
+	implemented yet.  rglclock version 2 will be the first release
+	that implement this interface.
+      </para>
+    </note>
+    <para>
+      rglclock will have loadable module support for clock models.
+      This will be implemented using libtool.
+    </para>
+    <para>
+      All structures used for this interface is defined in
+      <filename moreinfo="none">rglclockmod.h</filename>.
+    </para>
+  </chapter>
+  <chapter>
     <title>Command Reference</title>
     <refentry>
       <refmeta>
@@ -53,13 +91,5 @@
 	<para>rglclock displays a rotating 3D clock.</para>
       </refsect1>
     </refentry>
-  </chapter>
-  <chapter>
-    <title>rglclock Internals</title>
-    <abstract>
-      <para>
-	This chapter describes the internals of rglclock.
-      </para>
-    </abstract>
   </chapter>
 </book>

@@ -21,8 +21,9 @@ This file documents rglclock.
 
 @menu
 * Using rglclock::	
-* Command Reference::	
 * rglclock Internals::	
+* Loadable Module Interface::	
+* Command Reference::	
 @end menu
 
 @node Using rglclock
@@ -36,6 +37,37 @@ rglclock is a rotating 3D clock program using Mesa/OpenGL and GTK+.
 @node Setting Options
 @section Setting Options
 Users can set program options using Options dialog.
+
+@node rglclock Internals
+@chapter rglclock Internals
+This chapter describes the internals of rglclock.
+
+The internal of rglclock can be divided into several layers:
+
+@itemize @bullet
+@item
+Clock model
+
+@item
+Window component
+
+@item
+Application
+
+@end itemize
+
+@node Loadable Module Interface
+@chapter Loadable Module Interface
+Note: 
+The module interface described in this chapter is not
+implemented yet. rglclock version 2 will be the first release
+that implement this interface.
+
+rglclock will have loadable module support for clock models.
+This will be implemented using libtool.
+
+All structures used for this interface is defined in
+@file{rglclockmod.h}.
 
 @node Command Reference
 @chapter Command Reference
@@ -57,10 +89,5 @@ rglclock
 
 @subheading Description
 rglclock displays a rotating 3D clock.
-
-@node rglclock Internals
-@chapter rglclock Internals
-@menu
-@end menu
 
 @bye
