@@ -24,7 +24,14 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <time.h>
+#ifdef HAVE_SYS_TIME_H
+# include <sys/time.h>
+# ifdef TIME_WITH_SYS_TIME
+#  include <time.h>
+# endif /* TIME_WITH_SYS_TIME */
+#else /* not HAVE_SYS_TIME_H */
+# include <time.h>
+#endif
 
 #ifdef LOGO128
 # include "logo128.h"
@@ -48,11 +55,20 @@ static const GLfloat HAND_SR = 16;
 int
 simple_draw_clock(void)
 {
+#ifdef HAVE_GETTIMEOFDAY
+  struct timeval t;
+#else /* not HAVE_GETTIMEOFDAY */
   time_t t;
+#endif /* not HAVE_GETTIMEOFDAY */
   const struct tm *lt;
 
+#ifdef HAVE_GETTIMEOFDAY
+  gettimeofday(&t, NULL);
+  lt = localtime(&t.tv_sec);
+#else /* not HAVE_GETTIMEOFDAY */
   t = time(NULL);
   lt = localtime(&t);
+#endif /* not HAVE_GETTIMEOFDAY */
 
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -148,7 +164,11 @@ simple_draw_clock(void)
 
   /* Long hand.  */
   glPushMatrix ();
+#ifdef HAVE_GETTIMEOFDAY
+  glRotatef ((lt->tm_min * 60 + lt->tm_sec + t.tv_usec / 1e6) / 10., 0, 0, -1);
+#else /* not HAVE_GETTIMEOFDAY */
   glRotatef ((lt->tm_min * 60 + lt->tm_sec) / 10., 0, 0, -1);
+#endif /* not HAVE_GETTIMEOFDAY */
   glBegin (GL_TRIANGLES);
   glNormal3f (0.5, 0., 1.);
   glVertex3f (2., 2., 3.);
