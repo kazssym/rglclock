@@ -1,7 +1,9 @@
 NEWS of rglclock:
-$ProjectVersion: 0.7 $
+$ProjectVersion: 0.8 $
 
 Changes since version 0.3:
 
-* New hands design.
+* Now rotate!
+
+* Redesigned hands.
 

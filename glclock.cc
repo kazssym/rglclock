@@ -1,4 +1,4 @@
-/* rglclock - R'ing GL Clock.
+/* rglclock - Rotating GL Clock.
    Copyright (C) 1998 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
@@ -45,7 +45,9 @@ glclock::~glclock ()
 
 glclock::glclock ()
   : drawing_area (gtk_drawing_area_new ()),
-    context (NULL)
+    context (NULL),
+    rot_velocity (90),
+    rot_x (0), rot_y (1), rot_z (0)
 {
   gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
   gtk_signal_connect_after (GTK_OBJECT (drawing_area), "realize",
@@ -68,17 +70,19 @@ void
 draw_clock (struct tm *tm)
 {
   glMatrixMode (GL_MODELVIEW);
+#if 0
   glLoadIdentity ();
   gluLookAt (0, 0, 100,
 	     0, 0, 0,
 	     0, 1, 0);
+#endif
 
   glClear (GL_COLOR_BUFFER_BIT);
 
   /* Short hand.  */
   glPushMatrix ();
   glRotated (((tm->tm_hour * 60 + tm->tm_min) * 60
-	      + tm->tm_sec) / 120.0, 0, 0, -1);
+	      + tm->tm_sec) / 120., 0, 0, -1);
   glBegin (GL_TRIANGLES);
   glNormal3d (0.333, 0., 1.);
   glVertex3d (3., 3., 1.);
@@ -93,7 +97,7 @@ draw_clock (struct tm *tm)
 
   /* Long hand.  */
   glPushMatrix ();
-  glRotated ((tm->tm_min * 60 + tm->tm_sec) / 10.0, 0, 0, -1);
+  glRotated ((tm->tm_min * 60 + tm->tm_sec) / 10., 0, 0, -1);
   glBegin (GL_TRIANGLES);
   glNormal3d (0.5, 0., 1.);
   glVertex3d (2., 2., 3.);
@@ -115,6 +119,10 @@ glclock::update (gpointer opaque)
 
   time_t now = time (NULL);
   object->tm = *localtime (&now);
+
+  glMatrixMode (GL_MODELVIEW);
+  glRotated (object->rot_velocity / 10.,
+	     object->rot_x, object->rot_y, object->rot_z);
 
   gtk_widget_draw (object->drawing_area, NULL);
 }
@@ -155,6 +163,10 @@ glclock::create_context (GtkWidget *widget, gpointer opaque)
 
   glMatrixMode (GL_MODELVIEW);
   glLoadIdentity ();
+  gluLookAt (0, 0, 100,
+	     0, 0, 0,
+	     0, 1, 0);
+
   glEnable (GL_LIGHTING);
   glEnable (GL_LIGHT0);
   {

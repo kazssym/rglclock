@@ -1,5 +1,5 @@
 /* -*-C++-*- */
-/* rglclock - R'ing GL Clock.
+/* rglclock - Rotating GL Clock.
    Copyright (C) 1998 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
@@ -41,6 +41,8 @@ private:
   GdkGLContext *context;
   struct tm tm;
   guint timeout_id;
+  double rot_velocity;
+  double rot_x, rot_y, rot_z;
 };
 
 #endif /* not glclock_h */

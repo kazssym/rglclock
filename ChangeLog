@@ -1,5 +1,18 @@
 1998-06-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* README: Update description.
+	* main.cc: Update description comments.
+	* glclock.cc: Update description comments.
+	* glclock.h: Update description comments.
+
+	* glclock.cc (glclock): Initialize the new members.
+	(draw_clock): Do not reset the model view matrix.
+	(update): Rotate the model view matrix.
+	(create_context): Initialize the model view matrix.
+
+	* glclock.h (class glclock): Add rot_velocity, rot_x, rot_y, and
+	rot_z to the members.
+
 	* glclock.cc (draw_clock): Remove x, y, width, and height from
 	args.  Remove a glViewport call.
 	(handle_expose_event): Add a glViewport call from draw_clock.

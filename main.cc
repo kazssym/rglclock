@@ -1,4 +1,4 @@
-/* rglclock - R'ing GL Clock.
+/* rglclock - Rotating GL Clock.
    Copyright (C) 1998 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
