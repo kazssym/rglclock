@@ -34,9 +34,8 @@
 #include <time.h>
 #include <new>
 
-/* Draws a clock.  */
 void
-module::draw_clock (const struct tm *tm) const
+module::draw_clock() const
 {
   glMatrixMode (GL_MODELVIEW);
   glPushMatrix();
@@ -83,6 +82,18 @@ module::init ()
   glGetFloatv (GL_MODELVIEW_MATRIX, rot);
 
   simple_init();
+}
+
+string
+module::prop(const string &name) const
+{
+  return "";
+}
+
+void
+module::set_prop(const string &name, const string &value)
+{
+  simple_set_prop(name.c_str(), value.c_str());
 }
 
 module::~module ()

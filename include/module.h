@@ -26,9 +26,10 @@
 #define module_h 1
 
 #include <GL/gl.h>
+#include <string>
 
-struct tm;
-
+/* Class wrapper for a clock module.  This class will eventually be
+   extended to support dynamically loadable clock modules.  */
 class module
 {
 public:
@@ -38,7 +39,16 @@ public:
   void init ();
   void viewport (int, int, int, int);
   void rotate (double, double, double, double);
-  void draw_clock (const struct tm *) const;
+
+  /* Draws a clock in the current context.  */
+  void draw_clock() const;
+
+  /* Returns the value of property NAME.  */
+  std::string prop(const std::string &name) const;
+
+  /* Sets property NAME to VALUE.  */
+  void set_prop(const std::string &name, const std::string &value);
+  
 private:
   GLfloat rot[16];
 };

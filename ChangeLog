@@ -1,5 +1,15 @@
 1999-08-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/glclock.cc (handle_expose_event): Change the use of
+	module::draw_clock.
+
+	* lib/module.cc (prop, set_prop): New functions.
+	(draw_clock): Remove argument.
+
+	* include/module.h (class module): Add new members prop and
+	set_prop.
+	(class module): Change draw_clock's arguments.
+
 	* include/glclock.h (class glclock): Add comments.
 
 	* bin/main.cc (clock_app): Set default visual and colormap.

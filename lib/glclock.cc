@@ -275,9 +275,7 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   gdk_window_get_size(widget->window, &width, &height);
   object->m->viewport(0, 0, width, height);
 
-  time_t t;
-  time(&t);
-  object->m->draw_clock(localtime(&t));
+  object->m->draw_clock();
 
   gdk_gl_swap_buffers(widget->window);
 
