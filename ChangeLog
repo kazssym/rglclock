@@ -1,4 +1,11 @@
+1998-07-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.h (class glclock): Update the definition.
+	* glclock.cc (update): Do return a non-zero value.
+
 1998-07-02  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Version 0.17 released.
 
 	* configure.in: Add checks for OpenGL libraries.
 

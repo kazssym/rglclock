@@ -37,7 +37,7 @@ public:
 protected:
   static void create_context (GtkWidget *, gpointer);
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
-  static void update (gpointer);
+  static gint update (gpointer);
 private:
   module *m;
   GtkWidget *drawing_area;

@@ -69,7 +69,7 @@ glclock::glclock ()
 				this);
 }
 
-void
+gint
 glclock::update (gpointer opaque)
 {
   glclock *object = static_cast <glclock *> (opaque);
@@ -81,6 +81,8 @@ glclock::update (gpointer opaque)
   object->m->rotate (object->rot_velocity / 10.,
 		     object->rot_x, object->rot_y, object->rot_z);
   gtk_widget_draw (object->drawing_area, NULL);
+
+  return 1;			// Do not remove this callback.
 }
 
 gint
