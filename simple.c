@@ -91,11 +91,6 @@ simple_draw_clock(void)
     gluDeleteQuadric (qobj);
   }
 
-#ifdef ENABLE_LOCAL_VIEWER
-  glShadeModel(GL_SMOOTH);
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
-#endif
-
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
   glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
   glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
@@ -127,6 +122,11 @@ simple_draw_clock(void)
       }
     glPopMatrix();
   }
+
+#ifdef ENABLE_LOCAL_VIEWER
+  glShadeModel(GL_SMOOTH);
+  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+#endif
 
   /* Short hand.  */
   glPushMatrix ();
