@@ -1,5 +1,7 @@
 1999-01-25  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* simple.c (simple_draw_clock): Mark every hours.
+
 	* glclock.cc (describe): Add a call to show_about.
 
 	* Makefile.am (rglclock_SOURCES): Add about.cc.
