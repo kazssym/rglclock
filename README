@@ -1,6 +1,6 @@
 READ ME about rglclock
 
-$Date: Tue, 26 Oct 1999 20:23:36 +0900 $
+$Date: Tue, 26 Oct 1999 20:25:51 +0900 $
 
 >> DESCRIPTION
 
@@ -31,8 +31,8 @@ rglclock uses GTK+ 1.2 for its user interface.
 * Mesa or OpenGL
 
 rglclock uses either Mesa or OpenGL for 3D rendering.  The configure
-script always prefers OpenGL to Mesa, as OpenGL is supposed to be
-faster.
+script in this package always prefers OpenGL to Mesa, as OpenGL is
+supposed to be faster.
 
 * libxml (optional)
 
