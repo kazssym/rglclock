@@ -1,5 +1,8 @@
 1999-01-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc (glclock): Use "Exit" for the menu label instead of
+	"Quit".  Fill values in menu items.
+
 	* module.cc: Remove #define _GNU_SOURCE.
 
 	* simple.h: New file.
