@@ -1,3 +1,26 @@
+2002-05-02  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
+
+	* programs/Makefile.am (rglclock_LDFLAGS): Refer simple.la in
+	modules.
+
+	* modules/Makefile.am (simple_la_LIBADD): Add $(PNG_LIBS).
+
+	* Version 1.4.1.
+
+	* configure.in: Set VERSION to 1.4.1.
+
+	* Makefile.am (EXTRA_DIST): Remove VERSION-ID.
+
+	* VERSION-ID: Removed.
+
+	* README: Updated.
+
+	* NEWS: Updated.
+
+	* programs/Makefile.am (rglclock_LDADD): Add $(PNG_LIBS).
+
+	* configure.in: Add PNG_LIBS for libpng.
+
 2002-05-01  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
 	* configure.in: Reorder macros.

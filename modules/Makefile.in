@@ -93,6 +93,7 @@ MSGFMT = @MSGFMT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
+PNG_LIBS = @PNG_LIBS@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -111,7 +112,7 @@ modules_LTLIBRARIES = simple.la
 
 simple_la_LDFLAGS = -module -avoid-version
 simple_la_SOURCES = simple.c
-simple_la_LIBADD = $(GL_LIBS)
+simple_la_LIBADD = $(GL_LIBS) $(PNG_LIBS)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 

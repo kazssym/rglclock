@@ -10,4 +10,4 @@ modules_LTLIBRARIES = simple.la
 
 simple_la_LDFLAGS = -module -avoid-version
 simple_la_SOURCES = simple.c
-simple_la_LIBADD = $(GL_LIBS)
+simple_la_LIBADD = $(GL_LIBS) $(PNG_LIBS)
