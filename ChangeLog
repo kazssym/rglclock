@@ -1,5 +1,7 @@
 1999-02-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* options.cc (populate): Add the Rendering tab.
+
 	* glclock.cc (edit_options): New function.  Update the header too.
 	(glclock): Add the function to the popup menu.
 	(glclock): Move a comment.

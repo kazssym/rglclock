@@ -127,6 +127,15 @@ options_dialog::populate(GtkWidget *dialog)
     const char *general_tab_text = _("General");
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), general_page,
 			     gtk_label_new(general_tab_text));
+
+    GtkWidget *rendering_page = gtk_vbox_new(FALSE, 0);
+    {
+    }
+    gtk_widget_show(rendering_page);
+
+    const char *rendering_tab_text = _("Rendering");
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), rendering_page,
+			     gtk_label_new(rendering_tab_text));
   }
   gtk_widget_show(notebook1);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook1,
