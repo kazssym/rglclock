@@ -1,3 +1,100 @@
+1999-07-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/main.cc (class clock_app): New class replacing struct
+	app_data.
+	(class clock_app): Add member accels and destructor.
+	(create_window): Pass accels to GtkItemFactory.
+	(~clock_app): New function.
+	(clock_app): Make a new GtkAccelGroup.
+
+1999-07-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* profile.cc (save): Use xmlNewDocNode.
+
+1999-07-23  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* configure.in: Change the version number to 1.3.4.
+
+	* NEWS: Modified.
+
+	* rglclock.1: Modified.
+
+1999-07-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/main.cc (create_widget): Set geometry hints.
+	(create_widget): Revise last change and set policy.
+
+	* rglclock.1: Modified.
+
+	* main.cc (longopts): Add `--private-colormap' option.
+	(display_help): Update the help message.
+	(main): Pass opt_private_colormap to gdk_colormap_new.
+
+1999-07-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (dist-snapshot distcheck-snapshot): Removed.
+
+	* bin/Makefile.am: New file.
+
+	* lib/Makefile.am: New file.
+
+	* include/Makefile.am: New file.
+
+	* Makefile.am: Updated.
+
+	* Move library sources to lib, library headers to include, and
+	other sources to bin.
+
+1999-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* NEWS: Modified.
+
+	* configure.in: Set version to 1.3.3.
+
+	* rglclock.1: Modified.
+
+	* glclock.cc (handle_expose_event): Add drawing code.
+	(update): #if out drawing code and use gtk_widget_queue_draw
+	instead.
+	(create_widget): Connect "expose_event" to its handler.
+
+1999-05-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* AUTHORS: Modified.
+
+	* NEWS: Modified.
+
+	* main.cc (parse_options): Use getopt_long unconditionally.
+
+	* configure.in: Removed tests for <getopt.h> and getopt_long.
+
+	* Makefile.am (rglclock_SOURCES): Add getopt.c and getopt1.c.
+	(noinst_HEADERS): Add getopt.h.
+
+	* getopt.h, getopt.c, getopt1.c: New file, copied from glibc 2.1.
+
+	* THANKS: New file.  Also regenerate Makefile.in.
+
+1999-05-22  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (EXTRA_DIST): Add MEMO.ja.
+
+	* MEMO.ja: New file.
+
+	* TODO: Modified.
+
+	* NEWS: Modified.
+
+	* configure.in: Set VERSION to 1.3.2.
+
+	* main.cc (parse_options): Add new options.
+	(display_help): New function.
+	(create_widget): Show the menu bar only if opt_hide_menu_bar's
+	value is false.
+	(main): Handle the --help option.
+
+	* TODO: Modified.
+
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* main.cc: Add Nana support.

@@ -1,0 +1,52 @@
+'\"
+.\" $Format: ".TH RGLCLOCK 1 \"$Date$\"" $
+.TH RGLCLOCK 1 "Fri, 23 Jul 1999 13:05:54 +0900"
+.SH NAME
+rglclock \- rotating 3D clock
+.SH SYNOPSIS
+.B rglclock
+[-m] [--hide-menu-bar] [--private-colormap] [--help] [--version]
+.SH DESCRIPTION
+This manual page is a draft, and may lack some important information.
+.PP
+.B rglclock
+displays the time in a rotating 3D clock.
+The rotation direction and speed can be changed by a mouse drag.
+The clock will keep rotating until you stop it.
+.SH OPTIONS
+.B rglclock
+accepts all standard GTK+ options.
+.TP
+\fB-m\fR, \fB--hide-menu-bar\fR
+Hide manu bar.  If this option is specified, there is no way to show
+the menu bar without restarting.
+.TP
+\fB--private-colormap\fR
+Allocate a private colormap.
+.TP
+\fB--help\fR
+Print help and exit.
+.TP
+\fB--version\fR
+Output version information and exit.
+.SH "MENU COMMANDS"
+.SS File
+.TP
+\fBOptions...\fR
+Open the Options dialog.  Currently, only the update rate can be
+changed with the dialog.
+.TP
+\fBExit\fR
+Close the window and terminate \fBrglclock\fR.
+.TP
+\fBAbout...\fR
+Show the About dialog.
+.SH BUGS
+The window geometry should be specifiable by a command line option.
+.PP
+The rotation velocity is not saved over sessions.
+.PP
+The time is not visible from the back side.
+.PP
+Menu-bar commands cannot be accessed only via keys.
+
