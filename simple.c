@@ -34,12 +34,16 @@ static const GLfloat vs[4] = {0, 0, 0, 1};
 #ifdef LOGO128
 static const GLfloat v[4] = {0.6, 0.6, 0.6, 1.};
 #else
-static const GLfloat v[4] = {0.2, 0.2, 0.4, 1.};
+static const GLfloat v[4] = {0.1, 0.1, 0.4, 1.};
 #endif
 
-static const GLfloat HAND_ADC[4] = {0.1, 0.1, 0.1, 1};
-static const GLfloat HAND_SC[4] = {0.6, 0.6, 0.6, 1};
+static const GLfloat HAND_ADC[4] = {0.05, 0.05, 0.05, 1};
+static const GLfloat HAND_SC[4] = {0.4, 0.4, 0.4, 1};
 static const GLfloat HAND_SR = 16;
+
+#ifndef DISABLE_LOCAL_VIEWER
+# define ENABLE_LOCAL_VIEWER 1
+#endif
 
 int
 simple_draw_clock(void)
@@ -61,7 +65,7 @@ simple_draw_clock(void)
 
     /* Use flat shading for the dial disk.  */
     glShadeModel (GL_FLAT);
-#ifdef USE_LOCAL_VIEWER
+#ifdef ENABLE_LOCAL_VIEWER
     glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
 #endif
 
@@ -73,12 +77,12 @@ simple_draw_clock(void)
     glEnable (GL_TEXTURE_2D);
     gluQuadricTexture (qobj, GL_TRUE);
 #endif
-    gluDisk (qobj, 0., 45., 24, 1);
+    gluDisk (qobj, 0., 45., 36, 1);
 
     /* Draw the back.  */
     glPushMatrix ();
     glRotatef (180., 0., 1., 0.);
-    gluDisk (qobj, 0., 45., 24, 1);
+    gluDisk (qobj, 0., 45., 36, 1);
     glPopMatrix ();
 
 #ifdef LOGO128
@@ -87,7 +91,7 @@ simple_draw_clock(void)
     gluDeleteQuadric (qobj);
   }
 
-#ifdef USE_LOCAL_VIEWER
+#ifdef ENABLE_LOCAL_VIEWER
   glShadeModel(GL_SMOOTH);
   glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 #endif
