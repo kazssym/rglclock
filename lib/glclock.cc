@@ -27,9 +27,9 @@
 #undef const
 
 #include "glclock.h"
-#include "module.h"
-#include "gdkgl.h"
 
+#include "module.h"
+#include "gdk_gl.h"
 #include <gtk/gtk.h>
 #include <GL/glu.h>
 #include <libintl.h>
@@ -50,6 +50,7 @@
 
 #define _(MSG) gettext(MSG)
 
+using rglclock::gdk_gl;
 using namespace std;
 
 #define TIMEOUT_RES 1000
@@ -125,7 +126,7 @@ glclock::~glclock ()
        ++i)
     gtk_signal_disconnect_by_data(GTK_OBJECT(*i), this);
 
-  gdk_gl_context_unref(context);
+  gdk_gl::destroy_context(context);
   gtk_timeout_remove (timeout_id);
   delete m;
 }
@@ -272,14 +273,14 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   if (object->context == NULL)
     {
       object->context
-	= gdk_gl_context_new(gdk_window_get_visual(widget->window));
+	= gdk_gl::create_context(gdk_window_get_visual(widget->window));
 
-      gdk_gl_make_current(widget->window, object->context);
+      gdk_gl::make_current(object->context, widget->window);
 
       object->m->init();
     }
 
-  gdk_gl_make_current(widget->window, object->context);
+  gdk_gl::make_current(object->context, widget->window);
 
   int width, height;
   gdk_window_get_size(widget->window, &width, &height);
@@ -287,7 +288,7 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
 
   object->m->draw_clock();
 
-  gdk_gl_swap_buffers(widget->window);
+  gdk_gl::swap_buffers(widget->window);
 
   return true;
 }
@@ -311,12 +312,6 @@ glclock::remove_widget(GtkObject *object, gpointer data)
 GdkVisual *
 glclock::best_visual()
 {
-  int attr[] = {GDK_GL_RGBA,
-		GDK_GL_DOUBLEBUFFER,
-		GDK_GL_DEPTH_SIZE, 16,
-		GDK_GL_NONE};
-  GdkVisual *v = gdk_gl_choose_visual(attr);
-
-  return v;
+  return gdk_gl::best_visual();
 }
 
