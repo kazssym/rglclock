@@ -1,6 +1,8 @@
 To-Do List for rglclock
 
-$Date: Thu, 18 Nov 1999 21:27:01 +0900 $
+$Date: Thu, 18 Nov 1999 21:41:01 +0900 $
+
+* Remove old Japanese documents if out of date.
 
 * Test the existence of ~/.rglclock before mkdir.  To mkdir without
 testing is harmless but ugly.
