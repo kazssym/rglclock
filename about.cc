@@ -78,8 +78,8 @@ about_dialog::about_dialog(GtkWidget *parent)
   gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
   gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
-  gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
-		     GTK_SIGNAL_FUNC(handle_configure_event), this);
+  gtk_signal_connect_after(GTK_OBJECT(dialog), "realize",
+			   GTK_SIGNAL_FUNC(finish_realize), this);
 
   populate(dialog);
 }
@@ -141,12 +141,10 @@ about_dialog::handle_delete_event(GtkWidget *dialog,
   return 1;
 }
 
-/* Handles a configure event on the dialog.  The configure event is(?)
-   the first event after the widget is realized.  */
-gint
-about_dialog::handle_configure_event(GtkWidget *dialog,
-				     GdkEventConfigure *event,
-				     gpointer data)
+/* Finish the realize process.  */
+void
+about_dialog::finish_realize(GtkWidget *dialog,
+			     gpointer data)
 {
   about_dialog *about = static_cast <about_dialog *> (data);
 
@@ -158,7 +156,5 @@ about_dialog::handle_configure_event(GtkWidget *dialog,
 			   GDK_WINDOW_XWINDOW(about->parent_widget->window));
     }
 #endif /* ENABLE_TRANSIENT_FOR_HINT */
-
-  return 0;
 }
 
