@@ -25,8 +25,11 @@
 # include "config.h"
 #endif
 
-#include "simple.h"
+#include <simple.h>
 
+#ifdef HAVE_PNG_H
+# include <png.h>
+#endif
 #include <GL/gl.h>
 #include <GL/glu.h>
 #ifdef HAVE_SYS_TIME_H
@@ -37,6 +40,7 @@
 #else /* not HAVE_SYS_TIME_H */
 # include <time.h>
 #endif
+#include <stdlib.h>
 
 #ifdef LOGO128
 # include "logo128.h"
@@ -185,6 +189,111 @@ simple_draw_clock(void)
   glVertex3f (-2., 2., 3.);
   glEnd ();
   glPopMatrix ();
+
+  return 0;
+}
+
+static char *texture_file = NULL;
+
+static void
+read_texture(png_struct *png_ptr, png_info *info_ptr)
+{
+  // FIXME: read data.
+}
+
+static png_color_16 BACKGROUND_COLOR =
+{
+  0,
+  0x1111,
+  0x1111,
+  0x1111
+};
+
+static void
+modify_info(png_struct *png_ptr, png_info *info_ptr)
+{
+  int color_type;
+  int bit_depth;
+  double file_gamma;
+
+  color_type = png_get_color_type(png_ptr, info_ptr);
+  bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+
+  if (color_type == PNG_COLOR_TYPE_PALETTE
+      || png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
+    png_set_expand(png_ptr);
+
+  if (bit_depth == 16)
+    png_set_strip_16(png_ptr);
+  else if (bit_depth < 8)
+    png_set_packing(png_ptr);
+
+  if (color_type == PNG_COLOR_TYPE_GRAY
+      || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+    png_set_gray_to_rgb(png_ptr);
+
+  png_set_background(png_ptr, &BACKGROUND_COLOR,
+		     PNG_BACKGROUND_GAMMA_SCREEN, 0, 1.);
+
+  if (!png_get_gAMA(png_ptr, info_ptr, &file_gamma))
+    file_gamma = 0.45455;
+  png_set_gamma(png_ptr, 1., file_gamma);
+
+  png_read_update_info(png_ptr, info_ptr);
+}
+
+static void
+load_texture(void)
+{
+  FILE *fp;
+  png_struct *png_ptr;
+  png_info *info_ptr;
+
+  fp = fopen(texture_file, "rb");
+  if (fp == NULL)
+    {
+      return;
+    }
+
+  png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
+				   NULL, NULL, NULL);
+  if (png_ptr == NULL)
+    {
+      goto error_return_1;
+    }
+
+  info_ptr = png_create_info_struct(png_ptr);
+  if (info_ptr == NULL)
+    {
+      goto error_return_2;
+    }
+
+  if (setjmp(png_ptr->jmpbuf) != 0)
+    {
+      goto error_return_2;
+    }
+
+  png_init_io(png_ptr,fp);
+  png_read_info(png_ptr, info_ptr);
+  modify_info(png_ptr, info_ptr);
+
+  read_texture(png_ptr, info_ptr);
+
+ error_return_2:
+  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+ error_return_1:
+  fclose(fp);
+}
+
+int
+simple_set_prop(const char *name, const char *value)
+{
+  if (strcmp(name, "texture_file") == 0)
+    {
+      texture_file = realloc(texture_file, strlen(value) + 1);
+      strcpy(texture_file, value);
+      load_texture();
+    }
 
   return 0;
 }

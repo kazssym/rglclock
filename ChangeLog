@@ -1,5 +1,11 @@
 1999-07-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* include/simple.h: Add simple_set_prop decl.
+
+	* lib/simple.c: Use <> for simple.h.
+	(read_texture, modify_info, load_texture): New functions.
+	(simple_set_prop): New function.
+
 	* bin/main.cc (class clock_app): New class replacing struct
 	app_data.
 	(class clock_app): Add member accels and destructor.
@@ -171,6 +177,11 @@
 	(handle_ok, handle_cancel, handle_delete_event, remove_widget):
 	Add `throw ()'.
 	(remove_widget): Remove a diagnostic log message.
+
+	* clockoptions.cc (create_widget): Add items for texture mapping.
+	(apply): Use macro for widget data key.
+
+	* configure.in: Add checks for -lpng and <png.h>.
 
 1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 

@@ -35,6 +35,7 @@
 BEGIN_DECLS
 
 int simple_init(void);
+int simple_set_prop(const char *, const char *);
 int simple_draw_clock(void);
 
 END_DECLS
