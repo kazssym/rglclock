@@ -1,3 +1,11 @@
+1999-01-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* about.cc (show_about): Disallow the dialog resize.
+	(show_about): Update the label text.
+	(show_about): Use gtk_box_pack_start.
+
+	* simple.c (simple_draw_clock): Use gettimeofday if available.
+
 1999-01-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (dist-snapshot): New target.

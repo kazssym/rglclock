@@ -33,15 +33,19 @@ void
 show_about(GtkWidget *parent)
 {
   GtkWidget *dialog = gtk_dialog_new();
+  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   GtkWidget *child;
 
-  child = gtk_label_new(PACKAGE " " VERSION);
+  child = gtk_label_new(PACKAGE " " VERSION "\n"
+			"Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.");
+  gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
   gtk_widget_show(child);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), child);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), child, FALSE, FALSE, 0);
+
   child =  gtk_button_new_with_label("OK");
   gtk_signal_connect(GTK_OBJECT(child), "clicked", GTK_SIGNAL_FUNC(ok), NULL);
   gtk_widget_show(child);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->action_area), child);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child, TRUE, FALSE, 0);
 
   gtk_widget_show(dialog);
 
