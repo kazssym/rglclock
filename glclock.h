@@ -25,7 +25,7 @@
 #ifndef GLCLOCK_H
 #define GLCLOCK_H 1
 
-#include "options.h"
+#include "utils.h"
 #include "gdkgl.h"
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
@@ -88,28 +88,17 @@ private:
   general_options_page general;
 public:
   explicit clock_options_dialog(glclock *);
-public:
-  void show();
-protected:
-  void populate(GtkWidget *);
 };
 
 /* The about dialog.  */
 class about_dialog
+  : public modal_dialog
 {
-private:
-  GtkWidget *parent_widget;
-  GtkWidget *dialog;
 protected:
-  static void populate(GtkWidget *);
-  static void finish_realize(GtkWidget *, gpointer);
-  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
   static void handle_ok(GtkWidget *, gpointer);
-public:
-  explicit about_dialog(GtkWidget *parent);
-  ~about_dialog();
-public:
-  void show();
+protected:
+  GtkWidget *create_widget();
+  void populate(GtkWidget *);
 };
 
 #endif /* not GLCLOCK_H */

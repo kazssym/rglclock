@@ -1,5 +1,30 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc: Add Nana support.
+	(struct app_data): New struct.
+	(edit_options, describe, main): Use app_data.
+	(create_widget): Change the argument to app_data.
+	(create_widget): Store the app_data in user data.
+
+	* glclock.h (class about_dialog): Derive from modal_dialog.
+	(class about_dialog): Update members.
+	(class clock_options_dialog): Remove unused members.
+
+	* about.cc: Remove unused includes.  Add Nana support.
+	(show, ~about_dialog, about_dialog, handle_delete_event): Removed.
+	(create_widget): New function.
+
+	* options.cc (create_widget): Set the window title.
+
+	* utils.h (UTILS_H): Renamed from OPTIONS_H.
+
+	* Makefile.am (noinst_HEADERS): Change options.h to utils.h.
+
+	* utils.h: Renamed from options.h.  Also change all includes.
+
+	* Makefile.am (dist-snapshot distcheck-snapshot): Add
+	distcheck-snapshot.  Modify version numbering for snapshots.
+
 	* options.h (class options_dialog): Remove duplicate members.
 
 	* options.cc (act, quit, handle_delete_event): New functions of
@@ -13,7 +38,7 @@
 	controller.
 
 	* profile.h: Add comments.
-	Remove unneccesary struct decl.
+	Remove unnecessary struct decl.
 
 	* main.cc (main): Make the profile object file-local.
 	(edit_options): Call profile::save.

@@ -22,8 +22,8 @@
    code for the library, only if such distribution is not prohibited
    by the library's license.  */
 
-#ifndef OPTIONS_H
-#define OPTIONS_H 1
+#ifndef UTILS_H
+#define UTILS_H 1
 
 #include <gtk/gtkwindow.h>
 #include <vector>
@@ -82,4 +82,4 @@ protected:
   GtkWidget *create_widget();
 };
 
-#endif /* not OPTIONS_H */
+#endif /* not UTILS_H */
