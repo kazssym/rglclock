@@ -1,4 +1,4 @@
-# ja_JP.eucJP.po - Japanese message catalogue for rglclock
+# ja.po - Japanese message catalogue for rglclock
 # Copyright (C) 1999, 2000 Hypercore Software Design, Ltd.
 #
 msgid ""
