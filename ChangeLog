@@ -4,6 +4,8 @@
 	* glclock.h: Likewise.
 	* main.cc: Likewise.
 	* module.cc: Likewise.
+	(draw_clock): Draw the back of the dial.
+
 	* module.h: Likewise.
 
 	* README: Add license information.
