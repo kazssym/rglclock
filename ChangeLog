@@ -1,5 +1,7 @@
 1999-01-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* module.cc: Remove #define _GNU_SOURCE.
+
 	* simple.h: New file.
 	* simple.c: New file.
 	
