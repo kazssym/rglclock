@@ -1,6 +1,17 @@
 Rglclock User-Visible Changes
 
-$Date: Tue, 13 Jul 1999 17:41:32 +0900 $
+$Date: Fri, 23 Jul 1999 13:05:54 +0900 $
+
+Version 1.3.4
+
+* New option `--private-colormap'.
+
+This option instructs rglclock to use a private colormap.  rglclock
+has also been changed to use a shared colormap by default.
+
+* Manual page update.
+
+rglclock's manual page now has a section for the menu-bar commands.
 
 Version 1.3.3
 
