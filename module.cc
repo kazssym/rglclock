@@ -26,6 +26,7 @@
 #include <time.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <new>
 
 #include "module.h"
 
@@ -50,6 +51,8 @@ module::draw_clock (const struct tm *tm) const
     const GLfloat v[4] = {0.1, 0.0, 0.4, 1.};
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
     GLUquadricObj *qobj = gluNewQuadric ();
+    if (qobj == NULL)
+      throw std::bad_alloc ();
     gluDisk (qobj, 0., 45., 24, 2);
     gluDeleteQuadric (qobj);
   }
