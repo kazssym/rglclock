@@ -126,10 +126,10 @@ private:
 public:
   void add_page(const char *, options_page *);
 
-  /* Handles an OK action.  */
+  /* Handles an OK.  */
   void handle_ok(GtkWidget *);
 
-  /* Handles a cancel action.  */
+  /* Handles a cancel.  */
   void handle_cancel(GtkWidget *);
 
 protected:
