@@ -50,6 +50,7 @@ protected:
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
+  static void edit_options(GtkWidget *, gpointer);
   static void menu_quit (GtkWidget *, gpointer);
 private:
   module *m;
@@ -62,6 +63,26 @@ private:
   time_t t;
   double press_x, press_y;
   menu_listener about;
+};
+
+/* The options dialog.  */
+class options_dialog
+{
+private:
+  GtkWidget *parent_widget;
+  GtkWidget *dialog;
+protected:
+  static void finish_realize(GtkWidget *, gpointer);
+  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
+  static void handle_ok(GtkWidget *, gpointer);
+  static void handle_cancel(GtkWidget *, gpointer);
+public:
+  explicit options_dialog(GtkWidget *parent);
+  ~options_dialog();
+public:
+  void show();
+protected:
+  void populate(GtkWidget *);
 };
 
 /* The about dialog.  */

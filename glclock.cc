@@ -111,7 +111,7 @@ glclock::glclock ()
 	/* {path, accelerator, callback, callback_data, widget} */
 	{_("Reset Rotation"), NULL, NULL, NULL, NULL},
 	{"<separator>", NULL, NULL, NULL, NULL},
-	{_("Properties..."), NULL, NULL, NULL, NULL},
+	{_("Options..."), NULL, edit_options, this, NULL},
 	{_("About..."), NULL, menu_listener::menu_activate, &about, NULL},
 	{"<separator>", NULL, NULL, NULL, NULL},
 	{_("Exit"), NULL, menu_quit, this, NULL}
@@ -305,3 +305,13 @@ glclock::menu_quit (GtkWidget *widget, gpointer opaque)
 {
   gtk_main_quit ();
 }
+
+void
+glclock::edit_options(GtkWidget *widget, gpointer data)
+{
+  glclock *object = static_cast <glclock *> (data);
+
+  options_dialog options(gtk_widget_get_toplevel(object->drawing_area));
+  options.show();
+}
+

@@ -1,5 +1,13 @@
 1999-02-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc (edit_options): New function.  Update the header too.
+	(glclock): Add the function to the popup menu.
+
+	* options.cc: New file.
+	* Makefile.am (rglclock_SOURCES): Add options.cc.
+
+	* glclock.h (class options_dialog): New class.
+
 	* gtkrc: New file.
 	* Makefile.am (pkgdata_DATA): Add gtkrc.
 	(EXTRA_DIST): Add gtkrc.
