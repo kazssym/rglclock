@@ -1,6 +1,6 @@
 1999-01-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
-	* Version 1.1.x2.
+	* configure.in: Modify the version number for snapshot.
 
 	* simple.c (simple_draw_clock): Modify the look.
 	(simple_draw_clock): Fix the test condition.
