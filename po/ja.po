@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-07-16 17:15+0900\n"
-"PO-Revision-Date: 1999-07-16 17:16+09:00\n"
+"POT-Creation-Date: 1999-07-16 17:27+0900\n"
+"PO-Revision-Date: 1999-07-16 17:28+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
 "MIME-Version: 1.0\n"
@@ -28,8 +28,8 @@ msgstr "一般"
 
 #: main.cc:95
 #, c-format
-msgid "Usage: %s [OPTIONS]\n"
-msgstr "使用法: %s [オプション]\n"
+msgid "Usage: %s [OPTION]...\n"
+msgstr "使用法: %s [オプション]...\n"
 
 #: main.cc:96
 msgid "Display a rotating 3D clock.\n"
