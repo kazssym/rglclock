@@ -1,5 +1,7 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* TODO: Modified.
+
 	* main.cc (main): Add p as a callback of c.
 	(main): Remove save before exit.
 
