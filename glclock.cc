@@ -68,6 +68,8 @@ glclock::create_widget()
 		     GTK_SIGNAL_FUNC(remove_widget), this);
   gtk_widget_set_events(drawing_area,
 			GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+  gtk_signal_connect(GTK_OBJECT(drawing_area), "expose_event",
+		     GTK_SIGNAL_FUNC(handle_expose_event), this);
   gtk_signal_connect(GTK_OBJECT(drawing_area), "button_press_event",
 		     GTK_SIGNAL_FUNC(handle_button_event), this);
   gtk_signal_connect(GTK_OBJECT(drawing_area), "button_release_event",
@@ -153,8 +155,10 @@ glclock::update (gpointer opaque)
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
 
+#if 0
   time_t t;
   time(&t);
+#endif
 
 #ifdef HAVE_GETTIMEOFDAY
   double angle = 0;
@@ -181,6 +185,8 @@ glclock::update (gpointer opaque)
        i != object->widgets.end();
        ++i)
     {
+      gtk_widget_queue_draw(*i);
+#if 0
       if (GTK_WIDGET_DRAWABLE(*i))
 	{
 	  if (object->context == NULL)
@@ -202,6 +208,7 @@ glclock::update (gpointer opaque)
 
 	  gdk_gl_swap_buffers((*i)->window);
 	}
+#endif
     }
 
   return 1;			// Do not remove this callback.
@@ -252,7 +259,29 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
 
-  return 0;
+  if (object->context == NULL)
+    {
+      object->context
+	= gdk_gl_context_new(gdk_window_get_visual(widget->window));
+
+      gdk_gl_make_current(widget->window, object->context);
+
+      object->m->init();
+    }
+
+  gdk_gl_make_current(widget->window, object->context);
+
+  int width, height;
+  gdk_window_get_size(widget->window, &width, &height);
+  object->m->viewport(0, 0, width, height);
+
+  time_t t;
+  time(&t);
+  object->m->draw_clock(localtime(&t));
+
+  gdk_gl_swap_buffers(widget->window);
+
+  return true;
 }
 
 void
