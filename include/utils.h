@@ -120,13 +120,17 @@ struct options_page
 class options_dialog
   : public modal_dialog
 {
-protected:
-  static void handle_ok(GtkWidget *, gpointer) throw ();
-  static void handle_cancel(GtkWidget *, gpointer) throw ();
 private:
   std::vector<std::pair<std::string, options_page *> > pages;
+
 public:
   void add_page(const char *, options_page *);
+
+  /* Handles an OK action.  */
+  void handle_ok(GtkWidget *);
+
+  /* Handles a cancel action.  */
+  void handle_cancel(GtkWidget *);
 
 protected:
   /* Configures a dialog widget.  */

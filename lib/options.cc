@@ -86,6 +86,29 @@ options_dialog::update(GtkDialog *widget)
   /* FIXME */
 }
 
+namespace
+{
+  /* Delivers an OK to the options dialog.  */
+  void
+  deliver_ok(GtkWidget *w, gpointer data) throw ()
+  {
+    options_dialog *recipient = static_cast<options_dialog *>(data);
+    I(recipient != NULL);
+
+    recipient->handle_ok(w);
+  }
+
+  /* Delivers a cancel to the options dialog.  */
+  void
+  deliver_cancel(GtkWidget *w, gpointer data) throw ()
+  {
+    options_dialog *recipient = static_cast<options_dialog *>(data);
+    I(recipient != NULL);
+
+    recipient->handle_cancel(w);
+  }
+} // (unnamed)
+
 void
 options_dialog::populate(GtkDialog *dialog)
 {
@@ -110,7 +133,7 @@ options_dialog::populate(GtkDialog *dialog)
   GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
   I(GTK_IS_BUTTON(ok_button));
   gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
-		     GTK_SIGNAL_FUNC(handle_ok), this);
+		     GTK_SIGNAL_FUNC(&deliver_ok), this);
   gtk_widget_show(ok_button);
   gtk_box_pack_start(GTK_BOX(dialog->action_area), ok_button,
 		     FALSE, FALSE, 0);
@@ -121,7 +144,7 @@ options_dialog::populate(GtkDialog *dialog)
   GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
   I(GTK_IS_BUTTON(cancel_button));
   gtk_signal_connect(GTK_OBJECT(cancel_button), "clicked",
-		     GTK_SIGNAL_FUNC(handle_cancel), this);
+		     GTK_SIGNAL_FUNC(&deliver_cancel), this);
   gtk_widget_show(cancel_button);
   gtk_box_pack_start(GTK_BOX(dialog->action_area), cancel_button,
 		     FALSE, FALSE, 0);
@@ -140,31 +163,21 @@ options_dialog::configure(GtkDialog *widget)
 }
 
 void
-options_dialog::add_page(const char *tab_text, options_page *page)
+options_dialog::handle_ok(GtkWidget *button)
 {
-#ifdef L
-  L("options_dialog: Adding page %s -> %p\n", tab_text, page);
-#endif
-  pages.push_back(make_pair(tab_text, page));
-}
-
-void
-options_dialog::handle_ok(GtkWidget *button,
-			  gpointer data) throw ()
-{
-  options_dialog *d = static_cast<options_dialog *>(data);
-  I(d != NULL);
-
   GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
   I(GTK_IS_DIALOG(dialog));
+
   GList *dialog_children
     = gtk_container_children(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox));
   I(dialog_children != NULL);
+
   GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
   I(GTK_IS_NOTEBOOK(notebook));
+
   int j = 0;
-  for (vector<pair<string, options_page *> >::iterator i = d->pages.begin();
-       i != d->pages.end();
+  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+       i != pages.end();
        ++i)
     {
       GtkWidget *page_widget
@@ -173,16 +186,21 @@ options_dialog::handle_ok(GtkWidget *button,
       i->second->apply(page_widget);
     }
 
-  d->close(positive_action());
+  close(positive_action());
 }
 
 void
-options_dialog::handle_cancel(GtkWidget *button,
-			      gpointer data) throw ()
+options_dialog::handle_cancel(GtkWidget *button)
 {
-  options_dialog *d = static_cast<options_dialog *>(data);
-  I(d != NULL);
+  close(negative_action());
+}
 
-  d->close(negative_action());
+void
+options_dialog::add_page(const char *tab_text, options_page *page)
+{
+#ifdef L
+  L("options_dialog: Adding page %s -> %p\n", tab_text, page);
+#endif
+  pages.push_back(make_pair(tab_text, page));
 }
 

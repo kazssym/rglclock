@@ -1,5 +1,12 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/options.cc (deliver_ok, deliver_cancel): New functions.
+	(populate): Use the new functions for signals.
+	(handle_ok, handle_cancel): Rewrote as non-static member.
+
+	* include/utils.h (class options_dialog): Make members handle_ok
+ 	and handle_cancel non-static.
+
 	* lib/about.cc (create_widget): Removed.
 
 	* lib/options.cc (create_widget): Removed.
