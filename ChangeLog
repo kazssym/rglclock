@@ -2,6 +2,8 @@
 
 	* configure.in: Add checks for ndbm.
 
+	* TODO: Updated.
+
 	* NEWS: Updated.
 
 	* Makefile.am (INCLUDES): Remove -DSESSION.
