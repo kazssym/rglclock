@@ -1,17 +1,13 @@
 Rglclock TO DO
 
-$Date: Sat, 15 May 1999 15:47:49 +0900 $
+$Date: Sat, 15 May 1999 17:10:45 +0900 $
 
-Version 1.3
-
-* mkdir ~/.rglclock.
+Version 1.4 or later
 
 * Code clean-up.
 
 * Documentation, including better web/mailing-list linkage.
 Volunteers wanted.
-
-Version 1.4 or later
 
 * Texture mapping.
 

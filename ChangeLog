@@ -1,5 +1,7 @@
 1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* TODO: Modified.
+
 	* configure.in: Set VERSION to 1.4.0.
 
 	* main.cc: Include <sys/stat.h>.
