@@ -1,3 +1,14 @@
+1999-01-25  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* simple.c (simple_draw_clock): Modify parameters.
+	(simple_draw_clock): Use the model local viewer by default.
+
+	* module.cc (draw_clock): Move the core code to simple.c.
+	(init): Likewise.
+
+	* simple.c (simple_draw_clock, simple_init): New functions.
+	* simple.h: Updated with the prototype decl.
+
 1999-01-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* glclock.cc (glclock): Use "Exit" for the menu label instead of
