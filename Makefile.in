@@ -72,7 +72,7 @@ INCLUDES = ${GTK_CFLAGS} -DSESSION
 
 bin_PROGRAMS = rglclock
 
-rglclock_SOURCES = main.cc glclock.cc module.cc simple.c gdkgl.c
+rglclock_SOURCES = main.cc glclock.cc about.cc module.cc simple.c gdkgl.c
 rglclock_LDADD = ${GL_LIBS} ${GTK_LIBS}
 
 noinst_HEADERS = glclock.h module.h simple.h gdkgl.h
@@ -91,7 +91,7 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I.
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-rglclock_OBJECTS =  main.o glclock.o module.o simple.o gdkgl.o
+rglclock_OBJECTS =  main.o glclock.o about.o module.o simple.o gdkgl.o
 rglclock_DEPENDENCIES = 
 rglclock_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
@@ -115,8 +115,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DEP_FILES =  .deps/gdkgl.P .deps/glclock.P .deps/main.P .deps/module.P \
-.deps/simple.P
+DEP_FILES =  .deps/about.P .deps/gdkgl.P .deps/glclock.P .deps/main.P \
+.deps/module.P .deps/simple.P
 CXXMKDEP = $(CXX) -M $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
 SOURCES = $(rglclock_SOURCES)
 OBJECTS = $(rglclock_OBJECTS)
@@ -421,6 +421,9 @@ install-data install uninstall all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
+
+dist-snapshot:
+	${MAKE} VERSION=${VERSION}.`date +%Y%m%d` dist
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -91,27 +91,44 @@ simple_draw_clock(void)
     gluDeleteQuadric (qobj);
   }
 
-#ifdef ENABLE_LOCAL_VIEWER
-  glShadeModel(GL_SMOOTH);
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
-#endif
-
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
   glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
   glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
 
-  glBegin (GL_QUADS);
-  glNormal3f (1., 0., 1.);
-  glVertex3f (1., 37., 0.);
-  glVertex3f (1., 43., 0.);
-  glVertex3f (0., 43., 1.);
-  glVertex3f (0., 37., 1.);
-  glNormal3f (-1., 0., 1.);
-  glVertex3f (0., 37., 1.);
-  glVertex3f (0., 43., 1.);
-  glVertex3f (-1., 43., 0.);
-  glVertex3f (-1., 37., 0.);
-  glEnd ();
+  {
+    int i;
+
+    glPushMatrix();
+    for (i = 0; i != 12; ++i)
+      {
+	int l;
+	if (i == 0)
+	  l = 9;
+	else if (i % 3 == 0)
+	  l = 6;
+	else
+	  l = 4;
+	glBegin (GL_QUADS);
+	glNormal3f (0.5, 0., 1.);
+	glVertex3f (1., 43. - l, 0.);
+	glVertex3f (1., 43., 0.);
+	glVertex3f (0., 43., 0.5);
+	glVertex3f (0., 43. - l, 0.5);
+	glNormal3f (-0.5, 0., 1.);
+	glVertex3f (0., 43. - l, 0.5);
+	glVertex3f (0., 43., 0.5);
+	glVertex3f (-1., 43., 0.);
+	glVertex3f (-1., 43. - l, 0.);
+	glEnd ();
+	glRotatef(30, 0, 0, -1);
+      }
+    glPopMatrix();
+  }
+
+#ifdef ENABLE_LOCAL_VIEWER
+  glShadeModel(GL_SMOOTH);
+  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+#endif
 
   /* Short hand.  */
   glPushMatrix ();
