@@ -33,29 +33,18 @@
 # include <gdk/gdkx.h>
 #endif
 
-/* Shows this about dialog and wait.  PARENT will become insensible
-   while this dialog is shown.  */
+/* Shows this about dialog and wait.  The parent widget will become
+   insensible while this dialog is shown.  */
 void
-about_dialog::show(GtkWidget *parent)
+about_dialog::show()
 {
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-  guint h = 0;
-  if (parent != NULL)
-    h = gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
-			   GTK_SIGNAL_FUNC(handle_configure_event), parent);
-#endif /* ENABLE_TRANSIENT_FOR_HINT */
-
   gtk_widget_show(dialog);
 
-  gtk_widget_set_sensitive(parent, FALSE);
+  gtk_widget_set_sensitive(parent_widget, FALSE);
   gtk_main();
-  gtk_widget_set_sensitive(parent, TRUE);
+  gtk_widget_set_sensitive(parent_widget, TRUE);
 
   gtk_widget_hide(dialog);
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-  if (parent != NULL)
-    gtk_signal_disconnect(GTK_OBJECT(dialog), h);
-#endif /* ENABLE_TRANSIENT_FOR_HINT */
 }
 
 about_dialog::~about_dialog()
@@ -63,13 +52,16 @@ about_dialog::~about_dialog()
   gtk_widget_destroy(dialog);
 }
 
-about_dialog::about_dialog()
-  : dialog(NULL)
+about_dialog::about_dialog(GtkWidget *parent)
+  : parent_widget(parent),
+    dialog(NULL)
 {
   dialog = gtk_dialog_new();
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
+  gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
+		     GTK_SIGNAL_FUNC(handle_configure_event), this);
 
   populate(dialog);
 }
@@ -95,10 +87,10 @@ about_dialog::populate(GtkWidget *dialog)
 		     GTK_SIGNAL_FUNC(handle_ok), dialog);
   gtk_widget_show(child);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child,
-		     TRUE, FALSE, 0);
+		     FALSE, FALSE, 0);
 }
 
-/* Handles clicks on the OK button.  */
+/* Handles a click on the OK button.  */
 void
 about_dialog::handle_ok(GtkWidget *dialog,
 			gpointer data)
@@ -106,7 +98,7 @@ about_dialog::handle_ok(GtkWidget *dialog,
   gtk_main_quit();
 }
 
-/* Handles delete events on the dialog.  */
+/* Handles a delete event on the dialog.  */
 gint
 about_dialog::handle_delete_event(GtkWidget *dialog,
 				  GdkEventAny *event,
@@ -116,19 +108,21 @@ about_dialog::handle_delete_event(GtkWidget *dialog,
   return 1;
 }
 
+/* Handles a configure event on the dialog.  The configure event is(?)
+   the first event after the widget is realized.  */
 gint
 about_dialog::handle_configure_event(GtkWidget *dialog,
 				     GdkEventConfigure *event,
 				     gpointer data)
 {
-  GtkWidget *par = static_cast <GtkWidget *> (data);
+  about_dialog *about = static_cast <about_dialog *> (data);
 
 #ifdef ENABLE_TRANSIENT_FOR_HINT
-  if (par != NULL)
+  if (about->parent_widget != NULL)
     {
       GdkWindow *w = dialog->window;
       XSetTransientForHint(GDK_WINDOW_XDISPLAY(w), GDK_WINDOW_XWINDOW(w),
-			   GDK_WINDOW_XWINDOW(par->window));
+			   GDK_WINDOW_XWINDOW(about->parent_widget->window));
     }
 #endif /* ENABLE_TRANSIENT_FOR_HINT */
 

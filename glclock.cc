@@ -48,8 +48,8 @@ glclock::operator GtkWidget *() const
 void
 glclock::describe (GtkWidget *widget)
 {
-  about_dialog about;
-  about.show(gtk_widget_get_toplevel(drawing_area));
+  about_dialog about(gtk_widget_get_toplevel(drawing_area));
+  about.show();
 }
 
 glclock::~glclock ()

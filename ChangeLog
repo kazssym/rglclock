@@ -1,5 +1,17 @@
 1999-02-02  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* about.cc (show): Remove the argument and use the parent_widget
+	member.
+	(show): Remove connect/disconnect for "configure_event".
+	(about_dialog): Add an argument for the parent_widget
+	initialization.
+	(about_dialog): Connect "configure_event" to the handler.
+	(handle_configure_event): Change the cast of the callback data to
+	about_dialog *.
+	(populate): Set the expand arg of the OK button to FALSE.
+
+	* glclock.h (class about_dialog): Add member: parent_widget.
+
 	* about.cc (handle_configure_event): Made to a static member.
 
 	* glclock.h (class about_dialog): Add static members.

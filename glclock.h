@@ -67,6 +67,7 @@ private:
 class about_dialog
 {
 private:
+  GtkWidget *parent_widget;
   GtkWidget *dialog;
 protected:
   static void populate(GtkWidget *);
@@ -74,10 +75,10 @@ protected:
   static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
   static gint handle_configure_event(GtkWidget *, GdkEventConfigure *, gpointer);
 public:
-  about_dialog();
+  explicit about_dialog(GtkWidget *parent);
   ~about_dialog();
 public:
-  void show(GtkWidget *);
+  void show();
 };
 
 #endif /* not GLCLOCK_H */
