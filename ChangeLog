@@ -1,5 +1,7 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/modaldialog.cc (act): Call update on window.
+
 	* include/utils.h (struct options_page): Add new member update.
 
 	* lib/options.cc: Move handle_ok and handle_cancel.

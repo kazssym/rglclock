@@ -115,6 +115,9 @@ modal_dialog::act(GtkWindow *parent)
   if (!GTK_WIDGET_VISIBLE(window))
     {
       gtk_window_set_transient_for(GTK_WINDOW(window), parent);
+
+      update(GTK_DIALOG(window));
+
       gtk_widget_show(window);
     }
 }
