@@ -9,11 +9,11 @@ rglclock_SOURCES = main.cc glclock.cc about.cc module.cc simple.c gdkgl.c
 rglclock_LDADD = ${GL_LIBS} ${GTK_LIBS}
 
 noinst_HEADERS = glclock.h module.h simple.h gdkgl.h
-data_DATA =
+pkgdata_DATA = gtkrc
 
 man_MANS = rglclock.1
 
-EXTRA_DIST = ${man_MANS}
+EXTRA_DIST = gtkrc ${man_MANS}
 
 SUBDIRS = intl po
 

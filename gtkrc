@@ -1,0 +1,6 @@
+style "default" {
+    fontset = "-*-helvetica-medium-r-normal-*-14-*,-*-fixed-*-14-*"
+}
+
+widget "*" style "default"
+

@@ -1,3 +1,9 @@
+1999-02-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* gtkrc: New file.
+	* Makefile.am (pkgdata_DATA): Add gtkrc.
+	(EXTRA_DIST): Add gtkrc.
+
 1999-02-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* glclock.cc (finish_realize): New function.  Update the header
