@@ -1,6 +1,6 @@
 READ ME about rglclock
 
-$Date: Tue, 26 Oct 1999 20:25:51 +0900 $
+$Date: Tue, 16 Nov 1999 19:26:52 +0900 $
 
 >> DESCRIPTION
 
@@ -41,9 +41,19 @@ at configure time, all options' settings will be transient.
 
 >> INSTALL
 
-This package uses a configure script.  Common instructions
-for compiling and installing the program are described in
-INSTALL file in this directory.
+This package uses a GNU-style configure script.  Common instructions
+for compiling and installing the program are described in INSTALL file
+in this directory.
+
+For configuration options specific to this package, run the configure
+script with argument --help.
+
+>> JAPANESE MESSAGES
+
+The Japanese message catalogue for rglclock is installed under
+directory ja.eucJP.  If you cannot use locale ja_JP.eucJP for some
+reason, set LANGUAGE instead to include ja_JP.eucJP in your
+environment to get Japanese messages.
 
 >> LATEST INFORMATION
 
@@ -57,8 +67,8 @@ New releases and snapshots will also be available there.
 >> CONTACT
 
 Send any comments or bug reports to a developers' mailing list,
-rglclock@lists.hypercore.co.jp.
+<rglclock@lists.hypercore.co.jp>.
 
 You can join the list by sending a message with a word `subscribe' in
-the Subject to rglclock-request@lists.hypercore.co.jp.
+the Subject to <rglclock-request@lists.hypercore.co.jp>.
 

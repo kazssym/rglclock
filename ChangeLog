@@ -1,3 +1,11 @@
+1999-11-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* README: Modified.
+
+	* NEWS: Modified.
+
+	* configure.in (ALL_LINGUAS): Substitute ja.eucjp with ja.eucJP.
+
 1999-11-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* doc/rglclock.texi: New file.
