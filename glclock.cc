@@ -65,13 +65,11 @@ glclock::glclock ()
 }
 
 void
-draw_clock (struct tm *tm, int x, int y, int width, int height)
+draw_clock (struct tm *tm)
 {
-  glViewport (x, y, width, height);
-
   glMatrixMode (GL_MODELVIEW);
   glLoadIdentity ();
-  gluLookAt (0, 0, 300,
+  gluLookAt (0, 0, 100,
 	     0, 0, 0,
 	     0, 1, 0);
 
@@ -79,15 +77,17 @@ draw_clock (struct tm *tm, int x, int y, int width, int height)
 
   /* Short hand.  */
   glPushMatrix ();
-  glRotated ((tm->tm_hour * 60 + tm->tm_min) / 2.0, 0, 0, -1);
+  glRotated (((tm->tm_hour * 60 + tm->tm_min) * 60
+	      + tm->tm_sec) / 120.0, 0, 0, -1);
   glBegin (GL_TRIANGLES);
-  glNormal3d (0, 0, 1);
-  glVertex3d (4., 0.0, 0.0);
-  glVertex3d (2., 50., 0.);
-  glVertex3d (-4., 0., 0.0);
-  glVertex3d (-4., 0., 0.0);
-  glVertex3d (2., 50., 0.);
-  glVertex3d (-2., 50., 0.);
+  glNormal3d (0.333, 0., 1.);
+  glVertex3d (3., 3., 1.);
+  glVertex3d (0., 25., 2.);
+  glVertex3d (0., 0., 2.);
+  glNormal3d (-0.333, 0., 1.);
+  glVertex3d (0., 0., 2.);
+  glVertex3d (0., 25., 2.);
+  glVertex3d (-3., 3., 1.);
   glEnd ();
   glPopMatrix ();
 
@@ -95,10 +95,14 @@ draw_clock (struct tm *tm, int x, int y, int width, int height)
   glPushMatrix ();
   glRotated ((tm->tm_min * 60 + tm->tm_sec) / 10.0, 0, 0, -1);
   glBegin (GL_TRIANGLES);
-  glNormal3d (0, 0, 1);
-  glVertex3d (2., 0.0, 0.0);
-  glVertex3d (0.0, 80., 0);
-  glVertex3d (-2., 0, 0.0);
+  glNormal3d (0.5, 0., 1.);
+  glVertex3d (2., 2., 3.);
+  glVertex3d (0., 40., 4.);
+  glVertex3d (0., 0., 4.);
+  glNormal3d (-0.5, 0., 1.);
+  glVertex3d (0., 0., 4.);
+  glVertex3d (0., 40., 4.);
+  glVertex3d (-2., 2., 3.);
   glEnd ();
   glPopMatrix ();
 }
@@ -124,10 +128,14 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   g_assert (object->drawing_area == widget);
 
   gdk_gl_set_current (object->context, widget->window);
-  draw_clock (&object->tm,
-	      widget->allocation.x, widget->allocation.y,
+
+  /* glViewport can be in configure handler?  */
+  glViewport (widget->allocation.x, widget->allocation.y,
 	      widget->allocation.width, widget->allocation.height);
+  draw_clock (&object->tm);
   gdk_gl_swap_buffers (widget->window);
+
+  gdk_gl_unset_current ();
 
   return 0;
 }
@@ -144,14 +152,20 @@ glclock::create_context (GtkWidget *widget, gpointer opaque)
   object->context = gdk_gl_context_new (gdk_window_get_visual (widget->window));
 
   gdk_gl_set_current (object->context, widget->window);
+
+  glMatrixMode (GL_MODELVIEW);
+  glLoadIdentity ();
   glEnable (GL_LIGHTING);
   glEnable (GL_LIGHT0);
   {
-    GLfloat position[] = {-1.0, 1.0, 2.0, 0.0};
+    GLfloat position[] = {-1., 1., 1., 0.};
     glLightfv (GL_LIGHT0, GL_POSITION, position);
   }
 
   glMatrixMode (GL_PROJECTION);
   glLoadIdentity ();
-  gluPerspective (35.0, 1., 1., 1000.);
+  //gluPerspective (35.0, 1., 1., 1000.);
+  glFrustum (-5., 5., -5., 5., 10., 200.);
+
+  gdk_gl_unset_current ();
 }

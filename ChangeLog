@@ -1,6 +1,20 @@
+1998-06-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc (draw_clock): Remove x, y, width, and height from
+	args.  Remove a glViewport call.
+	(handle_expose_event): Add a glViewport call from draw_clock.
+	(handle_expose_event): Release selected context at return.
+	(create_context): Likewise.
+	(create_context): Use glFrustum instead of gluPerspective.
+	(draw_clock): Adjust positions.
+	(draw_clock): Redisign the hands.
+	(draw_clock): Make the short hand smoother.
+	(create_context): Move the light 0.
+	(create_context): Set the model view matrix to an identity.
+
 1998-06-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
-	* configure.in: Add `AC_STRUCT_TM' and `AC_C_CONST'.
+	* configure.in: Add AC_STRUCT_TM and AC_C_CONST.
 
 	* Version 0.3 released for preview.
 
