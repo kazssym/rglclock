@@ -1,5 +1,8 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* profile.h: Add comments.
+	Remove unneccesary struct decl.
+
 	* main.cc (main): Make the profile object file-local.
 	(edit_options): Call profile::save.
 
