@@ -37,6 +37,11 @@ class module;
 class glclock
 {
 public:
+  struct options_callback
+  {
+    virtual void options_changed(glclock *) = 0;
+  };
+public:
   glclock ();
   ~glclock ();
 protected:
@@ -46,6 +51,7 @@ protected:
   static gint update (gpointer);
 private:
   module *m;
+  std::vector<options_callback *> callbacks;
   int timeout_rate;
   guint timeout_id;
   GdkGLContext *context;
@@ -53,8 +59,9 @@ private:
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   double press_x, press_y;
-  mutable GtkWidget *menu_parent;
 public:
+  void add_callback(options_callback *);
+  void remove_callback(options_callback *);
   int update_rate() const
     {return timeout_rate;}
   void set_update_rate(int);

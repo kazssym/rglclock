@@ -1,5 +1,11 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc (remove_callback, add_callback): New functions.
+	(set_update_rate): Call all callbacks.
+
+	* glclock.h (class glclock): Add struct options_callback.
+	(class glclock): Add member callbacks.
+
 	* Makefile.am (libclock_a_SOURCES): Move glclock.cc and about.cc
 	from rglclock_SOURCES.
 

@@ -88,6 +88,26 @@ glclock::set_update_rate(int rate)
   I(interval > 0);
   gtk_timeout_remove(timeout_id);
   timeout_id = gtk_timeout_add(interval, update, this);
+
+  for (vector<options_callback *>::iterator i = callbacks.begin();
+       i != callbacks.end();
+       ++i)
+    (*i)->options_changed(this);
+}
+
+void
+glclock::remove_callback(options_callback *callback)
+{
+  vector<options_callback *>::iterator k
+    = find(callbacks.begin(), callbacks.end(), callback);
+  if (k != callbacks.end())
+    callbacks.erase(k);
+}
+
+void
+glclock::add_callback(options_callback *callback)
+{
+  callbacks.push_back(callback);
 }
 
 glclock::~glclock ()
