@@ -1,5 +1,13 @@
 2002-05-02  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
+	* Makefile.am (EXTRA_DIST): Remove VERSION-ID.
+
+	* VERSION-ID: Removed.
+
+	* README: Updated.
+
+	* NEWS: Updated.
+
 	* programs/Makefile.am (rglclock_LDADD): Add $(PNG_LIBS).
 
 	* configure.in: Add PNG_LIBS for libpng.
