@@ -14,7 +14,12 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307, USA.  */
+   02111-1307, USA.
+
+   As a special exception, you may copy and distribute this program
+   linked with an OpenGL library in executable form without the source
+   code for the library, only if such distribution is not prohibited
+   by the library's license.  */
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
