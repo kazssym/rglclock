@@ -78,16 +78,17 @@ about_dialog::about_dialog(GtkWidget *parent)
   title = (char *) malloc(strlen(title_format) + sizeof PACKAGE);
   sprintf(title, title_format, PACKAGE);
 #endif /* not HAVE_ASPRINTF */
-  gtk_window_set_title(GTK_WINDOW(dialog), title);
+  gtk_window_set_title(GTK_WINDOW(tmp.get()), title);
   free(title);
 
-  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
-  gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-  gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
+  gtk_window_set_policy(GTK_WINDOW(tmp.get()), FALSE, FALSE, FALSE);
+  gtk_window_position(GTK_WINDOW(tmp.get()), GTK_WIN_POS_CENTER);
+  gtk_signal_connect(GTK_OBJECT(tmp.get()), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
-  gtk_signal_connect_after(GTK_OBJECT(dialog), "realize",
+  gtk_signal_connect_after(GTK_OBJECT(tmp.get()), "realize",
 			   GTK_SIGNAL_FUNC(finish_realize), this);
 
+  dialog = tmp.get();
   populate(dialog);
 
   gtk_widget_ref(dialog);
@@ -99,7 +100,7 @@ about_dialog::about_dialog(GtkWidget *parent)
 void
 about_dialog::populate(GtkWidget *dialog)
 {
-  /* Makes the vbox area.  */
+  /* Makes the version label.  */
   const char *version_format
     = _("%s %s\nCopyright (C) %s Hypercore Software Design, Ltd.");
   char *version;
@@ -120,8 +121,9 @@ about_dialog::populate(GtkWidget *dialog)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label1.get(),
 		     FALSE, FALSE, 0);
 
-  /* Makes the action area.  */
-  auto_widget ok_button(gtk_button_new_with_label(_("OK")));
+  /* Makes the OK button.  */
+  const char *ok_text = _("OK");
+  auto_widget ok_button(gtk_button_new_with_label(ok_text));
   gtk_signal_connect(GTK_OBJECT(ok_button.get()), "clicked",
 		     GTK_SIGNAL_FUNC(handle_ok), dialog);
   gtk_widget_show(ok_button.get());
