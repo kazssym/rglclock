@@ -1,6 +1,6 @@
 Rglclock TO DO
 
-$Date: Sat, 22 May 1999 21:15:48 +0900 $
+$Date: Sat, 22 May 1999 21:37:17 +0900 $
 
 Version 1.4 or later
 
@@ -9,7 +9,9 @@ Version 1.4 or later
 * Documentation, including better web/mailing-list linkage.
 Volunteers wanted.
 
-* getopt_long.
+* getopt_long bundling.
+
+* Visual setup in class glclock.
 
 * Texture mapping.
 

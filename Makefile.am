@@ -18,7 +18,7 @@ noinst_HEADERS = utils.h profile.h glclock.h module.h simple.h autowidget.h gdkg
 
 man_MANS = rglclock.1
 
-EXTRA_DIST = README.ja VERSION-ID ${man_MANS}
+EXTRA_DIST = README.ja MEMO.ja VERSION-ID ${man_MANS}
 
 SUBDIRS = intl po
 
