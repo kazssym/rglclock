@@ -1,9 +1,11 @@
 NEWS of rglclock:
-$ProjectVersion: 0.37 $
+$ProjectVersion: 0.55 $
 
 Changes since version 1.1.6:
 
-* Rotation speed has been compensated.
+* Rotation speed has been compensated via gettimeofday.
+
+* Pop-up menu added.
 
 Changes since version 0.24:
 

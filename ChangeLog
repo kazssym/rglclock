@@ -1,3 +1,17 @@
+1998-09-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* NEWS: Update.
+
+	* glclock.h (class glclock): Add members: describe, struct
+	menu_listener, menu_quit, menu_factory, about.
+
+	* glclock.cc (menu_activate): New function.
+	(describe): New function.
+	(~glclock): Destroy the member menu factory.
+	(glclock): Create and initialize a menu factory.
+	(handle_button_event): Handle button-3 for pop-up menu.
+	(menu_quit): New function.
+
 1998-08-19  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* module.cc (draw_clock) [LOGO128]: Add experimental texture code.
