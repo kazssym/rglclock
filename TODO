@@ -2,10 +2,12 @@ TODO for rglclock:
 
 * Remove struct tm from class glclock.
 
-* Handle mouse motion.
-
 * Add loadable module support.
 
 * Possibly ignore "expose_event" signal.
 
 * Compensate the rotation velocity.
+
+* Add a popup menu.
+
+* Map texture.
