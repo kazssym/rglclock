@@ -30,20 +30,16 @@
 # include "logo128.h"
 #endif
 
-#ifdef LOGO128
 static const GLfloat vs[4] = {0, 0, 0, 1};
-#else
-static const GLfloat vs[4] = {0.6, 0.6, 0.6, 1.};
-#endif
 #ifdef LOGO128
 static const GLfloat v[4] = {0.6, 0.6, 0.6, 1.};
 #else
-static const GLfloat v[4] = {0.1, 0.0, 0.4, 1.};
+static const GLfloat v[4] = {0.2, 0.2, 0.4, 1.};
 #endif
 
 static const GLfloat HAND_ADC[4] = {0.1, 0.1, 0.1, 1};
 static const GLfloat HAND_SC[4] = {0.6, 0.6, 0.6, 1};
-static const GLfloat HAND_SR = 32;
+static const GLfloat HAND_SR = 16;
 
 int
 simple_draw_clock(void)
@@ -56,12 +52,6 @@ simple_draw_clock(void)
 
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  /* Use flat shading for the dial disk.  */
-  glShadeModel (GL_FLAT);
-
-  glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
-  glMaterialf (GL_FRONT, GL_SHININESS, 16.);
-
   {
     GLUquadricObj *qobj;
 
@@ -69,7 +59,16 @@ simple_draw_clock(void)
     if (qobj == NULL)
       return -1;
 
+    /* Use flat shading for the dial disk.  */
+    glShadeModel (GL_FLAT);
+#ifdef USE_LOCAL_VIEWER
+    glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
+#endif
+
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
+    glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
+    glMaterialf (GL_FRONT, GL_SHININESS, 0.);
+
 #ifdef LOGO128
     glEnable (GL_TEXTURE_2D);
     gluQuadricTexture (qobj, GL_TRUE);
@@ -88,11 +87,11 @@ simple_draw_clock(void)
     gluDeleteQuadric (qobj);
   }
 
-#if 0
+#ifdef USE_LOCAL_VIEWER
+  glShadeModel(GL_SMOOTH);
   glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 #endif
 
-  glShadeModel (GL_SMOOTH);
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
   glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
   glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
@@ -141,10 +140,6 @@ simple_draw_clock(void)
   glEnd ();
   glPopMatrix ();
 
-#if 0
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
-#endif
-
   return 0;
 }
 
@@ -155,6 +150,16 @@ static const GLfloat LIGHT1_INTENSITY[] = {0.8, 0.8, 0.8, 1};
 int
 simple_init(void)
 {
+  /* Sets the projection matrix.  */
+  glMatrixMode (GL_PROJECTION);
+  glLoadIdentity ();
+  glFrustum (-5., 5., -5., 5., 15., 250.);
+
+  glMatrixMode (GL_MODELVIEW);
+  gluLookAt (0, 0, 150,
+	     0, 0, 0,
+	     0, 1, 0);
+
   glEnable (GL_DEPTH_TEST);
   glEnable (GL_CULL_FACE);
 
@@ -165,11 +170,6 @@ simple_init(void)
   glLightfv (GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
   glLightfv (GL_LIGHT1, GL_DIFFUSE, LIGHT1_INTENSITY);
   glLightfv (GL_LIGHT1, GL_SPECULAR, LIGHT1_INTENSITY);
-
-  /* Sets the projection matrix.  */
-  glMatrixMode (GL_PROJECTION);
-  glLoadIdentity ();
-  glFrustum (-5., 5., -5., 5., 15., 250.);
 
 #ifdef LOGO128
   glTexImage2D (GL_TEXTURE_2D, 0,

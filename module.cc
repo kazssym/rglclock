@@ -34,14 +34,18 @@ void
 module::draw_clock (const struct tm *tm) const
 {
   glMatrixMode (GL_MODELVIEW);
-  glLoadIdentity ();
-  gluLookAt (0, 0, 150,
-	     0, 0, 0,
-	     0, 1, 0);
+  glPushMatrix();
+
+  /* Rotates the model view matrix.  */
   glMultMatrixf (rot);
 
   if (simple_draw_clock() == -1)
-    throw std::bad_alloc();
+    {
+      glPopMatrix();
+      throw std::bad_alloc();
+    }
+
+  glPopMatrix();
 }
 
 void
@@ -49,11 +53,15 @@ module::rotate (double deg,
 		double x, double y, double z)
 {
   glMatrixMode (GL_MODELVIEW);
+  glPushMatrix();
+
   glLoadIdentity ();
   glRotatef (deg,
 	     x, y, z);
   glMultMatrixf (rot);
   glGetFloatv (GL_MODELVIEW_MATRIX, rot);
+
+  glPopMatrix();
 }
 
 void
@@ -68,9 +76,6 @@ module::init ()
   glMatrixMode (GL_MODELVIEW);
   glLoadIdentity ();
   glGetFloatv (GL_MODELVIEW_MATRIX, rot);
-  gluLookAt (0, 0, 150,
-	     0, 0, 0,
-	     0, 1, 0);
 
   simple_init();
 }
