@@ -25,9 +25,27 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H 1
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkwindow.h>
 #include <vector>
 #include <string>
+
+class controller
+{
+protected:
+  static controller *to_ptr(gpointer data)
+    {return static_cast<controller *>(data);}
+private:
+  static void remove_widget(GtkObject *, gpointer) throw ();
+private:
+  std::vector<GtkWidget *> widgets;
+public:
+  virtual ~controller();
+public:
+  gpointer func_data()
+    {return this;}
+protected:
+  void add(GtkWidget *);
+};
 
 struct options_page
 {
@@ -37,22 +55,20 @@ struct options_page
 
 /* The options dialog.  */
 class options_dialog
+  : public controller
 {
 protected:
-  static void remove_widget(GtkObject *, gpointer);
-  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
-  static void handle_ok(GtkWidget *, gpointer);
-  static void handle_cancel(GtkWidget *, gpointer);
-public:
+  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer) throw ();
+  static void handle_ok(GtkWidget *, gpointer) throw ();
+  static void handle_cancel(GtkWidget *, gpointer) throw ();
+private:
   std::vector<std::pair<std::string, options_page *> > pages;
-  std::vector<GtkWidget *> widgets;
-public:
-  virtual ~options_dialog();
 public:
   void add_page(const char *, options_page *);
-  GtkWidget *create_widget();
+  void act(GtkWindow *parent);
 protected:
   void populate(GtkWidget *);
+  GtkWidget *create_widget();
 };
 
 #endif /* not OPTIONS_H */
