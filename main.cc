@@ -209,6 +209,7 @@ main (int argc, char **argv)
       s.append("/options");
       profile p(s.c_str());
       p.restore(&c);
+      c.add_callback(&p);
 
       GtkWidget *toplevel = create_widget(&c);
       gtk_widget_show (toplevel);
@@ -216,9 +217,6 @@ main (int argc, char **argv)
       gtk_main ();
 
       gtk_widget_destroy(toplevel);
-
-      // FIXME.  This should be saved on change.
-      p.save(&c);
     }
   catch (exception &x)
     {

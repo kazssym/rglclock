@@ -70,6 +70,12 @@ namespace
 } // (unnamed namespace)
 
 void
+profile::options_changed(glclock *clock)
+{
+  save(clock);
+}
+
+void
 profile::save(glclock *clock)
 {
 #ifdef HAVE_GNOME_XML_PARSER_H

@@ -31,6 +31,7 @@
 struct xmlDoc;
 
 class profile
+  : public virtual glclock::options_callback
 {
 private:
   std::string file_name;
@@ -40,6 +41,7 @@ public:
 public:
   void restore(glclock *);
   void save(glclock *);
+  void options_changed(glclock *);
 };
 
 #endif /* not PROFILE_H */

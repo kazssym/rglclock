@@ -1,5 +1,13 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (main): Add p as a callback of c.
+	(main): Remove save before exit.
+
+	* profile.h (options_callback): Add glclock::options_callback to
+	virtual base class.
+
+	* profile.cc (options_changed): New function.
+
 	* glclock.cc (remove_callback, add_callback): New functions.
 	(set_update_rate): Call all callbacks.
 
