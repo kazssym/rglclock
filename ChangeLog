@@ -1,5 +1,9 @@
 1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Add check for mkdir.
+
+	* main.cc (main): Make ~/.rglclock directory.
+
 	* clockoptions.cc (create_widget): Put unit after the spin button.
 
 	* glclock.cc (update): Draw only for drawable widgets.

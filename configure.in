@@ -37,7 +37,7 @@ AC_STRUCT_TM
 AC_HEADER_TIME
 AC_C_CONST
 dnl Checks for library functions.
-AC_CHECK_FUNCS(asprintf getopt_long gettimeofday)
+AC_CHECK_FUNCS(asprintf getopt_long gettimeofday mkdir)
 ALL_LINGUAS="ja"
 AM_GNU_GETTEXT
 AC_OUTPUT(Makefile intl/Makefile po/Makefile.in)
