@@ -158,6 +158,7 @@ namespace
       GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
       gtk_object_set_user_data(GTK_OBJECT(toplevel), glc);
+      gtk_window_set_policy(GTK_WINDOW(toplevel), true, true, false);
       gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
 			 GTK_SIGNAL_FUNC(gtk_main_quit), glc);
       {
@@ -192,10 +193,9 @@ namespace
 	  gtk_widget_show(content.get());
 	  gtk_box_pack_start(GTK_BOX(box1.get()), content.get(),
 			     TRUE, TRUE, 0);
-
-	  GdkGeometry geom = {0, 0};
+	  GdkGeometry geometry = {0, 0, 0, 0, 0, 0, 1, 1};
 	  gtk_window_set_geometry_hints(GTK_WINDOW(toplevel), content.get(),
-					&geom, GDK_HINT_MIN_SIZE);
+					&geometry, GDK_HINT_RESIZE_INC);
 	}
 	gtk_widget_show(box1.get());
 	gtk_container_add(GTK_CONTAINER(toplevel), box1.get());

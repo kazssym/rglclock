@@ -1,6 +1,7 @@
 1999-07-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* bin/main.cc (create_widget): Set geometry hints.
+	(create_widget): Revise last change and set policy.
 
 	* rglclock.1: Modified.
 
