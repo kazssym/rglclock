@@ -51,27 +51,32 @@ clock_options_dialog::general_options_page::apply(GtkWidget *widget)
     = GTK_WIDGET(gtk_object_get_data(GTK_OBJECT(widget), "update_input"));
   I(update_input != NULL);
   I(GTK_IS_ENTRY(update_input));
+  int rate = atoi(gtk_entry_get_text(GTK_ENTRY(update_input)));
 #ifdef L
-  L("update frequency = %d\n", atoi(gtk_entry_get_text(GTK_ENTRY(update_input))));
+  L("new update rate = %d\n", rate);
 #endif
+  I(target != NULL);
+  target->set_update_rate(rate);
 }
 
 GtkWidget *
 clock_options_dialog::general_options_page::create_widget()
 {
+  I(target != NULL);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
   I(GTK_IS_VBOX(vbox));
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
   {
     GtkWidget *table = gtk_table_new(2, 1, FALSE);
     {
-      const char *text1 = _("Update frequency:");
+      const char *text1 = _("Update rate [times/s]:");
       GtkWidget *label1 = gtk_label_new(text1);
       gtk_widget_show(label1);
       gtk_table_attach_defaults(GTK_TABLE(table), label1,
 				0, 1, 0, 1);
 
-      GtkObject *update_adjust = gtk_adjustment_new(10, 5, 30, 1, 5, 1);
+      int rate = target->update_rate();
+      GtkObject *update_adjust = gtk_adjustment_new(rate, 5, 30, 1, 5, 1);
       GtkWidget *update_input
 	= gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
       gtk_widget_show(update_input);
@@ -86,7 +91,13 @@ clock_options_dialog::general_options_page::create_widget()
   return vbox;
 }
 
-clock_options_dialog::clock_options_dialog()
+clock_options_dialog::general_options_page::general_options_page(glclock *t)
+  : target(t)
+{
+}
+
+clock_options_dialog::clock_options_dialog(glclock *t)
+  : general(t)
 {
   /* Label for the General page.  */
   const char *general_tab_text = _("General");

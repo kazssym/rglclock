@@ -55,12 +55,17 @@ private:
   module *m;
   GtkWidget *drawing_area;
   GtkItemFactory *menu_factory;
+  int timeout_rate;
   guint timeout_id;
   GdkGLContext *context;
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   time_t t;
   double press_x, press_y;
+public:
+  int update_rate() const
+    {return timeout_rate;}
+  void set_update_rate(int);
 };
 
 /* The options dialog.  */
@@ -71,6 +76,10 @@ public:
   class general_options_page
     : public options_page
   {
+  private:
+    glclock *target;
+  public:
+    explicit general_options_page(glclock *);
   public:
     GtkWidget *create_widget();
     void apply(GtkWidget *);
@@ -78,7 +87,7 @@ public:
 private:
   general_options_page general;
 public:
-  clock_options_dialog();
+  explicit clock_options_dialog(glclock *);
 public:
   void show();
 protected:
