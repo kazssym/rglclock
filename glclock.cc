@@ -308,7 +308,13 @@ glclock::edit_options(gpointer data, guint, GtkWidget *)
 {
   glclock *object = static_cast <glclock *> (data);
 
-  options_dialog options(gtk_widget_get_toplevel(object->drawing_area));
-  options.show();
+  clock_options_dialog dialog;
+  GtkWidget *widget = dialog.create_widget();
+  gtk_window_set_transient_for(GTK_WINDOW(widget),
+			       GTK_WINDOW(gtk_widget_get_toplevel(object->drawing_area)));
+  gtk_widget_show(widget);
+  gtk_main();
+  gtk_widget_hide(widget);
+  gtk_object_unref(GTK_OBJECT(widget));
 }
 

@@ -26,45 +26,56 @@
 #endif
 #undef const
 
-#include "glclock.h"
+#include "options.h"
 
 #include <gtk/gtk.h>
 #include <libintl.h>
+#include <algorithm>
 #include <cstring>
+
+#ifdef HAVE_NANA_H
+# include <nana.h>
+#else
+# include <cassert>
+# define I(EXPR) assert(EXPR)
+#endif
 
 #define _(MSG) gettext(MSG)
 
 using namespace std;
 
-void
-options_dialog::show()
+GtkWidget *
+options_dialog::create_widget()
 {
-  gtk_widget_show(dialog);
+  GtkWidget *dialog = gtk_dialog_new();
+  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+  gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+  gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+  gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
+		     GTK_SIGNAL_FUNC(remove_widget), this);
+#if 0
+  gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
+		     GTK_SIGNAL_FUNC(handle_delete_event), this);
+#endif
 
-  gtk_grab_add(dialog);
-  gtk_main();
-  gtk_grab_remove(dialog);
+  populate(dialog);
 
-  gtk_widget_hide(dialog);
+  widgets.push_back(dialog);
+  return dialog;
+}
+
+void
+options_dialog::add_page(const char *tab_text, options_page *page)
+{
+  pages.push_back(make_pair(tab_text, page));
 }
 
 options_dialog::~options_dialog()
 {
-  gtk_widget_destroy(dialog);
-}
-
-options_dialog::options_dialog(GtkWidget *parent)
-  : parent_widget(parent),
-    dialog(NULL)
-{
-  dialog = gtk_dialog_new();
-  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
-  gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-  gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
-  gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
-		     GTK_SIGNAL_FUNC(handle_delete_event), this);
-
-  populate(dialog);
+  for (vector<GtkWidget *>::iterator i = widgets.begin();
+       i != widgets.end();
+       ++i)
+    gtk_signal_disconnect_by_data(GTK_OBJECT(*i), this);
 }
 
 void
@@ -95,31 +106,15 @@ void
 options_dialog::populate(GtkWidget *dialog)
 {
   GtkWidget *notebook1 = gtk_notebook_new();
-  {
-    GtkWidget *general_page = gtk_vbox_new(FALSE, 0);
+  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+       i != pages.end();
+       ++i)
     {
-      const char *text1 = _("Update frequency:");
-      GtkWidget *label1 = gtk_label_new(text1);
-      gtk_widget_show(label1);
-      gtk_box_pack_start(GTK_BOX(general_page), label1,
-			 FALSE, FALSE, 10);
+      GtkWidget *page_widget = i->second->create_widget();
+      gtk_widget_show(page_widget);
+      gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
+			       gtk_label_new(i->first.c_str()));
     }
-    gtk_widget_show(general_page);
-
-    /* Label for the General tab.  */
-    const char *general_tab_text = _("General");
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), general_page,
-			     gtk_label_new(general_tab_text));
-
-    GtkWidget *rendering_page = gtk_vbox_new(FALSE, 0);
-    {
-    }
-    gtk_widget_show(rendering_page);
-
-    const char *rendering_tab_text = _("Rendering");
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), rendering_page,
-			     gtk_label_new(rendering_tab_text));
-  }
   gtk_widget_show(notebook1);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook1,
 		     FALSE, FALSE, 0);
@@ -143,5 +138,18 @@ options_dialog::populate(GtkWidget *dialog)
 		     FALSE, FALSE, 0);
 
   gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
+}
+
+void
+options_dialog::remove_widget(GtkObject *object, gpointer data)
+{
+  GtkWidget *widget = GTK_WIDGET(object);
+  options_dialog *d = static_cast<options_dialog *>(data);
+
+  I(d != NULL);
+  vector<GtkWidget *>::iterator k
+    = find(d->widgets.begin(), d->widgets.end(), widget);
+  if (k != d->widgets.end())
+    d->widgets.erase(k);
 }
 

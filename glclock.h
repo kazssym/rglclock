@@ -25,6 +25,7 @@
 #ifndef GLCLOCK_H
 #define GLCLOCK_H 1
 
+#include "options.h"
 #include "gdkgl.h"
 #include <gtk/gtkitemfactory.h>
 #include <gtk/gtkwidget.h>
@@ -63,19 +64,20 @@ private:
 };
 
 /* The options dialog.  */
-class options_dialog
+class clock_options_dialog
+  : public options_dialog
 {
-private:
-  GtkWidget *parent_widget;
-  GtkWidget *dialog;
-protected:
-  static void finish_realize(GtkWidget *, gpointer);
-  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
-  static void handle_ok(GtkWidget *, gpointer);
-  static void handle_cancel(GtkWidget *, gpointer);
 public:
-  explicit options_dialog(GtkWidget *parent);
-  ~options_dialog();
+  class general_options_page
+    : public options_page
+  {
+  public:
+    GtkWidget *create_widget();
+  };
+private:
+  general_options_page general;
+public:
+  clock_options_dialog();
 public:
   void show();
 protected:
