@@ -181,7 +181,7 @@ glclock::update (gpointer opaque)
        i != object->widgets.end();
        ++i)
     {
-      if (GTK_WIDGET_REALIZED(*i))
+      if (GTK_WIDGET_DRAWABLE(*i))
 	{
 	  if (object->context == NULL)
 	    {

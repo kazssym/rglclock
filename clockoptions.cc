@@ -69,20 +69,31 @@ clock_options_dialog::general_options_page::create_widget()
   {
     GtkWidget *table = gtk_table_new(2, 1, FALSE);
     {
-      const char *text1 = _("Update rate [times/s]:");
+      const char *text1 = _("Update rate: ");
       GtkWidget *label1 = gtk_label_new(text1);
       gtk_widget_show(label1);
       gtk_table_attach_defaults(GTK_TABLE(table), label1,
 				0, 1, 0, 1);
 
-      int rate = target->update_rate();
-      GtkObject *update_adjust = gtk_adjustment_new(rate, 5, 30, 1, 5, 1);
-      GtkWidget *update_input
-	= gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
-      gtk_widget_show(update_input);
-      gtk_table_attach_defaults(GTK_TABLE(table), update_input,
+      GtkWidget *hbox1 = gtk_hbox_new(false, 0);
+      {
+	int rate = target->update_rate();
+	GtkObject *update_adjust = gtk_adjustment_new(rate, 5, 30, 1, 5, 1);
+	GtkWidget *update_input
+	  = gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
+	gtk_widget_show(update_input);
+	gtk_object_set_data(GTK_OBJECT(vbox), "update_input", update_input);
+	gtk_box_pack_start(GTK_BOX(hbox1), update_input, false, false, 0);
+
+	/* Unit name for update rate */
+	const char *unit_text = _("Hz");
+	GtkWidget *unit_label = gtk_label_new(unit_text);
+	gtk_widget_show(unit_label);
+	gtk_box_pack_start(GTK_BOX(hbox1), unit_label, false, false, 0);
+      }
+      gtk_widget_show(hbox1);
+      gtk_table_attach_defaults(GTK_TABLE(table), hbox1,
 				1, 2, 0, 1);
-      gtk_object_set_data(GTK_OBJECT(vbox), "update_input", update_input);
     }
     gtk_widget_show(table);
     gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
