@@ -1,7 +1,12 @@
 User-Visible Changes
 
 $Format: "Version $Version$ ($ProjectDate$ -r $ProjectVersion$)" $
-Version 1.2.2 (Fri, 05 Feb 1999 23:07:09 +0900 -r 1.2.7)
+Version 1.2.3b (Wed, 24 Feb 1999 21:58:45 +0900 -r 1.2.10)
+
+* A special exception to the GNU GPL was added in order to make
+distribution of an executable linked with an OpenGL library possible.
+
+Version 1.2.3 (Sat, 13 Feb 1999 16:35:04 +0900 -r 1.2.9)
 
 * New configure options: --disable-wm-command, and
 --disable-wm-transient-for.

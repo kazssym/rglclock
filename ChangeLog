@@ -1,3 +1,16 @@
+1999-02-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* NEWS: Updated.
+
+	* about.cc: Add an exception to licence terms.
+	* glclock.cc: Likewise.
+	* glclock.h: Likewise.
+	* main.cc: Likewise.
+	* module.cc: Likewise.
+	* module.h: Likewise.
+	* simple.c: Likewise.
+	* simple.h: Likewise.
+
 1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* TODO: Updated.
