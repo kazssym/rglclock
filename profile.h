@@ -35,10 +35,12 @@ class profile
 {
 private:
   std::string file_name;
+  bool changed;
 public:
-  profile(const char *);
+  profile();
   ~profile();
 public:
+  void open(const char *);
   void restore(glclock *);
   void save(glclock *);
   void options_changed(glclock *);

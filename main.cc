@@ -103,12 +103,16 @@ namespace
 	}
     }
 
+  profile main_profile;
+
   void edit_options(gpointer data, guint, GtkWidget *item)
     {
       glclock *clock = static_cast<glclock *>(data);
 
       clock_options_dialog dialog(clock);
       dialog.act(GTK_WINDOW(gtk_widget_get_toplevel(item)));
+
+      main_profile.save(clock);
     }
 
   void describe(gpointer, guint, GtkWidget *item)
@@ -204,9 +208,9 @@ main (int argc, char **argv)
       mkdir(s.c_str(), 0777);	// XXX: Ignoring errors.
 #endif
       s.append("/options");
-      profile p(s.c_str());
-      p.restore(&c);
-      c.add_callback(&p);
+      main_profile.open(s.c_str());
+      main_profile.restore(&c);
+      c.add_callback(&main_profile);
 
       GtkWidget *toplevel = create_widget(&c);
       gtk_widget_show (toplevel);
