@@ -117,10 +117,8 @@ clock_app::show_about_dialog()
   gtk_widget_show(dialog);
   gtk_window_set_policy(GTK_WINDOW(dialog), false, false, false);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-#if 0
   if (main_window != NULL)
     gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(main_window));
-#endif
   gtk_window_set_modal(GTK_WINDOW(dialog), true);
 
   const char *title_format = _("About %s");
