@@ -100,9 +100,49 @@ namespace
 	  gtk_rc_parse(gtkrc.c_str());
 	}
     }
-} // (unnamed namespace)
 
-static glclock *glc;
+  GtkWidget *create_widget(glclock *glc)
+    {
+      GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+      gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
+			 GTK_SIGNAL_FUNC(gtk_main_quit), glc);
+      {
+	GtkObject_ptr<GtkWidget> box1(gtk_vbox_new(FALSE, 0));
+	{
+	  GtkObject_ptr<GtkItemFactory> ifactory
+	    (gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", NULL));
+	  GtkItemFactoryEntry entries[]
+	    =
+	  {
+	    {_("/_File/E_xit"), NULL,
+	     reinterpret_cast<GtkItemFactoryCallback>(&gtk_main_quit), 1,
+	     "<Item>"},
+	    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
+	    {_("/_File/_About..."), NULL, NULL, 2, "<Item>"}
+	  };
+	  gtk_item_factory_create_items(ifactory.get(), 3, entries, glc);
+	  // Unimplemented menu items.
+	  gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory.get(),
+									 2),
+				   FALSE);
+
+	  gtk_widget_show(ifactory->widget);
+	  gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
+			     FALSE, FALSE, 0);
+
+	  GtkObject_ptr<GtkWidget> content (glc->create_widget());
+	  gtk_widget_show(content.get());
+	  gtk_box_pack_start(GTK_BOX(box1.get()), content.get(),
+			     TRUE, TRUE, 0);
+	}
+	gtk_widget_show(box1.get());
+	gtk_container_add(GTK_CONTAINER(toplevel), box1.get());
+      }
+
+      return toplevel;
+    }
+} // (unnamed namespace)
 
 int
 main (int argc, char **argv)
@@ -137,51 +177,13 @@ main (int argc, char **argv)
       gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
       gtk_widget_set_default_visual(visual);
 
-      glc = new glclock ();
+      glclock c;
 
-      GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-      gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
-			 GTK_SIGNAL_FUNC(gtk_main_quit), glc);
-
-      GtkObject_ptr<GtkItemFactory> ifactory
-	(gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", NULL));
-      GtkItemFactoryEntry entries[]
-	=
-      {
-	{_("/_File/E_xit"), NULL, NULL, 1, "<Item>"},
-	{_("/_File/"), NULL, NULL, 0, "<Separator>"},
-	{_("/_File/_About..."), NULL, NULL, 2, "<Item>"}
-      };
-      gtk_item_factory_create_items(ifactory.get(), 3, entries, glc);
-      // Unimplemented menu items.
-      gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory.get(),
-								     1),
-			       FALSE);
-      gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory.get(),
-								     2),
-			       FALSE);
-
-      {
-	GtkObject_ptr<GtkWidget> box1(gtk_vbox_new(FALSE, 0));
-	{
-	  gtk_widget_show(ifactory->widget);
-	  gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
-			     FALSE, FALSE, 0);
-
-	  GtkObject_ptr<GtkWidget> content (glc->create_widget());
-	  gtk_widget_show(content.get());
-	  gtk_box_pack_start(GTK_BOX(box1.get()), content.get(),
-			     TRUE, TRUE, 0);
-	}
-	gtk_widget_show(box1.get());
-	gtk_container_add(GTK_CONTAINER(toplevel), box1.get());
-      }
-
+      GtkWidget *toplevel = create_widget(&c);
       gtk_widget_show (toplevel);
+
       gtk_main ();
 
-      gtk_widget_hide(toplevel);
-      delete glc;
       gtk_widget_destroy(toplevel);
     }
   catch (exception &x)

@@ -1,3 +1,9 @@
+1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* main.cc (create_widget): New function.
+	(main): Use create_widget.
+	(main): Make the glclock object block-local.
+
 1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* main.cc (main): Store glc as callback data for menu items.
