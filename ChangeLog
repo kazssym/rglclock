@@ -1,5 +1,8 @@
 1999-04-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc: Remove ad-hoc session support.
+	(set_command): Removed.
+
 	* configure.in: Remove --disable-wm-command and
 	--disable-wm-transient-for.
 	Require GTK+ version 1.2.0 or later.
