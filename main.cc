@@ -153,8 +153,9 @@ main (int argc, char **argv)
 			  NULL);
 
       glc = new glclock ();
-      gtk_widget_ref (*glc);
-      gtk_container_add (GTK_CONTAINER (toplevel), *glc);
+      GtkWidget *content = glc->create_widget();
+      gtk_widget_show(content);
+      gtk_container_add(GTK_CONTAINER(toplevel), content);
 
       gtk_widget_show (toplevel);
       gtk_main ();

@@ -37,6 +37,7 @@
 # include <sys/time.h>
 #endif
 #include <math.h>
+#include <algorithm>
 #include <stdexcept>
 
 #ifdef HAVE_NANA_H
@@ -58,8 +59,21 @@ using namespace std;
 # define DEFAULT_TIMEOUT_RATE 10
 #endif
 
-glclock::operator GtkWidget *() const
+GtkWidget *
+glclock::create_widget()
 {
+  GtkWidget *drawing_area = gtk_drawing_area_new();
+  gtk_drawing_area_size(GTK_DRAWING_AREA(drawing_area), 100, 100);
+  gtk_signal_connect(GTK_OBJECT(drawing_area), "destroy",
+		     GTK_SIGNAL_FUNC(remove_widget), this);
+  gtk_widget_set_events(drawing_area,
+			GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+  gtk_signal_connect(GTK_OBJECT(drawing_area), "button_press_event",
+		     GTK_SIGNAL_FUNC(handle_button_event), this);
+  gtk_signal_connect(GTK_OBJECT(drawing_area), "button_release_event",
+		     GTK_SIGNAL_FUNC(handle_button_event), this);
+
+  widgets.push_back(drawing_area);
   return drawing_area;
 }
 
@@ -78,15 +92,19 @@ glclock::set_update_rate(int rate)
 
 glclock::~glclock ()
 {
+  for (vector<GtkWidget *>::iterator i = widgets.begin();
+       i != widgets.end();
+       ++i)
+    gtk_signal_disconnect_by_data(GTK_OBJECT(*i), this);
+
+  gdk_gl_context_unref(context);
   gtk_timeout_remove (timeout_id);
   gtk_object_unref(GTK_OBJECT(menu_factory));
-  gtk_widget_unref (drawing_area);
   delete m;
 }
 
 glclock::glclock ()
   : m (NULL),
-    drawing_area (NULL),
     menu_factory (NULL),
     timeout_rate(DEFAULT_TIMEOUT_RATE),
     context (NULL),
@@ -98,31 +116,7 @@ glclock::glclock ()
       /* Objects are allocated here to avoid leaks when an exception
 	 is thrown in the middle of the ctor.  */
       m = new module ();
-      drawing_area = gtk_drawing_area_new ();
       menu_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<Popup>", NULL);
-
-      gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
-
-      gtk_widget_set_events (drawing_area, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-      gtk_signal_connect_after(GTK_OBJECT(drawing_area), "realize",
-			       GTK_SIGNAL_FUNC(finish_realize), this);
-      gtk_signal_connect(GTK_OBJECT(drawing_area), "configure_event",
-			  GTK_SIGNAL_FUNC(handle_configure_event), this);
-      gtk_signal_connect (GTK_OBJECT (drawing_area), "destroy_event",
-			  reinterpret_cast <GtkSignalFunc> (handle_destroy_event),
-			  this);
-#if 0
-      gtk_signal_connect (GTK_OBJECT (drawing_area), "expose_event",
-			  reinterpret_cast <GtkSignalFunc> (handle_expose_event),
-			  this);
-#endif
-      gtk_signal_connect (GTK_OBJECT (drawing_area), "button_press_event",
-			  reinterpret_cast <GtkSignalFunc> (handle_button_event),
-			  this);
-      gtk_signal_connect (GTK_OBJECT (drawing_area), "button_release_event",
-			  reinterpret_cast <GtkSignalFunc> (handle_button_event),
-			  this);
-      gtk_widget_show (drawing_area);
 
       /* {path, accelerator, callback, callback_data, widget} */
       GtkItemFactoryEntry entries[] =
@@ -147,8 +141,6 @@ glclock::glclock ()
          entering the try block.  */
       if (menu_factory != NULL)
 	gtk_object_unref(GTK_OBJECT(menu_factory));
-      if (drawing_area != NULL)
-	gtk_widget_unref (drawing_area);
       delete m;
       throw;
     }
@@ -182,14 +174,31 @@ glclock::update (gpointer opaque)
   object->m->rotate (angle * (180. / 3.14159),
 		     object->rot_x, object->rot_y, object->rot_z);
 
-  GtkWidget *widget = object->drawing_area;
-  /* If a context is available, a window must also be available here.  */
-  if (object->context != NULL)
+  for (vector<GtkWidget *>::iterator i = object->widgets.begin();
+       i != object->widgets.end();
+       ++i)
     {
-      gdk_gl_make_current (widget->window, object->context);
+      if (GTK_WIDGET_REALIZED(*i))
+	{
+	  if (object->context == NULL)
+	    {
+	      object->context
+		= gdk_gl_context_new(gdk_window_get_visual((*i)->window));
 
-      object->m->draw_clock (localtime (&object->t));
-      gdk_gl_swap_buffers (widget->window);
+	      gdk_gl_make_current((*i)->window, object->context);
+
+	      object->m->init();
+	    }
+
+	  gdk_gl_make_current((*i)->window, object->context);
+
+	  int width, height;
+	  gdk_window_get_size((*i)->window, &width, &height);
+	  object->m->viewport(0, 0, width, height);
+	  object->m->draw_clock(localtime(&object->t));
+
+	  gdk_gl_swap_buffers((*i)->window);
+	}
     }
 
   return 1;			// Do not remove this callback.
@@ -201,7 +210,6 @@ glclock::handle_button_event (GtkWidget *widget, GdkEventButton *event,
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
-  g_assert (object->drawing_area == widget);
 
   switch (event->button)
     {
@@ -234,6 +242,7 @@ glclock::handle_button_event (GtkWidget *widget, GdkEventButton *event,
 	switch (event->type)
 	  {
 	  case GDK_BUTTON_PRESS:
+	    object->menu_parent = widget;
 	    gtk_menu_popup (GTK_MENU (object->menu_factory->widget),
 			    NULL, NULL, NULL, NULL,
 			    event->button, event->time);
@@ -257,7 +266,6 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
-  g_assert (object->drawing_area == widget);
 
   return 0;
 }
@@ -268,7 +276,6 @@ glclock::handle_destroy_event (GtkWidget *widget, GdkEventAny *event,
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
-  g_assert (object->drawing_area == widget);
 
   if (object->context != NULL)
     {
@@ -305,7 +312,6 @@ glclock::finish_realize(GtkWidget *widget,
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
-  g_assert (object->drawing_area == widget);
 
   if (object->context == NULL)
     {
@@ -328,7 +334,7 @@ glclock::menu_about(gpointer data, guint, GtkWidget *)
 {
   glclock *object = static_cast<glclock *>(data);
 
-  about_dialog about(gtk_widget_get_toplevel(object->drawing_area));
+  about_dialog about(gtk_widget_get_toplevel(object->menu_parent));
   about.show();
 }
 
@@ -340,9 +346,25 @@ glclock::edit_options(gpointer data, guint, GtkWidget *)
   clock_options_dialog dialog(object);
   GtkWidget *widget = dialog.create_widget();
   gtk_window_set_transient_for(GTK_WINDOW(widget),
-			       GTK_WINDOW(gtk_widget_get_toplevel(object->drawing_area)));
+			       GTK_WINDOW(gtk_widget_get_toplevel(object->menu_parent)));
   gtk_widget_show(widget);
   gtk_main();
   gtk_widget_destroy(widget);
+}
+
+void
+glclock::remove_widget(GtkObject *object, gpointer data)
+{
+  GtkWidget *widget = GTK_WIDGET(object);
+  glclock *c = static_cast<glclock *>(data);
+  I(c != NULL);
+
+  vector<GtkWidget *>::iterator k
+    = find(c->widgets.begin(), c->widgets.end(), widget);
+#ifdef LG
+  LG(k == c->widgets.end(), "glclock: No widget to remove?\n");
+#endif
+  if (k != c->widgets.end())
+    c->widgets.erase(k);
 }
 

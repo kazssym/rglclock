@@ -1,5 +1,24 @@
 1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (main): Use create_widget.
+
+	* glclock.h: Add comments.
+	(class glclock): Update member functions.
+	(class glclock): Add data members: widgets and menu_parent.
+	(class glclock): Remove member drawing_area.
+
+	* glclock.cc: Include <algorithm>.
+	(create_widget, remove_widget): New function.
+	(operator GtkWidget *): Removed.
+	(~glclock): Disconnect all signals for each widget.
+	(~glclock): Unref context.
+	(glclock): Remove the drawing area creation.
+	(update): Handle all widgets.
+	(update): Create GL context if not created.
+	(handle_button_event): Remember the parent widget in menu_parent
+	on button-3 press.
+	(menu_about, edit_options): Use menu_parent.
+
 	* clockoptions.cc (apply): Change the update rate.  Modify the
 	diagnostic log message.
 	(create_widget): Use the current update rate.

@@ -34,14 +34,14 @@
 
 class module;
 
+/* Clock application.  */
 class glclock
 {
 public:
   glclock ();
   ~glclock ();
-public:
-  operator GtkWidget *() const;
 protected:
+  static void remove_widget(GtkObject *, gpointer);
   static void finish_realize(GtkWidget *, gpointer);
   static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
   static gint handle_destroy_event (GtkWidget *, GdkEventAny *, gpointer);
@@ -53,19 +53,21 @@ protected:
   static void menu_quit(gpointer, guint, GtkWidget *);
 private:
   module *m;
-  GtkWidget *drawing_area;
   GtkItemFactory *menu_factory;
   int timeout_rate;
   guint timeout_id;
+  std::vector<GtkWidget *> widgets;
   GdkGLContext *context;
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   time_t t;
   double press_x, press_y;
+  mutable GtkWidget *menu_parent;
 public:
   int update_rate() const
     {return timeout_rate;}
   void set_update_rate(int);
+  GtkWidget *create_widget();
 };
 
 /* The options dialog.  */
