@@ -198,7 +198,7 @@ static char *texture_file = NULL;
 static void
 read_texture(png_struct *png_ptr, png_info *info_ptr)
 {
-  // FIXME: read data.
+  /* FIXME: read data.  */
 }
 
 static png_color_16 BACKGROUND_COLOR =
@@ -288,14 +288,20 @@ load_texture(void)
 int
 simple_set_prop(const char *name, const char *value)
 {
-  if (strcmp(name, "texture_file") == 0)
+  if (strcmp(name, "texture_mapping") == 0)
+    {
+      /* FIXME */
+    }
+  else if (strcmp(name, "texture_file") == 0)
     {
       texture_file = realloc(texture_file, strlen(value) + 1);
       strcpy(texture_file, value);
       load_texture();
+
+      return 0;
     }
 
-  return 0;
+  return -1;
 }
 
 static const GLfloat LIGHT0_POSITION[] = {-200, 200, 200, 0};
