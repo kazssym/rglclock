@@ -1,3 +1,8 @@
+1999-07-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/main.cc (class clock_app): New class replacing struct
+	app_data.
+
 1999-07-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* profile.cc (save): Use xmlNewDocNode.

@@ -127,83 +127,110 @@ namespace
 	}
     }
 
-  struct app_data
+  class clock_app
   {
+  protected:
+    static void edit_options(gpointer, guint, GtkWidget *);
+    static void describe(gpointer, guint, GtkWidget *);
+
+  private:
     glclock clock;
     class profile profile;
+
+  public:
+    clock_app();
+
+  public:
+    GtkWidget *create_window();
   };
-
-  void edit_options(gpointer data, guint, GtkWidget *item)
-    {
-      GtkWidget *window = static_cast<GtkWidget *>(data);
-      gpointer ud = gtk_object_get_user_data(GTK_OBJECT(window));
-      app_data *d = static_cast<app_data *>(ud);
-
-      clock_options_dialog dialog(&d->clock);
-      dialog.act(GTK_WINDOW(window));
-
-      d->profile.save(&d->clock);
-    }
-
-  void describe(gpointer data, guint, GtkWidget *item)
-    {
-      GtkWidget *window = static_cast<GtkWidget *>(data);
-
-      about_dialog dialog;
-      dialog.act(GTK_WINDOW(window));
-    }
-
-  GtkWidget *create_widget(app_data *glc)
-    {
-      GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-      gtk_object_set_user_data(GTK_OBJECT(toplevel), glc);
-      gtk_window_set_policy(GTK_WINDOW(toplevel), true, true, false);
-      gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
-			 GTK_SIGNAL_FUNC(gtk_main_quit), glc);
-      {
-	GtkObject_ptr<GtkWidget> box1(gtk_vbox_new(FALSE, 0));
-	{
-	  GtkObject_ptr<GtkItemFactory> ifactory
-	    (gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", NULL));
-	  GtkItemFactoryEntry entries[]
-	    =
-	  {
-	    {_("/_File/_Options..."), NULL,
-	     reinterpret_cast<GtkItemFactoryCallback>(&edit_options), 3,
-	     "<Item>"},
-	    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
-	    {_("/_File/E_xit"), NULL,
-	     reinterpret_cast<GtkItemFactoryCallback>(&gtk_main_quit), 1,
-	     "<Item>"},
-	    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
-	    {_("/_File/_About..."), NULL,
-	     reinterpret_cast<GtkItemFactoryCallback>(&describe), 2, "<Item>"}
-	  };
-	  gtk_item_factory_create_items(ifactory.get(),
-					sizeof entries / sizeof entries[0],
-					entries, toplevel);
-
-	  if (!opt_hide_menu_bar)
-	    gtk_widget_show(ifactory->widget);
-	  gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
-			     FALSE, FALSE, 0);
-
-	  GtkObject_ptr<GtkWidget> content(glc->clock.create_widget());
-	  gtk_widget_show(content.get());
-	  gtk_box_pack_start(GTK_BOX(box1.get()), content.get(),
-			     TRUE, TRUE, 0);
-	  GdkGeometry geometry = {0, 0, 0, 0, 0, 0, 1, 1};
-	  gtk_window_set_geometry_hints(GTK_WINDOW(toplevel), content.get(),
-					&geometry, GDK_HINT_RESIZE_INC);
-	}
-	gtk_widget_show(box1.get());
-	gtk_container_add(GTK_CONTAINER(toplevel), box1.get());
-      }
-
-      return toplevel;
-    }
 } // (unnamed namespace)
+
+void
+clock_app::edit_options(gpointer data, guint, GtkWidget *item)
+{
+  GtkWidget *window = static_cast<GtkWidget *>(data);
+  gpointer ud = gtk_object_get_user_data(GTK_OBJECT(window));
+  clock_app *d = static_cast<clock_app *>(ud);
+
+  clock_options_dialog dialog(&d->clock);
+  dialog.act(GTK_WINDOW(window));
+
+  d->profile.save(&d->clock);
+}
+
+void
+clock_app::describe(gpointer data, guint, GtkWidget *item)
+{
+  GtkWidget *window = static_cast<GtkWidget *>(data);
+
+  about_dialog dialog;
+  dialog.act(GTK_WINDOW(window));
+}
+
+GtkWidget *
+clock_app::create_window()
+{
+  GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+  gtk_object_set_user_data(GTK_OBJECT(toplevel), this);
+  gtk_window_set_policy(GTK_WINDOW(toplevel), true, true, false);
+  gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
+		     GTK_SIGNAL_FUNC(gtk_main_quit), this);
+  {
+    GtkObject_ptr<GtkWidget> box1(gtk_vbox_new(FALSE, 0));
+    {
+      GtkObject_ptr<GtkItemFactory> ifactory
+	(gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", NULL));
+      GtkItemFactoryEntry entries[]
+	=
+      {
+	{_("/_File/_Options..."), NULL,
+	 reinterpret_cast<GtkItemFactoryCallback>(&edit_options), 3,
+	 "<Item>"},
+	{_("/_File/"), NULL, NULL, 0, "<Separator>"},
+	{_("/_File/E_xit"), NULL,
+	 reinterpret_cast<GtkItemFactoryCallback>(&gtk_main_quit), 1,
+	 "<Item>"},
+	{_("/_File/"), NULL, NULL, 0, "<Separator>"},
+	{_("/_File/_About..."), NULL,
+	 reinterpret_cast<GtkItemFactoryCallback>(&describe), 2, "<Item>"}
+      };
+      gtk_item_factory_create_items(ifactory.get(),
+				    sizeof entries / sizeof entries[0],
+				    entries, toplevel);
+
+      if (!opt_hide_menu_bar)
+	gtk_widget_show(ifactory->widget);
+      gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
+			 FALSE, FALSE, 0);
+
+      GtkObject_ptr<GtkWidget> content(clock.create_widget());
+      gtk_widget_show(content.get());
+      gtk_box_pack_start(GTK_BOX(box1.get()), content.get(),
+			 TRUE, TRUE, 0);
+      GdkGeometry geometry = {0, 0, 0, 0, 0, 0, 1, 1};
+      gtk_window_set_geometry_hints(GTK_WINDOW(toplevel), content.get(),
+				    &geometry, GDK_HINT_RESIZE_INC);
+    }
+    gtk_widget_show(box1.get());
+    gtk_container_add(GTK_CONTAINER(toplevel), box1.get());
+  }
+
+  return toplevel;
+}
+
+clock_app::clock_app()
+{
+  string s(getenv("HOME"));
+  s.append("/.rglclock");
+#ifdef HAVE_MKDIR
+  mkdir(s.c_str(), 0777);	// XXX: Ignoring errors.
+#endif
+  s.append("/options");
+  profile.open(s.c_str());
+  profile.restore(&clock);
+  clock.add_callback(&profile);
+}
 
 int
 main (int argc, char **argv)
@@ -236,6 +263,7 @@ main (int argc, char **argv)
     {
       parse_gtkrcs();
 
+      /* FIXME: This should be done in class glclock.  */
       static int attr[] = {GDK_GL_RGBA,
 			   GDK_GL_DOUBLEBUFFER,
 			   GDK_GL_DEPTH_SIZE, 4,
@@ -245,19 +273,9 @@ main (int argc, char **argv)
 						       opt_private_colormap));
       gtk_widget_set_default_visual(visual);
 
-      app_data data;
+      clock_app app;
 
-      string s(getenv("HOME"));
-      s.append("/.rglclock");
-#ifdef HAVE_MKDIR
-      mkdir(s.c_str(), 0777);	// XXX: Ignoring errors.
-#endif
-      s.append("/options");
-      data.profile.open(s.c_str());
-      data.profile.restore(&data.clock);
-      data.clock.add_callback(&data.profile);
-
-      GtkWidget *toplevel = create_widget(&data);
+      GtkWidget *toplevel = app.create_window();
       gtk_widget_show(toplevel);
 
       gtk_main ();
