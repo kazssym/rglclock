@@ -1,7 +1,8 @@
-User-Visible Changes
+Rglclock User-Visible Changes
 
-$Format: "Version $Version$ ($ProjectDate$ -r $ProjectVersion$)" $
-Version 1.3.0 (Wed, 07 Apr 1999 22:46:08 +0900 -r 0.146)
+$Date: Wed, 28 Apr 1999 23:01:11 +0900 $
+
+Version 1.3.0
 
 * Updates for GTK+ 1.2.
 
