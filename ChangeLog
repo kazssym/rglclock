@@ -1,5 +1,12 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* bin/main.cc (class clock_app): Remove members edit_options and
+	dialog.  Add new member show_options_dialog.
+	(edit_options): Removed.
+	(handle_options_command): New function.
+	(create_window): Use handle_options_command for menu.
+	(clock_app): Remove initialization of the removed member.
+
 	* lib/glclock.cc (show_options_dialog): New function.
 	(glclock): Initialize options.
 

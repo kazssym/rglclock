@@ -68,15 +68,9 @@ public:
   static int opt_with_saved_options;
   static int opt_with_private_colormap;
 
-protected:
-  static void edit_options(gpointer, guint, GtkWidget *);
-
 private:
   glclock clock;
   class profile profile;
-
-  /* Dialog for clock options.  */
-  clock_options_dialog dialog;
 
   /* Main window of this application.  */
   GtkWidget *main_window;
@@ -89,6 +83,10 @@ public:
   GtkWidget *create_window();
 
 public:
+  /* Shows the `Options' dialog.  */
+  void show_options_dialog()
+  {clock.show_options_dialog(GTK_WINDOW(main_window));}
+
   /* Shows the about dialog and returns immediately.  */
   void show_about_dialog();
 };
@@ -224,19 +222,17 @@ clock_app::show_about_dialog()
   gtk_widget_show(dialog);
 }
 
-void
-clock_app::edit_options(gpointer data, guint, GtkWidget *item)
-{
-  clock_app *d = static_cast<clock_app *>(data);
-  GtkWidget *window = d->main_window;
-
-  d->dialog.act(GTK_WINDOW(window));
-
-  //d->profile.save(&d->clock);
-}
-
 namespace
 {
+  /* Handles an `Options' command.  */
+  void
+  handle_options_command(gpointer data, guint, GtkWidget *item) throw ()
+  {
+    clock_app *app = static_cast<clock_app *>(data);
+
+    app->show_options_dialog();
+  }
+
   /* Handles an `about' command.  */
   void
   handle_about_command(gpointer data, guint, GtkWidget *item) throw ()
@@ -273,7 +269,7 @@ clock_app::create_window()
 #define ITEM_FACTORY_CALLBACK(f) (reinterpret_cast<GtkItemFactoryCallback>(f))
 	  GtkItemFactoryEntry entries[]
 	    = {{_("/_File/_Options..."), NULL,
-		ITEM_FACTORY_CALLBACK(&edit_options), 3, "<Item>"},
+		ITEM_FACTORY_CALLBACK(&handle_options_command), 0, "<Item>"},
 	       {_("/_File/"), NULL, NULL, 0, "<Separator>"},
 	       {_("/_File/E_xit"), NULL,
 		ITEM_FACTORY_CALLBACK(&gtk_main_quit), 1, "<Item>"},
@@ -311,8 +307,7 @@ clock_app::~clock_app()
 }
 
 clock_app::clock_app()
-  : dialog(&clock),
-    main_window(NULL)
+  : main_window(NULL)
 {
   string s(getenv("HOME"));
   s.append("/.rglclock");
