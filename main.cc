@@ -153,13 +153,43 @@ main (int argc, char **argv)
 			  NULL);
 
       glc = new glclock ();
-      GtkWidget *content = glc->create_widget();
-      gtk_widget_show(content);
-      gtk_container_add(GTK_CONTAINER(toplevel), content);
+
+      GtkItemFactory *ifactory
+	= gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", NULL);
+      GtkItemFactoryEntry entries[]
+	=
+      {
+	{_("/_File/E_xit"), NULL, NULL, 1, "<Item>"},
+	{_("/_Help/_About..."), NULL, NULL, 2, "<Item>"}
+      };
+      gtk_item_factory_create_items(ifactory, 2, entries, ifactory);
+      // Unimplemented menu items.
+      gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory,
+								     1),
+			       FALSE);
+      gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory,
+								     2),
+			       FALSE);
+
+      {
+	GtkWidget *box1 = gtk_vbox_new(FALSE, 0);
+	{
+	  gtk_widget_show(ifactory->widget);
+	  gtk_box_pack_start(GTK_BOX(box1), ifactory->widget,
+			     FALSE, FALSE, 0);
+
+	  GtkWidget *content = glc->create_widget();
+	  gtk_widget_show(content);
+	  gtk_box_pack_start(GTK_BOX(box1), content, TRUE, TRUE, 0);
+	}
+	gtk_widget_show(box1);
+	gtk_container_add(GTK_CONTAINER(toplevel), box1);
+      }
 
       gtk_widget_show (toplevel);
       gtk_main ();
 
+      gtk_object_unref(GTK_OBJECT(ifactory));
       gtk_widget_hide(toplevel);
       delete glc;
       gtk_widget_destroy(toplevel);
