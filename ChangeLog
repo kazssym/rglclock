@@ -2,6 +2,15 @@
 
 	* rglclock.prj: 
 
+	* main.cc (clean): New function.
+	(handle_delete_event): Call gtk_main_quit instead.
+	(main): Register clean as a exit function.
+	(handle_sig_by_exit): Removed.
+	(set_handlers): Removed.
+	(main): Remove a call to set_handlers.
+
+	* rglclock.prj: 
+
 	* main.cc (handle_delete_event): New function.
 	(main): Connect a "delete_event" handler for toplevel.
 

@@ -30,38 +30,21 @@
 
 static glclock *glc;
 
+static void
+clean ()
+{
+  delete glc;
+  glc = NULL;
+}
+
 /* Handle "delete_event".  */
 static gint
 handle_delete_event (GtkWidget *widget, GdkEventAny *event,
-		      gpointer opaque)
+		     gpointer opaque)
 {
-  delete glc;
-  glc = NULL;
-  gtk_exit (0);
+  gtk_main_quit ();
 
   return 0;
-}
-
-/* Handle a signal by exit.  */
-static void
-handle_sig_by_exit (int sig)
-{
-  delete glc;
-  glc = NULL;
-  gtk_exit (0xff);
-}
-
-/* Set signal handlers.  */
-static void
-set_handlers ()
-{
-  struct sigaction sa;
-  sa.sa_handler = handle_sig_by_exit;
-  sigemptyset (&sa.sa_mask);
-  sa.sa_flags = 0;
-  sigaction (SIGHUP, &sa, NULL);
-  sigaction (SIGINT, &sa, NULL);
-  sigaction (SIGTERM, &sa, NULL);
 }
 
 int
@@ -70,7 +53,7 @@ main (int argc, char **argv)
   gtk_set_locale ();
   gtk_init (&argc, &argv);
 
-  set_handlers ();
+  ATEXIT (clean);
 
   GtkWidget *toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
