@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-02-24 23:52+0900\n"
+"POT-Creation-Date: 1999-02-24 23:56+0900\n"
 "PO-Revision-Date: 1999-02-21 20:56+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -47,7 +47,7 @@ msgid "Rendering"
 msgstr "レンダリング"
 
 #. Label for the OK button.
-#: about.cc:125 options.cc:150
+#: about.cc:126 options.cc:150
 msgid "OK"
 msgstr "OK"
 
@@ -62,7 +62,7 @@ msgstr "キャンセル"
 msgid "About %s"
 msgstr "%sのバージョン情報"
 
-#: about.cc:105
+#: about.cc:106
 #, c-format
 msgid ""
 "%s %s\n"

@@ -92,6 +92,7 @@ about_dialog::about_dialog(GtkWidget *parent)
   populate(dialog);
 
   gtk_widget_ref(dialog);
+  gtk_object_sink(GTK_OBJECT(dialog));
 }
 
 #define YEARS "1998, 1999"
