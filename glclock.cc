@@ -42,6 +42,7 @@ glclock::operator GtkWidget *() const
 glclock::~glclock ()
 {
   gtk_timeout_remove (timeout_id);
+  gtk_menu_factory_destroy (menu_factory);
   gtk_widget_unref (drawing_area);
   delete m;
 }
@@ -49,6 +50,7 @@ glclock::~glclock ()
 glclock::glclock ()
   : m (NULL),
     drawing_area (NULL),
+    menu_factory (NULL),
     context (NULL),
     rot_velocity (0),
     rot_x (0), rot_y (1), rot_z (0)
@@ -59,6 +61,7 @@ glclock::glclock ()
 	 is thrown in the middle of the ctor.  */
       m = new module ();
       drawing_area = gtk_drawing_area_new ();
+      menu_factory = gtk_menu_factory_new (GTK_MENU_FACTORY_MENU);
 
       gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
 
@@ -82,6 +85,16 @@ glclock::glclock ()
 			  this);
       gtk_widget_show (drawing_area);
 
+      static GtkMenuEntry entries[] =
+      {
+	/* {path, accelerator, callback, callback_data, widget} */
+	{"About..."},
+	{"<separator>"},
+	{"Quit", NULL, menu_quit}
+      };
+      entries[2].callback_data = this;
+      gtk_menu_factory_add_entries (menu_factory, entries, 3);
+
       time (&t);
 
       timeout_id = gtk_timeout_add (100,
@@ -92,6 +105,8 @@ glclock::glclock ()
     {
       /* These are safe as they are initialized to NULLs before
          entering the try block.  */
+      if (menu_factory != NULL)
+	gtk_menu_factory_destroy (menu_factory);
       if (drawing_area != NULL)
 	gtk_widget_unref (drawing_area);
       delete m;
@@ -178,6 +193,19 @@ glclock::handle_button_event (GtkWidget *widget, GdkEventButton *event,
       break;
     case 3:
       {
+	switch (event->type)
+	  {
+	  case GDK_BUTTON_PRESS:
+	    gtk_menu_popup (GTK_MENU (object->menu_factory->widget),
+			    NULL, NULL, NULL, NULL,
+			    event->button, event->time);
+	    return 1;
+	  case GDK_BUTTON_RELEASE:
+	    gtk_menu_popdown (GTK_MENU (object->menu_factory->widget));
+	    return 1;
+	  default:
+	    break;
+	  }
       }
       break;
     }
@@ -238,4 +266,10 @@ glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
   gdk_gl_unset_current ();
 
   return 0;
+}
+
+void
+glclock::menu_quit (GtkWidget *widget, gpointer opaque)
+{
+  gtk_main_quit ();
 }

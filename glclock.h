@@ -40,9 +40,11 @@ protected:
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
+  static void menu_quit (GtkWidget *, gpointer);
 private:
   module *m;
   GtkWidget *drawing_area;
+  GtkMenuFactory *menu_factory;
   guint timeout_id;
   GdkGLContext *context;
   double rot_velocity;
