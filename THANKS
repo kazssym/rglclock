@@ -1,8 +1,10 @@
-Rglclock THANKS
+THANKS about rglclock
 
-$Date: Fri, 28 May 1999 15:24:32 +0900 $
+$Date: Tue, 26 Oct 1999 20:43:25 +0900 $
 
 Version 1.3
+
+Hints for documentation update by Geoff Kransdorf.
 
 Addition of a `--hide-menu-bar' option was suggested by John F. Brain.
 
