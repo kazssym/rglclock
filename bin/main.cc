@@ -136,7 +136,6 @@ namespace
   private:
     glclock clock;
     class profile profile;
-    GtkAccelGroup *accels;
 
   public:
     clock_app();
@@ -178,11 +177,15 @@ clock_app::create_window()
   gtk_window_set_policy(GTK_WINDOW(toplevel), true, true, false);
   gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
 		     GTK_SIGNAL_FUNC(gtk_main_quit), this);
+
+  GtkAccelGroup *ag = gtk_accel_group_new();
+  gtk_accel_group_attach(ag, GTK_OBJECT(toplevel));
+
   {
     GtkObject_ptr<GtkWidget> box1(gtk_vbox_new(FALSE, 0));
     {
       GtkObject_ptr<GtkItemFactory> ifactory
-	(gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", accels));
+	(gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", ag));
       GtkItemFactoryEntry entries[]
 	=
       {
@@ -223,11 +226,9 @@ clock_app::create_window()
 
 clock_app::~clock_app()
 {
-  gtk_accel_group_unref(accels);
 }
 
 clock_app::clock_app()
-  : accels(NULL)
 {
   string s(getenv("HOME"));
   s.append("/.rglclock");
@@ -245,8 +246,6 @@ clock_app::clock_app()
   GdkColormap *cm = gdk_colormap_new(visual, opt_private_colormap);
   gtk_widget_set_default_colormap(cm);
   gdk_colormap_unref(cm);
-
-  accels = gtk_accel_group_new();
 }
 
 int

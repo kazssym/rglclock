@@ -1,5 +1,10 @@
 1999-08-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Test deflate for -lz.
+
+	* bin/main.cc (create_window): Add accel group.
+	(class clock_app): Remove member accels.  Also change all users.
+
 	* NEWS: Modified.
 
 	* lib/clockoptions.cc (apply): Handle texture-mapping options.

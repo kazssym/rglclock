@@ -9,7 +9,7 @@ AC_PROG_CXX
 AC_PROG_RANLIB
 AC_ISC_POSIX
 dnl Checks for libraries.
-AC_CHECK_LIB(z, deflateInit)
+AC_CHECK_LIB(z, deflate)
 AC_CHECK_LIB(png, png_create_read_struct)
 AC_CHECK_LIB(xml, xmlParseDocument)
 AM_PATH_GTK(1.2.0)
