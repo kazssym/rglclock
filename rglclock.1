@@ -1,6 +1,6 @@
 '\"
 .\" $Format: ".TH RGLCLOCK 1 \"$Date$\"" $
-.TH RGLCLOCK 1 "Fri, 23 Jul 1999 13:05:54 +0900"
+.TH RGLCLOCK 1 "Tue, 26 Oct 1999 20:32:27 +0900"
 .SH NAME
 rglclock \- rotating 3D clock
 .SH SYNOPSIS
@@ -11,11 +11,13 @@ This manual page is a draft, and may lack some important information.
 .PP
 .B rglclock
 displays the time in a rotating 3D clock.
-The rotation direction and speed can be changed by a mouse drag.
-The clock will keep rotating until you stop it.
+.PP
+\fBrglclock\fR just starts with a stationary clock like traditional clock
+programs, but by dragging within the clock window, you can start the
+clock rotating in the direction you drag.  Any additional drag changes
+the direction of the rotation.  The longer you drag, the faster the
+clock rotates.
 .SH OPTIONS
-.B rglclock
-accepts all standard GTK+ options.
 .TP
 \fB-m\fR, \fB--hide-menu-bar\fR
 Hide manu bar.  If this option is specified, there is no way to show
@@ -29,6 +31,9 @@ Print help and exit.
 .TP
 \fB--version\fR
 Output version information and exit.
+.PP
+.B rglclock
+also accepts all standard GTK+ options.
 .SH "MENU COMMANDS"
 .SS File
 .TP
