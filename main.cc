@@ -39,7 +39,9 @@
 # include <unistd.h>
 #endif
 #include <signal.h>
+#include <cstdio>
 #include <string>
+#include <exception>
 
 #if GTK_MAJOR_VERSION >= 2 || GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION >= 1
 // GTK+ 1.1 and later will have minimal session manager support.

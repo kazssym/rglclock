@@ -32,6 +32,8 @@
 #include <gtk/gtk.h>
 #include <libintl.h>
 #include <cstring>
+#include <cstdlib>
+#include <cstdio>
 
 #ifdef ENABLE_TRANSIENT_FOR_HINT
 # include <gdk/gdkx.h>

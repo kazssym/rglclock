@@ -1,3 +1,15 @@
+1999-04-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* configure.in: Remove --disable-wm-command and
+	--disable-wm-transient-for.
+	Require GTK+ version 1.2.0 or later.
+	Add AC_ISC_POSIX test.
+	Move GNU get text to later.
+
+	* main.cc: Include <cstdio> and <exception>.
+
+	* about.cc: Include <cstdlib> and <cstdio>.
+
 1999-03-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (update-po): New target.
