@@ -30,6 +30,10 @@
 
 #include "module.h"
 
+const GLfloat HAND_ADC[4] = {0.1, 0.1, 0.1, 1};
+const GLfloat HAND_SC[4] = {0.6, 0.6, 0.6, 1};
+const GLfloat HAND_SR = 32;
+
 void
 module::draw_clock (const struct tm *tm) const
 {
@@ -64,8 +68,9 @@ module::draw_clock (const struct tm *tm) const
     gluDeleteQuadric (qobj);
   }
 
-  const GLfloat vd[4] = {0.2, 0.2, 0.2, 1.};
-  glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vd);
+  glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
+  glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
+  glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
 
   glBegin (GL_QUADS);
   glNormal3f (1., 0., 1.);
