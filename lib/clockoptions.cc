@@ -63,6 +63,27 @@ clock_options_dialog::general_options_page::apply(GtkWidget *widget)
 #endif
   I(target != NULL);
   target->set_update_rate(rate);
+
+  {
+    gpointer data
+      = gtk_object_get_data(GTK_OBJECT(widget), TEXTURE_CHECK_BUTTON_KEY);
+    I(data != NULL);
+    GtkWidget *texture_check_button = GTK_WIDGET(data);
+
+    bool checked
+      = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(texture_check_button));
+    target->set_module_prop("texture_mapping", checked ? "1" : "");
+  }
+
+  {
+    gpointer data
+      = gtk_object_get_data(GTK_OBJECT(widget), TEXTURE_FILE_ENTRY_KEY);
+    I(data != NULL);
+    GtkWidget *texture_file_entry = GTK_WIDGET(data);
+
+    gchar *name = gtk_entry_get_text(GTK_ENTRY(texture_file_entry));
+    target->set_module_prop("texture_file", name);
+  }
 }
 
 GtkWidget *

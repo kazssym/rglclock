@@ -27,11 +27,10 @@
 
 #include "utils.h"
 #include "gdkgl.h"
+#include <module.h>
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
 #include <time.h>
-
-class module;
 
 /* Clock application.  */
 class glclock
@@ -72,6 +71,11 @@ public:
   int update_rate() const
     {return timeout_rate;}
   void set_update_rate(int);
+
+  /* Sets modules's property NAME to VALUE.  */
+  void set_module_prop(const std::string &name, const std::string &value)
+    {m->set_prop(name, value);}
+
   GtkWidget *create_widget();
 };
 

@@ -1,5 +1,10 @@
 1999-08-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/clockoptions.cc (apply): Handle texture-mapping options.
+
+	* include/glclock.h (class glclock): Add new member
+	set_module_prop.
+
 	* lib/Makefile.am (noinst_HEADERS): Added.
 
 	* include/Makefile.am (noinst_HEADERS): Remove simple.h.
