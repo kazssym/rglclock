@@ -1,0 +1,34 @@
+お読みください
+
+$Date: Wed, 24 Feb 1999 22:22:30 +0900 $
+
+>> 説明
+
+rglclockは、Mesa/OpenGLとGTK+を利用する「自転する」3D時計です。自転の
+方向と速度はマウスドラッグで設定できます。
+
+>> 最新情報
+
+rglclockに関する最新情報は以下で入手できます。
+
+<URL:http://www.hypercore.co.jp/rglclock/> (日本語) および
+<URL:http://www.hypercore.co.jp/rglclock/en.html> (英語)。
+
+新しいリリースやスナップショットもここから入手できます。
+
+>> 所要環境
+
+>> インストール
+
+>> 問い合わせ先
+
+     rglclock@lists.hypercore.co.jp
+
+>> カスタマイズサービス
+
+有限会社ハイパーコアでは、rglclockをはじめとするフリーソフトウェアのカ
+スタマイズや機能拡張などのサービスを有料で行っています。下記までお問い
+合わせください。
+
+     linux@hypercore.co.jp
+

@@ -11,7 +11,7 @@ noinst_HEADERS = glclock.h module.h simple.h gdkgl.h
 
 man_MANS = rglclock.1
 
-EXTRA_DIST = ${man_MANS}
+EXTRA_DIST = README.ja ${man_MANS}
 
 dist-snapshot:
 	${MAKE} VERSION=${VERSION}.`date +%Y%m%d` dist
