@@ -20,6 +20,8 @@
 #ifndef module_h
 #define module_h 1
 
+#include <GL/gl.h>
+
 struct tm;
 
 class module
@@ -32,6 +34,8 @@ public:
   void viewport (int, int, int, int);
   void rotate (double, double, double, double);
   void draw_clock (const struct tm *) const;
+private:
+  GLfloat rot[16];
 };
 
 #endif /* not module_h */

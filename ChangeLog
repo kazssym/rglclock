@@ -1,5 +1,11 @@
 1998-08-19  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* module.h (class module): Add member rot.
+	* module.cc (rot): Removed.
+	(init): Initialize this->rot.
+	(draw_clock): Set the modelview matrix.
+	(rotate): Do not reset the modelview matrix.
+
 	* module.cc (draw_clock): Use flat shading while drawing a dial.
 	(draw_clock) [0]: (Use local viewer while drawing hands.)
 

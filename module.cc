@@ -38,12 +38,11 @@ void
 module::draw_clock (const struct tm *tm) const
 {
   glMatrixMode (GL_MODELVIEW);
-#if 0
   glLoadIdentity ();
-  gluLookAt (0, 0, 100,
+  gluLookAt (0, 0, 150,
 	     0, 0, 0,
 	     0, 1, 0);
-#endif
+  glMultMatrixf (rot);
 
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -129,14 +128,6 @@ module::draw_clock (const struct tm *tm) const
 #endif
 }
 
-static GLfloat rot[16] =
-{
-  1., 0., 0., 0.,
-  0., 1., 0., 0.,
-  0., 0., 1., 0.,
-  0., 0., 0., 1.
-};
-
 void
 module::rotate (double deg,
 		double x, double y, double z)
@@ -147,12 +138,6 @@ module::rotate (double deg,
 	     x, y, z);
   glMultMatrixf (rot);
   glGetFloatv (GL_MODELVIEW_MATRIX, rot);
-
-  glLoadIdentity ();
-  gluLookAt (0, 0, 150,
-	     0, 0, 0,
-	     0, 1, 0);
-  glMultMatrixf (rot);
 }
 
 void
@@ -166,6 +151,7 @@ module::init ()
 {
   glMatrixMode (GL_MODELVIEW);
   glLoadIdentity ();
+  glGetFloatv (GL_MODELVIEW_MATRIX, rot);
   gluLookAt (0, 0, 150,
 	     0, 0, 0,
 	     0, 1, 0);
