@@ -82,7 +82,14 @@ glclock::update (gpointer opaque)
 
   object->m->rotate (object->rot_velocity / 10.,
 		     object->rot_x, object->rot_y, object->rot_z);
-  gtk_widget_draw (object->drawing_area, NULL);
+
+  GtkWidget *widget = object->drawing_area;
+  gdk_gl_set_current (object->context, widget->window);
+
+  object->m->draw_clock (&object->tm);
+  gdk_gl_swap_buffers (widget->window);
+
+  gdk_gl_unset_current ();
 
   return 1;			// Do not remove this callback.
 }

@@ -1,5 +1,9 @@
 1998-07-09  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* NEWS: Updated.
+
+	* glclock.cc (update): Call draw_clock directly.
+
 	* gdkGL/Makefile.am (libgdkGL_a_SOURCES): Drop gdkGL_gdkutils.c.
 	(noinst_HEADERS): Drop gdkGL_gdkutils.h.
 
