@@ -120,6 +120,6 @@ about_dialog::handle_ok(GtkWidget *dialog,
   about_dialog *d = static_cast<about_dialog *>(data);
   I(d != NULL);
 
-  d->quit();
+  d->close(positive_action());
 }
 

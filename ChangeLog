@@ -1,5 +1,24 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* bin/main.cc (class clock_app): Add member ad.
+	(describe): Use member ad instead of local object.
+
+	* lib/about.cc (handle_ok): Replace call of quit using close.
+	* lib/options.cc (handle_ok, handle_cancel): Likewise.
+
+	* lib/modaldialog.cc (take_action, close, add, create_window,
+ 	destroy_window): New functions.
+	(quit): Removed.
+	(act): Use create_window.  Check if window is visible.
+	(handle_delete_event): Close as a negative action.
+	(~modal_dialog): Use destroy_window.
+
+	* include/utils.h (class modal_dialog): Add members struct
+ 	action_callback, negative_action, positive_action,
+ 	action_callbacks, add, take_action, close, create_window,
+ 	destroy_window, and populate.  Remove quit.  Rename member widget
+ 	to window.
+
 	* lib/modaldialog.cc (deliver_delete_event): New function.
 	(act): Use deliver_delete_event.
 

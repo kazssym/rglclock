@@ -25,7 +25,7 @@
 #ifndef UTILS_H
 #define UTILS_H 1
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtkdialog.h>
 #include <vector>
 #include <string>
 
@@ -50,9 +50,26 @@ protected:
 /* Base component for modal dialogs.  */
 class modal_dialog
 {
+public:
+  /* Callback interface for actions.  */
+  struct action_callback
+  {
+    virtual void action_taken(int key) = 0;
+  };
+
+public:
+  /* Common key for negative actions.  */
+  static int negative_action() {return 0;}
+
+  /* Common key for positive actions.  */
+  static int positive_action() {return 1;}
+
 private:
+  /* Callbacks to notify actions taken.  */
+  vector<action_callback *> action_callbacks;
+
   /* Widget created for this dialog.  */
-  GtkWidget *widget;
+  GtkWidget *window;
 
 public:
   /* Constructs this dialog.  */
@@ -62,6 +79,9 @@ public:
   virtual ~modal_dialog();
 
 public:
+  /* Adds an action callback.  */
+  void add(action_callback *callback);
+
   /* Activates this dialog.  */
   void act(GtkWindow *parent);
 
@@ -69,11 +89,23 @@ public:
   bool handle_delete_event(GtkWidget *, GdkEventAny *);
 
 protected:
-  /* Creates a widget for this dialog.  This must be overriden.  */
-  virtual GtkWidget *create_widget() = 0;
+  /* Takes an action.  */
+  void take_action(int key);
 
   /* Deactivates this dialog.  */
-  void quit();
+  void close(int key);
+
+  /* Creates a window if not.  */
+  void create_window();
+
+  /* Destroys the window of this dialog.  */
+  void destroy_window();
+
+  /* Populates a dialog with subwidgets.  */
+  virtual void populate(GtkDialog *) {}// = 0
+
+  /* Creates a widget for this dialog.  This must be overriden.  */
+  virtual GtkWidget *create_widget() = 0;
 };
 
 struct options_page

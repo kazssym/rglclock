@@ -45,6 +45,28 @@
 
 using namespace std;
 
+void
+modal_dialog::take_action(int key)
+{
+  for (vector<action_callback *>::iterator i = action_callbacks.begin();
+       i != action_callbacks.end();
+       ++i)
+    (*i)->action_taken(key);
+}
+
+void
+modal_dialog::close(int key)
+{
+  gtk_widget_hide(window);
+  take_action(key);
+}
+
+void
+modal_dialog::add(action_callback *callback)
+{
+  action_callbacks.push_back(callback);
+}
+
 namespace
 {
   /* Delivers a delete event to the dialog's handler.  */
@@ -59,26 +81,38 @@ namespace
 } // (unnamed)
 
 void
-modal_dialog::act(GtkWindow *parent)
+modal_dialog::create_window()
 {
-  if (widget == NULL)
+  if (window == NULL)
     {
-      widget = create_widget();
-      I(GTK_IS_WINDOW(widget));
+      window = create_widget();
+      I(GTK_IS_WINDOW(window));
 
-      gtk_window_set_modal(GTK_WINDOW(widget), true);
-      gtk_signal_connect(GTK_OBJECT(widget), "delete_event",
+      gtk_window_set_modal(GTK_WINDOW(window), true);
+      gtk_signal_connect(GTK_OBJECT(window), "delete_event",
 			 GTK_SIGNAL_FUNC(&deliver_delete_event), this);
     }
-
-  gtk_window_set_transient_for(GTK_WINDOW(widget), parent);
-  gtk_widget_show(widget);
 }
 
 void
-modal_dialog::quit()
+modal_dialog::destroy_window()
 {
-  gtk_widget_hide(widget);
+  if (window != NULL)
+    {
+      gtk_widget_destroy(window);
+      window = NULL;
+    }
+}
+
+void
+modal_dialog::act(GtkWindow *parent)
+{
+  create_window();
+  if (!GTK_WIDGET_VISIBLE(window))
+    {
+      gtk_window_set_transient_for(GTK_WINDOW(window), parent);
+      gtk_widget_show(window);
+    }
 }
 
 /* Handles a delete event on the dialog.  */
@@ -86,18 +120,17 @@ bool
 modal_dialog::handle_delete_event(GtkWidget *dialog,
 				  GdkEventAny *event)
 {
-  quit();
+  close(negative_action());
   return true;
 }
 
 modal_dialog::~modal_dialog()
 {
-  if (widget != NULL)
-    gtk_widget_destroy(widget);
+  destroy_window();
 }
 
 modal_dialog::modal_dialog()
-  : widget(NULL)
+  : window(NULL)
 {
 }
 

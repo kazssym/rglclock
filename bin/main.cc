@@ -146,6 +146,9 @@ namespace
     /* Dialog for clock options.  */
     clock_options_dialog dialog;
 
+    /* About dialog.  */
+    about_dialog ad;
+
   public:
     clock_app();
     ~clock_app();
@@ -171,9 +174,10 @@ void
 clock_app::describe(gpointer data, guint, GtkWidget *item)
 {
   GtkWidget *window = static_cast<GtkWidget *>(data);
+  gpointer ud = gtk_object_get_user_data(GTK_OBJECT(window));
+  clock_app *d = static_cast<clock_app *>(ud);
 
-  about_dialog dialog;
-  dialog.act(GTK_WINDOW(window));
+  d->ad.act(GTK_WINDOW(window));
 }
 
 GtkWidget *

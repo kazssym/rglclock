@@ -176,7 +176,7 @@ options_dialog::handle_ok(GtkWidget *button,
       i->second->apply(page_widget);
     }
 
-  d->quit();
+  d->close(positive_action());
 }
 
 void
@@ -186,6 +186,6 @@ options_dialog::handle_cancel(GtkWidget *button,
   options_dialog *d = static_cast<options_dialog *>(data);
   I(d != NULL);
 
-  d->quit();
+  d->close(negative_action());
 }
 
