@@ -28,10 +28,16 @@
 #include <GL/gl.h>
 #include <string>
 
-/* Class wrapper for a clock module.  This class will eventually be
-   extended to support dynamically loadable clock modules.  */
+/* Class wrapper for a clock module.  This object will eventually be
+   extended to support dynamically loadable clock modules.
+
+   No platform-specific function is called by this object.  */
 class module
 {
+private:
+  /* Rotation matrix.  */
+  GLfloat rot[16];
+
 public:
   module ();
   ~module ();
@@ -48,9 +54,6 @@ public:
 
   /* Sets property NAME to VALUE.  */
   void set_prop(const std::string &name, const std::string &value);
-  
-private:
-  GLfloat rot[16];
 };
 
 #endif /* not module_h */
