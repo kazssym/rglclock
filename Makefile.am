@@ -7,6 +7,3 @@ SUBDIRS = intl po include lib bin
 update-po:
 	cd po && ${MAKE} update-po
 
-dist-snapshot distcheck-snapshot:
-	${MAKE} VERSION=${VERSION}.`date +%Y%m%d` `echo $@ | sed -e 's/-snapshot//'`
-
