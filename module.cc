@@ -53,7 +53,7 @@ module::draw_clock (const struct tm *tm) const
     GLUquadricObj *qobj = gluNewQuadric ();
     if (qobj == NULL)
       throw std::bad_alloc ();
-    gluDisk (qobj, 0., 45., 24, 2);
+    gluDisk (qobj, 0., 45., 24, 1);
 
     /* Draw the back.  */
     glPushMatrix ();
