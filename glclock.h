@@ -34,6 +34,14 @@ public:
   ~glclock ();
 public:
   operator GtkWidget *() const;
+  void describe (GtkWidget *);
+protected:
+  struct menu_listener
+  {
+    glclock *target;
+    void (glclock::*activate) (GtkWidget *);
+    static void menu_activate (GtkWidget *, gpointer);
+  };
 protected:
   static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
   static gint handle_destroy_event (GtkWidget *, GdkEventAny *, gpointer);
@@ -51,6 +59,7 @@ private:
   double rot_x, rot_y, rot_z;
   time_t t;
   double press_x, press_y;
+  menu_listener about;
 };
 
 #endif /* not glclock_h */

@@ -34,9 +34,23 @@
 
 #include "glclock.h"
 
+void
+glclock::menu_listener::menu_activate (GtkWidget *widget, gpointer opaque)
+{
+  const glclock::menu_listener *listener =
+    static_cast <glclock::menu_listener *> (opaque);
+  (listener->target->*listener->activate) (widget);
+}
+
 glclock::operator GtkWidget *() const
 {
   return drawing_area;
+}
+
+void
+glclock::describe (GtkWidget *widget)
+{
+  g_warning ("Function not implemented.\n");
 }
 
 glclock::~glclock ()
@@ -85,13 +99,16 @@ glclock::glclock ()
 			  this);
       gtk_widget_show (drawing_area);
 
-      static GtkMenuEntry entries[] =
+      about.target = this;
+      about.activate = &glclock::describe;
+      GtkMenuEntry entries[] =
       {
 	/* {path, accelerator, callback, callback_data, widget} */
-	{"About..."},
+	{"About...", NULL, menu_listener::menu_activate},
 	{"<separator>"},
 	{"Quit", NULL, menu_quit}
       };
+      entries[0].callback_data = &about;
       entries[2].callback_data = this;
       gtk_menu_factory_add_entries (menu_factory, entries, 3);
 
