@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-02-21 21:05+0900\n"
+"POT-Creation-Date: 1999-02-24 23:18+0900\n"
 "PO-Revision-Date: 1999-02-21 20:56+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -12,57 +12,57 @@ msgstr ""
 "Content-Type: text/plain; charset=EUC-JP\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: main.cc:219
+#: main.cc:224
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
 
-#: glclock.cc:112
+#: glclock.cc:117
 msgid "Reset Rotation"
 msgstr "回転を元に戻す"
 
-#: glclock.cc:114
+#: glclock.cc:119
 msgid "Options..."
 msgstr "オプション..."
 
-#: glclock.cc:115
+#: glclock.cc:120
 msgid "About..."
 msgstr "バージョン情報..."
 
-#: glclock.cc:117
+#: glclock.cc:122
 msgid "Exit"
 msgstr "終了"
 
-#: options.cc:118
+#: options.cc:123
 msgid "Update frequency:"
 msgstr "更新頻度:"
 
 #. Label for the General tab.
-#: options.cc:127
+#: options.cc:132
 msgid "General"
 msgstr "一般"
 
-#: options.cc:136
+#: options.cc:141
 msgid "Rendering"
 msgstr "レンダリング"
 
 #. Label for the OK button.
-#: about.cc:117 options.cc:145
+#: about.cc:124 options.cc:150
 msgid "OK"
 msgstr "OK"
 
 #. Label for the Cancel button.
-#: options.cc:154
+#: options.cc:159
 msgid "Cancel"
 msgstr "キャンセル"
 
 #. Sets the window title.
-#: about.cc:64
+#: about.cc:71
 #, c-format
 msgid "About %s"
 msgstr "%sのバージョン情報"
 
-#: about.cc:97
+#: about.cc:104
 #, c-format
 msgid ""
 "%s %s\n"
