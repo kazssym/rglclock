@@ -1,5 +1,4 @@
 lib/options.cc
 lib/clockoptions.cc
 lib/glclock.cc
-lib/about.cc
 bin/main.cc

@@ -11,7 +11,7 @@ libutils_a_SOURCES = modaldialog.cc options.cc
 
 libsimple_a_SOURCES = simple.c
 
-libclock_a_SOURCES = module.cc glclock.cc clockoptions.cc about.cc
+libclock_a_SOURCES = module.cc glclock.cc clockoptions.cc
 
 noinst_HEADERS = simple.h
 

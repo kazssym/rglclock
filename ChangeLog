@@ -1,5 +1,9 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/about.cc: Removed.
+
+	* lib/Makefile.am (libclock_a_SOURCES): Remove about.cc.
+
 	* lib/simple.c: Modify the material parameters.
 	(simple_init): Set the ambient parameters for lights.
 
