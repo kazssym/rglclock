@@ -37,10 +37,17 @@ class module;
 class glclock
 {
 public:
+  /* Call-back interface that is used to implement hooks about
+     options.  */
   struct options_callback
   {
     virtual void options_changed(glclock *) = 0;
   };
+
+public:
+  /* Returns the best visual for this class.  */
+  static GdkVisual *best_visual();
+
 public:
   glclock ();
   ~glclock ();

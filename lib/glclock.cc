@@ -300,3 +300,15 @@ glclock::remove_widget(GtkObject *object, gpointer data)
     c->widgets.erase(k);
 }
 
+GdkVisual *
+glclock::best_visual()
+{
+  int attr[] = {GDK_GL_RGBA,
+		GDK_GL_DOUBLEBUFFER,
+		GDK_GL_DEPTH_SIZE, 16,
+		GDK_GL_NONE};
+  GdkVisual *v = gdk_gl_choose_visual(attr);
+
+  return v;
+}
+

@@ -239,6 +239,13 @@ clock_app::clock_app()
   profile.restore(&clock);
   clock.add_callback(&profile);
 
+  GdkVisual *visual = glclock::best_visual();
+  gtk_widget_set_default_visual(visual);
+
+  GdkColormap *cm = gdk_colormap_new(visual, opt_private_colormap);
+  gtk_widget_set_default_colormap(cm);
+  gdk_colormap_unref(cm);
+
   accels = gtk_accel_group_new();
 }
 
@@ -273,24 +280,24 @@ main (int argc, char **argv)
     {
       parse_gtkrcs();
 
-      /* FIXME: This should be done in class glclock.  */
-      static int attr[] = {GDK_GL_RGBA,
-			   GDK_GL_DOUBLEBUFFER,
-			   GDK_GL_DEPTH_SIZE, 4,
-			   GDK_GL_NONE};
-      GdkVisual *visual = gdk_gl_choose_visual(attr);
-      gtk_widget_set_default_colormap(gdk_colormap_new(visual,
-						       opt_private_colormap));
-      gtk_widget_set_default_visual(visual);
-
       clock_app app;
 
-      GtkWidget *toplevel = app.create_window();
-      gtk_widget_show(toplevel);
+      GtkWidget *toplevel = 0;
+      try
+	{
+	  toplevel = app.create_window();
+	  gtk_widget_show(toplevel);
 
-      gtk_main ();
+	  gtk_main();
 
-      gtk_widget_destroy(toplevel);
+	  gtk_widget_destroy(toplevel);
+	}
+      catch (...)
+	{
+	  if (toplevel != NULL)
+	    gtk_widget_destroy(toplevel);
+	  throw;
+	}
     }
   catch (exception &x)
     {

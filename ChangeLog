@@ -1,3 +1,14 @@
+1999-08-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* include/glclock.h (class glclock): Add comments.
+
+	* bin/main.cc (clock_app): Set default visual and colormap.
+	(main): Add try-catch block to destroy toplevel.
+
+	* lib/glclock.cc (best_visual): New function.
+
+	* include/glclock.h (class glclock): Add new member best_visual.
+
 1999-07-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* lib/simple.c (modify_image_info): Renamed from modify_info.
