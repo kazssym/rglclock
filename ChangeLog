@@ -1,5 +1,9 @@
 2002-05-01  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
+	* programs/main.cc (_GNU_SOURCE, _POSIX_C_SOURCE): New macro.
+
+	* configure.in: Remove AC_DEFINE(_GNU_SOURCE).
+
 	* COPYING.LIB: Removed.
 
 	* lib/glclock.cc: Use "gdk_gl.h" instead of "gdkgl.h".
