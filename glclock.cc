@@ -117,24 +117,7 @@ glclock::create_context (GtkWidget *widget, gpointer opaque)
 
   gdk_gl_set_current (object->context, widget->window);
 
-  glMatrixMode (GL_MODELVIEW);
-  glLoadIdentity ();
-  gluLookAt (0, 0, 150,
-	     0, 0, 0,
-	     0, 1, 0);
-
-  glEnable (GL_LIGHTING);
-  glEnable (GL_LIGHT0);
-  {
-    GLfloat position[] = {-1., 1., 1., 0.};
-    glLightfv (GL_LIGHT0, GL_POSITION, position);
-  }
-
-  glMatrixMode (GL_PROJECTION);
-  glLoadIdentity ();
-  //gluPerspective (35.0, 1., 1., 1000.);
-  glFrustum (-5., 5., -5., 5., 15., 250.);
-  glEnable (GL_DEPTH_TEST);
+  object->m->init ();
 
   gdk_gl_unset_current ();
 }

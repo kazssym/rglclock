@@ -98,6 +98,29 @@ module::rotate (double deg,
 	     x, y, z);
 }
 
+void
+module::init ()
+{
+  glMatrixMode (GL_MODELVIEW);
+  glLoadIdentity ();
+  gluLookAt (0, 0, 150,
+	     0, 0, 0,
+	     0, 1, 0);
+
+  glEnable (GL_LIGHTING);
+  glEnable (GL_LIGHT0);
+  {
+    GLfloat position[] = {-1., 1., 1., 0.};
+    glLightfv (GL_LIGHT0, GL_POSITION, position);
+  }
+
+  glMatrixMode (GL_PROJECTION);
+  glLoadIdentity ();
+  glFrustum (-5., 5., -5., 5., 15., 250.);
+
+  glEnable (GL_DEPTH_TEST);
+}
+
 module::~module ()
 {
 }

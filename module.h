@@ -28,6 +28,7 @@ public:
   module ();
   ~module ();
 public:
+  void init ();
   void rotate (double, double, double, double);
   void draw_clock (const struct tm *) const;
 };

@@ -1,9 +1,9 @@
 NEWS of rglclock:
-$ProjectVersion: 0.11 $
+$ProjectVersion: 0.12 $
 
 Changes since version 0.8:
 
-* Draws a disk.
+* Has a dial.
 
 Changes since version 0.3:
 
