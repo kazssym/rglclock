@@ -26,15 +26,11 @@
 #include <gtk/gtk.h>
 #include <cstring>
 
-using namespace std;
-
-#ifndef DISABLE_TRANSIENT_FOR_HINT
-# define ENABLE_TRANSIENT_FOR_HINT 1
-#endif
-
 #ifdef ENABLE_TRANSIENT_FOR_HINT
 # include <gdk/gdkx.h>
 #endif
+
+using namespace std;
 
 /* Preparing for gettext migration.  */
 #define _(S) (S)

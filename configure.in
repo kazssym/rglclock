@@ -3,6 +3,19 @@ AC_INIT(glclock.cc)
 dnl $Format: "AM_INIT_AUTOMAKE($Package$, $Version$)" $
 AM_INIT_AUTOMAKE(rglclock, 1.2.2)
 AM_CONFIG_HEADER(config.h)
+AC_ARG_ENABLE(wm-command,
+[  --disable-wm-command    do not set WM_COMMAND for the main window])
+if test "$enable_wm_command" != no; then
+  AC_DEFINE(SESSION)
+fi
+
+AC_ARG_ENABLE(wm-transient-for,
+[  --disable-wm-transient-for
+                          do not set WM_TRANSIENT_FOR for the dialog boxes])
+if test "$enable_wm_transient_for" != no; then
+  AC_DEFINE(ENABLE_TRANSIENT_FOR_HINT)
+fi
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX

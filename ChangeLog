@@ -1,5 +1,14 @@
 1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* Makefile.am (INCLUDES): Remove -DSESSION.
+
+	* about.cc: Remove #define ENABLE_TRANSIENT_FOR_HINT.
+
+	* configure.in: Add options: --disable-wm-command and
+	--disable-wm-transient-for.
+	* acconfig.h: Add entries for SESSION and
+	ENABLE_TRANSIENT_FOR_HINT.
+
 	* about.cc (about_dialog): Use asprintf/sprintf for gettext
 	migration later.
 	(populate): Make the version string using asprintf/sprintf.
