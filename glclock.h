@@ -42,9 +42,6 @@ public:
   ~glclock ();
 protected:
   static void remove_widget(GtkObject *, gpointer);
-  static void finish_realize(GtkWidget *, gpointer);
-  static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
-  static gint handle_destroy_event (GtkWidget *, GdkEventAny *, gpointer);
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
@@ -56,11 +53,10 @@ private:
   GtkItemFactory *menu_factory;
   int timeout_rate;
   guint timeout_id;
-  std::vector<GtkWidget *> widgets;
   GdkGLContext *context;
+  std::vector<GtkWidget *> widgets;
   double rot_velocity;
   double rot_x, rot_y, rot_z;
-  time_t t;
   double press_x, press_y;
   mutable GtkWidget *menu_parent;
 public:

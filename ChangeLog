@@ -1,5 +1,16 @@
 1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.h (class glclock): Update members.
+	(class glclock): Remove member t.
+
+	* glclock.cc (glclock): Remove setting of t.
+	(update): Keep the current time in a function-local variable.
+	(update) [!HAVE_GETTIMEOFDAY]: Use timeout_rate.
+	(handle_destroy_event, handle_configure_event, finish_realize):
+	Removed.
+	(update) [HAVE_GETTIMEOFDAY]: Add comments.
+	(glclock): Disable the unimplemented menu item.
+
 	* main.cc (main): Use create_widget.
 
 	* glclock.h: Add comments.

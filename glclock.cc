@@ -129,8 +129,9 @@ glclock::glclock ()
 	{_("/Exit"), NULL, (GtkItemFactoryCallback) &menu_quit, 4, ""}
       };
       gtk_item_factory_create_items(menu_factory, 6, entries, this);
-
-      time (&t);
+      gtk_widget_set_sensitive(gtk_item_factory_get_widget(menu_factory,
+							   entries[0].path),
+			       FALSE);
 
       timeout_id
 	= gtk_timeout_add(rate_to_interval(timeout_rate), update, this);
@@ -152,11 +153,13 @@ glclock::update (gpointer opaque)
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
 
-  time (&object->t);
+  time_t t;
+  time(&t);
 
 #ifdef HAVE_GETTIMEOFDAY
   double angle = 0;
   {
+    // FIXME.  The last update time should be kept in the object.
     static struct timeval tv_last = {0};
     struct timeval tv;
     gettimeofday (&tv, NULL);
@@ -169,7 +172,7 @@ glclock::update (gpointer opaque)
     tv_last = tv;
   }
 #else /* !HAVE_GETTIMEOFDAY */
-  double angle = object->rot_velocity / 10;
+  double angle = object->rot_velocity / timeout_rate;
 #endif /* !HAVE_GETTIMEOFDAY */
   object->m->rotate (angle * (180. / 3.14159),
 		     object->rot_x, object->rot_y, object->rot_z);
@@ -195,7 +198,7 @@ glclock::update (gpointer opaque)
 	  int width, height;
 	  gdk_window_get_size((*i)->window, &width, &height);
 	  object->m->viewport(0, 0, width, height);
-	  object->m->draw_clock(localtime(&object->t));
+	  object->m->draw_clock(localtime(&t));
 
 	  gdk_gl_swap_buffers((*i)->window);
 	}
@@ -268,59 +271,6 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   g_assert (object != NULL);
 
   return 0;
-}
-
-gint
-glclock::handle_destroy_event (GtkWidget *widget, GdkEventAny *event,
-			       gpointer opaque)
-{
-  glclock *object = static_cast <glclock *> (opaque);
-  g_assert (object != NULL);
-
-  if (object->context != NULL)
-    {
-      gdk_gl_context_unref (object->context);
-      object->context = NULL;
-    }
-
-  return 0;
-}
-
-/* Handles "configure_event"s.  */
-gint
-glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
-				 gpointer opaque)
-{
-  glclock *object = static_cast <glclock *> (opaque);
-  g_assert (object != NULL);
-
-  if (object->context != NULL)
-    {
-      gdk_gl_make_current (widget->window, object->context);
-
-      object->m->viewport (event->x, event->y,
-			   event->width, event->height);
-    }
-
-  return 0;
-}
-
-/* Finish realizing.  */
-void
-glclock::finish_realize(GtkWidget *widget,
-			gpointer opaque)
-{
-  glclock *object = static_cast <glclock *> (opaque);
-  g_assert (object != NULL);
-
-  if (object->context == NULL)
-    {
-      object->context = gdk_gl_context_new (gdk_window_get_visual (widget->window));
-
-      gdk_gl_make_current (widget->window, object->context);
-
-      object->m->init ();
-    }
 }
 
 void
