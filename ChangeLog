@@ -1,5 +1,7 @@
 1998-06-30  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* NEWS: Update doc.
+
 	* glclock.cc (update): Use module::rotate.
 
 	* module.h (class module): Update definition.
@@ -18,6 +20,8 @@
 	* module.cc: New file.
 
 1998-06-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Version 0.8 released.
 
 	* README: Update description.
 	* main.cc: Update description comments.
