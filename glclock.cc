@@ -24,6 +24,9 @@
 #undef const
 
 #include <math.h>
+#ifdef HAVE_GETTIMEOFDAY
+# include <sys/time.h>
+#endif
 #include <gtk/gtk.h>
 #include <gdkGL/gdkGL.h>
 #include <GL/glu.h>
@@ -87,7 +90,24 @@ glclock::update (gpointer opaque)
 
   time (&object->t);
 
-  object->m->rotate (object->rot_velocity / 10. * (180. / 3.14159),
+#ifdef HAVE_GETTIMEOFDAY
+  double angle = 0;
+  {
+    static struct timeval tv_last = {0};
+    struct timeval tv;
+    gettimeofday (&tv, NULL);
+    if (tv_last.tv_sec != 0)
+      {
+	double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
+	t += tv.tv_sec - tv_last.tv_sec;
+	angle = object->rot_velocity * t;
+      }
+    tv_last = tv;
+  }
+#else /* !HAVE_GETTIMEOFDAY */
+  double angle = object->rot_velocity / 10;
+#endif /* !HAVE_GETTIMEOFDAY */
+  object->m->rotate (angle * (180. / 3.14159),
 		     object->rot_x, object->rot_y, object->rot_z);
 
   GtkWidget *widget = object->drawing_area;

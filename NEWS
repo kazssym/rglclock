@@ -1,6 +1,10 @@
 NEWS of rglclock:
-$ProjectVersion: 0.35 $
+$ProjectVersion: 0.37 $
 
+Changes since version 1.1.6:
+
+* Rotation speed has been compensated.
+
 Changes since version 0.24:
 
 * Signal handling has been improved.

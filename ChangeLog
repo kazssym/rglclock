@@ -1,3 +1,8 @@
+1998-07-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc (update): Compensate rotation speed using
+	gettimeofday.
+
 1998-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (rglclock_LDFLAGS): Removed.
