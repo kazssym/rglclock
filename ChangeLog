@@ -1,3 +1,10 @@
+1999-02-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* main.cc: Undef inline at first.
+	Modify comments.
+	(main): Add exception handling.
+	(main): Use EXIT_SUCCESS.
+
 1999-02-17  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (dist-snapshot): Add suffix with x to VERSION.

@@ -19,7 +19,9 @@
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
+// C++ must have them.
 #undef const
+#undef inline
 
 #include "glclock.h"
 
@@ -95,7 +97,7 @@ namespace
 	  gtk_rc_parse(gtkrc.c_str());
 	}
     }
-} // *unnamed*
+} // (unnamed namespace)
 
 static GtkWidget *toplevel;
 static glclock *glc;
@@ -174,36 +176,44 @@ main (int argc, char **argv)
       return EXIT_SUCCESS;
     }
 
-  ATEXIT (clean);
+  try
+    {
+      ATEXIT (clean);
 
-  parse_gtkrcs();
+      parse_gtkrcs();
 
-  static int attr[] = {GDK_GL_RGBA,
-		       GDK_GL_DOUBLEBUFFER,
-		       GDK_GL_DEPTH_SIZE, 4,
-		       GDK_GL_NONE};
-  GdkVisual *visual = gdk_gl_choose_visual(attr);
-  gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
-  gtk_widget_set_default_visual(visual);
+      static int attr[] = {GDK_GL_RGBA,
+			   GDK_GL_DOUBLEBUFFER,
+			   GDK_GL_DEPTH_SIZE, 4,
+			   GDK_GL_NONE};
+      GdkVisual *visual = gdk_gl_choose_visual(attr);
+      gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
+      gtk_widget_set_default_visual(visual);
 
-  toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+      toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 #ifdef SESSION
-  /* It appears necessary to set WM_COMMAND before the X window is
+      /* It appears necessary to set WM_COMMAND before the X window is
      mapped for smproxy to pick it. */
-  gtk_signal_connect_after (GTK_OBJECT (toplevel), "realize",
-			    reinterpret_cast <GtkSignalFunc> (set_command),
-			    NULL);
+      gtk_signal_connect_after (GTK_OBJECT (toplevel), "realize",
+				reinterpret_cast <GtkSignalFunc> (set_command),
+				NULL);
 #endif
-  gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
-		      reinterpret_cast <GtkSignalFunc> (handle_delete_event),
-		      NULL);
+      gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
+			  reinterpret_cast <GtkSignalFunc> (handle_delete_event),
+			  NULL);
 
-  glc = new glclock ();
-  gtk_widget_ref (*glc);
-  gtk_container_add (GTK_CONTAINER (toplevel), *glc);
+      glc = new glclock ();
+      gtk_widget_ref (*glc);
+      gtk_container_add (GTK_CONTAINER (toplevel), *glc);
 
-  gtk_widget_show (toplevel);
-  gtk_main ();
+      gtk_widget_show (toplevel);
+      gtk_main ();
+    }
+  catch (exception &x)
+    {
+      fprintf(stderr, _("%s: Unhandled exception: %s\n"), argv[0], x.what());
+      return EXIT_FAILURE;
+    }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
