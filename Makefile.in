@@ -107,8 +107,8 @@ NROFF = nroff
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  README AUTHORS COPYING COPYING.LIB ChangeLog INSTALL \
-Makefile.am Makefile.in NEWS TODO acconfig.h aclocal.m4 config.h.in \
-configure configure.in install-sh missing mkinstalldirs stamp-h.in
+Makefile.am Makefile.in NEWS TODO acconfig.h aclocal.m4 configure \
+configure.in install-sh missing mkinstalldirs stamp-h.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)

@@ -1,5 +1,7 @@
 1999-01-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Add checks for the ALSA library.
+
 	* configure.in: Add the config header.
 
 	* acconfig.h: New file.

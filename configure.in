@@ -20,8 +20,9 @@ if test $ac_cv_lib_GLU_gluLookAt = no; then
   AC_CHECK_LIB(MesaGLU, gluLookAt, GL_LIBS="-lMesaGLU $GL_LIBS",, $GL_LIBS $GTK_LIBS)
 fi
 
+AC_CHECK_LIB(asound, snd_cards)
 dnl Checks for header files.
-AC_CHECK_HEADERS(getopt.h sys/time.h unistd.h)
+AC_CHECK_HEADERS(getopt.h sys/asoundlib.h sys/time.h unistd.h)
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_DEFINE(_GNU_SOURCE)
 AC_STRUCT_TM
