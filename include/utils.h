@@ -47,9 +47,8 @@ protected:
   void add(GtkWidget *);
 };
 
-/* Control for modal dialogs.  */
+/* Base component for modal dialogs.  */
 class modal_dialog
-  : public controller
 {
 protected:
   static gint handle_delete_event(GtkWidget *, GdkEventAny *,

@@ -109,7 +109,6 @@ about_dialog::create_widget()
 
   populate(dialog);
 
-  add(dialog);
   return dialog;
 }
 
@@ -118,7 +117,7 @@ void
 about_dialog::handle_ok(GtkWidget *dialog,
 			gpointer data)
 {
-  about_dialog *d = static_cast<about_dialog *>(to_ptr(data));
+  about_dialog *d = static_cast<about_dialog *>(data);
   I(d != NULL);
 
   d->quit();

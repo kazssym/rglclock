@@ -90,7 +90,7 @@ modal_dialog::act(GtkWindow *parent)
 
       gtk_window_set_modal(GTK_WINDOW(widget), true);
       gtk_signal_connect(GTK_OBJECT(widget), "delete_event",
-			 GTK_SIGNAL_FUNC(handle_delete_event), func_data());
+			 GTK_SIGNAL_FUNC(handle_delete_event), this);
     }
 
   gtk_window_set_transient_for(GTK_WINDOW(widget), parent);
@@ -109,7 +109,7 @@ modal_dialog::handle_delete_event(GtkWidget *dialog,
 				  GdkEventAny *event,
 				  gpointer data) throw ()
 {
-  modal_dialog *d = static_cast<modal_dialog *>(to_ptr(data));
+  modal_dialog *d = static_cast<modal_dialog *>(data);
   I(d != NULL);
 
   d->quit();
@@ -153,7 +153,7 @@ options_dialog::populate(GtkWidget *dialog)
   GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
   I(GTK_IS_BUTTON(ok_button));
   gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
-		     GTK_SIGNAL_FUNC(handle_ok), func_data());
+		     GTK_SIGNAL_FUNC(handle_ok), this);
   gtk_widget_show(ok_button);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button,
 		     FALSE, FALSE, 0);
@@ -164,7 +164,7 @@ options_dialog::populate(GtkWidget *dialog)
   GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
   I(GTK_IS_BUTTON(cancel_button));
   gtk_signal_connect(GTK_OBJECT(cancel_button), "clicked",
-		     GTK_SIGNAL_FUNC(handle_cancel), func_data());
+		     GTK_SIGNAL_FUNC(handle_cancel), this);
   gtk_widget_show(cancel_button);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), cancel_button,
 		     FALSE, FALSE, 0);
@@ -186,7 +186,6 @@ options_dialog::create_widget()
 #ifdef L
   L("options_dialog: Creating a widget %p\n", dialog);
 #endif
-  add(dialog);
   return dialog;
 }
 
@@ -203,7 +202,7 @@ void
 options_dialog::handle_ok(GtkWidget *button,
 			  gpointer data) throw ()
 {
-  options_dialog *d = static_cast<options_dialog *>(to_ptr(data));
+  options_dialog *d = static_cast<options_dialog *>(data);
   I(d != NULL);
 
   GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
@@ -231,7 +230,7 @@ void
 options_dialog::handle_cancel(GtkWidget *button,
 			      gpointer data) throw ()
 {
-  options_dialog *d = static_cast<options_dialog *>(to_ptr(data));
+  options_dialog *d = static_cast<options_dialog *>(data);
   I(d != NULL);
 
   d->quit();

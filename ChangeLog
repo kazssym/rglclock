@@ -1,5 +1,15 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/options.cc (act): Remove use of func_data.
+	(handle_delete_event, handle_ok, handle_cancel): Remove use of
+ 	to_ptr.
+	(populate): Remove use of func_data and add.
+
+	* lib/about.cc (create_widget): Remove use of add.
+	(handle_ok): Remove use of to_ptr.
+
+	* include/utils.h (class modal_dialog): Remove base class.
+
 	* include/utils.h (class modal_dialog): Add member widget and
  	constructor and destructor.
 
