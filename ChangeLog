@@ -1,3 +1,12 @@
+1998-07-19  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* TODO: Updated.
+
+1998-07-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* main.cc: Move toplevel out of main.
+	(main): Remove local toplevel.
+
 1998-07-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* glclock.cc: Test HAVE_SYS_TIME_H for sys/time.h.

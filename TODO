@@ -1,9 +1,11 @@
-TODO for rglclock:
+TODO list for rglclock:
 
-* Add loadable module support.
-
-* Compensate the rotation velocity.
+For version 1.2:
 
 * Add a popup menu.
 
 * Map texture.
+
+For version 2:
+
+* Add loadable module support.

@@ -28,6 +28,7 @@
 
 #include "glclock.h"
 
+static GtkWidget *toplevel;
 static glclock *glc;
 
 static void
@@ -35,6 +36,9 @@ clean ()
 {
   delete glc;
   glc = NULL;
+  if (toplevel != NULL)
+    gtk_widget_unref (toplevel);
+  toplevel = NULL;
 }
 
 /* Handle "delete_event".  */
@@ -55,7 +59,7 @@ main (int argc, char **argv)
 
   ATEXIT (clean);
 
-  GtkWidget *toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 		      reinterpret_cast <GtkSignalFunc> (handle_delete_event),
 		      NULL);
