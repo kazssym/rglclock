@@ -1,6 +1,6 @@
 READ ME
 
-$Date: Wed, 24 Feb 1999 22:31:37 +0900 $
+$Date: Wed, 07 Apr 1999 22:46:08 +0900 $
 
 >> DESCRIPTION
 
@@ -10,15 +10,12 @@ in the window.
 
 >> REQUIREMENTS
 
-Building rglclock requires a recent C++ compiler, GTK 1.0, and Mesa or
+Building rglclock requires a recent C++ compiler, GTK 1.2, and Mesa or
 OpenGL libraries.
 
 The C++ compiler must support exception handling.  EGCS 1.1.* should
 work, and actually used for development.  GCC 2.8.* may work but is
 not tested.  GCC 2.7.* does not work.
-
-Building with GTK 1.1.* is not tested, and some changes may be
-necessary.
 
 >> INSTALL
 
