@@ -12,6 +12,7 @@
 	(edit_options): Cast data to clock_app*.
 	(show_about_dialog): Show the dialog at the end.
 	(create_window): Add box1 to the main window first.
+	(show_about_dialog): Add cleanup for exceptions.
 
 	* lib/glclock.cc (update): Rotate only if there is a context.
 
