@@ -1,5 +1,5 @@
 /* rglclock - Rotating GL Clock.
-   Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
+   Copyright (C) 1998, 2000 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -160,26 +160,29 @@ glclock::update (gpointer opaque)
   time(&t);
 #endif
 
+  if (object->context != NULL)
+    {
 #ifdef HAVE_GETTIMEOFDAY
-  double angle = 0;
-  {
-    // FIXME.  The last update time should be kept in the object.
-    static struct timeval tv_last = {0};
-    struct timeval tv;
-    gettimeofday (&tv, NULL);
-    if (tv_last.tv_sec != 0)
+      double angle = 0;
       {
-	double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
-	t += tv.tv_sec - tv_last.tv_sec;
-	angle = object->rot_velocity * t;
+	// FIXME.  The last update time should be kept in the object.
+	static struct timeval tv_last = {0};
+	struct timeval tv;
+	gettimeofday (&tv, NULL);
+	if (tv_last.tv_sec != 0)
+	  {
+	    double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
+	    t += tv.tv_sec - tv_last.tv_sec;
+	    angle = object->rot_velocity * t;
+	  }
+	tv_last = tv;
       }
-    tv_last = tv;
-  }
 #else /* !HAVE_GETTIMEOFDAY */
-  double angle = object->rot_velocity / timeout_rate;
+      double angle = object->rot_velocity / timeout_rate;
 #endif /* !HAVE_GETTIMEOFDAY */
-  object->m->rotate (angle * (180. / 3.14159),
-		     object->rot_x, object->rot_y, object->rot_z);
+      object->m->rotate (angle * (180. / 3.14159),
+			 object->rot_x, object->rot_y, object->rot_z);
+    }
 
   for (vector<GtkWidget *>::iterator i = object->widgets.begin();
        i != object->widgets.end();
