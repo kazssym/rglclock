@@ -1,3 +1,22 @@
+2002-04-30  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
+
+	* configure.in: Rename ja_JP.eucJP to ja.
+
+2002-04-24  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
+
+	* bin/profile.cc (class xmlNode_iterator): Add oprator!=.
+
+	* include/utils.h (class modal_dialog): Prefix std:: to vector.
+
+	* lib/module.cc: Add using namespace std.
+
+2000-07-19  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/main.cc (create_window): Add "Help" to the menu bar.
+
+	* lib/glclock.cc (create_widget): Change the initial window size
+	to 160x160.
+
 2000-03-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* lib/simple.h: Declare simple_LTX_query_interface.

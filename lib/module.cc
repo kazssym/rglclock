@@ -36,6 +36,8 @@
 #include <time.h>
 #include <new>
 
+using namespace std;
+
 void
 module::draw_clock() const
 {

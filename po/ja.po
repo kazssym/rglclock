@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 2000-03-06 20:51+0900\n"
-"PO-Revision-Date: 2000-03-04 08:48+09:00\n"
+"POT-Creation-Date: 2000-07-19 23:30+0900\n"
+"PO-Revision-Date: 2000-12-10 21:49+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.hypercore.co.jp>\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
 msgid "/_File/_Options..."
 msgstr "/ファイル(_F)/オプション(_O)..."
 
-#: bin/main.cc:273 bin/main.cc:276
+#: bin/main.cc:273
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
@@ -84,45 +84,45 @@ msgstr "/ファイル(_F)/"
 msgid "/_File/E_xit"
 msgstr "/ファイル(_F)/終了(_X)"
 
-#: bin/main.cc:277
-msgid "/_File/_About..."
-msgstr "/ファイル(_F)/バージョン情報(_A)..."
+#: bin/main.cc:276
+msgid "/_Help/_About..."
+msgstr "/ヘルプ(_H)/バージョン情報(_A)..."
 
-#: bin/main.cc:380
+#: bin/main.cc:379
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr "使用法: %s [オプション]...\n"
 
-#: bin/main.cc:381
+#: bin/main.cc:380
 msgid "Display a rotating 3D clock.\n"
 msgstr "自転する3D時計を表示します。\n"
 
-#: bin/main.cc:383
+#: bin/main.cc:382
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   メニューバーを隠す\n"
 
-#: bin/main.cc:384
+#: bin/main.cc:383
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr "      --private-colormap プライベートカラーマップを割り当てる\n"
 
-#: bin/main.cc:385
+#: bin/main.cc:384
 msgid "      --no-options      start without restoring options\n"
 msgstr "      --no-options      オプションを再設定しないで起動する\n"
 
-#: bin/main.cc:386
+#: bin/main.cc:385
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            このヘルプを表示して終了する\n"
 
-#: bin/main.cc:387
+#: bin/main.cc:386
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
-#: bin/main.cc:389
+#: bin/main.cc:388
 msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
 msgstr ""
 "バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
 
-#: bin/main.cc:462
+#: bin/main.cc:461
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"

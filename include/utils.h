@@ -66,7 +66,7 @@ public:
 
 private:
   /* Callbacks to notify actions taken.  */
-  vector<action_callback *> action_callbacks;
+  std::vector<action_callback *> action_callbacks;
 
   /* Widget created for this dialog.  */
   GtkWidget *window;
