@@ -2,7 +2,7 @@
 
 	* configure.in: Add `AC_STRUCT_TM' and `AC_C_CONST'.
 
-	* Version 0.3 released.
+	* Version 0.3 released for preview.
 
 	* ChangeLog started.
 
