@@ -13,3 +13,5 @@ libsimple_a_SOURCES = simple.c
 
 libclock_a_SOURCES = module.cc glclock.cc clockoptions.cc about.cc
 
+noinst_HEADERS = simple.h
+

@@ -1,5 +1,11 @@
 1999-08-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/Makefile.am (noinst_HEADERS): Added.
+
+	* include/Makefile.am (noinst_HEADERS): Remove simple.h.
+
+	* lib/simple.h: Moved from include.
+
 	* lib/glclock.cc (handle_expose_event): Change the use of
 	module::draw_clock.
 
