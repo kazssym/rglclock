@@ -112,13 +112,30 @@ module::draw_clock (const struct tm *tm) const
   glPopMatrix ();
 }
 
+static GLfloat rot[16] =
+{
+  1., 0., 0., 0.,
+  0., 1., 0., 0.,
+  0., 0., 1., 0.,
+  0., 0., 0., 1.
+};
+
 void
 module::rotate (double deg,
 		double x, double y, double z)
 {
   glMatrixMode (GL_MODELVIEW);
-  glRotated (deg,
+  glLoadIdentity ();
+  glRotatef (deg,
 	     x, y, z);
+  glMultMatrixf (rot);
+  glGetFloatv (GL_MODELVIEW_MATRIX, rot);
+
+  glLoadIdentity ();
+  gluLookAt (0, 0, 150,
+	     0, 0, 0,
+	     0, 1, 0);
+  glMultMatrixf (rot);
 }
 
 void
