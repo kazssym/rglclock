@@ -28,6 +28,7 @@
 #undef const
 #undef inline
 
+#include "profile.h"
 #include "glclock.h"
 
 #include "autowidget.h"
@@ -179,12 +180,21 @@ main (int argc, char **argv)
 
       glclock c;
 
+      string s(getenv("HOME"));
+      s.append("/.rglclock");
+      s.append("/options");
+      profile p(s.c_str());
+      p.restore(&c);
+
       GtkWidget *toplevel = create_widget(&c);
       gtk_widget_show (toplevel);
 
       gtk_main ();
 
       gtk_widget_destroy(toplevel);
+
+      // FIXME.  This should be saved on change.
+      p.save(&c);
     }
   catch (exception &x)
     {

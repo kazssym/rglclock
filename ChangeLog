@@ -1,5 +1,7 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (main): Save and restore options.
+
 	* configure.in: Add checks for <gnome-xml/parser.h> and -lxml,
 	-lz.
 

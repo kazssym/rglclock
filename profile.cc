@@ -44,12 +44,16 @@ profile::save(glclock *clock)
   try
     {
       xmlNodePtr root = xmlNewDocNode(doc, NULL, PACKAGE, NULL);
+      doc->root = root;
       xmlNodePtr misc = xmlNewChild(root, NULL, "misc", NULL);
       char v[10];
       sprintf(v, "%d", clock->update_rate());
       xmlNewProp(misc, "update", v);
 
-      xmlSaveFile(file_name.c_str(), doc);
+      string tmp(file_name);
+      tmp.append(".tmp");
+      xmlSaveFile(tmp.c_str(), doc);
+      rename(tmp.c_str(), file_name.c_str());
     }
   catch (...)
     {
