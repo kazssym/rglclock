@@ -60,41 +60,45 @@ namespace
 {
   int opt_hide_menu_bar = 0;
   int opt_private_colormap = false;
+  int opt_no_options = false;
   int opt_help = 0;
   int opt_version = 0;
 
-  const struct option longopts[] =
+  /* Parses the program options.  */
+  bool
+  parse_options(int argc, char **argv)
   {
-    {"hide-menu-bar", no_argument, &opt_hide_menu_bar, 1},
-    {"private-colormap", no_argument, &opt_private_colormap, true},
-    {"help", no_argument, &opt_help, 1},
-    {"version", no_argument, &opt_version, 1},
-    {NULL, 0, NULL, 0}
-  };
-
-  bool parse_options(int argc, char **argv)
+    static const struct option longopts[] =
     {
-      int optc;
-      do
-	{
-	  int index;
-	  optc = getopt_long(argc, argv, "m", longopts, &index);
+      {"hide-menu-bar", no_argument, &opt_hide_menu_bar, 1},
+      {"private-colormap", no_argument, &opt_private_colormap, true},
+      {"no-options", no_argument, &opt_no_options, true},
+      {"help", no_argument, &opt_help, 1},
+      {"version", no_argument, &opt_version, 1},
+      {NULL, 0, NULL, 0}
+    };
 
-	  switch (optc)
-	    {
-	    case 'm':
-	      opt_hide_menu_bar = 1;
-	      break;
-	    case 0:		// long option
-	      break;
-	    case '?':
-	      return false;
-	    }
-	}
-      while (optc != -1);
+    int optc;
+    do
+      {
+	int index;
+	optc = getopt_long(argc, argv, "m", longopts, &index);
 
-      return true;
-    }
+	switch (optc)
+	  {
+	  case 'm':
+	    opt_hide_menu_bar = 1;
+	    break;
+	  case 0:		// long option
+	    break;
+	  case '?':
+	    return false;
+	  }
+      }
+    while (optc != -1);
+
+    return true;
+  }
 
   /* Displays the help.  */
   void
@@ -105,6 +109,7 @@ namespace
     printf("\n");
     printf(_("  -m, --hide-menu-bar   hide the menu bar\n"));
     printf(_("      --private-colormap allocate a private colormap\n"));
+    printf(_("      --no-options      start without restoring options\n"));
     printf(_("      --help            display this help and exit\n"));
     printf(_("      --version         output version information and exit\n"));
     printf("\n");
@@ -236,8 +241,10 @@ clock_app::clock_app()
   mkdir(s.c_str(), 0777);	// XXX: Ignoring errors.
 #endif
   s.append("/options");
+
   profile.open(s.c_str());
-  profile.restore(&clock);
+  if (!opt_no_options)
+    profile.restore(&clock);
   clock.add_callback(&profile);
 
   GdkVisual *visual = glclock::best_visual();

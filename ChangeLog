@@ -1,5 +1,11 @@
 1999-10-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* bin/main.cc (parse_options): Move long options to function
+	local.
+	(parse_options): Add `--no-options' option.
+	(display_help): Add `--no-options' help text.
+	(clock_app): Restore option only if !opt_no_options.
+
 	* NEWS: Updated.
 
 	* THANKS: Updated.
