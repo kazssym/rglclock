@@ -1,3 +1,13 @@
+1999-07-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* lib/simple.c (modify_image_info): Renamed from modify_info.
+	(read_texture_image): Renamed from read_texture and implemented.
+	(load_texture_image): Renamed from load_texture.
+	(set_texture): New function.
+	(simple_draw_clock): Add texture-mapping support.
+	(simple_set_prop): Set new flags.
+	(simple_init): Remove unused code.
+
 1999-07-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* include/simple.h: Add simple_set_prop decl.

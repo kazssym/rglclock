@@ -42,16 +42,11 @@
 #endif
 #include <stdlib.h>
 
-#ifdef LOGO128
-# include "logo128.h"
-#endif
+#include <assert.h>
 
 static const GLfloat vs[4] = {0, 0, 0, 1};
-#ifdef LOGO128
-static const GLfloat v[4] = {0.60, 0.60, 0.60, 1.};
-#else
 static const GLfloat v[4] = {0.10, 0.10, 0.40, 1.};
-#endif
+static const GLfloat vt[4] = {1.00, 1.00, 1.00, 1.};
 
 static const GLfloat HAND_ADC[4] = {0.05, 0.05, 0.10, 1};
 static const GLfloat HAND_SC[4] = {0.40, 0.40, 0.40, 1};
@@ -60,6 +55,157 @@ static const GLfloat HAND_SR = 16;
 #ifndef DISABLE_LOCAL_VIEWER
 # define ENABLE_LOCAL_VIEWER 1
 #endif
+
+static int texture_mapping = 0;
+static char *texture_file = NULL;
+
+static size_t texture_width;
+static unsigned char *texture_image;
+static int texture_changed = 0;
+
+static png_color_16 background =
+{
+  0,
+  0x3333,
+  0x3333,
+  0x6666
+};
+
+static void
+modify_image_info(png_struct *png_ptr, png_info *info_ptr)
+{
+  int color_type;
+  int bit_depth;
+  double file_gamma;
+
+  color_type = png_get_color_type(png_ptr, info_ptr);
+  bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+
+  if (color_type == PNG_COLOR_TYPE_PALETTE
+      || png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
+    png_set_expand(png_ptr);
+
+  if (bit_depth == 16)
+    png_set_strip_16(png_ptr);
+  else if (bit_depth < 8)
+    png_set_packing(png_ptr);
+
+  if (color_type == PNG_COLOR_TYPE_GRAY
+      || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+    png_set_gray_to_rgb(png_ptr);
+
+  png_set_background(png_ptr, &background,
+		     PNG_BACKGROUND_GAMMA_SCREEN, 0, 1.);
+
+  if (!png_get_gAMA(png_ptr, info_ptr, &file_gamma))
+    file_gamma = 0.45455;
+  png_set_gamma(png_ptr, 1., file_gamma);
+
+  png_read_update_info(png_ptr, info_ptr);
+}
+
+static void
+read_texture_image(png_struct *png_ptr, png_info *info_ptr)
+{
+  size_t image_width, image_height;
+  size_t w;
+  size_t texture_row_size, texture_size;
+  unsigned char *p;
+  png_bytep *rows, *q;
+
+  image_width = png_get_image_width(png_ptr, info_ptr);
+  image_height = png_get_image_height(png_ptr, info_ptr);
+
+  w = 1;
+  while (w < image_width || w < image_height)
+    {
+      w *= 2;
+      assert(w > 0);
+    }
+
+  texture_row_size = w * 3;
+  texture_size = w * texture_row_size;
+
+  texture_width = w;
+  texture_image = realloc(texture_image, texture_size);
+
+  for (p = texture_image; p != texture_image + texture_size; p += 3)
+    {
+      p[0] = background.red >> 8;
+      p[1] = background.green >> 8;
+      p[2] = background.blue >> 8;
+    }
+
+  rows = malloc(image_height * sizeof (png_bytep));
+  p = (texture_image
+       + (texture_width - image_height) / 2 * texture_row_size
+       + (texture_width - image_width) / 2 * 3);
+  q = rows + image_height;
+  while (q != rows)
+    {
+      *--q = (png_bytep) p;
+      p += texture_row_size;
+    }
+
+  png_read_image(png_ptr, rows);
+
+  free(rows);
+}
+
+static void
+load_texture_image(void)
+{
+  FILE *fp;
+  png_struct *png_ptr;
+  png_info *info_ptr;
+
+  texture_width = 0;
+
+  fp = fopen(texture_file, "rb");
+  if (fp == NULL)
+    {
+      return;
+    }
+
+  png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
+				   NULL, NULL, NULL);
+  if (png_ptr == NULL)
+    {
+      goto error_return_1;
+    }
+
+  info_ptr = png_create_info_struct(png_ptr);
+  if (info_ptr == NULL)
+    {
+      goto error_return_2;
+    }
+
+  if (setjmp(png_ptr->jmpbuf) != 0)
+    {
+      goto error_return_2;
+    }
+
+  png_init_io(png_ptr,fp);
+  png_read_info(png_ptr, info_ptr);
+  modify_image_info(png_ptr, info_ptr);
+
+  read_texture_image(png_ptr, info_ptr);
+
+ error_return_2:
+  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+ error_return_1:
+  fclose(fp);
+}
+
+static void
+set_texture()
+{
+  glTexImage2D(GL_TEXTURE_2D, 0, 3,
+	       texture_width, texture_width, 0,
+	       GL_RGB, GL_UNSIGNED_BYTE, texture_image);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
 
 int
 simple_draw_clock(void)
@@ -70,6 +216,12 @@ simple_draw_clock(void)
   time_t t;
 #endif /* not HAVE_GETTIMEOFDAY */
   const struct tm *lt;
+
+  if (texture_changed)
+    {
+      texture_changed = 0;
+      set_texture();
+    }
 
 #ifdef HAVE_GETTIMEOFDAY
   gettimeofday(&t, NULL);
@@ -94,28 +246,38 @@ simple_draw_clock(void)
     glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
 #endif
 
-    glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
+    if (texture_mapping && texture_width != 0)
+      {
+	glEnable(GL_TEXTURE_2D);
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vt);
+	gluQuadricTexture(qobj, GL_TRUE);
+      }
+    else
+      {
+	glDisable(GL_TEXTURE_2D);
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
+      }
+
     glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
     glMaterialf (GL_FRONT, GL_SHININESS, 0.);
 
-#ifdef LOGO128
-    glEnable (GL_TEXTURE_2D);
-    gluQuadricTexture (qobj, GL_TRUE);
-#endif
     gluDisk (qobj, 0., 45., 36, 1);
 
     /* Draw the back.  */
+#if 0
     glPushMatrix ();
     glRotatef (180., 0., 1., 0.);
-    gluDisk (qobj, 0., 45., 36, 1);
-    glPopMatrix ();
-
-#ifdef LOGO128
-    glDisable (GL_TEXTURE_2D);
 #endif
+    gluQuadricOrientation(qobj, GLU_INSIDE);
+    gluDisk (qobj, 0., 45., 36, 1);
+#if 0
+    glPopMatrix ();
+#endif
+
     gluDeleteQuadric (qobj);
   }
 
+  glDisable(GL_TEXTURE_2D);
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
   glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
   glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
@@ -193,110 +355,19 @@ simple_draw_clock(void)
   return 0;
 }
 
-static char *texture_file = NULL;
-
-static void
-read_texture(png_struct *png_ptr, png_info *info_ptr)
-{
-  /* FIXME: read data.  */
-}
-
-static png_color_16 BACKGROUND_COLOR =
-{
-  0,
-  0x1111,
-  0x1111,
-  0x1111
-};
-
-static void
-modify_info(png_struct *png_ptr, png_info *info_ptr)
-{
-  int color_type;
-  int bit_depth;
-  double file_gamma;
-
-  color_type = png_get_color_type(png_ptr, info_ptr);
-  bit_depth = png_get_bit_depth(png_ptr, info_ptr);
-
-  if (color_type == PNG_COLOR_TYPE_PALETTE
-      || png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
-    png_set_expand(png_ptr);
-
-  if (bit_depth == 16)
-    png_set_strip_16(png_ptr);
-  else if (bit_depth < 8)
-    png_set_packing(png_ptr);
-
-  if (color_type == PNG_COLOR_TYPE_GRAY
-      || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-    png_set_gray_to_rgb(png_ptr);
-
-  png_set_background(png_ptr, &BACKGROUND_COLOR,
-		     PNG_BACKGROUND_GAMMA_SCREEN, 0, 1.);
-
-  if (!png_get_gAMA(png_ptr, info_ptr, &file_gamma))
-    file_gamma = 0.45455;
-  png_set_gamma(png_ptr, 1., file_gamma);
-
-  png_read_update_info(png_ptr, info_ptr);
-}
-
-static void
-load_texture(void)
-{
-  FILE *fp;
-  png_struct *png_ptr;
-  png_info *info_ptr;
-
-  fp = fopen(texture_file, "rb");
-  if (fp == NULL)
-    {
-      return;
-    }
-
-  png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
-				   NULL, NULL, NULL);
-  if (png_ptr == NULL)
-    {
-      goto error_return_1;
-    }
-
-  info_ptr = png_create_info_struct(png_ptr);
-  if (info_ptr == NULL)
-    {
-      goto error_return_2;
-    }
-
-  if (setjmp(png_ptr->jmpbuf) != 0)
-    {
-      goto error_return_2;
-    }
-
-  png_init_io(png_ptr,fp);
-  png_read_info(png_ptr, info_ptr);
-  modify_info(png_ptr, info_ptr);
-
-  read_texture(png_ptr, info_ptr);
-
- error_return_2:
-  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
- error_return_1:
-  fclose(fp);
-}
-
 int
 simple_set_prop(const char *name, const char *value)
 {
   if (strcmp(name, "texture_mapping") == 0)
     {
-      /* FIXME */
+      texture_mapping = atoi(value);
     }
   else if (strcmp(name, "texture_file") == 0)
     {
       texture_file = realloc(texture_file, strlen(value) + 1);
       strcpy(texture_file, value);
-      load_texture();
+      texture_changed = 1;
+      load_texture_image();
 
       return 0;
     }
@@ -334,15 +405,6 @@ simple_init(void)
   glLightfv (GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
   glLightfv (GL_LIGHT1, GL_DIFFUSE, LIGHT1_INTENSITY);
   glLightfv (GL_LIGHT1, GL_SPECULAR, LIGHT1_INTENSITY);
-
-#ifdef LOGO128
-  glTexImage2D (GL_TEXTURE_2D, 0,
-		3, 128, 128, 0,
-		GL_RGB, GL_UNSIGNED_BYTE,
-		data);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-#endif
 
   return 0;
 }
