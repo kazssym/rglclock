@@ -1,5 +1,17 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* options.cc (add, ~controller, remove_widget): New functions of
+	class controller.
+	(populate, create_widget): Use controller::func_data.
+	(create_widget): Use controller::add.
+	(~options_dialog, remove_widget): Removed from class
+	options_dialog.
+	(handle_ok): Use controller::to_ptr.
+
+	* options.h (class controller): New class.
+	(class options_dialog): Derive from controller and remove
+	duplicate members.
+
 	* main.cc (edit_options): Use the new interface.
 
 	* options.h (class options_dialog): Update members.
@@ -7,7 +19,7 @@
 
 	* options.cc (create_widget): Do not set modal.
 	(act): New function.
-	(options_dialog): Set sensitive flags to false, too.
+	(~options_dialog): Set sensitive flags to false, too.
 	(handle_ok, handle_cancel, handle_delete_event, remove_widget):
 	Add `throw ()'.
 	(remove_widget): Remove a diagnostic log message.

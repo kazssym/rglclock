@@ -29,6 +29,24 @@
 #include <vector>
 #include <string>
 
+class controller
+{
+protected:
+  static controller *to_ptr(gpointer data)
+    {return static_cast<controller *>(data);}
+private:
+  static void remove_widget(GtkObject *, gpointer) throw ();
+private:
+  std::vector<GtkWidget *> widgets;
+public:
+  virtual ~controller();
+public:
+  gpointer func_data()
+    {return this;}
+protected:
+  void add(GtkWidget *);
+};
+
 struct options_page
 {
   virtual GtkWidget *create_widget() = 0;
@@ -37,17 +55,14 @@ struct options_page
 
 /* The options dialog.  */
 class options_dialog
+  : public controller
 {
 protected:
-  static void remove_widget(GtkObject *, gpointer) throw ();
   static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer) throw ();
   static void handle_ok(GtkWidget *, gpointer) throw ();
   static void handle_cancel(GtkWidget *, gpointer) throw ();
-public:
+private:
   std::vector<std::pair<std::string, options_page *> > pages;
-  std::vector<GtkWidget *> widgets;
-public:
-  virtual ~options_dialog();
 public:
   void add_page(const char *, options_page *);
   void act(GtkWindow *parent);
