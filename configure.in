@@ -2,11 +2,10 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT(lib/glclock.cc)
 AM_INIT_AUTOMAKE(rglclock, 1.4.0)
 AM_CONFIG_HEADER(config.h)
-AC_LIBTOOL_DLOPEN
 AC_LIBLTDL_CONVENIENCE
-AC_SUBST(INCLTDL)dnl
 AC_SUBST(LIBLTDL)dnl
-AC_DEFINE(_GNU_SOURCE)
+AC_SUBST(LTDLINCL)dnl
+AC_LIBTOOL_DLOPEN
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX

@@ -28,6 +28,9 @@
 #undef const
 #undef inline
 
+#define _GNU_SOURCE 1
+#define _POSIX_C_SOURCE 199506L
+
 #include "profile.h"
 #include "glclock.h"
 

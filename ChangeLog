@@ -1,8 +1,24 @@
 2002-05-01  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
+	* configure.in: Reorder macros.
+
+	* lib/Makefile.am (INCLUDES): Avoid top_srcdir.
+	(LIBS, pkglib_LTLIBRARIES, simple_la_LDFLAGS, simple_la_SOURCES,
+	simple_la_LIBADD): Removed.
+
+	* modules/Makefile.am (INCLUDES, LIBS, modules_LTLIBRARIES,
+	simple_la_LDFLAGS, simple_la_SOURCES, simple_la_LIBADD): New
+	macros.
+
+	* modules/simple.cc: Moved from lib.
+
 	* Makefile.am (SUBDIRS): Use @subdirs@.
 
 	* configure.in: Use AC_PROG_LIBTOOL.
+
+	* programs/main.cc (_GNU_SOURCE, _POSIX_C_SOURCE): New macro.
+
+	* configure.in: Remove AC_DEFINE(_GNU_SOURCE).
 
 	* COPYING.LIB: Removed.
 

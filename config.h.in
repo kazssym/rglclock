@@ -46,9 +46,6 @@
 /* Define if your <sys/time.h> declares struct tm.  */
 #undef TM_IN_SYS_TIME
 
-/* Define if you need GNU extentions.  */
-#undef _GNU_SOURCE
-
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
 
