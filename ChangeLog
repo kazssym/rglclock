@@ -1,3 +1,14 @@
+1999-02-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* gettextize.
+	* po/POTFILES.in: New file.
+	* po/ja.po: New file.
+	* configure.in (ALL_LINGUAS): Add ja.
+
+	* main.cc (parse_gtkrcs): New function.
+	(main): Initialize NLS.
+	(main): Use parse_gtkrcs.
+
 1999-02-12  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* glclock.cc: Add #include <libintl.h>.
