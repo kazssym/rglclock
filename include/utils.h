@@ -95,17 +95,22 @@ protected:
   /* Deactivates this dialog.  */
   void close(int key);
 
+protected:
+  /* Configures a dialog.  */
+  virtual void configure(GtkDialog *) {}// = 0
+
+  /* Updates subwidgets.  */
+  virtual void update(GtkDialog *) {}
+
+  /* Creates a widget for this dialog.  This must be overriden.  */
+  virtual GtkWidget *create_widget() = 0;
+
+protected:
   /* Creates a window if not.  */
   void create_window();
 
   /* Destroys the window of this dialog.  */
   void destroy_window();
-
-  /* Populates a dialog with subwidgets.  */
-  virtual void populate(GtkDialog *) {}// = 0
-
-  /* Creates a widget for this dialog.  This must be overriden.  */
-  virtual GtkWidget *create_widget() = 0;
 };
 
 struct options_page

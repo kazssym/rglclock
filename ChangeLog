@@ -1,5 +1,8 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* include/utils.h (class modal_dialog): Rename populate to
+ 	configure.  Add new member update.
+
 	* lib/about.cc (populate): Change the signal data to this.
 
 	* NEWS: Updated.
