@@ -1,5 +1,7 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/module.cc: Include <rglclockmod.h>.
+
 	* lib/simple.c: Include <rglclockmod.h>.
 
 	* include/Makefile.am (include_HEADERS): New macro.
