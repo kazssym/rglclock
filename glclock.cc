@@ -150,23 +150,36 @@ glclock::handle_button_event (GtkWidget *widget, GdkEventButton *event,
   g_assert (object != NULL);
   g_assert (object->drawing_area == widget);
 
-  if (event->type == GDK_BUTTON_PRESS && event->button == 1)
+  switch (event->button)
     {
-      object->press_x = event->x;
-      object->press_y = event->y;
-      gtk_grab_add (widget);
-    }
-  else if (event->type == GDK_BUTTON_RELEASE && event->button == 1)
-    {
-      gtk_grab_remove (widget);
-      double vel_x = double (event->x - object->press_x) / widget->allocation.width;
-      double vel_y = double (event->y - object->press_y) / widget->allocation.height;
-      if (vel_x != 0 || vel_y != 0)
-	{
-	  object->rot_y = vel_x;
-	  object->rot_x = vel_y;
-	}
-      object->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
+    case 1:
+      {
+	if (event->type == GDK_BUTTON_PRESS)
+	  {
+	    object->press_x = event->x;
+	    object->press_y = event->y;
+	    gtk_grab_add (widget);
+	    return 1;
+	  }
+	else if (event->type == GDK_BUTTON_RELEASE)
+	  {
+	    gtk_grab_remove (widget);
+	    double vel_x = double (event->x - object->press_x) / widget->allocation.width;
+	    double vel_y = double (event->y - object->press_y) / widget->allocation.height;
+	    if (vel_x != 0 || vel_y != 0)
+	      {
+		object->rot_y = vel_x;
+		object->rot_x = vel_y;
+	      }
+	    object->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
+	    return 1;
+	  }
+      }
+      break;
+    case 3:
+      {
+      }
+      break;
     }
 
   return 0;
