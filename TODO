@@ -4,10 +4,8 @@ TODO for rglclock:
 
 * Handle mouse motion.
 
-* Loadable module support.
+* Add loadable module support.
 
-* Handle "configure_event" signal.
-
-* Ignore "expose_event" signal.
+* Possibly ignore "expose_event" signal.
 
 * Compensate the rotation velocity.

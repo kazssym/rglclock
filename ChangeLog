@@ -1,5 +1,7 @@
 1998-07-09  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* TODO: Updated.
+
 	* NEWS: Updated.
 
 	* glclock.cc (update): Call draw_clock directly.
