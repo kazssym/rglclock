@@ -1,5 +1,7 @@
 1999-10-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* README: Update documentation.
+
 	* profile.cc (save, restore): Add const to each CHAR in
 	reinterpret_cast.
 
