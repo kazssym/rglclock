@@ -42,30 +42,15 @@
 
 using namespace std;
 
-void
-glclock::menu_listener::menu_activate (GtkWidget *widget, gpointer opaque)
-{
-  const glclock::menu_listener *listener =
-    static_cast <glclock::menu_listener *> (opaque);
-  (listener->target->*listener->activate) (widget);
-}
-
 glclock::operator GtkWidget *() const
 {
   return drawing_area;
 }
 
-void
-glclock::describe (GtkWidget *widget)
-{
-  about_dialog about(gtk_widget_get_toplevel(drawing_area));
-  about.show();
-}
-
 glclock::~glclock ()
 {
   gtk_timeout_remove (timeout_id);
-  gtk_menu_factory_destroy (menu_factory);
+  gtk_object_unref(GTK_OBJECT(menu_factory));
   gtk_widget_unref (drawing_area);
   delete m;
 }
@@ -84,7 +69,7 @@ glclock::glclock ()
 	 is thrown in the middle of the ctor.  */
       m = new module ();
       drawing_area = gtk_drawing_area_new ();
-      menu_factory = gtk_menu_factory_new (GTK_MENU_FACTORY_MENU);
+      menu_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<Popup>", NULL);
 
       gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
 
@@ -109,19 +94,17 @@ glclock::glclock ()
 			  this);
       gtk_widget_show (drawing_area);
 
-      about.target = this;
-      about.activate = &glclock::describe;
       /* {path, accelerator, callback, callback_data, widget} */
-      GtkMenuEntry entries[] =
+      GtkItemFactoryEntry entries[] =
       {
-	{_("Reset Rotation"), NULL, NULL, NULL, NULL},
-	{"<separator>", NULL, NULL, NULL, NULL},
-	{_("Options..."), NULL, edit_options, this, NULL},
-	{_("About..."), NULL, menu_listener::menu_activate, &about, NULL},
-	{"<separator>", NULL, NULL, NULL, NULL},
-	{_("Exit"), NULL, menu_quit, this, NULL}
+	{_("/Reset Rotation"), NULL, NULL, 1, ""},
+	{"/", NULL, NULL, 0, "<Separator>"},
+	{_("/Options..."), NULL, (GtkItemFactoryCallback) &edit_options, 2, ""},
+	{_("/About..."), NULL, (GtkItemFactoryCallback) &menu_about, 3, ""},
+	{"/", NULL, NULL, 0, "<Separator>"},
+	{_("/Exit"), NULL, (GtkItemFactoryCallback) &menu_quit, 4, ""}
       };
-      gtk_menu_factory_add_entries (menu_factory, entries, 6);
+      gtk_item_factory_create_items(menu_factory, 6, entries, this);
 
       time (&t);
 
@@ -134,7 +117,7 @@ glclock::glclock ()
       /* These are safe as they are initialized to NULLs before
          entering the try block.  */
       if (menu_factory != NULL)
-	gtk_menu_factory_destroy (menu_factory);
+	gtk_object_unref(GTK_OBJECT(menu_factory));
       if (drawing_area != NULL)
 	gtk_widget_unref (drawing_area);
       delete m;
@@ -306,13 +289,22 @@ glclock::finish_realize(GtkWidget *widget,
 }
 
 void
-glclock::menu_quit (GtkWidget *widget, gpointer opaque)
+glclock::menu_quit(gpointer, guint, GtkWidget *)
 {
   gtk_main_quit ();
 }
 
 void
-glclock::edit_options(GtkWidget *widget, gpointer data)
+glclock::menu_about(gpointer data, guint, GtkWidget *)
+{
+  glclock *object = static_cast<glclock *>(data);
+
+  about_dialog about(gtk_widget_get_toplevel(object->drawing_area));
+  about.show();
+}
+
+void
+glclock::edit_options(gpointer data, guint, GtkWidget *)
 {
   glclock *object = static_cast <glclock *> (data);
 

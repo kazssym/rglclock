@@ -1,5 +1,16 @@
 1999-04-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.h (class glclock): Use GtkItemFactory.
+
+	* glclock.cc: Use GtkItemFactory instead of GtkMenuFactory.
+	(menu_activate): Removed.
+	(describe): Removed.
+	(~glclock, glclock): Replace gtk_menu_factory_destroy with
+	gtk_object_unref.
+	(menu_quit, edit_options): Change arguments.
+	(glclock): Change the menu initialization.
+	(menu_about): New function.
+
 	* options.cc (options_dialog): Use gtk_window_set_transient_for.
 	(finish_realize): Removed.  Also remove all references.
 

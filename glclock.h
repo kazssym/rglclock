@@ -26,7 +26,7 @@
 #define GLCLOCK_H 1
 
 #include "gdkgl.h"
-#include <gtk/gtkmenufactory.h>
+#include <gtk/gtkitemfactory.h>
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
 #include <time.h>
@@ -40,14 +40,6 @@ public:
   ~glclock ();
 public:
   operator GtkWidget *() const;
-  void describe (GtkWidget *);
-protected:
-  struct menu_listener
-  {
-    glclock *target;
-    void (glclock::*activate) (GtkWidget *);
-    static void menu_activate (GtkWidget *, gpointer);
-  };
 protected:
   static void finish_realize(GtkWidget *, gpointer);
   static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
@@ -55,19 +47,19 @@ protected:
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
-  static void edit_options(GtkWidget *, gpointer);
-  static void menu_quit (GtkWidget *, gpointer);
+  static void edit_options(gpointer, guint, GtkWidget *);
+  static void menu_about(gpointer, guint, GtkWidget *);
+  static void menu_quit(gpointer, guint, GtkWidget *);
 private:
   module *m;
   GtkWidget *drawing_area;
-  GtkMenuFactory *menu_factory;
+  GtkItemFactory *menu_factory;
   guint timeout_id;
   GdkGLContext *context;
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   time_t t;
   double press_x, press_y;
-  menu_listener about;
 };
 
 /* The options dialog.  */
