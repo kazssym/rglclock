@@ -1,3 +1,9 @@
+1998-07-02  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* configure.in: Add checks for OpenGL libraries.
+
+	* TODO: New file.
+
 1998-07-01  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* module.cc (draw_clock): Throw bad_alloc on failure of

@@ -1,8 +1,10 @@
 TODO for rglclock:
 
-* Loadable module support.
+* Remove struct tm from class glclock.
 
-* OpenGL libraries support in configure.
+* Handle mouse motion.
+
+* Loadable module support.
 
 * Handle "configure_event" signal.
 

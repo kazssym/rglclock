@@ -1,13 +1,15 @@
 NEWS of rglclock:
-$ProjectVersion: 0.15 $
+$ProjectVersion: 0.17 $
 
 Changes since version 0.10:
 
+* The configure script will check for OpenGL libraries.
+
 * The drawing code has been moved to class module.
 
-* Back faces are culled.
+* Back faces have been culled.
 
-* libtool support.
+* libtool has been added.
 
 Changes since version 0.8:
 
