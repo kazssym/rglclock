@@ -57,7 +57,9 @@ about_dialog::about_dialog(GtkWidget *parent)
     dialog(NULL)
 {
   dialog = gtk_dialog_new();
+  gtk_window_set_title(GTK_WINDOW(dialog), "About rglclock");
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+  gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
   gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
   gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
@@ -88,6 +90,7 @@ about_dialog::populate(GtkWidget *dialog)
   gtk_widget_show(child);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child,
 		     FALSE, FALSE, 0);
+  gtk_window_set_default(GTK_WINDOW(dialog), child);
 }
 
 /* Handles a click on the OK button.  */

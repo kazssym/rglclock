@@ -1,5 +1,9 @@
 1999-02-02  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* about.cc (about_dialog): Set the window title.
+	(about_dialog): Position the window to center.
+	(populate): Set the default to the OK button.
+
 	* about.cc (show): Remove the argument and use the parent_widget
 	member.
 	(show): Remove connect/disconnect for "configure_event".
