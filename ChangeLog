@@ -1,3 +1,24 @@
+1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (INCLUDES): Remove -DSESSION.
+
+	* about.cc: Remove #define ENABLE_TRANSIENT_FOR_HINT.
+
+	* configure.in: Add options: --disable-wm-command and
+	--disable-wm-transient-for.
+	* acconfig.h: Add entries for SESSION and
+	ENABLE_TRANSIENT_FOR_HINT.
+
+	* about.cc (about_dialog): Use asprintf/sprintf for gettext
+	migration later.
+	(populate): Make the version string using asprintf/sprintf.
+
+1999-02-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Version 1.2.1.
+
+	* NEWS: Updated.
+
 1999-02-02  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* about.cc (about_dialog): Set the window title.
@@ -148,6 +169,10 @@
 	Remove unneeded blank lines.
 	Define _GNU_SOURCE.
 	Add checks for <getopt.h> and getopt_long.
+
+1998-09-22  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc (glclock): Update menu entries.
 
 1998-09-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 

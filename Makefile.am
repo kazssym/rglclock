@@ -1,6 +1,6 @@
 ## Process this file with automake to produce a Makefile.in.
 
-INCLUDES = ${GTK_CFLAGS} -DSESSION
+INCLUDES = ${GTK_CFLAGS}
 
 bin_PROGRAMS = rglclock
 

@@ -1,8 +1,21 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(glclock.cc)
 dnl $Format: "AM_INIT_AUTOMAKE($Package$, $Version$)" $
-AM_INIT_AUTOMAKE(rglclock, 1.1u.1)
+AM_INIT_AUTOMAKE(rglclock, 1.2.2)
 AM_CONFIG_HEADER(config.h)
+AC_ARG_ENABLE(wm-command,
+[  --disable-wm-command    do not set WM_COMMAND for the main window])
+if test "$enable_wm_command" != no; then
+  AC_DEFINE(SESSION)
+fi
+
+AC_ARG_ENABLE(wm-transient-for,
+[  --disable-wm-transient-for
+                          do not set WM_TRANSIENT_FOR for the dialog boxes])
+if test "$enable_wm_transient_for" != no; then
+  AC_DEFINE(ENABLE_TRANSIENT_FOR_HINT)
+fi
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
@@ -29,5 +42,5 @@ AC_STRUCT_TM
 AC_HEADER_TIME
 AC_C_CONST
 dnl Checks for library functions.
-AC_CHECK_FUNCS(getopt_long gettimeofday)
+AC_CHECK_FUNCS(asprintf getopt_long gettimeofday)
 AC_OUTPUT(Makefile)

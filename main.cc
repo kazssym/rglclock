@@ -31,6 +31,7 @@
 #endif
 #include <signal.h>
 #include <gtk/gtk.h>
+
 #ifdef SESSION
 # include <gdk/gdkx.h>
 # include <algorithm>
