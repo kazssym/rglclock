@@ -33,6 +33,17 @@ The latest information about rglclock will be available at:
 
 New releases and snapshots will also be available there.
 
+* REQUIREMENTS
+
+Building rglclock requires a recent C++ compiler, GTK 1.0, and Mesa or
+OpenGL libraries.
+
+The C++ compiler must support exception handling.  EGCS 1.1.* should
+work, and actually used for development.  GCC 2.8.* may work but is
+not tested.  GCC 2.7.* does not work.
+
+Build with GTK 1.1.* is not tested, and some changes may be necessary.
+
 * INSTALL
 
 This package uses a configure script.  Common instructions
