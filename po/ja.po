@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-07-27 11:39+0900\n"
+"POT-Creation-Date: 1999-08-15 15:29+0900\n"
 "PO-Revision-Date: 1999-07-16 17:24+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -26,25 +26,25 @@ msgstr "キャンセル"
 msgid "Options"
 msgstr "オプション"
 
-#: lib/clockoptions.cc:77
+#: lib/clockoptions.cc:98
 msgid "Update rate: "
 msgstr "更新レート: "
 
 #. Unit name for update rate
-#: lib/clockoptions.cc:91
+#: lib/clockoptions.cc:112
 msgid "Hz"
 msgstr "Hz"
 
-#: lib/clockoptions.cc:102
+#: lib/clockoptions.cc:123
 msgid "Map texture file: "
-msgstr ""
+msgstr "テクスチャマッピング: "
 
-#: lib/clockoptions.cc:115
+#: lib/clockoptions.cc:136
 msgid "Select..."
-msgstr ""
+msgstr "選択..."
 
 #. Label for the General page.
-#: lib/clockoptions.cc:135
+#: lib/clockoptions.cc:156
 msgid "General"
 msgstr "一般"
 
@@ -109,7 +109,7 @@ msgstr "/ファイル(_F)/終了(_X)"
 msgid "/_File/_About..."
 msgstr "/ファイル(_F)/バージョン情報(_A)..."
 
-#: bin/main.cc:297
+#: bin/main.cc:304
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
