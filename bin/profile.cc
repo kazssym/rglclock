@@ -91,7 +91,9 @@ profile::save(glclock *clock)
 	{
 	  if (doc->root == NULL)
 	    {
-	      doc->root = xmlNewNode(NULL, reinterpret_cast<CHAR *>(PACKAGE));
+	      doc->root = xmlNewDocNode(doc, NULL,
+					reinterpret_cast<CHAR *>(PACKAGE),
+					NULL);
 	      xmlNewChild(doc->root, NULL,
 			  reinterpret_cast<CHAR *>("misc"), NULL);
 	    }
