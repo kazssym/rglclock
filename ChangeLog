@@ -1,5 +1,10 @@
 1999-02-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc (finish_realize): New function.  Update the header
+	too.
+	(handle_configure_event): Remove context creation.
+	(glclock): Connect "realize".
+
 	* about.cc (show): Use gtk_grab_add/remove.
 	(finish_realize): Renamed and modified from handle_configure_event
 	for the "realize" signal.  Update all refs too.

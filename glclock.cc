@@ -84,9 +84,10 @@ glclock::glclock ()
       gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
 
       gtk_widget_set_events (drawing_area, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-      gtk_signal_connect (GTK_OBJECT (drawing_area), "configure_event",
-			  reinterpret_cast <GtkSignalFunc> (handle_configure_event),
-			  this);
+      gtk_signal_connect_after(GTK_OBJECT(drawing_area), "realize",
+			       GTK_SIGNAL_FUNC(finish_realize), this);
+      gtk_signal_connect(GTK_OBJECT(drawing_area), "configure_event",
+			  GTK_SIGNAL_FUNC(handle_configure_event), this);
       gtk_signal_connect (GTK_OBJECT (drawing_area), "destroy_event",
 			  reinterpret_cast <GtkSignalFunc> (handle_destroy_event),
 			  this);
@@ -261,9 +262,29 @@ glclock::handle_destroy_event (GtkWidget *widget, GdkEventAny *event,
   return 0;
 }
 
+/* Handles "configure_event"s.  */
 gint
 glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
 				 gpointer opaque)
+{
+  glclock *object = static_cast <glclock *> (opaque);
+  g_assert (object != NULL);
+
+  if (object->context != NULL)
+    {
+      gdk_gl_make_current (widget->window, object->context);
+
+      object->m->viewport (event->x, event->y,
+			   event->width, event->height);
+    }
+
+  return 0;
+}
+
+/* Finish realizing.  */
+void
+glclock::finish_realize(GtkWidget *widget,
+			gpointer opaque)
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
@@ -277,13 +298,6 @@ glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
 
       object->m->init ();
     }
-  else
-    gdk_gl_make_current (widget->window, object->context);
-
-  object->m->viewport (event->x, event->y,
-		       event->width, event->height);
-
-  return 0;
 }
 
 void
