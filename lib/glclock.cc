@@ -59,6 +59,12 @@ using namespace std;
 # define DEFAULT_TIMEOUT_RATE 10
 #endif
 
+void
+glclock::show_options_dialog(GtkWindow *w)
+{
+  options.act(w);
+}
+
 GtkWidget *
 glclock::create_widget()
 {
@@ -128,6 +134,7 @@ glclock::glclock ()
   : m (NULL),
     timeout_rate(DEFAULT_TIMEOUT_RATE),
     context (NULL),
+    options(this),
     rot_velocity (0),
     rot_x (0), rot_y (1), rot_z (0)
 {

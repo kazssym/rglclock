@@ -1,8 +1,12 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/glclock.cc (show_options_dialog): New function.
+	(glclock): Initialize options.
+
 	* include/glclock.h (class about_dialog): Removed.
 	(class clock_options_dialog): Moved before class glclock.
 	(class glclock): Add new member show_options_dialog.
+	(class glclock): Add new member options.
 
 	* lib/about.cc: Removed.
 

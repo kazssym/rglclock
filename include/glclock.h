@@ -87,6 +87,10 @@ private:
   guint timeout_id;
   GdkGLContext *context;
   std::vector<GtkWidget *> widgets;
+
+  /* `Options' dialog.  */
+  clock_options_dialog options;
+
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   double press_x, press_y;
@@ -113,7 +117,7 @@ public:
 
 public:
   /* Shows the `Options' dialog.  */
-  void show_options_dialog(GtkWidget *);
+  void show_options_dialog(GtkWindow *);
 };
 
 #endif /* not GLCLOCK_H */
