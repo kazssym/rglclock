@@ -26,7 +26,7 @@
 #endif
 #undef const
 
-#include "options.h"
+#include "utils.h"
 
 #include <gtk/gtk.h>
 #include <libintl.h>

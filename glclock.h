@@ -25,7 +25,7 @@
 #ifndef GLCLOCK_H
 #define GLCLOCK_H 1
 
-#include "options.h"
+#include "utils.h"
 #include "gdkgl.h"
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
