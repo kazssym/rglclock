@@ -1,3 +1,16 @@
+1999-10-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* NEWS: Updated.
+
+	* THANKS: Updated.
+
+	* rglclock.1: Update documentation.
+
+	* README: Update documentation.
+
+	* profile.cc (save, restore): Add const to each CHAR in
+	reinterpret_cast.
+
 1999-08-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* lib/simple.c (draw_dial_disk): New function.

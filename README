@@ -1,21 +1,43 @@
-READ ME
+READ ME about rglclock
 
-$Date: Wed, 07 Apr 1999 22:46:08 +0900 $
+$Date: Tue, 26 Oct 1999 20:25:51 +0900 $
 
 >> DESCRIPTION
 
-Rglclock is a rotating 3D clock program using Mesa/OpenGL and GTK+.
-You can change the rotation direction and speed by just a mouse drag
-in the window.
+rglclock is a rotating 3D clock program using Mesa/OpenGL and GTK+.
+
+rglclock just starts with a stationary clock like traditional clock
+programs, but by dragging within the clock window, you can start the
+clock rotating in the direction you drag.  Any additional drag changes
+the direction of the rotation.  The longer you drag, the faster the
+clock rotates.
 
 >> REQUIREMENTS
 
 Building rglclock requires a recent C++ compiler, GTK 1.2, and Mesa or
 OpenGL libraries.
 
-The C++ compiler must support exception handling.  EGCS 1.1.* should
-work, and actually used for development.  GCC 2.8.* may work but is
-not tested.  GCC 2.7.* does not work.
+* C++ compiler
+
+rglclock is written in C++.  The compiler must support exception
+handling.  EGCS 1.1 and GCC 2.95 should work, and actually were used
+for development.  GCC 2.8.* may work but is not tested.  GCC 2.7.*
+does not work.
+
+* GTK+ 1.2
+
+rglclock uses GTK+ 1.2 for its user interface.
+
+* Mesa or OpenGL
+
+rglclock uses either Mesa or OpenGL for 3D rendering.  The configure
+script in this package always prefers OpenGL to Mesa, as OpenGL is
+supposed to be faster.
+
+* libxml (optional)
+
+rglclock uses libxml to save runtime options.  If it is not available
+at configure time, all options' settings will be transient.
 
 >> INSTALL
 

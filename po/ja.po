@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-08-15 15:29+0900\n"
+"POT-Creation-Date: 1999-08-15 21:03+0900\n"
 "PO-Revision-Date: 1999-07-16 17:24+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -93,23 +93,23 @@ msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
 msgstr ""
 "バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
 
-#: bin/main.cc:189
+#: bin/main.cc:192
 msgid "/_File/_Options..."
 msgstr "/ファイル(_F)/オプション(_O)..."
 
-#: bin/main.cc:192 bin/main.cc:196
+#: bin/main.cc:195 bin/main.cc:199
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
-#: bin/main.cc:193
+#: bin/main.cc:196
 msgid "/_File/E_xit"
 msgstr "/ファイル(_F)/終了(_X)"
 
-#: bin/main.cc:197
+#: bin/main.cc:200
 msgid "/_File/_About..."
 msgstr "/ファイル(_F)/バージョン情報(_A)..."
 
-#: bin/main.cc:304
+#: bin/main.cc:303
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
