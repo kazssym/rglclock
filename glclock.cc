@@ -102,9 +102,9 @@ glclock::glclock ()
       GtkMenuEntry entries[] =
       {
 	/* {path, accelerator, callback, callback_data, widget} */
-	{"About...", NULL, menu_listener::menu_activate},
-	{"<separator>"},
-	{"Quit", NULL, menu_quit}
+	{"About...", NULL, menu_listener::menu_activate, NULL, NULL},
+	{"<separator>", NULL, NULL, NULL, NULL},
+	{"Exit", NULL, menu_quit, NULL, NULL}
       };
       entries[0].callback_data = &about;
       entries[2].callback_data = this;

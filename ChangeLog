@@ -2,6 +2,9 @@
 
 	* configure.in: Add checks for the ALSA library.
 
+	* glclock.cc (glclock): Use "Exit" for the menu label instead of
+	"Quit".  Fill values in menu items.
+
 	* module.cc: Remove #define _GNU_SOURCE.
 
 	* simple.h: New file.
