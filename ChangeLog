@@ -1,3 +1,9 @@
+1998-07-31  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (man_MANS): Add rglclock.1.
+
+	* rglclock.1: New file.
+
 1998-07-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* main.cc (clean): #ifdef out unref'ing toplevel.
