@@ -11,4 +11,6 @@ noinst_HEADERS = glclock.h module.h
 
 man_MANS = rglclock.1
 
+EXTRA_DIST = ${man_MANS}
+
 SUBDIRS = gdkGL

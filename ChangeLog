@@ -1,6 +1,7 @@
 1998-07-31  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (man_MANS): Add rglclock.1.
+	(EXTRA_DIST): Add ${man_MANS}.
 
 	* rglclock.1: New file.
 
