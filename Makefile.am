@@ -8,9 +8,9 @@ bin_PROGRAMS = rglclock
 
 libgdkgl_a_SOURCES = gdkgl.c
 
-libclock_a_SOURCES = simple.c module.cc options.cc
+libclock_a_SOURCES = simple.c module.cc options.cc clockoptions.cc
 
-rglclock_SOURCES = clockoptions.cc glclock.cc about.cc main.cc
+rglclock_SOURCES = glclock.cc about.cc main.cc
 rglclock_LDADD = libclock.a libgdkgl.a ${GL_LIBS} ${GTK_LIBS}
 
 noinst_HEADERS = options.h glclock.h module.h simple.h autowidget.h gdkgl.h

@@ -2,7 +2,8 @@
 
 	* Makefile.am (noinst_LIBRARIES): Add libgdkgl.a and libclock.a.
 	(libgdkgl_a_SOURCES): Add gdkgl.c.
-	(libclock_a_SOURCES): Add simple.c, module.cc, and options.cc.
+	(libclock_a_SOURCES): Add simple.c, module.cc, options.cc, and
+	clockoptions.cc.
 	(rglclock_SOURCES): Remove gdkgl.c.
 	(rglclock_SOURCES): Remove files added to libclock_a_SOURCES.
 	(rglclock_LDADD): Add libclock.a and libgdkgl.a.
