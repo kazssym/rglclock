@@ -15,13 +15,19 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307, USA.  */
+   02111-1307, USA.
+
+   As a special exception, you may copy and distribute this program
+   linked with an OpenGL library in executable form without the source
+   code for the library, only if such distribution is not prohibited
+   by the library's license.  */
 
 #ifndef GLCLOCK_H
 #define GLCLOCK_H 1
 
+#include "options.h"
 #include "gdkgl.h"
-#include <gtk/gtkmenufactory.h>
+#include <gtk/gtkitemfactory.h>
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
 #include <time.h>
@@ -35,14 +41,6 @@ public:
   ~glclock ();
 public:
   operator GtkWidget *() const;
-  void describe (GtkWidget *);
-protected:
-  struct menu_listener
-  {
-    glclock *target;
-    void (glclock::*activate) (GtkWidget *);
-    static void menu_activate (GtkWidget *, gpointer);
-  };
 protected:
   static void finish_realize(GtkWidget *, gpointer);
   static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
@@ -50,18 +48,41 @@ protected:
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
-  static void menu_quit (GtkWidget *, gpointer);
+  static void edit_options(gpointer, guint, GtkWidget *);
+  static void menu_about(gpointer, guint, GtkWidget *);
+  static void menu_quit(gpointer, guint, GtkWidget *);
 private:
   module *m;
   GtkWidget *drawing_area;
-  GtkMenuFactory *menu_factory;
+  GtkItemFactory *menu_factory;
   guint timeout_id;
   GdkGLContext *context;
   double rot_velocity;
   double rot_x, rot_y, rot_z;
   time_t t;
   double press_x, press_y;
-  menu_listener about;
+};
+
+/* The options dialog.  */
+class clock_options_dialog
+  : public options_dialog
+{
+public:
+  class general_options_page
+    : public options_page
+  {
+  public:
+    GtkWidget *create_widget();
+    void apply(GtkWidget *);
+  };
+private:
+  general_options_page general;
+public:
+  clock_options_dialog();
+public:
+  void show();
+protected:
+  void populate(GtkWidget *);
 };
 
 /* The about dialog.  */

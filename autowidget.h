@@ -1,5 +1,5 @@
-/* rglclock - Rotating GL Clock.
-   Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
+/* -*-C++-*- */
+/* Copyright (C) 1999 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -21,22 +21,47 @@
    code for the library, only if such distribution is not prohibited
    by the library's license.  */
 
-#ifndef SIMPLE_H
-#define SIMPLE_H 1
+#ifndef AUTOWIDGET_H
+#define AUTOWIDGET_H 1
 
-#ifdef __cplusplus
-# define BEGIN_DECLS extern "C" {
-# define END_DECLS }
-#else /* not __cplusplus */
-# define BEGIN_DECLS
-# define END_DECLS
-#endif /* not __cplusplus */
+#include <gtk/gtkwidget.h>
 
-BEGIN_DECLS
+class auto_widget
+{
+private:
+  GtkWidget *w;
+public:
+  auto_widget() throw()
+    : w(0) {}
+  auto_widget(GtkWidget *widget) throw()
+    : w(widget)
+    {
+      if (w != 0)
+	{gtk_widget_ref(w); gtk_object_sink(GTK_OBJECT(w));}
+    }
+  auto_widget(const auto_widget &x) throw()
+    : w(x.w) {if (w != 0) gtk_widget_ref(w);}
+  ~auto_widget() throw()
+    {if (w != 0) gtk_widget_unref(w);}
+public:
+  auto_widget &operator=(const auto_widget &x) throw()
+    {
+      if (&x != this)
+        {
+	  if (w != 0) gtk_widget_unref(w);
+	  w = x.w;
+	  if (w != 0) gtk_widget_ref(w);
+	}
+      return *this;
+    }
+  GtkWidget &operator*() const throw()
+    {return *w;}
+  GtkWidget *operator->() const throw()
+    {return w;}
+public:
+  GtkWidget *get() const throw()
+    {return w;}
+};
 
-int simple_init(void);
-int simple_draw_clock(void);
+#endif /* not AUTOWIDGET_H */
 
-END_DECLS
-
-#endif /* not SIMPLE_H */

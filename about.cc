@@ -14,7 +14,12 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307, USA.  */
+   02111-1307, USA.
+
+   As a special exception, you may copy and distribute this program
+   linked with an OpenGL library in executable form without the source
+   code for the library, only if such distribution is not prohibited
+   by the library's license.  */
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -23,9 +28,12 @@
 
 #include "glclock.h"
 
+#include "autowidget.h"
 #include <gtk/gtk.h>
 #include <libintl.h>
 #include <cstring>
+#include <cstdlib>
+#include <cstdio>
 
 #ifdef ENABLE_TRANSIENT_FOR_HINT
 # include <gdk/gdkx.h>
@@ -58,7 +66,8 @@ about_dialog::about_dialog(GtkWidget *parent)
   : parent_widget(parent),
     dialog(NULL)
 {
-  dialog = gtk_dialog_new();
+  auto_widget tmp(gtk_dialog_new());
+  dialog = tmp.get();
 
   /* Sets the window title.  */
   const char *title_format = _("About %s");
@@ -71,17 +80,20 @@ about_dialog::about_dialog(GtkWidget *parent)
   title = (char *) malloc(strlen(title_format) + sizeof PACKAGE);
   sprintf(title, title_format, PACKAGE);
 #endif /* not HAVE_ASPRINTF */
-  gtk_window_set_title(GTK_WINDOW(dialog), title);
+  gtk_window_set_title(GTK_WINDOW(tmp.get()), title);
   free(title);
 
-  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
-  gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-  gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
+  gtk_window_set_policy(GTK_WINDOW(tmp.get()), FALSE, FALSE, FALSE);
+  gtk_window_position(GTK_WINDOW(tmp.get()), GTK_WIN_POS_CENTER);
+  gtk_window_set_transient_for(GTK_WINDOW(tmp.get()), GTK_WINDOW(parent));
+  gtk_signal_connect(GTK_OBJECT(tmp.get()), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
-  gtk_signal_connect_after(GTK_OBJECT(dialog), "realize",
-			   GTK_SIGNAL_FUNC(finish_realize), this);
 
+  dialog = tmp.get();
   populate(dialog);
+
+  gtk_widget_ref(dialog);
+  gtk_object_sink(GTK_OBJECT(dialog));
 }
 
 #define YEARS "1998, 1999"
@@ -90,9 +102,7 @@ about_dialog::about_dialog(GtkWidget *parent)
 void
 about_dialog::populate(GtkWidget *dialog)
 {
-  GtkWidget *child;
-
-  /* Makes the vbox area.  */
+  /* Makes the version label.  */
   const char *version_format
     = _("%s %s\nCopyright (C) %s Hypercore Software Design, Ltd.");
   char *version;
@@ -105,22 +115,23 @@ about_dialog::populate(GtkWidget *dialog)
 			    + sizeof PACKAGE + sizeof VERSION + sizeof YEARS);
   sprintf(version, version_format, PACKAGE, VERSION, YEARS);
 #endif /* not HAVE_ASPRINTF */
-  child = gtk_label_new(version);
+  auto_widget label1(gtk_label_new(version));
   free(version);
-  gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
-  gtk_misc_set_padding(GTK_MISC(child), 10, 10);
-  gtk_widget_show(child);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), child,
+  gtk_label_set_justify(GTK_LABEL(label1.get()), GTK_JUSTIFY_LEFT);
+  gtk_misc_set_padding(GTK_MISC(label1.get()), 10, 10);
+  gtk_widget_show(label1.get());
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label1.get(),
 		     FALSE, FALSE, 0);
 
-  /* Makes the action area.  */
-  child =  gtk_button_new_with_label(_("OK"));
-  gtk_signal_connect(GTK_OBJECT(child), "clicked",
+  /* Makes the OK button.  */
+  const char *ok_text = _("OK");
+  auto_widget ok_button(gtk_button_new_with_label(ok_text));
+  gtk_signal_connect(GTK_OBJECT(ok_button.get()), "clicked",
 		     GTK_SIGNAL_FUNC(handle_ok), dialog);
-  gtk_widget_show(child);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child,
+  gtk_widget_show(ok_button.get());
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button.get(),
 		     FALSE, FALSE, 0);
-  gtk_window_set_default(GTK_WINDOW(dialog), child);
+  gtk_window_set_focus(GTK_WINDOW(dialog), ok_button.get());
 }
 
 /* Handles a click on the OK button.  */
@@ -139,22 +150,5 @@ about_dialog::handle_delete_event(GtkWidget *dialog,
 {
   gtk_main_quit();
   return 1;
-}
-
-/* Finish the realize process.  */
-void
-about_dialog::finish_realize(GtkWidget *dialog,
-			     gpointer data)
-{
-  about_dialog *about = static_cast <about_dialog *> (data);
-
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-  if (about->parent_widget != NULL)
-    {
-      GdkWindow *w = dialog->window;
-      XSetTransientForHint(GDK_WINDOW_XDISPLAY(w), GDK_WINDOW_XWINDOW(w),
-			   GDK_WINDOW_XWINDOW(about->parent_widget->window));
-    }
-#endif /* ENABLE_TRANSIENT_FOR_HINT */
 }
 

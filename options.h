@@ -1,3 +1,4 @@
+/* -*-C++-*- */
 /* rglclock - Rotating GL Clock.
    Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
 
@@ -21,22 +22,37 @@
    code for the library, only if such distribution is not prohibited
    by the library's license.  */
 
-#ifndef SIMPLE_H
-#define SIMPLE_H 1
+#ifndef OPTIONS_H
+#define OPTIONS_H 1
 
-#ifdef __cplusplus
-# define BEGIN_DECLS extern "C" {
-# define END_DECLS }
-#else /* not __cplusplus */
-# define BEGIN_DECLS
-# define END_DECLS
-#endif /* not __cplusplus */
+#include <gtk/gtkwidget.h>
+#include <vector>
+#include <string>
 
-BEGIN_DECLS
+struct options_page
+{
+  virtual GtkWidget *create_widget() = 0;
+  virtual void apply(GtkWidget *) = 0;
+};
 
-int simple_init(void);
-int simple_draw_clock(void);
+/* The options dialog.  */
+class options_dialog
+{
+protected:
+  static void remove_widget(GtkObject *, gpointer);
+  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
+  static void handle_ok(GtkWidget *, gpointer);
+  static void handle_cancel(GtkWidget *, gpointer);
+public:
+  std::vector<std::pair<std::string, options_page *> > pages;
+  std::vector<GtkWidget *> widgets;
+public:
+  virtual ~options_dialog();
+public:
+  void add_page(const char *, options_page *);
+  GtkWidget *create_widget();
+protected:
+  void populate(GtkWidget *);
+};
 
-END_DECLS
-
-#endif /* not SIMPLE_H */
+#endif /* not OPTIONS_H */

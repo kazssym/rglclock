@@ -4,38 +4,61 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-02-13 23:16+0900\n"
-"PO-Revision-Date: 1999-02-13 21:42+09:00\n"
+"POT-Creation-Date: 1999-04-29 07:34+0900\n"
+"PO-Revision-Date: 1999-04-07 22:51+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=EUC-JP\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. {path, accelerator, callback, callback_data, widget}
-#: glclock.cc:112
-msgid "Reset Rotation"
-msgstr "回転を止める"
+#: clockoptions.cc:68
+msgid "Update frequency:"
+msgstr "更新頻度:"
 
-#: glclock.cc:114
-msgid "Properties..."
-msgstr "プロパティ..."
+#. Label for the General page.
+#: clockoptions.cc:92
+msgid "General"
+msgstr "一般"
 
-#: glclock.cc:115
-msgid "About..."
-msgstr "バージョン情報..."
+#: main.cc:168
+#, c-format
+msgid "%s: Unhandled exception: %s\n"
+msgstr "%s: 処理されなかった例外: %s\n"
 
-#: glclock.cc:117
-msgid "Exit"
-msgstr "終了"
+#: glclock.cc:100
+msgid "/Reset Rotation"
+msgstr "/回転を元に戻す"
+
+#: glclock.cc:102
+msgid "/Options..."
+msgstr "/オプション..."
+
+#: glclock.cc:103
+msgid "/About..."
+msgstr "/バージョン情報..."
+
+#: glclock.cc:105
+msgid "/Exit"
+msgstr "/終了"
+
+#. Label for the OK button.
+#: about.cc:127 options.cc:69
+msgid "OK"
+msgstr "OK"
+
+#. Label for the Cancel button.
+#: options.cc:80
+msgid "Cancel"
+msgstr "キャンセル"
 
 #. Sets the window title.
-#: about.cc:64
+#: about.cc:73
 #, c-format
 msgid "About %s"
 msgstr "%sのバージョン情報"
 
-#: about.cc:97
+#: about.cc:107
 #, c-format
 msgid ""
 "%s %s\n"
@@ -44,7 +67,5 @@ msgstr ""
 "%s %s\n"
 "Copyright (C) %s 有限会社ハイパーコア"
 
-#. Makes the action area.
-#: about.cc:117
-msgid "OK"
-msgstr "OK"
+#~ msgid "Rendering"
+#~ msgstr "レンダリング"

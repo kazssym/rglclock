@@ -1,30 +1,29 @@
-README for rglclock, Rotating 3D Clock.
+READ ME
 
-Copyright (C) 1998 Hypercore Software Design, Ltd.
-gdkGL Copyright (C) 1997, 1998 AOSASA Shigeru.
+$Date: Wed, 07 Apr 1999 22:46:08 +0900 $
 
-Rglclock is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version
-2 of the License, or (at your option) any later version.
+>> DESCRIPTION
 
-Rglclock is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty
-of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
-the GNU General Public License for more details.
+Rglclock is a rotating 3D clock program using Mesa/OpenGL and GTK+.
+You can change the rotation direction and speed by just a mouse drag
+in the window.
 
-You should have received a copy of the GNU General Public
-License along with this program; if not, write to the Free
-Software Foundation, Inc., 59 Temple Place, Suite 330,
-Boston, MA 02111-1307, USA.
+>> REQUIREMENTS
 
-* DESCRIPTION
+Building rglclock requires a recent C++ compiler, GTK 1.2, and Mesa or
+OpenGL libraries.
 
-Rglclock is a rotating 3D clock program using Mesa/OpenGL
-and GTK+.  You can set the rotation direction and speed by
-just a mouse drag in the window.
+The C++ compiler must support exception handling.  EGCS 1.1.* should
+work, and actually used for development.  GCC 2.8.* may work but is
+not tested.  GCC 2.7.* does not work.
 
-* LATEST INFORMATION
+>> INSTALL
+
+This package uses a configure script.  Common instructions
+for compiling and installing the program are described in
+INSTALL file in this directory.
+
+>> LATEST INFORMATION
 
 The latest information about rglclock will be available at:
 
@@ -33,27 +32,11 @@ The latest information about rglclock will be available at:
 
 New releases and snapshots will also be available there.
 
-* REQUIREMENTS
+>> CONTACT
 
-Building rglclock requires a recent C++ compiler, GTK 1.0, and Mesa or
-OpenGL libraries.
+Send any comments or bug reports to a developers' mailing list,
+rglclock@lists.hypercore.co.jp.
 
-The C++ compiler must support exception handling.  EGCS 1.1.* should
-work, and actually used for development.  GCC 2.8.* may work but is
-not tested.  GCC 2.7.* does not work.
-
-Build with GTK 1.1.* is not tested, and some changes may be necessary.
-
-* INSTALL
-
-This package uses a configure script.  Common instructions
-for compiling and installing the program are described in
-INSTALL file in this directory.
-
-* CONTACT
-
-Send any comments or bug reports to a developers' mailing
-list:
-
-     rglclock@lists.hypercore.co.jp
+You can join the list by sending a message with a word `subscribe' in
+the Subject to rglclock-request@lists.hypercore.co.jp.
 

@@ -1,9 +1,146 @@
-<<<<<<< dbm-0.3(w)/ChangeLog Thu, 04 Feb 1999 22:56:05 +0900 kaz (rglclock/14_ChangeLog 1.28.1.23.1.3.1.1.1.1.1.1.1.1.1.1.2.3.2.5.2.6.2.8.2.3.1.1.1.3 644)
-1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+1999-04-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
-	* configure.in: Add checks for ndbm.
-=======
+	* Makefile.am (noinst_LIBRARIES): Add libgdkgl.a and libclock.a.
+	(libgdkgl_a_SOURCES): Add gdkgl.c.
+	(libclock_a_SOURCES): Add simple.c, module.cc, options.cc, and
+	clockoptions.cc.
+	(rglclock_SOURCES): Remove gdkgl.c.
+	(rglclock_SOURCES): Remove files added to libclock_a_SOURCES.
+	(rglclock_LDADD): Add libclock.a and libgdkgl.a.
+
+	* options.cc (populate, create_dialog): Add assertions.
+	(create_widget, add_page, remove_widget): Add logging.
+
+	* glclock.cc (edit_options): Use gtk_widget_destroy.
+
+1999-04-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* NEWS: Modified.
+
+	* Makefile.am (EXTRA_DIST): Add VERSION-ID.
+
+	* VERSION-ID: New file.
+
+	* configure.in: Add `--with-nana'.
+
+	* glclock.cc (edit_options): Rewrote using the new dialog classes.
+
+	* glclock.h (class clock_options_dialog): Use the new
+	options_dialog.
+
+	* options.cc: Rewrite class options_dialog.
+
+	* glclock.h: Include "options.h".
+	(class clock_options_dialog): Renamed from options_dialog.
+
+	* Makefile.am (rglclock_SOURCES): Add clockoptions.cc.
+	(noinst_HEADERS): Add options.h.
+
+	* options.h: New file.
+
+	* clockoptions.cc: New file.
+
+1999-04-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* README: Modified.
+
+	* NEWS: Modified.
+
+	* options.cc (populate): Replace gtk_window_set_default with
+	gtk_window_set_focus.
+	* about.cc (populate): Likewise.
+
+	* glclock.h (class glclock): Use GtkItemFactory.
+
+	* glclock.cc: Use GtkItemFactory instead of GtkMenuFactory.
+	(menu_activate): Removed.
+	(describe): Removed.
+	(~glclock, glclock): Replace gtk_menu_factory_destroy with
+	gtk_object_unref.
+	(menu_quit, edit_options): Change arguments.
+	(glclock): Change the menu initialization.
+	(menu_about): New function.
+
+	* options.cc (options_dialog): Use gtk_window_set_transient_for.
+	(finish_realize): Removed.  Also remove all references.
+
+	* about.cc (about_dialog): Use gtk_window_set_transient_for.
+	(finish_realize): Removed.  Also remove all references.
+
+	* main.cc: Remove ad-hoc session support.
+	(set_command): Removed.
+
+	* configure.in: Remove --disable-wm-command and
+	--disable-wm-transient-for.
+	Require GTK+ version 1.2.0 or later.
+	Add AC_ISC_POSIX test.
+	Move GNU get text to later.
+
+	* main.cc: Include <cstdio> and <exception>.
+
+	* about.cc: Include <cstdlib> and <cstdio>.
+
+1999-03-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (update-po): New target.
+
+1999-03-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* main.cc (clean): Removed.
+	(main): Remove use of clean and add clean-up after gtk_main.
+
+1999-02-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* about.cc (about_dialog): Rewrote using auto_widget.
+	(populate): Likewise.
+
+	* autowidget.h: New file.
+	* Makefile.am (noinst_HEADERS): Add autowidget.h.
+
+	* options.cc: Add an excetion to license terms.
+
+	* README: Modified.
+
+	* README.ja: New file.
+	* Makefile.am (EXTRA_DIST): Add README.ja.
+
+	* NEWS: Updated.
+
+	* about.cc: Add an exception to license terms.
+	* glclock.cc: Likewise.
+	* glclock.h: Likewise.
+	* main.cc: Likewise.
+	* module.cc: Likewise.
+	* module.h: Likewise.
+	* simple.c: Likewise.
+	* simple.h: Likewise.
+
+1999-02-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* README: Modified.
+
+	* main.cc: Undef inline at first.
+	Modify comments.
+	(main): Add exception handling.
+	(main): Use EXIT_SUCCESS.
+	Undef SESSION if GTK+ 1.1 or later.
+
+1999-02-17  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (dist-snapshot): Add suffix with x to VERSION.
+
 1999-02-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* options.cc (populate): Add the Rendering tab.
+
+	* glclock.cc (edit_options): New function.  Update the header too.
+	(glclock): Add the function to the popup menu.
+	(glclock): Move a comment.
+
+	* options.cc: New file.
+	* Makefile.am (rglclock_SOURCES): Add options.cc.
+
+	* glclock.h (class options_dialog): New class.
 
 	* gtkrc: New file.
 	* Makefile.am (pkgdata_DATA): Add gtkrc.
@@ -56,7 +193,10 @@
 	* Makefile.am (data_DATA): Added.
 
 1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
->>>>>>> 0.121/ChangeLog Sun, 14 Feb 1999 08:26:41 +0900 kaz (rglclock/14_ChangeLog 1.28.1.23.1.3.1.1.1.1.1.1.1.1.1.1.2.3.2.5.2.6.2.8.2.3.1.1.1.2.2.9 644)
+
+	* configure.in: Add checks for ndbm.
+
+1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* TODO: Updated.
 
