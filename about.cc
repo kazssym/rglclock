@@ -131,7 +131,7 @@ about_dialog::populate(GtkWidget *dialog)
   gtk_widget_show(ok_button.get());
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button.get(),
 		     FALSE, FALSE, 0);
-  gtk_window_set_default(GTK_WINDOW(dialog), ok_button.get());
+  gtk_window_set_focus(GTK_WINDOW(dialog), ok_button.get());
 }
 
 /* Handles a click on the OK button.  */

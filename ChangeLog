@@ -1,5 +1,9 @@
 1999-04-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* options.cc (populate): Replace gtk_window_set_default with
+	gtk_window_set_focus.
+	* about.cc (populate): Likewise.
+
 	* glclock.h (class glclock): Use GtkItemFactory.
 
 	* glclock.cc: Use GtkItemFactory instead of GtkMenuFactory.

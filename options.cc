@@ -142,6 +142,6 @@ options_dialog::populate(GtkWidget *dialog)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), cancel_button,
 		     FALSE, FALSE, 0);
 
-  gtk_window_set_default(GTK_WINDOW(dialog), ok_button);
+  gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
 }
 
