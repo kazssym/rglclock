@@ -1,5 +1,19 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/modaldialog.cc (deliver_delete_event): New function.
+	(act): Use deliver_delete_event.
+
+	* include/utils.h (class modal_dialog): Make handle_delete_event
+ 	non-static.
+
+	* lib/Makefile.am (libutils_a_SOURCES): Add modal_dialog.cc.
+
+	* lib/options.cc: Move modal_dialog methods to modaldialog.cc.
+
+	* lib/modaldialog.cc: New file.
+
+	* include/utils.h (class modal_dialog): Add comments.
+
 	* lib/options.cc (act): Remove use of func_data.
 	(handle_delete_event, handle_ok, handle_cancel): Remove use of
  	to_ptr.

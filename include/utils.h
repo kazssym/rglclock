@@ -50,10 +50,6 @@ protected:
 /* Base component for modal dialogs.  */
 class modal_dialog
 {
-protected:
-  static gint handle_delete_event(GtkWidget *, GdkEventAny *,
-				  gpointer) throw ();
-
 private:
   /* Widget created for this dialog.  */
   GtkWidget *widget;
@@ -66,9 +62,17 @@ public:
   virtual ~modal_dialog();
 
 public:
+  /* Activates this dialog.  */
   void act(GtkWindow *parent);
+
+  /* Handles a delete event on the widget.  */
+  bool handle_delete_event(GtkWidget *, GdkEventAny *);
+
 protected:
+  /* Creates a widget for this dialog.  This must be overriden.  */
   virtual GtkWidget *create_widget() = 0;
+
+  /* Deactivates this dialog.  */
   void quit();
 };
 
