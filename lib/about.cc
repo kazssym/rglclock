@@ -78,7 +78,7 @@ about_dialog::populate(GtkWidget *dialog)
   const char *ok_text = _("OK");
   GtkObject_ptr<GtkWidget> ok_button(gtk_button_new_with_label(ok_text));
   gtk_signal_connect(GTK_OBJECT(ok_button.get()), "clicked",
-		     GTK_SIGNAL_FUNC(handle_ok), dialog);
+		     GTK_SIGNAL_FUNC(handle_ok), this);
   gtk_widget_show(ok_button.get());
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button.get(),
 		     FALSE, FALSE, 0);

@@ -1,5 +1,7 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/about.cc (populate): Change the signal data to this.
+
 	* NEWS: Updated.
 
 	* configure.in: Move po/Makefile.in at the last in AC_OUTPUT.
