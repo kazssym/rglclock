@@ -1,5 +1,7 @@
 1999-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* rglclock.1: Modified.
+
 	* glclock.cc (handle_expose_event): Add drawing code.
 	(update): #if out drawing code and use gtk_widget_queue_draw
 	instead.
