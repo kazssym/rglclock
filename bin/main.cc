@@ -216,9 +216,8 @@ clock_app::show_about_dialog()
 void
 clock_app::edit_options(gpointer data, guint, GtkWidget *item)
 {
-  GtkWidget *window = static_cast<GtkWidget *>(data);
-  gpointer ud = gtk_object_get_user_data(GTK_OBJECT(window));
-  clock_app *d = static_cast<clock_app *>(ud);
+  clock_app *d = static_cast<clock_app *>(data);
+  GtkWidget *window = d->main_window;
 
   d->dialog.act(GTK_WINDOW(window));
 

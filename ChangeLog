@@ -9,6 +9,7 @@
 	(handle_about_command): New function.
 	(create_window): Create window only if not created yet.
 	(clock_app): Initialize main_window.
+	(edit_options): Cast data to clock_app*.
 
 	* lib/glclock.cc (update): Rotate only if there is a context.
 
