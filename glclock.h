@@ -63,4 +63,6 @@ private:
   menu_listener about;
 };
 
+void show_about(GtkWidget *);
+
 #endif /* not glclock_h */

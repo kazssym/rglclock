@@ -1,3 +1,33 @@
+1999-02-01  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Version 1.2.1.
+
+	* AUTHORS: Update text.
+	* NEWS: Update text.
+	* README: Update text.
+	* TODO: Update text.
+
+1999-01-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* rglclock.1: Update text.
+
+	* about.cc (show_about): Set padding for the label.
+
+	* about.cc: #include "glclock.h".
+	* glclock.cc: Remove delaration of show_about.
+	* glclock.h: Declare show_about.
+
+	* about.cc (show_about): Disallow the dialog resize.
+	(show_about): Update the label text.
+	(show_about): Use gtk_box_pack_start.
+	[ENABLE_TRANSIENT_FOR_HINT]: #include <gdk/gdkx.h>.
+	[ENABLE_TRANSIENT_FOR_HINT] (handle_configure_event): New
+	function.
+	(show_about) [ENABLE_TRANSIENT_FOR_HINT]: Connect
+	"configure_event" to its handler.
+
+	* simple.c (simple_draw_clock): Use gettimeofday if available.
+
 1999-01-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (dist-snapshot): New target.

@@ -1,7 +1,5 @@
-NEWS of rglclock:
-$Version: 1.1u.1 $ ($ProjectVersion: 0.62 $)
-
-Changes since version 1.1.6:
+Changes of rglclock
+$Version: 1.2.1 $ ($ProjectVersion: alsa-0.7 $)
 
 * Uses gdkgl in Janne Lof's gtkglarea library instead of gdkGL.
 Rglclock now chooses a visual appropriate for rendering.  The author
@@ -11,6 +9,7 @@ hopes this will improve performance on real OpenGL systems.
 
 * A pop-up menu is added.
 
+Version 1.1.6
 Changes since version 0.24:
 
 * Signal handling has been improved.

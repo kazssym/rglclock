@@ -1,11 +1,15 @@
 TODO list for rglclock:
 
-For version 1.2:
-
-* Add a popup menu.
+Version 1.3:
 
 * Map texture.
+
+* Better documentation.
+
+* Chime and alarm.
+
+* Setting dialog box.
 
-For version 2:
+Version 2:
 
 * Add loadable module support.
