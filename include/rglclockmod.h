@@ -38,21 +38,19 @@
 
 BEGIN_DECLS
 
-struct rglclockmod_1;
+struct rglclockmod_version_1;
 
 /* Module interface.  */
-union rglclock_interface
+union rglclockmod_interface
 {
-  int *version;
-  struct rglclockmod_1 *version_1;
+  struct rglclockmod_version_1 *version_1;
 };
 
-typedef int (*query_module_function)(const char *iname, int version_max,
-				     union rglclock_interface *iface);
+typedef int (*query_interface_function)(const char *iname, int version_max,
+					union rglclockmod_interface *iface);
 
-struct rglclockmod_1
+struct rglclockmod_version_1
 {
-  int version;
   int (*open)(void **);
   int (*close)(void *);
   int (*set_up)(void *);
