@@ -100,18 +100,33 @@ simple_draw_clock(void)
   glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
   glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
 
-  glBegin (GL_QUADS);
-  glNormal3f (1., 0., 1.);
-  glVertex3f (1., 37., 0.);
-  glVertex3f (1., 43., 0.);
-  glVertex3f (0., 43., 1.);
-  glVertex3f (0., 37., 1.);
-  glNormal3f (-1., 0., 1.);
-  glVertex3f (0., 37., 1.);
-  glVertex3f (0., 43., 1.);
-  glVertex3f (-1., 43., 0.);
-  glVertex3f (-1., 37., 0.);
-  glEnd ();
+  {
+    int i;
+
+    glPushMatrix();
+    for (i = 0; i != 12; ++i)
+      {
+	int l = 2;
+	if (i == 0)
+	  l = 6;
+	else if (l % 3 == 0)
+	  l = 4;
+	glBegin (GL_QUADS);
+	glNormal3f (0.5, 0., 1.);
+	glVertex3f (1., 43. - l, 0.);
+	glVertex3f (1., 43., 0.);
+	glVertex3f (0., 43., 0.5);
+	glVertex3f (0., 43. - l, 0.5);
+	glNormal3f (-0.5, 0., 1.);
+	glVertex3f (0., 43. - l, 0.5);
+	glVertex3f (0., 43., 0.5);
+	glVertex3f (-1., 43., 0.);
+	glVertex3f (-1., 43. - l, 0.);
+	glEnd ();
+	glRotatef(30, 0, 0, -1);
+      }
+    glPopMatrix();
+  }
 
   /* Short hand.  */
   glPushMatrix ();
