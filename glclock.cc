@@ -45,10 +45,12 @@ glclock::operator GtkWidget *() const
   return drawing_area;
 }
 
+void show_about(GtkWidget *);	// XXX
+
 void
 glclock::describe (GtkWidget *widget)
 {
-  g_warning ("Function not implemented.\n");
+  show_about(gtk_widget_get_toplevel(drawing_area));
 }
 
 glclock::~glclock ()
