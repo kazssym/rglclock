@@ -4,6 +4,8 @@
 	(class clock_app): Add static variables for options.
 	(namespace): Remove options variable moved to class clock_app.
 	(parse_options): Change options handling.
+	(create_window, clock_app): Use new variables for options.
+	(namespace): Moved just before main.
 
 	* NEWS: Modified.
 

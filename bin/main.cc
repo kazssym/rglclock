@@ -86,81 +86,6 @@ public:
   GtkWidget *create_window();
 };
 
-namespace
-{
-  int opt_help = 0;
-  int opt_version = 0;
-
-  /* Parses the program options.  */
-  bool
-  parse_options(int argc, char **argv)
-  {
-    static const struct option longopts[] =
-    {
-      {"hide-menu-bar", no_argument, &clock_app::opt_with_menu_bar, false},
-      {"no-options", no_argument, &clock_app::opt_with_saved_options, false},
-      {"private-colormap", no_argument,
-       &clock_app::opt_with_private_colormap, true},
-      {"help", no_argument, &opt_help, 1},
-      {"version", no_argument, &opt_version, 1},
-      {NULL, 0, NULL, 0}
-    };
-
-    int optc;
-    do
-      {
-	int index;
-	optc = getopt_long(argc, argv, "m", longopts, &index);
-
-	switch (optc)
-	  {
-	  case 'm':
-	    clock_app::opt_with_menu_bar = false;
-	    break;
-	  case 0:		// long option
-	    break;
-	  case '?':
-	    return false;
-	  }
-      }
-    while (optc != -1);
-
-    return true;
-  }
-
-  /* Displays the help.  */
-  void
-  display_help(const char *arg0)
-  {
-    printf(_("Usage: %s [OPTION]...\n"), arg0);
-    printf(_("Display a rotating 3D clock.\n"));
-    printf("\n");
-    printf(_("  -m, --hide-menu-bar   hide the menu bar\n"));
-    printf(_("      --private-colormap allocate a private colormap\n"));
-    printf(_("      --no-options      start without restoring options\n"));
-    printf(_("      --help            display this help and exit\n"));
-    printf(_("      --version         output version information and exit\n"));
-    printf("\n");
-    printf(_("Report bugs to <rglclock@lists.hypercore.co.jp>.\n"));
-  }
-
-  void parse_gtkrcs()
-    {
-#ifdef PKGDATADIR
-      gtk_rc_parse(PKGDATADIR "/gtkrc");
-#endif /* PKGDATADIR */
-
-      const char *homedir = getenv("HOME");
-      if (homedir != NULL)
-	{
-	  string gtkrc (homedir);
-	  gtkrc.append("/.rglclock");
-	  gtkrc.append("/gtkrc");
-	  gtk_rc_parse(gtkrc.c_str());
-	}
-    }
-} // (unnamed namespace)
-
 int clock_app::opt_with_menu_bar = true;
 int clock_app::opt_with_saved_options = true;
 int clock_app::opt_with_private_colormap = false;
@@ -271,6 +196,84 @@ clock_app::clock_app()
   gtk_widget_set_default_colormap(cm);
   gdk_colormap_unref(cm);
 }
+
+/* Command line interface.  */
+
+namespace
+{
+  int opt_help = 0;
+  int opt_version = 0;
+
+  /* Parses the program options.  */
+  bool
+  parse_options(int argc, char **argv)
+  {
+    static const struct option longopts[] =
+    {
+      {"hide-menu-bar", no_argument, &clock_app::opt_with_menu_bar, false},
+      {"no-options", no_argument, &clock_app::opt_with_saved_options, false},
+      {"private-colormap", no_argument,
+       &clock_app::opt_with_private_colormap, true},
+      {"help", no_argument, &opt_help, 1},
+      {"version", no_argument, &opt_version, 1},
+      {NULL, 0, NULL, 0}
+    };
+
+    int optc;
+    do
+      {
+	int index;
+	optc = getopt_long(argc, argv, "m", longopts, &index);
+
+	switch (optc)
+	  {
+	  case 'm':
+	    clock_app::opt_with_menu_bar = false;
+	    break;
+	  case 0:		// long option
+	    break;
+	  case '?':
+	    return false;
+	  }
+      }
+    while (optc != -1);
+
+    return true;
+  }
+
+  /* Displays the help.  */
+  void
+  display_help(const char *arg0)
+  {
+    printf(_("Usage: %s [OPTION]...\n"), arg0);
+    printf(_("Display a rotating 3D clock.\n"));
+    printf("\n");
+    printf(_("  -m, --hide-menu-bar   hide the menu bar\n"));
+    printf(_("      --private-colormap allocate a private colormap\n"));
+    printf(_("      --no-options      start without restoring options\n"));
+    printf(_("      --help            display this help and exit\n"));
+    printf(_("      --version         output version information and exit\n"));
+    printf("\n");
+    printf(_("Report bugs to <rglclock@lists.hypercore.co.jp>.\n"));
+  }
+
+  void
+  parse_gtkrcs()
+  {
+#ifdef PKGDATADIR
+    gtk_rc_parse(PKGDATADIR "/gtkrc");
+#endif /* PKGDATADIR */
+
+    const char *homedir = getenv("HOME");
+    if (homedir != NULL)
+      {
+	string gtkrc (homedir);
+	gtkrc.append("/.rglclock");
+	gtkrc.append("/gtkrc");
+	gtk_rc_parse(gtkrc.c_str());
+      }
+  }
+} // (unnamed)
 
 int
 main (int argc, char **argv)
