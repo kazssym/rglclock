@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-07-16 17:28+0900\n"
+"POT-Creation-Date: 1999-07-27 11:39+0900\n"
 "PO-Revision-Date: 1999-07-16 17:24+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -26,17 +26,25 @@ msgstr "キャンセル"
 msgid "Options"
 msgstr "オプション"
 
-#: lib/clockoptions.cc:72
+#: lib/clockoptions.cc:77
 msgid "Update rate: "
 msgstr "更新レート: "
 
 #. Unit name for update rate
-#: lib/clockoptions.cc:89
+#: lib/clockoptions.cc:91
 msgid "Hz"
 msgstr "Hz"
 
+#: lib/clockoptions.cc:102
+msgid "Map texture file: "
+msgstr ""
+
+#: lib/clockoptions.cc:115
+msgid "Select..."
+msgstr ""
+
 #. Label for the General page.
-#: lib/clockoptions.cc:114
+#: lib/clockoptions.cc:135
 msgid "General"
 msgstr "一般"
 
@@ -82,25 +90,26 @@ msgstr "      --version         バージョン情報を出力して終了する\n"
 
 #: bin/main.cc:111
 msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
-msgstr "バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
+msgstr ""
+"バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
 
-#: bin/main.cc:171
+#: bin/main.cc:189
 msgid "/_File/_Options..."
 msgstr "/ファイル(_F)/オプション(_O)..."
 
-#: bin/main.cc:174 bin/main.cc:178
+#: bin/main.cc:192 bin/main.cc:196
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
-#: bin/main.cc:175
+#: bin/main.cc:193
 msgid "/_File/E_xit"
 msgstr "/ファイル(_F)/終了(_X)"
 
-#: bin/main.cc:179
+#: bin/main.cc:197
 msgid "/_File/_About..."
 msgstr "/ファイル(_F)/バージョン情報(_A)..."
 
-#: bin/main.cc:265
+#: bin/main.cc:297
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
