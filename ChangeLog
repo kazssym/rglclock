@@ -1,5 +1,8 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* Makefile.am (dist-snapshot distcheck-snapshot): Add
+	distcheck-snapshot.  Modify version numbering for snapshots.
+
 	* options.h (class options_dialog): Remove duplicate members.
 
 	* options.cc (act, quit, handle_delete_event): New functions of
