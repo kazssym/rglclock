@@ -28,6 +28,7 @@
 
 #include "glclock.h"
 
+#include "autowidget.h"
 #include <gtk/gtk.h>
 #include <libintl.h>
 #include <cstring>
@@ -63,7 +64,8 @@ about_dialog::about_dialog(GtkWidget *parent)
   : parent_widget(parent),
     dialog(NULL)
 {
-  dialog = gtk_dialog_new();
+  auto_widget tmp(gtk_dialog_new());
+  dialog = tmp.get();
 
   /* Sets the window title.  */
   const char *title_format = _("About %s");
@@ -87,6 +89,8 @@ about_dialog::about_dialog(GtkWidget *parent)
 			   GTK_SIGNAL_FUNC(finish_realize), this);
 
   populate(dialog);
+
+  gtk_widget_ref(dialog);
 }
 
 #define YEARS "1998, 1999"
@@ -95,8 +99,6 @@ about_dialog::about_dialog(GtkWidget *parent)
 void
 about_dialog::populate(GtkWidget *dialog)
 {
-  GtkWidget *child;
-
   /* Makes the vbox area.  */
   const char *version_format
     = _("%s %s\nCopyright (C) %s Hypercore Software Design, Ltd.");
@@ -110,22 +112,22 @@ about_dialog::populate(GtkWidget *dialog)
 			    + sizeof PACKAGE + sizeof VERSION + sizeof YEARS);
   sprintf(version, version_format, PACKAGE, VERSION, YEARS);
 #endif /* not HAVE_ASPRINTF */
-  child = gtk_label_new(version);
+  auto_widget label1(gtk_label_new(version));
   free(version);
-  gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
-  gtk_misc_set_padding(GTK_MISC(child), 10, 10);
-  gtk_widget_show(child);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), child,
+  gtk_label_set_justify(GTK_LABEL(label1.get()), GTK_JUSTIFY_LEFT);
+  gtk_misc_set_padding(GTK_MISC(label1.get()), 10, 10);
+  gtk_widget_show(label1.get());
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label1.get(),
 		     FALSE, FALSE, 0);
 
   /* Makes the action area.  */
-  child =  gtk_button_new_with_label(_("OK"));
-  gtk_signal_connect(GTK_OBJECT(child), "clicked",
+  auto_widget ok_button(gtk_button_new_with_label(_("OK")));
+  gtk_signal_connect(GTK_OBJECT(ok_button.get()), "clicked",
 		     GTK_SIGNAL_FUNC(handle_ok), dialog);
-  gtk_widget_show(child);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child,
+  gtk_widget_show(ok_button.get());
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button.get(),
 		     FALSE, FALSE, 0);
-  gtk_window_set_default(GTK_WINDOW(dialog), child);
+  gtk_window_set_default(GTK_WINDOW(dialog), ok_button.get());
 }
 
 /* Handles a click on the OK button.  */

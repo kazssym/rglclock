@@ -1,5 +1,11 @@
 1999-02-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* about.cc (about_dialog): Rewrote using auto_widget.
+	(populate): Likewise.
+
+	* autowidget.h: New file.
+	* Makefile.am (noinst_HEADERS): Add autowidget.h.
+
 	* options.cc: Add an excetion to license terms.
 
 	* README: Modified.
