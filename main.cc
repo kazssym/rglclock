@@ -23,6 +23,8 @@
 
 #include "glclock.h"
 
+#include <gtk/gtk.h>
+#include <libintl.h>
 #ifdef HAVE_GETOPT_H
 # include <getopt.h>
 #endif
@@ -30,12 +32,13 @@
 # include <unistd.h>
 #endif
 #include <signal.h>
-#include <gtk/gtk.h>
 
 #ifdef SESSION
 # include <gdk/gdkx.h>
 # include <algorithm>
 #endif
+
+#define _(MSG) gettext(MSG)
 
 static GtkWidget *toplevel;
 static glclock *glc;

@@ -1,6 +1,6 @@
 ## Process this file with automake to produce a Makefile.in.
 
-INCLUDES = ${GTK_CFLAGS}
+INCLUDES = -DLOCALEDIR=\"${datadir}/locale\" ${GTK_CFLAGS}
 
 bin_PROGRAMS = rglclock
 
@@ -13,6 +13,8 @@ data_DATA =
 man_MANS = rglclock.1
 
 EXTRA_DIST = ${man_MANS}
+
+SUBDIRS = intl po
 
 dist-snapshot:
 	${MAKE} VERSION=${VERSION}.`date +%Y%m%d` dist
