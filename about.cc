@@ -66,7 +66,7 @@ about_dialog::about_dialog(GtkWidget *parent)
   : parent_widget(parent),
     dialog(NULL)
 {
-  auto_widget tmp(gtk_dialog_new());
+  GtkObject_ptr<GtkWidget> tmp(gtk_dialog_new());
   dialog = tmp.get();
 
   /* Sets the window title.  */
@@ -115,7 +115,7 @@ about_dialog::populate(GtkWidget *dialog)
 			    + sizeof PACKAGE + sizeof VERSION + sizeof YEARS);
   sprintf(version, version_format, PACKAGE, VERSION, YEARS);
 #endif /* not HAVE_ASPRINTF */
-  auto_widget label1(gtk_label_new(version));
+  GtkObject_ptr<GtkWidget> label1(gtk_label_new(version));
   free(version);
   gtk_label_set_justify(GTK_LABEL(label1.get()), GTK_JUSTIFY_LEFT);
   gtk_misc_set_padding(GTK_MISC(label1.get()), 10, 10);
@@ -125,7 +125,7 @@ about_dialog::populate(GtkWidget *dialog)
 
   /* Makes the OK button.  */
   const char *ok_text = _("OK");
-  auto_widget ok_button(gtk_button_new_with_label(ok_text));
+  GtkObject_ptr<GtkWidget> ok_button(gtk_button_new_with_label(ok_text));
   gtk_signal_connect(GTK_OBJECT(ok_button.get()), "clicked",
 		     GTK_SIGNAL_FUNC(handle_ok), dialog);
   gtk_widget_show(ok_button.get());

@@ -164,8 +164,7 @@ main (int argc, char **argv)
 	{_("/_File/"), NULL, NULL, 0, "<Separator>"},
 	{_("/_File/_About..."), NULL, NULL, 2, "<Item>"}
       };
-      gtk_item_factory_create_items(ifactory.get(), 3, entries,
-				    ifactory.get());
+      gtk_item_factory_create_items(ifactory.get(), 3, entries, glc);
       // Unimplemented menu items.
       gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory.get(),
 								     1),

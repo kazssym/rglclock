@@ -71,42 +71,5 @@ protected:
     {if (object != 0) gtk_object_unref(GTK_OBJECT(object));}
 };
 
-class auto_widget
-{
-private:
-  GtkWidget *w;
-public:
-  auto_widget() throw()
-    : w(0) {}
-  auto_widget(GtkWidget *widget) throw()
-    : w(widget)
-    {
-      if (w != 0)
-	{gtk_widget_ref(w); gtk_object_sink(GTK_OBJECT(w));}
-    }
-  auto_widget(const auto_widget &x) throw()
-    : w(x.w) {if (w != 0) gtk_widget_ref(w);}
-  ~auto_widget() throw()
-    {if (w != 0) gtk_widget_unref(w);}
-public:
-  auto_widget &operator=(const auto_widget &x) throw()
-    {
-      if (&x != this)
-        {
-	  if (w != 0) gtk_widget_unref(w);
-	  w = x.w;
-	  if (w != 0) gtk_widget_ref(w);
-	}
-      return *this;
-    }
-  GtkWidget &operator*() const throw()
-    {return *w;}
-  GtkWidget *operator->() const throw()
-    {return w;}
-public:
-  GtkWidget *get() const throw()
-    {return w;}
-};
-
 #endif /* not AUTOWIDGET_H */
 

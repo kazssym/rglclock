@@ -1,5 +1,10 @@
 1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (main): Store glc as callback data for menu items.
+
+	* autowidget.h (class auto_widget): Removed.  Also remove all uses
+	by replacing with GtkObject_ptr.
+
 	* main.cc (main): Use GtkObject_ptr.
 
 	* autowidget.h (template class GtkObject_ptr): New class template.
