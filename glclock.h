@@ -23,6 +23,7 @@ private:
   GtkWidget *drawing_area;
   GdkGLContext *context;
   struct tm tm;
+  guint timeout_id;
 };
 
 #endif /* not glclock_h */

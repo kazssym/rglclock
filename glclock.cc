@@ -19,6 +19,7 @@ glclock::operator GtkWidget *() const
 
 glclock::~glclock ()
 {
+  gtk_timeout_remove (timeout_id);
   if (context != NULL)
     gdk_gl_context_unref (context);
   gtk_widget_unref (drawing_area);
@@ -40,9 +41,9 @@ glclock::glclock ()
   time_t now = time (NULL);
   tm = *localtime (&now);
 
-  gtk_timeout_add (10 * 1000,
-		   reinterpret_cast <GtkFunction> (update),
-		   this);
+  timeout_id = gtk_timeout_add (100,
+				reinterpret_cast <GtkFunction> (update),
+				this);
 }
 
 void
