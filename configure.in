@@ -11,7 +11,7 @@ AC_ARG_WITH(nana,
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
-AC_PROG_LIBTOOL
+AM_PROG_LIBTOOL
 AC_ISC_POSIX
 dnl Checks for libraries.
 AC_CHECK_LIB(z, deflate)
