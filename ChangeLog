@@ -1,3 +1,7 @@
+1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* configure.in: Add checks for -lpng and <png.h>.
+
 1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* TODO: Modified.
