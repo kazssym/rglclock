@@ -1,5 +1,5 @@
 /* rglclock - Rotating GL Clock.
-   Copyright (C) 1998 Hypercore Software Design, Ltd.
+   Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -45,6 +45,14 @@
 #include <cstdio>
 #include <string>
 #include <exception>
+
+#ifdef HAVE_NANA_H
+# include <nana.h>
+# include <cstdio>
+#else
+# include <cassert>
+# define I assert
+#endif
 
 #define _(MSG) gettext(MSG)
 
@@ -103,28 +111,37 @@ namespace
 	}
     }
 
-  profile main_profile;
+  struct app_data
+  {
+    glclock clock;
+    class profile profile;
+  };
 
   void edit_options(gpointer data, guint, GtkWidget *item)
     {
-      glclock *clock = static_cast<glclock *>(data);
+      GtkWidget *window = static_cast<GtkWidget *>(data);
+      gpointer ud = gtk_object_get_user_data(GTK_OBJECT(window));
+      app_data *d = static_cast<app_data *>(ud);
 
-      clock_options_dialog dialog(clock);
-      dialog.act(GTK_WINDOW(gtk_widget_get_toplevel(item)));
+      clock_options_dialog dialog(&d->clock);
+      dialog.act(GTK_WINDOW(window));
 
-      main_profile.save(clock);
+      d->profile.save(&d->clock);
     }
 
-  void describe(gpointer, guint, GtkWidget *item)
+  void describe(gpointer data, guint, GtkWidget *item)
     {
-      about_dialog about(gtk_widget_get_toplevel(item));
-      about.show();
+      GtkWidget *window = static_cast<GtkWidget *>(data);
+
+      about_dialog dialog;
+      dialog.act(GTK_WINDOW(window));
     }
 
-  GtkWidget *create_widget(glclock *glc)
+  GtkWidget *create_widget(app_data *glc)
     {
       GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
+      gtk_object_set_user_data(GTK_OBJECT(toplevel), glc);
       gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
 			 GTK_SIGNAL_FUNC(gtk_main_quit), glc);
       {
@@ -148,13 +165,13 @@ namespace
 	  };
 	  gtk_item_factory_create_items(ifactory.get(),
 					sizeof entries / sizeof entries[0],
-					entries, glc);
+					entries, toplevel);
 
 	  gtk_widget_show(ifactory->widget);
 	  gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
 			     FALSE, FALSE, 0);
 
-	  GtkObject_ptr<GtkWidget> content (glc->create_widget());
+	  GtkObject_ptr<GtkWidget> content(glc->clock.create_widget());
 	  gtk_widget_show(content.get());
 	  gtk_box_pack_start(GTK_BOX(box1.get()), content.get(),
 			     TRUE, TRUE, 0);
@@ -200,7 +217,7 @@ main (int argc, char **argv)
       gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
       gtk_widget_set_default_visual(visual);
 
-      glclock c;
+      app_data data;
 
       string s(getenv("HOME"));
       s.append("/.rglclock");
@@ -208,12 +225,12 @@ main (int argc, char **argv)
       mkdir(s.c_str(), 0777);	// XXX: Ignoring errors.
 #endif
       s.append("/options");
-      main_profile.open(s.c_str());
-      main_profile.restore(&c);
-      c.add_callback(&main_profile);
+      data.profile.open(s.c_str());
+      data.profile.restore(&data.clock);
+      data.clock.add_callback(&data.profile);
 
-      GtkWidget *toplevel = create_widget(&c);
-      gtk_widget_show (toplevel);
+      GtkWidget *toplevel = create_widget(&data);
+      gtk_widget_show(toplevel);
 
       gtk_main ();
 

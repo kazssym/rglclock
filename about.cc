@@ -35,66 +35,17 @@
 #include <cstdlib>
 #include <cstdio>
 
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-# include <gdk/gdkx.h>
+#ifdef HAVE_NANA_H
+# include <nana.h>
+# include <cstdio>
+#else
+# include <cassert>
+# define I assert
 #endif
 
 #define _(MSG) gettext(MSG)
 
 using namespace std;
-
-/* Shows this about dialog and wait.  The parent widget will become
-   insensible while this dialog is shown.  */
-void
-about_dialog::show()
-{
-  gtk_widget_show(dialog);
-
-  gtk_grab_add(dialog);
-  gtk_main();
-  gtk_grab_remove(dialog);
-
-  gtk_widget_hide(dialog);
-}
-
-about_dialog::~about_dialog()
-{
-  gtk_widget_destroy(dialog);
-}
-
-about_dialog::about_dialog(GtkWidget *parent)
-  : parent_widget(parent),
-    dialog(NULL)
-{
-  GtkObject_ptr<GtkWidget> tmp(gtk_dialog_new());
-  dialog = tmp.get();
-
-  /* Sets the window title.  */
-  const char *title_format = _("About %s");
-  /* I decided to avoid glib functions here, as the format string may
-     contain extended conversions like "%1$s".  */
-  char *title;
-#ifdef HAVE_ASPRINTF
-  asprintf(&title, title_format, PACKAGE);
-#else /* not HAVE_ASPRINTF */
-  title = (char *) malloc(strlen(title_format) + sizeof PACKAGE);
-  sprintf(title, title_format, PACKAGE);
-#endif /* not HAVE_ASPRINTF */
-  gtk_window_set_title(GTK_WINDOW(tmp.get()), title);
-  free(title);
-
-  gtk_window_set_policy(GTK_WINDOW(tmp.get()), FALSE, FALSE, FALSE);
-  gtk_window_position(GTK_WINDOW(tmp.get()), GTK_WIN_POS_CENTER);
-  gtk_window_set_transient_for(GTK_WINDOW(tmp.get()), GTK_WINDOW(parent));
-  gtk_signal_connect(GTK_OBJECT(tmp.get()), "delete_event",
-		     GTK_SIGNAL_FUNC(handle_delete_event), this);
-
-  dialog = tmp.get();
-  populate(dialog);
-
-  gtk_widget_ref(dialog);
-  gtk_object_sink(GTK_OBJECT(dialog));
-}
 
 #define YEARS "1998, 1999"
 
@@ -134,21 +85,42 @@ about_dialog::populate(GtkWidget *dialog)
   gtk_window_set_focus(GTK_WINDOW(dialog), ok_button.get());
 }
 
+GtkWidget *
+about_dialog::create_widget()
+{
+  GtkWidget *dialog = gtk_dialog_new();
+
+  /* Window title.  */
+  const char *title_format = _("About %s");
+  /* I decided to avoid glib functions here, as the format string may
+     contain extended conversions like "%1$s".  */
+  char *title;
+#ifdef HAVE_ASPRINTF
+  asprintf(&title, title_format, PACKAGE);
+#else /* not HAVE_ASPRINTF */
+  title = static_cast<char *>(malloc(strlen(title_format) + sizeof PACKAGE));
+  sprintf(title, title_format, PACKAGE);
+#endif /* not HAVE_ASPRINTF */
+  gtk_window_set_title(GTK_WINDOW(dialog), title);
+  free(title);
+
+  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+  gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+
+  populate(dialog);
+
+  add(dialog);
+  return dialog;
+}
+
 /* Handles a click on the OK button.  */
 void
 about_dialog::handle_ok(GtkWidget *dialog,
 			gpointer data)
 {
-  gtk_main_quit();
-}
+  about_dialog *d = static_cast<about_dialog *>(to_ptr(data));
+  I(d != NULL);
 
-/* Handles a delete event on the dialog.  */
-gint
-about_dialog::handle_delete_event(GtkWidget *dialog,
-				  GdkEventAny *event,
-				  gpointer data)
-{
-  gtk_main_quit();
-  return 1;
+  d->quit();
 }
 
