@@ -5,6 +5,7 @@
 	(create_widget): Use the current update rate.
 	(general_options_page): New function.
 	(clock_options_dialog): Add an argument.
+	(create_widget): Modify the label1 text.
 
 	* glclock.h (class general_options_page): Add new data member
 	target and constructor.

@@ -69,7 +69,7 @@ clock_options_dialog::general_options_page::create_widget()
   {
     GtkWidget *table = gtk_table_new(2, 1, FALSE);
     {
-      const char *text1 = _("Update frequency:");
+      const char *text1 = _("Update rate [times/s]:");
       GtkWidget *label1 = gtk_label_new(text1);
       gtk_widget_show(label1);
       gtk_table_attach_defaults(GTK_TABLE(table), label1,
