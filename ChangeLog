@@ -1,4 +1,8 @@
-1998-06-27  Kaz Sasayama  <kaz@hypercore.co.jp>
+1998-06-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* configure.in: Add `AC_STRUCT_TM' and `AC_C_CONST'.
+
+	* Version 0.3 released.
 
 	* ChangeLog started.
 
