@@ -1,3 +1,9 @@
+2000-03-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* NEWS: Updated.
+
+	* simple.c (simple_init): Set ambient parameters.
+
 1999-10-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Updated.

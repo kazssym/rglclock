@@ -1,6 +1,10 @@
 User-visible changes in rglclock
 
-$Date: Tue, 26 Oct 1999 20:43:25 +0900 $
+$Date: Tue, 07 Mar 2000 20:51:54 +0900 $
+
+Version 1.3.6
+
+* Fixed lighting parameter initialization.
 
 Version 1.3.5
 

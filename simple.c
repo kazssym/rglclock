@@ -190,8 +190,10 @@ simple_draw_clock(void)
 }
 
 static const GLfloat LIGHT0_POSITION[] = {-200, 200, 200, 0};
+static const GLfloat LIGHT0_AMBIENT[] = {0.10, 0.10, 0.10, 1};
 static const GLfloat LIGHT0_INTENSITY[] = {0.80, 0.80, 0.80, 1};
 static const GLfloat LIGHT1_POSITION[] = {200, 200, 0, 0};
+static const GLfloat LIGHT1_AMBIENT[] = {0.10, 0.10, 0.10, 1};
 static const GLfloat LIGHT1_INTENSITY[] = {0.60, 0.60, 0.60, 1};
 
 int
@@ -213,10 +215,12 @@ simple_init(void)
   glEnable (GL_LIGHTING);
   glEnable (GL_LIGHT0);
   glLightfv (GL_LIGHT0, GL_POSITION, LIGHT0_POSITION);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, LIGHT0_AMBIENT);
   glLightfv (GL_LIGHT0, GL_DIFFUSE, LIGHT0_INTENSITY);
   glLightfv (GL_LIGHT0, GL_SPECULAR, LIGHT0_INTENSITY);
   glEnable (GL_LIGHT1);
   glLightfv (GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
+  glLightfv(GL_LIGHT1, GL_AMBIENT, LIGHT1_AMBIENT);
   glLightfv (GL_LIGHT1, GL_DIFFUSE, LIGHT1_INTENSITY);
   glLightfv (GL_LIGHT1, GL_SPECULAR, LIGHT1_INTENSITY);
 
