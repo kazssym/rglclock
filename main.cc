@@ -112,19 +112,6 @@ namespace
 static GtkWidget *toplevel;
 static glclock *glc;
 
-static void
-clean ()
-{
-  delete glc;
-  glc = NULL;
-#if 0
-  /* This code may cause SIGILL when interrupted.  */
-  if (toplevel != NULL)
-    gtk_widget_unref (toplevel);
-  toplevel = NULL;
-#endif
-}
-
 /* Handle "delete_event".  */
 static gint
 handle_delete_event (GtkWidget *widget, GdkEventAny *event,
@@ -188,8 +175,6 @@ main (int argc, char **argv)
 
   try
     {
-      ATEXIT (clean);
-
       parse_gtkrcs();
 
       static int attr[] = {GDK_GL_RGBA,
@@ -218,6 +203,10 @@ main (int argc, char **argv)
 
       gtk_widget_show (toplevel);
       gtk_main ();
+
+      gtk_widget_hide(toplevel);
+      delete glc;
+      gtk_widget_destroy(toplevel);
     }
   catch (exception &x)
     {

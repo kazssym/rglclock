@@ -1,3 +1,8 @@
+1999-03-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* main.cc (clean): Removed.
+	(main): Remove use of clean.
+
 1999-02-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* about.cc (about_dialog): Rewrote using auto_widget.
