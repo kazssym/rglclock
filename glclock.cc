@@ -39,8 +39,6 @@ glclock::operator GtkWidget *() const
 glclock::~glclock ()
 {
   gtk_timeout_remove (timeout_id);
-  if (context != NULL)
-    gdk_gl_context_unref (context);
   gtk_widget_unref (drawing_area);
   delete m;
 }
@@ -55,11 +53,11 @@ glclock::glclock ()
   gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
 
   gtk_widget_set_events (drawing_area, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-  gtk_signal_connect_after (GTK_OBJECT (drawing_area), "realize",
-			    reinterpret_cast <GtkSignalFunc> (create_context),
-			    this);
   gtk_signal_connect (GTK_OBJECT (drawing_area), "configure_event",
 		      reinterpret_cast <GtkSignalFunc> (handle_configure_event),
+		      this);
+  gtk_signal_connect (GTK_OBJECT (drawing_area), "destroy_event",
+		      reinterpret_cast <GtkSignalFunc> (handle_destroy_event),
 		      this);
 #if 0
   gtk_signal_connect (GTK_OBJECT (drawing_area), "expose_event",
@@ -93,7 +91,8 @@ glclock::update (gpointer opaque)
 		     object->rot_x, object->rot_y, object->rot_z);
 
   GtkWidget *widget = object->drawing_area;
-  if (widget->window != NULL && object->context != NULL)
+  /* If a context is available, a window must also be available here.  */
+  if (object->context != NULL)
     {
       gdk_gl_set_current (object->context, widget->window);
 
@@ -148,8 +147,8 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
 }
 
 gint
-glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
-				 gpointer opaque)
+glclock::handle_destroy_event (GtkWidget *widget, GdkEventAny *event,
+			       gpointer opaque)
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
@@ -157,31 +156,36 @@ glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
 
   if (object->context != NULL)
     {
-      gdk_gl_set_current (object->context, widget->window);
-
-      object->m->viewport (event->x, event->y,
-			   event->width, event->height);
-
-      gdk_gl_unset_current ();
+      gdk_gl_context_unref (object->context);
+      object->context = NULL;
     }
 
   return 0;
 }
 
-void
-glclock::create_context (GtkWidget *widget, gpointer opaque)
+gint
+glclock::handle_configure_event (GtkWidget *widget, GdkEventConfigure *event,
+				 gpointer opaque)
 {
   glclock *object = static_cast <glclock *> (opaque);
   g_assert (object != NULL);
   g_assert (object->drawing_area == widget);
 
-  if (object->context != NULL)
-    gdk_gl_context_unref (object->context);
-  object->context = gdk_gl_context_new (gdk_window_get_visual (widget->window));
+  if (object->context == NULL)
+    {
+      object->context = gdk_gl_context_new (gdk_window_get_visual (widget->window));
 
-  gdk_gl_set_current (object->context, widget->window);
+      gdk_gl_set_current (object->context, widget->window);
 
-  object->m->init ();
+      object->m->init ();
+    }
+  else
+    gdk_gl_set_current (object->context, widget->window);
+
+  object->m->viewport (event->x, event->y,
+		       event->width, event->height);
 
   gdk_gl_unset_current ();
+
+  return 0;
 }

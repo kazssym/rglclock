@@ -1,8 +1,16 @@
 1998-07-11  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* glclock.h (class glclock): Remove member tm and add t.
+	(class glclock): Update the definition.  Reorder data members.
 	* glclock.cc (glclock): Set the new member.
 	(update): Update and use the new member.
+	(handle_configure_event): Create a context if none.
+	(create_context): Removed.
+	(glclock): Do not connect "realize" to a handler.
+	(handle_destroy_event): New function.
+	(glclock): Connect "destroy_event" to its handler.
+	(~glclock): Do not destroy context.
+	(update): Do not test the availability of a window.
 
 	* glclock.cc (handle_expose_event): Do not draw here.
 

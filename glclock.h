@@ -35,19 +35,19 @@ public:
 public:
   operator GtkWidget *() const;
 protected:
-  static void create_context (GtkWidget *, gpointer);
   static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
+  static gint handle_destroy_event (GtkWidget *, GdkEventAny *, gpointer);
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
 private:
   module *m;
   GtkWidget *drawing_area;
-  GdkGLContext *context;
-  time_t t;
   guint timeout_id;
+  GdkGLContext *context;
   double rot_velocity;
   double rot_x, rot_y, rot_z;
+  time_t t;
   double press_x, press_y;
 };
 
