@@ -28,6 +28,7 @@
 
 #include "profile.h"
 
+#include <iterator>
 #ifdef HAVE_GNOME_XML_PARSER_H
 # include <cstdio>
 # include <gnome-xml/parser.h>
@@ -35,20 +36,68 @@
 
 using namespace std;
 
+namespace
+{
+#ifdef HAVE_GNOME_XML_PARSER_H
+  class xmlNode_iterator
+    : public bidirectional_iterator<xmlNode, ptrdiff_t>
+  {
+    friend bool operator==(const xmlNode_iterator &a,
+			   const xmlNode_iterator &b)
+      {return a.ptr == b.ptr;}
+  private:
+    xmlNode *ptr;
+  public:
+    xmlNode_iterator()
+      : ptr(NULL) {}
+    xmlNode_iterator(xmlNode *p)
+      : ptr(p) {}
+  public:
+    xmlNode &operator*() const
+      {return *ptr;}
+    xmlNode *operator->() const
+      {return ptr;}
+    xmlNode_iterator &operator++()
+      {ptr = ptr->next; return *this;}
+    xmlNode_iterator operator++(int)
+      {xmlNode_iterator tmp = *this; ++*this; return tmp;}
+    xmlNode_iterator &operator--()
+      {ptr = ptr->prev; return *this;}
+    xmlNode_iterator operator--(int)
+      {xmlNode_iterator tmp = *this; --*this; return tmp;}
+  };
+#endif /* HAVE_GNOME_XML_PARSER_H */
+} // (unnamed namespace)
+
 void
 profile::save(glclock *clock)
 {
 #ifdef HAVE_GNOME_XML_PARSER_H
-  xmlDocPtr doc = xmlNewDoc("1.0");
+  xmlDocPtr doc = xmlParseFile(file_name.c_str());
+  if (doc == NULL)
+    doc = xmlNewDoc(reinterpret_cast<CHAR *>("1.0"));
 
   try
     {
-      xmlNodePtr root = xmlNewDocNode(doc, NULL, PACKAGE, NULL);
-      doc->root = root;
-      xmlNodePtr misc = xmlNewChild(root, NULL, "misc", NULL);
-      char v[10];
-      sprintf(v, "%d", clock->update_rate());
-      xmlNewProp(misc, "update", v);
+      if (doc->root == NULL)
+	{
+	  doc->root = xmlNewNode(NULL, reinterpret_cast<CHAR *>(PACKAGE));
+	  xmlNewChild(doc->root, NULL,
+		      reinterpret_cast<CHAR *>("misc"), NULL);
+	}
+
+      for (xmlNode_iterator i = doc->root->childs;
+	   i != xmlNode_iterator();
+	   ++i)
+	{
+	  if (xmlStrcmp(i->name, reinterpret_cast<CHAR *>("misc")) == 0)
+	    {
+	      char v[10];
+	      sprintf(v, "%d", clock->update_rate());
+	      xmlSetProp(&*i, reinterpret_cast<CHAR *>("update"),
+			 reinterpret_cast<CHAR *>(v));
+	    }
+	}
 
       string tmp(file_name);
       tmp.append(".tmp");
@@ -75,21 +124,19 @@ profile::restore(glclock *clock)
 
   try
     {
-      xmlNodePtr n = doc->root->childs;
-      while (n != NULL && strcmp(n->name, "misc") != 0)
-	n = n->next;
-
-      if (n != NULL)
+      for (xmlNode_iterator i = doc->root->childs;
+	   i != xmlNode_iterator();
+	   ++i)
 	{
-	  xmlAttrPtr a = n->properties;
-	  while (a != NULL && strcmp(a->name, "update") != 0)
-	    ++a;
-
-	  if (a != NULL)
+	  if (xmlStrcmp(i->name, reinterpret_cast<CHAR *>("misc")) == 0)
 	    {
-	      int rate = atoi(reinterpret_cast<char *>(a->val->content));
-	      if (rate > 0)
-		clock->set_update_rate(rate);
+	      const CHAR *value
+		= xmlGetProp(&*i, reinterpret_cast<CHAR *>("update"));
+	      if (value != NULL && value[0] != '\0')
+		{
+		  int rate = atoi(reinterpret_cast<const char *>(value));
+		  clock->set_update_rate(rate);
+		}
 	    }
 	}
     }
