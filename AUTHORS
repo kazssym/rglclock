@@ -1,7 +1,6 @@
-Rglclock proper:
+Author of rglclock:
 
-Kaz Sasayama (Hypercore Software Design, Ltd.)
+	Kaz Sasayama (Hypercore Software Design, Ltd.)
 
-gdkgl.*:
+This package contains gdkgl.*, part of gtkglarea by Janne Löf.
 
-Janne Löf

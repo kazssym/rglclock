@@ -1,14 +1,14 @@
-This is rglclock, Rotating GL Clock.
+README for rglclock, Rotating 3D Clock.
 
 Copyright (C) 1998 Hypercore Software Design, Ltd.
 gdkGL Copyright (C) 1997, 1998 AOSASA Shigeru.
 
-rglclock is free software; you can redistribute it and/or
+Rglclock is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version
 2 of the License, or (at your option) any later version.
 
-rglclock is distributed in the hope that it will be useful,
+Rglclock is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty
 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
 the GNU General Public License for more details.
@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 
 * DESCRIPTION
 
-rglclock is a rotating 3D clock program using Mesa/OpenGL
+Rglclock is a rotating 3D clock program using Mesa/OpenGL
 and GTK+.  You can set the rotation direction and speed by
 just a mouse drag in the window.
 
