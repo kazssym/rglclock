@@ -1,6 +1,6 @@
 ## Process this file with automake to produce a Makefile.in.
 
-INCLUDES = ${GTK_CFLAGS}
+INCLUDES = -DLOCALEDIR=\"${datadir}/locale\" ${GTK_CFLAGS}
 
 bin_PROGRAMS = rglclock
 

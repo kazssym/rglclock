@@ -24,16 +24,16 @@
 #include "glclock.h"
 
 #include <gtk/gtk.h>
+#include <libintl.h>
 #include <cstring>
 
 #ifdef ENABLE_TRANSIENT_FOR_HINT
 # include <gdk/gdkx.h>
 #endif
 
-using namespace std;
+#define _(MSG) gettext(MSG)
 
-/* Preparing for gettext migration.  */
-#define _(S) (S)
+using namespace std;
 
 /* Shows this about dialog and wait.  The parent widget will become
    insensible while this dialog is shown.  */
