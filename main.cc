@@ -102,18 +102,7 @@ namespace
     }
 } // (unnamed namespace)
 
-static GtkWidget *toplevel;
 static glclock *glc;
-
-/* Handle "delete_event".  */
-static gint
-handle_delete_event (GtkWidget *widget, GdkEventAny *event,
-		     gpointer opaque)
-{
-  gtk_main_quit ();
-
-  return 0;
-}
 
 int
 main (int argc, char **argv)
@@ -148,12 +137,11 @@ main (int argc, char **argv)
       gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
       gtk_widget_set_default_visual(visual);
 
-      toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-      gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
-			  reinterpret_cast <GtkSignalFunc> (handle_delete_event),
-			  NULL);
-
       glc = new glclock ();
+
+      GtkWidget *toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+      gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
+			 GTK_SIGNAL_FUNC(gtk_main_quit), glc);
 
       GtkObject_ptr<GtkItemFactory> ifactory
 	(gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", NULL));
