@@ -4,6 +4,7 @@
 	Modify comments.
 	(main): Add exception handling.
 	(main): Use EXIT_SUCCESS.
+	Undef SESSION if GTK+ 1.1 or later.
 
 1999-02-17  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 

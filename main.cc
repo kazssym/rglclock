@@ -36,6 +36,11 @@
 #include <signal.h>
 #include <string>
 
+#if GTK_MAJOR_VERSION >= 2 || GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION >= 1
+// GTK+ 1.1 and later will have minimal session manager support.
+# undef SESSION
+#endif
+
 #ifdef SESSION
 # include <gdk/gdkx.h>
 # include <algorithm>
