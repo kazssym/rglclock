@@ -2,4 +2,4 @@
 
 EXTRA_DIST = README.ja MEMO.ja VERSION-ID
 
-SUBDIRS = intl include lib programs doc po
+SUBDIRS = intl include lib modules programs doc po
