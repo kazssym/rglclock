@@ -1,7 +1,7 @@
 1999-03-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* main.cc (clean): Removed.
-	(main): Remove use of clean.
+	(main): Remove use of clean and add clean-up after gtk_main.
 
 1999-02-24  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
