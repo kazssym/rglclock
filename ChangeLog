@@ -1,5 +1,9 @@
 1998-07-01  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* Makefile.am (rglclock_LDFLAGS): Add -export-dynamic.
+
+	* configure.in: Use AM_PROG_LIBTOOL instead of AC_PROG_RANLIB.
+
 	* module.cc (init): Cull back faces.
 	(draw_clock): Make vectors const.
 	(init): Likewise.

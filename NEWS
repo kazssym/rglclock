@@ -1,11 +1,13 @@
 NEWS of rglclock:
-$ProjectVersion: 0.13 $
+$ProjectVersion: 0.15 $
 
 Changes since version 0.10:
 
 * The drawing code has been moved to class module.
 
 * Back faces are culled.
+
+* libtool support.
 
 Changes since version 0.8:
 
