@@ -26,6 +26,51 @@
 
 #include <gtk/gtkwidget.h>
 
+template <class Object> class GtkObject_ptr
+{
+private:
+  Object *object;
+public:
+  GtkObject_ptr() throw()
+    : object(0) {}
+  GtkObject_ptr(Object *x)
+    : object(x) {ref_sink();}
+  GtkObject_ptr(const GtkObject_ptr &another)
+    : object(another.object) {ref();}
+  ~GtkObject_ptr()
+    {unref();}
+public:
+  GtkObject_ptr &operator=(const GtkObject_ptr &another)
+    {
+      if (&another != this)
+        {
+	  unref();
+	  object = another.object;
+	  ref();
+	}
+      return *this;
+    }
+  Object &operator*() const throw()
+    {return *object;}
+  Object *operator->() const throw()
+    {return object;}
+  Object *get() const throw()
+    {return object;}
+protected:
+  void ref() const
+    {if (object != 0) {gtk_object_ref(GTK_OBJECT(object));}}
+  void ref_sink() const
+    {
+      if (object != 0)
+	{
+	  gtk_object_ref(GTK_OBJECT(object));
+	  gtk_object_sink(GTK_OBJECT(object));
+	}
+    }
+  void unref() const
+    {if (object != 0) gtk_object_unref(GTK_OBJECT(object));}
+};
+
 class auto_widget
 {
 private:

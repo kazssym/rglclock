@@ -1,5 +1,9 @@
 1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (main): Use GtkObject_ptr.
+
+	* autowidget.h (template class GtkObject_ptr): New class template.
+
 	* main.cc (main): Make a vbox and a menu bar.
 
 	* gtkrc: Removed.
