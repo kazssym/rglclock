@@ -136,9 +136,11 @@ namespace
   private:
     glclock clock;
     class profile profile;
+    GtkAccelGroup *accels;
 
   public:
     clock_app();
+    ~clock_app();
 
   public:
     GtkWidget *create_window();
@@ -180,7 +182,7 @@ clock_app::create_window()
     GtkObject_ptr<GtkWidget> box1(gtk_vbox_new(FALSE, 0));
     {
       GtkObject_ptr<GtkItemFactory> ifactory
-	(gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", NULL));
+	(gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<Window>", accels));
       GtkItemFactoryEntry entries[]
 	=
       {
@@ -219,7 +221,13 @@ clock_app::create_window()
   return toplevel;
 }
 
+clock_app::~clock_app()
+{
+  gtk_accel_group_unref(accels);
+}
+
 clock_app::clock_app()
+  : accels(NULL)
 {
   string s(getenv("HOME"));
   s.append("/.rglclock");
@@ -230,6 +238,8 @@ clock_app::clock_app()
   profile.open(s.c_str());
   profile.restore(&clock);
   clock.add_callback(&profile);
+
+  accels = gtk_accel_group_new();
 }
 
 int

@@ -2,6 +2,10 @@
 
 	* bin/main.cc (class clock_app): New class replacing struct
 	app_data.
+	(class clock_app): Add member accels and destructor.
+	(create_window): Pass accels to GtkItemFactory.
+	(~clock_app): New function.
+	(clock_app): Make a new GtkAccelGroup.
 
 1999-07-26  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
