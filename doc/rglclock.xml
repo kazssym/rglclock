@@ -15,8 +15,6 @@
 	This file documents rglclock.
       </para>
     </abstract>
-    <!-- $Format: "<date>$Date$</date>" $ -->
-<date>Mon, 15 Nov 1999 22:26:15 +0900</date>
     <copyright>
       <year>1999</year>
       <holder>Hypercore Software Design, Ltd</holder>
@@ -27,6 +25,12 @@
     <para>
       rglclock is a rotating 3D clock program using Mesa/OpenGL and GTK+.
     </para>
+    <sect1>
+      <title>Setting Options</title>
+      <para>
+	Users can set program options using Options dialog.
+      </para>
+    </sect1>
   </chapter>
   <chapter>
     <title>Command Reference</title>
