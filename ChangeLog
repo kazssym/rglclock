@@ -1,5 +1,8 @@
 1998-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* Makefile.am (rglclock_LDFLAGS): Removed.
+	* configure.in: Remove AM_PROG_LIBTOOL.
+
 	* module.cc (draw_clock): Use glXXXf functions instead of glXXXd.
 	(draw_clock): Draw a mark at the top of the dial.
 	(rotate): Correct rotation.
