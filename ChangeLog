@@ -1,4 +1,18 @@
+1999-01-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (dist-snapshot): New target.
+
+	* simple.c (simple_draw_clock): Modify the look.
+	(simple_draw_clock): Fix the test condition.
+
 1999-01-25  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* simple.c (simple_draw_clock): Mark every hours.
+
+	* glclock.cc (describe): Add a call to show_about.
+
+	* Makefile.am (rglclock_SOURCES): Add about.cc.
+	* about.cc: New file.
 
 	* simple.c (simple_draw_clock): Modify parameters.
 	(simple_draw_clock): Use the model local viewer by default.
