@@ -33,12 +33,6 @@
 # include <gdk/gdkx.h>
 #endif
 
-static void
-handle_ok(GtkWidget *w)
-{
-  gtk_main_quit();
-}
-
 #ifdef ENABLE_TRANSIENT_FOR_HINT
 
 static gint
@@ -60,7 +54,7 @@ void
 about_dialog::show(GtkWidget *parent)
 {
 #ifdef ENABLE_TRANSIENT_FOR_HINT
-  guint h;
+  guint h = 0;
   if (parent != NULL)
     h = gtk_signal_connect(GTK_OBJECT(dialog), "configure_event",
 			   GTK_SIGNAL_FUNC(handle_configure_event), parent);
@@ -89,6 +83,8 @@ about_dialog::about_dialog()
 {
   dialog = gtk_dialog_new();
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+  gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
+		     GTK_SIGNAL_FUNC(handle_delete_event), this);
 
   populate(dialog);
 }
@@ -115,5 +111,22 @@ about_dialog::populate(GtkWidget *dialog)
   gtk_widget_show(child);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), child,
 		     TRUE, FALSE, 0);
+}
+
+/* Handles clicks on the OK button.  */
+void
+about_dialog::handle_ok(GtkWidget *dialog,
+			gpointer data)
+{
+  gtk_main_quit();
+}
+
+/* Handles delete events on the dialog.  */
+gint
+about_dialog::handle_delete_event(GtkWidget *dialog, GdkEventAny *event,
+				  gpointer data)
+{
+  gtk_main_quit();
+  return 1;
 }
 

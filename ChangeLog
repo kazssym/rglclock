@@ -1,5 +1,10 @@
 1999-02-02  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* about.cc (handle_ok): Made to a static member.
+	(show): Handle the case of parent == NULL.
+	(handle_delete_event): New method.
+	(about_dialog): Connect "delete_event" to the handler.
+
 	* glclock.cc (describe): Use about_dialog.
 
 	* about.cc (handle_ok): Renamed from ok.
