@@ -54,7 +54,9 @@ using namespace std;
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
 
-#define DEFAULT_TIMEOUT_RATE 10
+#ifndef DEFAULT_TIMEOUT_RATE
+# define DEFAULT_TIMEOUT_RATE 10
+#endif
 
 glclock::operator GtkWidget *() const
 {
@@ -335,7 +337,7 @@ glclock::edit_options(gpointer data, guint, GtkWidget *)
 {
   glclock *object = static_cast <glclock *> (data);
 
-  clock_options_dialog dialog;
+  clock_options_dialog dialog(object);
   GtkWidget *widget = dialog.create_widget();
   gtk_window_set_transient_for(GTK_WINDOW(widget),
 			       GTK_WINDOW(gtk_widget_get_toplevel(object->drawing_area)));

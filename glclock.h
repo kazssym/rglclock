@@ -76,6 +76,10 @@ public:
   class general_options_page
     : public options_page
   {
+  private:
+    glclock *target;
+  public:
+    explicit general_options_page(glclock *);
   public:
     GtkWidget *create_widget();
     void apply(GtkWidget *);
@@ -83,7 +87,7 @@ public:
 private:
   general_options_page general;
 public:
-  clock_options_dialog();
+  explicit clock_options_dialog(glclock *);
 public:
   void show();
 protected:

@@ -1,5 +1,18 @@
 1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* clockoptions.cc (apply): Change the update rate.  Modify the
+	diagnostic log message.
+	(create_widget): Use the current update rate.
+	(general_options_page): New function.
+	(clock_options_dialog): Add an argument.
+
+	* glclock.h (class general_options_page): Add new data member
+	target and constructor.
+	(class clock_options_dialog): Add an argument to constructor.
+	Also update all callers.
+
+	* glclock.cc (DEFAULT_TIMEOUT_RATE): Do not defined if defined.
+
 	* glclock.h (class glclock): Add new data member: timeout_rate.
 	(class glclock): Add new member functions: update_rate and
 	set_update_rate.
