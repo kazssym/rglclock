@@ -51,12 +51,14 @@ using namespace std;
 namespace
 {
   int opt_hide_menu_bar = 0;
+  int opt_private_colormap = false;
   int opt_help = 0;
   int opt_version = 0;
 
   const struct option longopts[] =
   {
     {"hide-menu-bar", no_argument, &opt_hide_menu_bar, 1},
+    {"private-colormap", no_argument, &opt_private_colormap, true},
     {"help", no_argument, &opt_help, 1},
     {"version", no_argument, &opt_version, 1},
     {NULL, 0, NULL, 0}
@@ -87,15 +89,19 @@ namespace
     }
 
   /* Displays the help.  */
-  void display_help(const char *arg0)
-    {
-      printf(_("Usage: %s [OPTIONS]\n"), arg0);
-      printf(_("Display a rotating 3D clock.\n"));
-      printf("\n");
-      printf(_("  -m, --hide-menu-bar   hide the menu bar\n"));
-      printf(_("      --help            display this help and exit\n"));
-      printf(_("      --version         output version information and exit\n"));
-    }
+  void
+  display_help(const char *arg0)
+  {
+    printf(_("Usage: %s [OPTIONS]\n"), arg0);
+    printf(_("Display a rotating 3D clock.\n"));
+    printf("\n");
+    printf(_("  -m, --hide-menu-bar   hide the menu bar\n"));
+    printf(_("      --private-colormap allocate a private colormap\n"));
+    printf(_("      --help            display this help and exit\n"));
+    printf(_("      --version         output version information and exit\n"));
+    printf("\n");
+    printf(_("Report bugs to <rglclock@lists.hypercore.co.jp>.\n"));
+  }
 
   void parse_gtkrcs()
     {
@@ -217,7 +223,8 @@ main (int argc, char **argv)
 			   GDK_GL_DEPTH_SIZE, 4,
 			   GDK_GL_NONE};
       GdkVisual *visual = gdk_gl_choose_visual(attr);
-      gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
+      gtk_widget_set_default_colormap(gdk_colormap_new(visual,
+						       opt_private_colormap));
       gtk_widget_set_default_visual(visual);
 
       glclock c;

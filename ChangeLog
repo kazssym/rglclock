@@ -1,3 +1,11 @@
+1999-07-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* rglclock.1: Modified.
+
+	* main.cc (longopts): Add `--private-colormap' option.
+	(display_help): Update the help message.
+	(main): Pass opt_private_colormap to gdk_colormap_new.
+
 1999-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Modified.
