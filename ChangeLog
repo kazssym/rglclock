@@ -1,3 +1,22 @@
+1999-04-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc (edit_options): Rewrote using the new dialog classes.
+
+	* glclock.h (class clock_options_dialog): Use the new
+	options_dialog.
+
+	* options.cc: Rewrite class options_dialog.
+
+	* glclock.h: Include "options.h".
+	(class clock_options_dialog): Renamed from options_dialog.
+
+	* Makefile.am (rglclock_SOURCES): Add clockoptions.cc.
+	(noinst_HEADERS): Add options.h.
+
+	* options.h: New file.
+
+	* clockoptions.cc: New file.
+
 1999-04-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* README: Modified.

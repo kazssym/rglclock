@@ -315,6 +315,5 @@ glclock::edit_options(gpointer data, guint, GtkWidget *)
   gtk_widget_show(widget);
   gtk_main();
   gtk_widget_hide(widget);
-  gtk_object_unref(GTK_OBJECT(widget));
 }
 

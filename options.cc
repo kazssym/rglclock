@@ -53,10 +53,8 @@ options_dialog::create_widget()
   gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
   gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
 		     GTK_SIGNAL_FUNC(remove_widget), this);
-#if 0
   gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
-#endif
 
   populate(dialog);
 
