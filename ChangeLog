@@ -1,5 +1,12 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/options.cc (update, configure): New functions.
+	(populate): Change the argument type.
+	(create_widget): Use configure.
+
+	* include/utils.h (class options_dialog): Add new members
+ 	configure and update.  Change the argument type of populate.
+
 	* lib/about.cc (populate): Change the argument type.
 	(configure): New function.
 	(create_widget): Use configure.

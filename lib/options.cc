@@ -81,10 +81,14 @@ controller::remove_widget(GtkObject *object, gpointer data) throw ()
 }
 
 void
-options_dialog::populate(GtkWidget *dialog)
+options_dialog::update(GtkDialog *widget)
 {
-  I(GTK_IS_DIALOG(dialog));
+  /* FIXME */
+}
 
+void
+options_dialog::populate(GtkDialog *dialog)
+{
   GtkWidget *notebook1 = gtk_notebook_new();
   for (vector<pair<string, options_page *> >::iterator i = pages.begin();
        i != pages.end();
@@ -97,7 +101,7 @@ options_dialog::populate(GtkWidget *dialog)
 			       gtk_label_new(i->first.c_str()));
     }
   gtk_widget_show(notebook1);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook1,
+  gtk_box_pack_start(GTK_BOX(dialog->vbox), notebook1,
 		     FALSE, FALSE, 0);
 
   /* Label for the OK button.  */
@@ -108,7 +112,7 @@ options_dialog::populate(GtkWidget *dialog)
   gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
 		     GTK_SIGNAL_FUNC(handle_ok), this);
   gtk_widget_show(ok_button);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button,
+  gtk_box_pack_start(GTK_BOX(dialog->action_area), ok_button,
 		     FALSE, FALSE, 0);
 
   /* Label for the Cancel button.  */
@@ -119,10 +123,20 @@ options_dialog::populate(GtkWidget *dialog)
   gtk_signal_connect(GTK_OBJECT(cancel_button), "clicked",
 		     GTK_SIGNAL_FUNC(handle_cancel), this);
   gtk_widget_show(cancel_button);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), cancel_button,
+  gtk_box_pack_start(GTK_BOX(dialog->action_area), cancel_button,
 		     FALSE, FALSE, 0);
 
   gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
+}
+
+void
+options_dialog::configure(GtkDialog *widget)
+{
+  gtk_window_set_title(GTK_WINDOW(widget), _("Options"));
+  gtk_window_set_policy(GTK_WINDOW(widget), FALSE, FALSE, FALSE);
+  gtk_window_set_position(GTK_WINDOW(widget), GTK_WIN_POS_CENTER);
+
+  populate(widget);
 }
 
 GtkWidget *
@@ -130,11 +144,7 @@ options_dialog::create_widget()
 {
   GtkWidget *dialog = gtk_dialog_new();
 
-  gtk_window_set_title(GTK_WINDOW(dialog), _("Options"));
-  gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
-  gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-
-  populate(dialog);
+  configure(GTK_DIALOG(dialog));
 
 #ifdef L
   L("options_dialog: Creating a widget %p\n", dialog);

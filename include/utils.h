@@ -130,8 +130,18 @@ private:
   std::vector<std::pair<std::string, options_page *> > pages;
 public:
   void add_page(const char *, options_page *);
+
 protected:
-  void populate(GtkWidget *);
+  /* Configures a dialog widget.  */
+  void configure(GtkDialog *widget);
+
+  /* Updates the state of subwidgets.  */
+  void update(GtkDialog *widget);
+
+protected:
+  /* Populates a dialog widgets with subwidgets.  */
+  void populate(GtkDialog *widget);
+
   GtkWidget *create_widget();
 };
 
