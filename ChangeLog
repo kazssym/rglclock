@@ -1,5 +1,9 @@
 2002-04-23  Kaz Sasayama  <Kaz.Sasayama@HyperLinuxJP.com>
 
+	* Version 1.3.6.
+
+	* configure.in: Set VERSION to 1.3.6.
+
 	* README: Updated.
 
 	* NEWS: Updated.
