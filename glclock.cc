@@ -37,14 +37,41 @@
 # include <sys/time.h>
 #endif
 #include <math.h>
+#include <stdexcept>
+
+#ifdef HAVE_NANA_H
+# include <nana.h>
+# include <cstdio>
+#else
+# include <cassert>
+# define I assert
+#endif
 
 #define _(MSG) gettext(MSG)
 
 using namespace std;
 
+#define TIMEOUT_RES 1000
+#define rate_to_interval(rate) (TIMEOUT_RES / (rate))
+
+#define DEFAULT_TIMEOUT_RATE 10
+
 glclock::operator GtkWidget *() const
 {
   return drawing_area;
+}
+
+void
+glclock::set_update_rate(int rate)
+{
+  if (rate < 1 || rate > 100)
+    throw invalid_argument("glclock: update_rate is out of [1,100]");
+
+  timeout_rate = rate;
+  long interval = rate_to_interval(rate);
+  I(interval > 0);
+  gtk_timeout_remove(timeout_id);
+  timeout_id = gtk_timeout_add(interval, update, this);
 }
 
 glclock::~glclock ()
@@ -59,6 +86,7 @@ glclock::glclock ()
   : m (NULL),
     drawing_area (NULL),
     menu_factory (NULL),
+    timeout_rate(DEFAULT_TIMEOUT_RATE),
     context (NULL),
     rot_velocity (0),
     rot_x (0), rot_y (1), rot_z (0)
@@ -108,9 +136,8 @@ glclock::glclock ()
 
       time (&t);
 
-      timeout_id = gtk_timeout_add (100,
-				    reinterpret_cast <GtkFunction> (update),
-				    this);
+      timeout_id
+	= gtk_timeout_add(rate_to_interval(timeout_rate), update, this);
     }
   catch (...)
     {

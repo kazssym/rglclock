@@ -1,3 +1,15 @@
+1999-05-03  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.h (class glclock): Add new data member: timeout_rate.
+	(class glclock): Add new member functions: update_rate and
+	set_update_rate.
+
+	* glclock.cc: Include headers for diagnostics.
+	(TIMEOUT_RES, rate_to_interval, DEFALUT_TIMEOUT_RATE): New macro.
+	(set_update_rate): New function.
+	(glclock): Initialize new members.  Rewrite the timeout
+	initialization.
+
 1999-04-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (noinst_LIBRARIES): Add libgdkgl.a and libclock.a.

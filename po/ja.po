@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-04-29 07:34+0900\n"
+"POT-Creation-Date: 1999-05-03 13:55+0900\n"
 "PO-Revision-Date: 1999-04-07 22:51+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -26,19 +26,19 @@ msgstr "一般"
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
 
-#: glclock.cc:100
+#: glclock.cc:128
 msgid "/Reset Rotation"
 msgstr "/回転を元に戻す"
 
-#: glclock.cc:102
+#: glclock.cc:130
 msgid "/Options..."
 msgstr "/オプション..."
 
-#: glclock.cc:103
+#: glclock.cc:131
 msgid "/About..."
 msgstr "/バージョン情報..."
 
-#: glclock.cc:105
+#: glclock.cc:133
 msgid "/Exit"
 msgstr "/終了"
 
