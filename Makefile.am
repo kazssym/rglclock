@@ -3,11 +3,15 @@
 INCLUDES = -DPKGDATADIR=\"${pkgdatadir}\" -DLOCALEDIR=\"${datadir}/locale\" \
 ${GTK_CFLAGS}
 
+noinst_LIBRARIES = libgdkgl.a libclock.a
 bin_PROGRAMS = rglclock
 
-rglclock_SOURCES = clockoptions.cc main.cc glclock.cc options.cc about.cc \
-module.cc simple.c gdkgl.c
-rglclock_LDADD = ${GL_LIBS} ${GTK_LIBS}
+libgdkgl_a_SOURCES = gdkgl.c
+
+libclock_a_SOURCES = simple.c module.cc options.cc
+
+rglclock_SOURCES = clockoptions.cc glclock.cc about.cc main.cc
+rglclock_LDADD = libclock.a libgdkgl.a ${GL_LIBS} ${GTK_LIBS}
 
 noinst_HEADERS = options.h glclock.h module.h simple.h autowidget.h gdkgl.h
 pkgdata_DATA = gtkrc
