@@ -10,6 +10,8 @@ AC_PROG_CXX
 AC_PROG_RANLIB
 AC_ISC_POSIX
 dnl Checks for libraries.
+AC_CHECK_LIB(z, gzopen)
+AC_CHECK_LIB(xml, xmlParseDocument)
 AM_PATH_GTK(1.2.0)
 AC_SUBST(GL_LIBS)dnl
 AC_CHECK_LIB(GL, glClear, GL_LIBS="-lGL $GL_LIBS",, $GL_LIBS $GTK_LIBS)
@@ -23,7 +25,7 @@ if test $ac_cv_lib_GLU_gluLookAt = no; then
 fi
 
 dnl Checks for header files.
-AC_CHECK_HEADERS(getopt.h sys/time.h unistd.h)
+AC_CHECK_HEADERS(getopt.h gnome-xml/parser.h sys/time.h unistd.h)
 AC_ARG_WITH(nana,
 [  --with-nana             use GNU Nana for testing [no]],, with_nana=no)
 if test "$with_nana" != no; then

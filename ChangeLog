@@ -1,5 +1,15 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Add checks for <gnome-xml/parser.h> and -lxml,
+	-lz.
+
+	* Makefile.am (rglclock_SOURCES): Add profile.cc.
+	(noinst_HEADERS): Add profile.h.
+
+	* profile.h: New file.
+
+	* profile.cc: New file.
+
 	* main.cc (create_widget): New function.
 	(main): Use create_widget.
 	(main): Make the glclock object block-local.
