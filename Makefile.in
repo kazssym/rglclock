@@ -91,7 +91,7 @@ USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 
-EXTRA_DIST = README.ja MEMO.ja VERSION-ID
+EXTRA_DIST = README.ja MEMO.ja
 
 SUBDIRS = intl include lib modules programs doc po
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

@@ -1,5 +1,9 @@
 2002-05-02  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
+	* Version 1.4.1.
+
+	* configure.in: Set VERSION to 1.4.1.
+
 	* Makefile.am (EXTRA_DIST): Remove VERSION-ID.
 
 	* VERSION-ID: Removed.
