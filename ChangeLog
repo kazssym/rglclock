@@ -1,3 +1,14 @@
+1999-12-12  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* NEWS: Modified.
+
+	* bin/profile.cc (save): Set DTD.
+
+	* bin/Makefile.am (pkgdata_DATA): Add options-0.dtd.
+	(INCLUDES): Define OPTIONS_DTD.
+
+	* bin/options-0.dtd: New file.
+
 1999-11-18  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* TODO: Modified.
