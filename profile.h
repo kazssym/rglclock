@@ -28,19 +28,27 @@
 #include "glclock.h"
 #include <string>
 
-struct xmlDoc;
-
+/* Options profile of a clock.  This object keeps the options setting
+   in a file.  */
 class profile
   : public virtual glclock::options_callback
 {
 private:
   std::string file_name;
+  bool changed;
 public:
-  profile(const char *);
+  profile();
   ~profile();
 public:
-  void restore(glclock *);
-  void save(glclock *);
+  /* Opens a file with NAME to keep options settings.  */
+  void open(const char *name);
+
+  /* Restores all options setting of CLOCK.  */
+  void restore(glclock *clock);
+
+  /* Saves all options setting of CLOCK.  */
+  void save(glclock *clock);
+
   void options_changed(glclock *);
 };
 

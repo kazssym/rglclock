@@ -1,5 +1,19 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* profile.h: Add comments.
+	Remove unneccesary struct decl.
+
+	* main.cc (main): Make the profile object file-local.
+	(edit_options): Call profile::save.
+
+	* profile.cc (options_changed): Just set changed instead of save.
+	(save): Do not save if not changed.
+	(restore): Clear changed.
+	(open): New function.
+	(profile): Remove all arguments.  Initialize changed to false.
+
+	* profile.h (options_callback): Add member: changed.
+
 	* options.cc (add, ~controller, remove_widget): New functions of
 	class controller.
 	(populate, create_widget): Use controller::func_data.
