@@ -59,7 +59,9 @@ clock_options_dialog::general_options_page::apply(GtkWidget *widget)
 GtkWidget *
 clock_options_dialog::general_options_page::create_widget()
 {
-  GtkWidget *vbox = gtk_vbox_new(FALSE, 10);
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
+  I(GTK_IS_VBOX(vbox));
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
   {
     GtkWidget *table = gtk_table_new(2, 1, FALSE);
     {
