@@ -23,6 +23,7 @@
 #include <time.h>
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
+#include <gtk/gtkmenufactory.h>
 #include "gdkGL/gdkGLtypes.h"
 
 class module;
