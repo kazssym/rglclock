@@ -1,3 +1,17 @@
+1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* main.cc (edit_options): Use the new interface.
+
+	* options.h (class options_dialog): Update members.
+	(class options_dialog): Move create_widget to protected.
+
+	* options.cc (create_widget): Do not set modal.
+	(act): New function.
+	(options_dialog): Set sensitive flags to false, too.
+	(handle_ok, handle_cancel, handle_delete_event, remove_widget):
+	Add `throw ()'.
+	(remove_widget): Remove a diagnostic log message.
+
 1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* TODO: Modified.

@@ -108,14 +108,7 @@ namespace
       glclock *clock = static_cast<glclock *>(data);
 
       clock_options_dialog dialog(clock);
-
-      GtkWidget *widget = dialog.create_widget();
-      gtk_window_set_transient_for(GTK_WINDOW(widget),
-				   GTK_WINDOW(gtk_widget_get_toplevel(item)));
-
-      gtk_widget_show(widget);
-      gtk_main();
-      gtk_widget_destroy(widget);
+      dialog.act(GTK_WINDOW(gtk_widget_get_toplevel(item)));
     }
 
   void describe(gpointer, guint, GtkWidget *item)

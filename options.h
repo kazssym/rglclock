@@ -25,7 +25,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H 1
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkwindow.h>
 #include <vector>
 #include <string>
 
@@ -39,10 +39,10 @@ struct options_page
 class options_dialog
 {
 protected:
-  static void remove_widget(GtkObject *, gpointer);
-  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
-  static void handle_ok(GtkWidget *, gpointer);
-  static void handle_cancel(GtkWidget *, gpointer);
+  static void remove_widget(GtkObject *, gpointer) throw ();
+  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer) throw ();
+  static void handle_ok(GtkWidget *, gpointer) throw ();
+  static void handle_cancel(GtkWidget *, gpointer) throw ();
 public:
   std::vector<std::pair<std::string, options_page *> > pages;
   std::vector<GtkWidget *> widgets;
@@ -50,9 +50,10 @@ public:
   virtual ~options_dialog();
 public:
   void add_page(const char *, options_page *);
-  GtkWidget *create_widget();
+  void act(GtkWindow *parent);
 protected:
   void populate(GtkWidget *);
+  GtkWidget *create_widget();
 };
 
 #endif /* not OPTIONS_H */

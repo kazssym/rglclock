@@ -97,7 +97,6 @@ options_dialog::create_widget()
   I(GTK_IS_DIALOG(dialog));
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-  gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
   gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
 		     GTK_SIGNAL_FUNC(remove_widget), this);
   gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
@@ -110,6 +109,21 @@ options_dialog::create_widget()
 #endif
   widgets.push_back(dialog);
   return dialog;
+}
+
+void
+options_dialog::act(GtkWindow *parent)
+{
+  GtkWidget *widget = create_widget();
+  I(GTK_IS_WINDOW(widget));
+
+  if (parent != NULL)
+    gtk_window_set_transient_for(GTK_WINDOW(widget), parent);
+  gtk_window_set_modal(GTK_WINDOW(widget), true);
+
+  gtk_widget_show(widget);
+  gtk_main();
+  gtk_widget_destroy(widget);
 }
 
 void
@@ -126,12 +140,15 @@ options_dialog::~options_dialog()
   for (vector<GtkWidget *>::iterator i = widgets.begin();
        i != widgets.end();
        ++i)
-    gtk_signal_disconnect_by_data(GTK_OBJECT(*i), this);
+    {
+      gtk_signal_disconnect_by_data(GTK_OBJECT(*i), this);
+      gtk_widget_set_sensitive(*i, false);
+    }
 }
 
 void
 options_dialog::handle_ok(GtkWidget *button,
-			  gpointer data)
+			  gpointer data) throw ()
 {
   options_dialog *d = static_cast<options_dialog *>(data);
   I(d != NULL);
@@ -158,7 +175,7 @@ options_dialog::handle_ok(GtkWidget *button,
 
 void
 options_dialog::handle_cancel(GtkWidget *button,
-			      gpointer data)
+			      gpointer data) throw ()
 {
   gtk_main_quit();
 }
@@ -167,14 +184,14 @@ options_dialog::handle_cancel(GtkWidget *button,
 gint
 options_dialog::handle_delete_event(GtkWidget *dialog,
 				    GdkEventAny *event,
-				    gpointer data)
+				    gpointer data) throw ()
 {
   gtk_main_quit();
   return 1;
 }
 
 void
-options_dialog::remove_widget(GtkObject *object, gpointer data)
+options_dialog::remove_widget(GtkObject *object, gpointer data) throw ()
 {
   GtkWidget *widget = GTK_WIDGET(object);
   options_dialog *d = static_cast<options_dialog *>(data);
@@ -182,9 +199,6 @@ options_dialog::remove_widget(GtkObject *object, gpointer data)
   I(d != NULL);
   vector<GtkWidget *>::iterator k
     = find(d->widgets.begin(), d->widgets.end(), widget);
-#ifdef LG
-  LG(k == d->widgets.end(), "options_dialog: No widget to remove?\n");
-#endif
   if (k != d->widgets.end())
     d->widgets.erase(k);
 }
