@@ -26,6 +26,7 @@
 #endif
 
 #include <simple.h>
+#include <rglclockmod.h>
 
 #ifdef HAVE_PNG_H
 # include <png.h>

@@ -1,5 +1,11 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/simple.c: Include <rglclockmod.h>.
+
+	* include/Makefile.am (include_HEADERS): New macro.
+
+	* include/rglclockmod.h: New file.
+
 	* bin/main.cc (class clock_app): Remove members edit_options and
 	dialog.  Add new member show_options_dialog.
 	(edit_options): Removed.
