@@ -1,3 +1,13 @@
+2002-04-23  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2001-07-12  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.38.
+	* cat-id-tbl.c: Remove file.
+	* stamp-cat-id: Remove file.
+
 2000-12-10  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* ja_JP.eucJP.po: Update translation.
