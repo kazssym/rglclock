@@ -1,5 +1,9 @@
 1999-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* NEWS: Modified.
+
+	* configure.in: Set version to 1.3.3.
+
 	* rglclock.1: Modified.
 
 	* glclock.cc (handle_expose_event): Add drawing code.
