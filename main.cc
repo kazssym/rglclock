@@ -36,9 +36,12 @@ clean ()
 {
   delete glc;
   glc = NULL;
+#if 0
+  /* This code may cause SIGILL when interrupted.  */
   if (toplevel != NULL)
     gtk_widget_unref (toplevel);
   toplevel = NULL;
+#endif
 }
 
 /* Handle "delete_event".  */

@@ -1,5 +1,7 @@
 1998-07-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (clean): #ifdef out unref'ing toplevel.
+
 	* module.cc (HAND_ADC): New const.
 	(HAND_SC): New const.
 	(HAND_SR): New const.
