@@ -1,3 +1,13 @@
+1998-08-10  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (INCLUDES): Define SESSION.
+
+	* main.cc [SESSION] (argc_save): New variable.
+	[SESSION] (argv_save): New variable.
+	[SESSION] (set_command): New function.
+	(main) [SESSION]: Save the original arguments.
+	(main) [SESSION]: Connect after-realize to set_command.
+
 1998-07-31  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* rglclock.1: Update .TH.

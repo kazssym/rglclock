@@ -25,6 +25,10 @@
 
 #include <signal.h>
 #include <gtk/gtk.h>
+#ifdef SESSION
+# include <gdk/gdkx.h>
+# include <algorithm>
+#endif
 
 #include "glclock.h"
 
@@ -54,15 +58,52 @@ handle_delete_event (GtkWidget *widget, GdkEventAny *event,
   return 0;
 }
 
+#ifdef SESSION
+static int argc_save;
+static char **argv_save;
+
+static void
+set_command (GtkWidget *widget)
+{
+  int argc_get;
+  char **argv_get;
+
+  if (XGetCommand (GDK_WINDOW_XDISPLAY (widget->window),
+		   GDK_WINDOW_XWINDOW (widget->window),
+		   &argv_get, &argc_get))
+    {
+      g_message ("WM_COMMAND is already set.\n");
+      XFreeStringList (argv_get);
+    }
+  else
+    XSetCommand (GDK_WINDOW_XDISPLAY (widget->window),
+		 GDK_WINDOW_XWINDOW (widget->window),
+		 argv_save, argc_save);
+}
+#endif
+
 int
 main (int argc, char **argv)
 {
+#ifdef SESSION
+  argc_save = argc;
+  argv_save = new char *[argc + 1]; // This will leak just once.
+  std::copy_n (argv, argc + 1, argv_save);
+#endif
+
   gtk_set_locale ();
   gtk_init (&argc, &argv);
 
   ATEXIT (clean);
 
   toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+#ifdef SESSION
+  /* It appears necessary to set WM_COMMAND before the X window is
+     mapped for smproxy to pick it. */
+  gtk_signal_connect_after (GTK_OBJECT (toplevel), "realize",
+			    reinterpret_cast <GtkSignalFunc> (set_command),
+			    NULL);
+#endif
   gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 		      reinterpret_cast <GtkSignalFunc> (handle_delete_event),
 		      NULL);
