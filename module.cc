@@ -57,7 +57,7 @@ module::draw_clock (const struct tm *tm) const
 
     /* Draw the back.  */
     glPushMatrix ();
-    glRotated (180., 0., 1., 0.);
+    glRotatef (180., 0., 1., 0.);
     gluDisk (qobj, 0., 45., 24, 1);
     glPopMatrix ();
 
@@ -69,32 +69,32 @@ module::draw_clock (const struct tm *tm) const
 
   /* Short hand.  */
   glPushMatrix ();
-  glRotated (((tm->tm_hour * 60 + tm->tm_min) * 60
+  glRotatef (((tm->tm_hour * 60 + tm->tm_min) * 60
 	      + tm->tm_sec) / 120., 0, 0, -1);
   glBegin (GL_TRIANGLES);
-  glNormal3d (0.333, 0., 1.);
-  glVertex3d (3., 3., 1.);
-  glVertex3d (0., 25., 2.);
-  glVertex3d (0., 0., 2.);
-  glNormal3d (-0.333, 0., 1.);
-  glVertex3d (0., 0., 2.);
-  glVertex3d (0., 25., 2.);
-  glVertex3d (-3., 3., 1.);
+  glNormal3f (0.333, 0., 1.);
+  glVertex3f (3., 3., 1.);
+  glVertex3f (0., 25., 2.);
+  glVertex3f (0., 0., 2.);
+  glNormal3f (-0.333, 0., 1.);
+  glVertex3f (0., 0., 2.);
+  glVertex3f (0., 25., 2.);
+  glVertex3f (-3., 3., 1.);
   glEnd ();
   glPopMatrix ();
 
   /* Long hand.  */
   glPushMatrix ();
-  glRotated ((tm->tm_min * 60 + tm->tm_sec) / 10., 0, 0, -1);
+  glRotatef ((tm->tm_min * 60 + tm->tm_sec) / 10., 0, 0, -1);
   glBegin (GL_TRIANGLES);
-  glNormal3d (0.5, 0., 1.);
-  glVertex3d (2., 2., 3.);
-  glVertex3d (0., 40., 4.);
-  glVertex3d (0., 0., 4.);
-  glNormal3d (-0.5, 0., 1.);
-  glVertex3d (0., 0., 4.);
-  glVertex3d (0., 40., 4.);
-  glVertex3d (-2., 2., 3.);
+  glNormal3f (0.5, 0., 1.);
+  glVertex3f (2., 2., 3.);
+  glVertex3f (0., 40., 4.);
+  glVertex3f (0., 0., 4.);
+  glNormal3f (-0.5, 0., 1.);
+  glVertex3f (0., 0., 4.);
+  glVertex3f (0., 40., 4.);
+  glVertex3f (-2., 2., 3.);
   glEnd ();
   glPopMatrix ();
 }
