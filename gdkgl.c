@@ -16,6 +16,10 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+/* 24-Jan-1999, modified for rglclock.  */
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 
 #include "gdkgl.h"
 #include <gdk/gdkx.h>

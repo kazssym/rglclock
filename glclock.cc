@@ -102,12 +102,12 @@ glclock::glclock ()
       GtkMenuEntry entries[] =
       {
 	/* {path, accelerator, callback, callback_data, widget} */
-	{"Reset Rotation"},
-	{"<separator>"},
-	{"Properties..."},
-	{"About...", NULL, menu_listener::menu_activate, &about},
-	{"<separator>"},
-	{"Exit", NULL, menu_quit, this}
+	{"Reset Rotation", NULL, NULL, NULL, NULL},
+	{"<separator>", NULL, NULL, NULL, NULL},
+	{"Properties...", NULL, NULL, NULL, NULL},
+	{"About...", NULL, menu_listener::menu_activate, &about, NULL},
+	{"<separator>", NULL, NULL, NULL, NULL},
+	{"Exit", NULL, menu_quit, this, NULL}
       };
       gtk_menu_factory_add_entries (menu_factory, entries, 6);
 
