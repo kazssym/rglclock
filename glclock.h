@@ -73,6 +73,7 @@ public:
   {
   public:
     GtkWidget *create_widget();
+    void apply(GtkWidget *);
   };
 private:
   general_options_page general;

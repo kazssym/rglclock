@@ -32,6 +32,7 @@
 struct options_page
 {
   virtual GtkWidget *create_widget() = 0;
+  virtual void apply(GtkWidget *) = 0;
 };
 
 /* The options dialog.  */
@@ -39,7 +40,6 @@ class options_dialog
 {
 protected:
   static void remove_widget(GtkObject *, gpointer);
-  static void finish_realize(GtkWidget *, gpointer);
   static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
   static void handle_ok(GtkWidget *, gpointer);
   static void handle_cancel(GtkWidget *, gpointer);

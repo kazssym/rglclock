@@ -37,7 +37,7 @@
 # include <nana.h>
 #else
 # include <cassert>
-# define I(EXPR) assert(EXPR)
+# define I assert
 #endif
 
 #define _(MSG) gettext(MSG)
@@ -80,6 +80,26 @@ void
 options_dialog::handle_ok(GtkWidget *button,
 			  gpointer data)
 {
+  options_dialog *d = static_cast<options_dialog *>(data);
+  I(d != NULL);
+
+  GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
+  I(GTK_IS_DIALOG(dialog));
+  GList *dialog_children
+    = gtk_container_children(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox));
+  I(dialog_children != NULL);
+  GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
+  I(GTK_IS_NOTEBOOK(notebook));
+  int j = 0;
+  for (vector<pair<string, options_page *> >::iterator i = d->pages.begin();
+       i != d->pages.end();
+       ++i)
+    {
+      GtkWidget *page_widget
+	= gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
+      I(page_widget != NULL);
+      i->second->apply(page_widget);
+    }
   gtk_main_quit();
 }
 

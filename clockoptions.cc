@@ -30,24 +30,57 @@
 
 #include <gtk/gtk.h>
 #include <libintl.h>
+#include <cstdlib>
+
+#ifdef HAVE_NANA_H
+# include <nana.h>
+#else
+# include <assert.h>
+# define I assert
+#endif
 
 #define _(MSG) gettext(MSG)
 
 using namespace std;
 
+void
+clock_options_dialog::general_options_page::apply(GtkWidget *widget)
+{
+  GtkWidget *update_input
+    = GTK_WIDGET(gtk_object_get_data(GTK_OBJECT(widget), "update_input"));
+  I(update_input != NULL);
+  I(GTK_IS_ENTRY(update_input));
+#ifdef L
+  L("value = %d", atoi(gtk_entry_get_text(GTK_ENTRY(update_input))));
+#endif
+}
+
 GtkWidget *
 clock_options_dialog::general_options_page::create_widget()
 {
-  GtkWidget *box = gtk_vbox_new(FALSE, 0);
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 10);
   {
-    const char *text1 = _("Update frequency:");
-    GtkWidget *label1 = gtk_label_new(text1);
-    gtk_widget_show(label1);
-    gtk_box_pack_start(GTK_BOX(box), label1,
-		       FALSE, FALSE, 10);
+    GtkWidget *table = gtk_table_new(2, 1, FALSE);
+    {
+      const char *text1 = _("Update frequency:");
+      GtkWidget *label1 = gtk_label_new(text1);
+      gtk_widget_show(label1);
+      gtk_table_attach_defaults(GTK_TABLE(table), label1,
+				0, 1, 0, 1);
+
+      GtkObject *update_adjust = gtk_adjustment_new(10, 5, 30, 1, 5, 1);
+      GtkWidget *update_input
+	= gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
+      gtk_widget_show(update_input);
+      gtk_table_attach_defaults(GTK_TABLE(table), update_input,
+				1, 2, 0, 1);
+      gtk_object_set_data(GTK_OBJECT(vbox), "update_input", update_input);
+    }
+    gtk_widget_show(table);
+    gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
   }
 
-  return box;
+  return vbox;
 }
 
 clock_options_dialog::clock_options_dialog()
