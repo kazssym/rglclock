@@ -1,3 +1,7 @@
+1998-09-22  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc (glclock): Update menu entries.
+
 1998-09-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Update.
