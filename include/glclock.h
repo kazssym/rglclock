@@ -118,8 +118,6 @@ protected:
   void configure(GtkDialog *widget);
 
 protected:
-  GtkWidget *create_widget();
-
   /* Populates a dialog with subwidgets.  */
   void populate(GtkDialog *widget);
 };

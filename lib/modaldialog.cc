@@ -85,12 +85,16 @@ modal_dialog::create_window()
 {
   if (window == NULL)
     {
-      window = create_widget();
-      I(GTK_IS_WINDOW(window));
+      window = gtk_dialog_new();
+#ifdef L
+      L("modal_dialog[%p]: Created a GtkDialog %p\n", this, window);
+#endif
 
       gtk_window_set_modal(GTK_WINDOW(window), true);
       gtk_signal_connect(GTK_OBJECT(window), "delete_event",
 			 GTK_SIGNAL_FUNC(&deliver_delete_event), this);
+
+      configure(GTK_DIALOG(window));
     }
 }
 

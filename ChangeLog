@@ -1,5 +1,19 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/about.cc (create_widget): Removed.
+
+	* lib/options.cc (create_widget): Removed.
+
+	* include/utils.h (class options_dialog): Remove member
+ 	create_widget.
+	* include/glclock.h (about_dialog): Likewise.
+
+	* lib/modaldialog.cc (create_window): Replace code that used
+ 	create_widget.
+
+	* include/utils.h (class modal_dialog): Make configure pure
+ 	virtual.  Remove member create_widget.
+
 	* lib/options.cc (update, configure): New functions.
 	(populate): Change the argument type.
 	(create_widget): Use configure.

@@ -139,19 +139,6 @@ options_dialog::configure(GtkDialog *widget)
   populate(widget);
 }
 
-GtkWidget *
-options_dialog::create_widget()
-{
-  GtkWidget *dialog = gtk_dialog_new();
-
-  configure(GTK_DIALOG(dialog));
-
-#ifdef L
-  L("options_dialog: Creating a widget %p\n", dialog);
-#endif
-  return dialog;
-}
-
 void
 options_dialog::add_page(const char *tab_text, options_page *page)
 {

@@ -97,13 +97,10 @@ protected:
 
 protected:
   /* Configures a dialog.  */
-  virtual void configure(GtkDialog *) {}// = 0
+  virtual void configure(GtkDialog *) = 0;
 
   /* Updates subwidgets.  */
   virtual void update(GtkDialog *) {}
-
-  /* Creates a widget for this dialog.  This must be overriden.  */
-  virtual GtkWidget *create_widget() = 0;
 
 protected:
   /* Creates a window if not.  */
@@ -141,8 +138,6 @@ protected:
 protected:
   /* Populates a dialog widgets with subwidgets.  */
   void populate(GtkDialog *widget);
-
-  GtkWidget *create_widget();
 };
 
 #endif /* not UTILS_H */

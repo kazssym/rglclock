@@ -108,16 +108,6 @@ about_dialog::configure(GtkDialog *dialog)
   populate(dialog);
 }
 
-GtkWidget *
-about_dialog::create_widget()
-{
-  GtkWidget *dialog = gtk_dialog_new();
-
-  configure(GTK_DIALOG(dialog));
-
-  return dialog;
-}
-
 /* Handles a click on the OK button.  */
 void
 about_dialog::handle_ok(GtkWidget *dialog,
