@@ -1,5 +1,7 @@
 1999-02-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* about.cc (show): Use gtk_grab_add/remove.
+
 	* main.cc (parse_gtkrc) [PKGDATADIR]: Add gtk_rc_parse for default
 	gtkrc file.
 

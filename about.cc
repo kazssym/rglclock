@@ -42,9 +42,9 @@ about_dialog::show()
 {
   gtk_widget_show(dialog);
 
-  gtk_widget_set_sensitive(parent_widget, FALSE);
+  gtk_grab_add(dialog);
   gtk_main();
-  gtk_widget_set_sensitive(parent_widget, TRUE);
+  gtk_grab_remove(dialog);
 
   gtk_widget_hide(dialog);
 }
