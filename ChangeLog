@@ -1,5 +1,7 @@
 2002-04-23  Kaz Sasayama  <Kaz.Sasayama@HyperLinuxJP.com>
 
+	* profile.cc (class xmlNode_iterator): Add operator!=.
+
 	* profile.h: Remove declaration of struct xmlDoc.
 
 2000-03-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>

@@ -45,6 +45,9 @@ namespace
     friend bool operator==(const xmlNode_iterator &a,
 			   const xmlNode_iterator &b)
       {return a.ptr == b.ptr;}
+    friend bool operator!=(const xmlNode_iterator &a,
+			   const xmlNode_iterator &b)
+    {return a.ptr != b.ptr;}
   private:
     xmlNode *ptr;
   public:
