@@ -1,3 +1,15 @@
+1999-01-23  Kaz Sasayama  <kaz@elteno>
+
+	* main.cc (parse_options): New function.
+	(main): Add option parsing.
+
+	* glclock.h: Include <gtk/gtkmenufactory.h>.
+
+	* configure.in: Change the version number scheme.
+	Remove unneeded blank lines.
+	Define _GNU_SOURCE.
+	Add checks for <getopt.h> and getopt_long.
+
 1998-09-21  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Update.
