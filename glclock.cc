@@ -27,10 +27,10 @@
 
 #include <gtk/gtk.h>
 #include <GL/glu.h>
-#include <math.h>
 #ifdef HAVE_SYS_TIME_H
 # include <sys/time.h>
 #endif
+#include <math.h>
 
 void
 glclock::menu_listener::menu_activate (GtkWidget *widget, gpointer opaque)
