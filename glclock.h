@@ -20,10 +20,11 @@
 #ifndef glclock_h
 #define glclock_h 1
 
-#include <time.h>
+#include "gdkgl.h"
+#include <gtk/gtkmenufactory.h>
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
-#include "gdkGL/gdkGLtypes.h"
+#include <time.h>
 
 class module;
 

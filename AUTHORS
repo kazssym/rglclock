@@ -1,7 +1,7 @@
-Authors of rglclock except gdkGL:
+Rglclock proper:
 
 Kaz Sasayama (Hypercore Software Design, Ltd.)
 
-Authors of gdkGL, which is part of gtkGL:
+gdkgl.*:
 
-AOSASA Shigeru (aozasa@sakuranet.or.jp)
+Janne Löf

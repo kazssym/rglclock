@@ -1,3 +1,34 @@
+1999-01-23  Kaz Sasayama  <kaz@elteno>
+
+	* AUTHORS: Update.
+
+	* main.cc: Do not define _GNU_SOURCE.
+	(main): Choose an appropriate visual.
+
+	* glclock.h: Include "gdkgl.h".  Reorder #include's.
+
+	* glclock.cc: Do not define _GNU_SOURCE.
+	Include "gdkgl.h".  Reorder #include's.
+	(update): Use "gdkgl.h" function.
+	(handle_configure_event): Likewise.
+
+	* configure.in: Remove gdkGL/Makefile from output.
+
+	* Makefile.am (rglclock_SOURCES): Add gdkgl.c.
+	(rglclock_LDADD): Remove gdkGL/libgdkGL.a.
+	(noinst_HEADERS): Add gdkgl.h.
+	(SUBDIRS): Removed.
+
+	* main.cc (parse_options): New function.
+	(main): Add option parsing.
+
+	* glclock.h: Include <gtk/gtkmenufactory.h>.
+
+	* configure.in: Change the version number system.
+	Remove unneeded blank lines.
+	Define _GNU_SOURCE.
+	Add checks for <getopt.h> and getopt_long.
+
 1998-09-22  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* glclock.cc (glclock): Update menu entries.

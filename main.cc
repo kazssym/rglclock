@@ -16,21 +16,25 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
    02111-1307, USA.  */
 
-#define _GNU_SOURCE 1
-
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
 #undef const
 
+#include "glclock.h"
+
+#ifdef HAVE_GETOPT_H
+# include <getopt.h>
+#endif
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
 #include <signal.h>
 #include <gtk/gtk.h>
 #ifdef SESSION
 # include <gdk/gdkx.h>
 # include <algorithm>
 #endif
-
-#include "glclock.h"
 
 static GtkWidget *toplevel;
 static glclock *glc;
@@ -82,6 +86,44 @@ set_command (GtkWidget *widget)
 }
 #endif
 
+namespace
+{
+  int opt_version = 0;
+
+#ifdef HAVE_GETOPT_LONG
+  const struct option longopts[] =
+  {
+    {"version", no_argument, &opt_version, 1},
+    {NULL, 0, NULL, 0}
+  };
+#endif
+
+  bool parse_options(int argc, char **argv)
+    {
+      int optc;
+      do
+	{
+#ifdef HAVE_GETOPT_LONG
+	  int index;
+	  optc = getopt_long(argc, argv, "", longopts, &index);
+#else /* not HAVE_GETOPT_LONG */
+	  optc = getopt(argc, argv, "");
+#endif /* not HAVE_GETOPT_LONG */
+
+	  switch (optc)
+	    {
+	    case 0:		// long option
+	      break;
+	    case '?':
+	      return false;
+	    }
+	}
+      while (optc != -1);
+
+      return true;
+    }
+} // *unnamed*
+
 int
 main (int argc, char **argv)
 {
@@ -94,7 +136,24 @@ main (int argc, char **argv)
   gtk_set_locale ();
   gtk_init (&argc, &argv);
 
+  if (!parse_options(argc, argv))
+    return EXIT_FAILURE;
+
+  if (opt_version)
+    {
+      printf("%s %s\n", PACKAGE, VERSION);
+      return EXIT_SUCCESS;
+    }
+
   ATEXIT (clean);
+
+  static int attr[] = {GDK_GL_RGBA,
+		       GDK_GL_DOUBLEBUFFER,
+		       GDK_GL_DEPTH_SIZE, 4,
+		       GDK_GL_NONE};
+  GdkVisual *visual = gdk_gl_choose_visual(attr);
+  gtk_widget_set_default_colormap(gdk_colormap_new(visual, TRUE));
+  gtk_widget_set_default_visual(visual);
 
   toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 #ifdef SESSION
