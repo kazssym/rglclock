@@ -32,11 +32,9 @@
 #include "glclock.h"
 
 #include "autowidget.h"
+#include "getopt.h"
 #include <gtk/gtk.h>
 #include <libintl.h>
-#ifdef HAVE_GETOPT_H
-# include <getopt.h>
-#endif
 #ifdef HAVE_UNISTD_H
 # include <unistd.h>
 #endif
@@ -56,7 +54,6 @@ namespace
   int opt_help = 0;
   int opt_version = 0;
 
-#ifdef HAVE_GETOPT_LONG
   const struct option longopts[] =
   {
     {"hide-menu-bar", no_argument, &opt_hide_menu_bar, 1},
@@ -64,19 +61,14 @@ namespace
     {"version", no_argument, &opt_version, 1},
     {NULL, 0, NULL, 0}
   };
-#endif
 
   bool parse_options(int argc, char **argv)
     {
       int optc;
       do
 	{
-#ifdef HAVE_GETOPT_LONG
 	  int index;
 	  optc = getopt_long(argc, argv, "m", longopts, &index);
-#else /* not HAVE_GETOPT_LONG */
-	  optc = getopt(argc, argv, "m");
-#endif /* not HAVE_GETOPT_LONG */
 
 	  switch (optc)
 	    {

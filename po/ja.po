@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-05-22 20:47+0900\n"
+"POT-Creation-Date: 1999-05-28 16:09+0900\n"
 "PO-Revision-Date: 1999-05-22 20:55+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team:\n"
@@ -26,44 +26,44 @@ msgstr "Hz"
 msgid "General"
 msgstr "一般"
 
-#: main.cc:100
+#: main.cc:92
 #, c-format
 msgid "Usage: %s [OPTIONS]\n"
 msgstr "使用法: %s [オプション]\n"
 
-#: main.cc:101
+#: main.cc:93
 msgid "Display a rotating 3D clock.\n"
 msgstr "自転する3D時計を表示します。\n"
 
-#: main.cc:103
+#: main.cc:95
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   メニューバーを隠す\n"
 
-#: main.cc:104
+#: main.cc:96
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            このヘルプを表示して終了する\n"
 
-#: main.cc:105
+#: main.cc:97
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
-#: main.cc:159
+#: main.cc:151
 msgid "/_File/_Options..."
 msgstr "/ファイル(_F)/オプション(_O)..."
 
-#: main.cc:162 main.cc:166
+#: main.cc:154 main.cc:158
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
-#: main.cc:163
+#: main.cc:155
 msgid "/_File/E_xit"
 msgstr "/ファイル(_F)/終了(_X)"
 
-#: main.cc:167
+#: main.cc:159
 msgid "/_File/_About..."
 msgstr "/ファイル(_F)/バージョン情報(_A)..."
 
-#: main.cc:252
+#: main.cc:244
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"
