@@ -1,5 +1,7 @@
 1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* TODO: Updated.
+
 	* NEWS: Updated.
 
 	* Makefile.am (INCLUDES): Remove -DSESSION.
