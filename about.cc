@@ -85,10 +85,9 @@ about_dialog::about_dialog(GtkWidget *parent)
 
   gtk_window_set_policy(GTK_WINDOW(tmp.get()), FALSE, FALSE, FALSE);
   gtk_window_position(GTK_WINDOW(tmp.get()), GTK_WIN_POS_CENTER);
+  gtk_window_set_transient_for(GTK_WINDOW(tmp.get()), GTK_WINDOW(parent));
   gtk_signal_connect(GTK_OBJECT(tmp.get()), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
-  gtk_signal_connect_after(GTK_OBJECT(tmp.get()), "realize",
-			   GTK_SIGNAL_FUNC(finish_realize), this);
 
   dialog = tmp.get();
   populate(dialog);
@@ -151,22 +150,5 @@ about_dialog::handle_delete_event(GtkWidget *dialog,
 {
   gtk_main_quit();
   return 1;
-}
-
-/* Finish the realize process.  */
-void
-about_dialog::finish_realize(GtkWidget *dialog,
-			     gpointer data)
-{
-  about_dialog *about = static_cast <about_dialog *> (data);
-
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-  if (about->parent_widget != NULL)
-    {
-      GdkWindow *w = dialog->window;
-      XSetTransientForHint(GDK_WINDOW_XDISPLAY(w), GDK_WINDOW_XWINDOW(w),
-			   GDK_WINDOW_XWINDOW(about->parent_widget->window));
-    }
-#endif /* ENABLE_TRANSIENT_FOR_HINT */
 }
 

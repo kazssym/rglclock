@@ -32,10 +32,6 @@
 #include <libintl.h>
 #include <cstring>
 
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-# include <gdk/gdkx.h>
-#endif
-
 #define _(MSG) gettext(MSG)
 
 using namespace std;
@@ -64,8 +60,7 @@ options_dialog::options_dialog(GtkWidget *parent)
   dialog = gtk_dialog_new();
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-  gtk_signal_connect_after(GTK_OBJECT(dialog), "realize",
-			   GTK_SIGNAL_FUNC(finish_realize), this);
+  gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
   gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
 		     GTK_SIGNAL_FUNC(handle_delete_event), this);
 
@@ -94,23 +89,6 @@ options_dialog::handle_delete_event(GtkWidget *dialog,
 {
   gtk_main_quit();
   return 1;
-}
-
-/* Finish the realize process.  */
-void
-options_dialog::finish_realize(GtkWidget *dialog,
-			     gpointer data)
-{
-  options_dialog *options = static_cast <options_dialog *> (data);
-
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-  if (options->parent_widget != NULL)
-    {
-      GdkWindow *w = dialog->window;
-      XSetTransientForHint(GDK_WINDOW_XDISPLAY(w), GDK_WINDOW_XWINDOW(w),
-			   GDK_WINDOW_XWINDOW(options->parent_widget->window));
-    }
-#endif /* ENABLE_TRANSIENT_FOR_HINT */
 }
 
 void

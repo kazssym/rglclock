@@ -1,5 +1,11 @@
 1999-04-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* options.cc (options_dialog): Use gtk_window_set_transient_for.
+	(finish_realize): Removed.  Also remove all references.
+
+	* about.cc (about_dialog): Use gtk_window_set_transient_for.
+	(finish_realize): Removed.  Also remove all references.
+
 	* main.cc: Remove ad-hoc session support.
 	(set_command): Removed.
 
