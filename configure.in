@@ -43,4 +43,4 @@ ALL_LINGUAS="ja.eucjp"
 AM_GNU_GETTEXT
 AC_OUTPUT(Makefile intl/Makefile \
 include/Makefile lib/Makefile bin/Makefile \
-po/Makefile.in)
+doc/Makefile po/Makefile.in)

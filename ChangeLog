@@ -1,3 +1,12 @@
+1999-11-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* configure.in (ALL_LINGUAS): Add doc/Makefile to AC_OUTPUT.
+
+	* Makefile.am (SUBDIRS): Add doc.
+
+	* doc/Makefile.am: New file.
+	* doc/rglclock.xml: New file.
+
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* lib/clockoptions.cc (update): New function.
