@@ -101,10 +101,12 @@ simple_draw_clock(void)
     glPushMatrix();
     for (i = 0; i != 12; ++i)
       {
-	int l = 2;
+	int l;
 	if (i == 0)
+	  l = 9;
+	else if (i % 3 == 0)
 	  l = 6;
-	else if (l % 3 == 0)
+	else
 	  l = 4;
 	glBegin (GL_QUADS);
 	glNormal3f (0.5, 0., 1.);

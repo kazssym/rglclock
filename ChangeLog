@@ -1,3 +1,10 @@
+1999-01-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Version 1.1.x2.
+
+	* simple.c (simple_draw_clock): Modify the look.
+	(simple_draw_clock): Fix the test condition.
+
 1999-01-25  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* simple.c (simple_draw_clock): Mark every hours.
