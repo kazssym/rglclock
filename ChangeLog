@@ -1,5 +1,10 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* NEWS: Updated.
+
+	* configure.in: Move po/Makefile.in at the last in AC_OUTPUT.
+	(ALL_LINGUAS): Rename ja to ja.eucjp.
+
 	* bin/main.cc (class clock_app): Add member ad.
 	(describe): Use member ad instead of local object.
 
