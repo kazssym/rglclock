@@ -33,6 +33,9 @@
 # include <gdk/gdkx.h>
 #endif
 
+/* Preparing for gettext migration.  */
+#define _(S) (S)
+
 /* Shows this about dialog and wait.  The parent widget will become
    insensible while this dialog is shown.  */
 void
@@ -57,7 +60,14 @@ about_dialog::about_dialog(GtkWidget *parent)
     dialog(NULL)
 {
   dialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(dialog), "About rglclock");
+
+  /* Sets the window title.  */
+  const char *title_format = _("About %s");
+  GString *title = g_string_new(NULL);
+  g_string_sprintf(title, title_format, PACKAGE);
+  gtk_window_set_title(GTK_WINDOW(dialog), title->str);
+  g_string_free(title, 1);
+
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
   gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
