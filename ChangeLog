@@ -2,6 +2,8 @@
 
 	* configure.in: Add checks for the ALSA library.
 
+	* module.cc: Remove #define _GNU_SOURCE.
+
 	* simple.h: New file.
 	* simple.c: New file.
 	
