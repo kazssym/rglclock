@@ -100,7 +100,7 @@ namespace
   void
   display_help(const char *arg0)
   {
-    printf(_("Usage: %s [OPTIONS]\n"), arg0);
+    printf(_("Usage: %s [OPTION]...\n"), arg0);
     printf(_("Display a rotating 3D clock.\n"));
     printf("\n");
     printf(_("  -m, --hide-menu-bar   hide the menu bar\n"));
