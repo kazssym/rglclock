@@ -1,5 +1,9 @@
 2000-03-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* bin/Makefile.am (EXTRA_DIST): Add options-0.dtd.
+
+	* NEWS: Updated.
+
 	* bin/main.cc (show_about_dialog): Remove _() for version_format.
 
 	* configure.in (ALL_LINGUAS): Changed.

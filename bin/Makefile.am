@@ -18,5 +18,5 @@ pkgdata_DATA = options-0.dtd
 
 man_MANS = rglclock.1
 
-EXTRA_DIST = ${man_MANS}
+EXTRA_DIST = options-0.dtd ${man_MANS}
 
