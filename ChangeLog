@@ -1,5 +1,22 @@
 2000-03-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/simple.h: Declare simple_LTX_query_interface.
+
+	* lib/simple.c (struct simple_module): New struct.
+	(simple_draw, simple_set_up, simple_get_property,
+	simple_set_property, simple_get_property_names, simple_close,
+	simple_open): New functions.
+	(simple_LTX_query_interface): New function.
+
+	* include/rglclockmod.h: Rename query_module_function to
+	query_interface_function.
+	(union rglclockmod_interface): Rename from rglclock_interface.
+	(union rglclockmod_interface): Remove member version.
+	(struct rglclockmod_version_1): Renamed from rglclockmod_1.
+	Remove member version.
+
+	* NEWS: Updated.
+
 	* bin/Makefile.am (rglclock_LDFLAGS): New macro.
 	(rglclock_LDADD): Remove libsimple.a.
 

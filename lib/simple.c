@@ -57,6 +57,11 @@ static const GLfloat HAND_SR = 16;
 # define ENABLE_LOCAL_VIEWER 1
 #endif
 
+struct simple_module
+{
+  int dummy;
+};
+
 static int texture_mapping = 0;
 static char *texture_file = NULL;
 
@@ -420,4 +425,80 @@ simple_init(void)
   glLightfv(GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
 
   return 0;
+}
+
+static int
+simple_draw(void *data)
+{
+  return simple_draw_clock();
+}
+
+static int
+simple_set_up(void *data)
+{
+  return simple_init();
+}
+
+static int
+simple_get_property(void *data, const char *name, char *value, size_t n)
+{
+  return 0;
+}
+
+static int
+simple_set_property(void *data, const char *name, const char *value)
+{
+  return simple_set_prop(name, value);
+}
+
+static int
+simple_get_property_names(void *data, const char **names, size_t n)
+{
+  names[0] = NULL;
+  return 0;
+}
+
+static int
+simple_close(void *data)
+{
+  struct simple_module *module = (struct simple_module *) data;
+
+  free(module);
+  return 0;
+}
+
+static int
+simple_open(void **data)
+{
+  struct simple_module *module;
+
+  module = malloc(sizeof (struct simple_module));
+  if (module == NULL)
+    return -1;
+
+  *data = module;
+  return 0;
+}
+
+static struct rglclockmod_version_1 simple_version_1
+= {&simple_open,
+   &simple_close,
+   &simple_set_up,
+   &simple_draw,
+   &simple_get_property_names,
+   &simple_get_property,
+   &simple_set_property};
+
+#define VERSION_CUR 1
+
+int
+simple_LTX_query_interface(const char *iname, int version_max,
+		union rglclockmod_interface *iface)
+{
+  if (strcmp(iname, RGLCLOCK_INTERFACE_NAME) != 0
+      || version_max < VERSION_CUR)
+    return -1;
+
+  iface->version_1 = &simple_version_1;
+  return VERSION_CUR;
 }
