@@ -1,5 +1,7 @@
 1999-07-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* bin/main.cc (create_widget): Set geometry hints.
+
 	* rglclock.1: Modified.
 
 	* main.cc (longopts): Add `--private-colormap' option.

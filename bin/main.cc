@@ -192,6 +192,10 @@ namespace
 	  gtk_widget_show(content.get());
 	  gtk_box_pack_start(GTK_BOX(box1.get()), content.get(),
 			     TRUE, TRUE, 0);
+
+	  GdkGeometry geom = {0, 0};
+	  gtk_window_set_geometry_hints(GTK_WINDOW(toplevel), content.get(),
+					&geom, GDK_HINT_MIN_SIZE);
 	}
 	gtk_widget_show(box1.get());
 	gtk_container_add(GTK_CONTAINER(toplevel), box1.get());
