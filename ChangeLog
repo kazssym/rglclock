@@ -1,5 +1,11 @@
 1998-07-01  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* module.cc (init): Cull back faces.
+	(draw_clock): Make vectors const.
+	(init): Likewise.
+
+	* NEWS: Update.
+
 	* glclock.cc (create_context): Use module::init.
 
 	* module.h (class module): Update def.

@@ -1,13 +1,19 @@
 NEWS of rglclock:
-$ProjectVersion: 0.12 $
+$ProjectVersion: 0.13 $
 
+Changes since version 0.10:
+
+* The drawing code has been moved to class module.
+
+* Back faces are culled.
+
 Changes since version 0.8:
 
-* Has a dial.
-
+* A dial has been added.
+
 Changes since version 0.3:
 
-* Now rotate!
+* Now rotates!
 
-* Redesigned hands.
+* The hands are redesigned.
 

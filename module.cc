@@ -42,19 +42,19 @@ module::draw_clock (const struct tm *tm) const
 
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  GLfloat vs[4] = {0.2, 0.2, 0.2, 1.};
+  const GLfloat vs[4] = {0.2, 0.2, 0.2, 1.};
   glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
   glMaterialf (GL_FRONT, GL_SHININESS, 8.);
 
   {
-    GLfloat v[4] = {0.1, 0.0, 0.4, 1.};
+    const GLfloat v[4] = {0.1, 0.0, 0.4, 1.};
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
     GLUquadricObj *qobj = gluNewQuadric ();
     gluDisk (qobj, 0., 45., 24, 2);
     gluDeleteQuadric (qobj);
   }
 
-  GLfloat vd[4] = {0.2, 0.2, 0.2, 1.};
+  const GLfloat vd[4] = {0.2, 0.2, 0.2, 1.};
   glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vd);
 
   /* Short hand.  */
@@ -110,7 +110,7 @@ module::init ()
   glEnable (GL_LIGHTING);
   glEnable (GL_LIGHT0);
   {
-    GLfloat position[] = {-1., 1., 1., 0.};
+    const GLfloat position[] = {-1., 1., 1., 0.};
     glLightfv (GL_LIGHT0, GL_POSITION, position);
   }
 
@@ -119,6 +119,7 @@ module::init ()
   glFrustum (-5., 5., -5., 5., 15., 250.);
 
   glEnable (GL_DEPTH_TEST);
+  glEnable (GL_CULL_FACE);
 }
 
 module::~module ()
