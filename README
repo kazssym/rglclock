@@ -1,6 +1,6 @@
 READ ME about rglclock
 
-$Date: Tue, 26 Oct 1999 20:25:51 +0900 $
+$Date: Tue, 23 Apr 2002 23:54:16 +0900 $
 
 >> DESCRIPTION
 
@@ -48,9 +48,7 @@ INSTALL file in this directory.
 >> LATEST INFORMATION
 
 The latest information about rglclock will be available at:
-
-<URL:http://www.hypercore.co.jp/rglclock/> (Japanese) and
-<URL:http://www.hypercore.co.jp/rglclock/en.html> (English).
+<URL:http://www.hypercore.co.jp/opensource/rglclock/>.
 
 New releases and snapshots will also be available there.
 
@@ -62,3 +60,5 @@ rglclock@lists.hypercore.co.jp.
 You can join the list by sending a message with a word `subscribe' in
 the Subject to rglclock-request@lists.hypercore.co.jp.
 
+---
+$ProjectHeader: rglclock 1.6 Tue, 23 Apr 2002 23:54:16 +0900 kaz $

@@ -1,5 +1,9 @@
 2002-04-23  Kaz Sasayama  <Kaz.Sasayama@HyperLinuxJP.com>
 
+	* README: Updated.
+
+	* NEWS: Updated.
+
 	* profile.cc (class xmlNode_iterator): Add operator!=.
 
 	* profile.h: Remove declaration of struct xmlDoc.
