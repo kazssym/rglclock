@@ -19,5 +19,5 @@ EXTRA_DIST = gtkrc ${man_MANS}
 SUBDIRS = intl po
 
 dist-snapshot:
-	${MAKE} VERSION=${VERSION}.`date +%Y%m%d` dist
+	${MAKE} VERSION=${VERSION}x.`date +%Y%m%d` dist
 

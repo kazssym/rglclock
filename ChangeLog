@@ -1,3 +1,7 @@
+1999-02-17  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Makefile.am (dist-snapshot): Add suffix with x to VERSION.
+
 1999-02-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* options.cc (populate): Add the Rendering tab.
