@@ -160,9 +160,10 @@ main (int argc, char **argv)
 	=
       {
 	{_("/_File/E_xit"), NULL, NULL, 1, "<Item>"},
-	{_("/_Help/_About..."), NULL, NULL, 2, "<Item>"}
+	{_("/_File/"), NULL, NULL, 0, "<Separator>"},
+	{_("/_File/_About..."), NULL, NULL, 2, "<Item>"}
       };
-      gtk_item_factory_create_items(ifactory, 2, entries, ifactory);
+      gtk_item_factory_create_items(ifactory, 3, entries, ifactory);
       // Unimplemented menu items.
       gtk_widget_set_sensitive(gtk_item_factory_get_widget_by_action(ifactory,
 								     1),
