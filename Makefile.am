@@ -2,7 +2,7 @@
 
 EXTRA_DIST = README.ja MEMO.ja VERSION-ID
 
-SUBDIRS = intl po include lib bin
+SUBDIRS = intl include lib bin po
 
 update-po:
 	cd po && ${MAKE} update-po

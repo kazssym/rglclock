@@ -51,7 +51,7 @@ using namespace std;
 
 /* Populates a dialog with children.  */
 void
-about_dialog::populate(GtkWidget *dialog)
+about_dialog::populate(GtkDialog *dialog)
 {
   /* Makes the version label.  */
   const char *version_format
@@ -71,7 +71,7 @@ about_dialog::populate(GtkWidget *dialog)
   gtk_label_set_justify(GTK_LABEL(label1.get()), GTK_JUSTIFY_LEFT);
   gtk_misc_set_padding(GTK_MISC(label1.get()), 10, 10);
   gtk_widget_show(label1.get());
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), label1.get(),
+  gtk_box_pack_start(GTK_BOX(dialog->vbox), label1.get(),
 		     FALSE, FALSE, 0);
 
   /* Makes the OK button.  */
@@ -80,16 +80,14 @@ about_dialog::populate(GtkWidget *dialog)
   gtk_signal_connect(GTK_OBJECT(ok_button.get()), "clicked",
 		     GTK_SIGNAL_FUNC(handle_ok), this);
   gtk_widget_show(ok_button.get());
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button.get(),
+  gtk_box_pack_start(GTK_BOX(dialog->action_area), ok_button.get(),
 		     FALSE, FALSE, 0);
   gtk_window_set_focus(GTK_WINDOW(dialog), ok_button.get());
 }
 
-GtkWidget *
-about_dialog::create_widget()
+void
+about_dialog::configure(GtkDialog *dialog)
 {
-  GtkWidget *dialog = gtk_dialog_new();
-
   /* Window title.  */
   const char *title_format = _("About %s");
   /* I decided to avoid glib functions here, as the format string may
@@ -108,6 +106,14 @@ about_dialog::create_widget()
   gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
 
   populate(dialog);
+}
+
+GtkWidget *
+about_dialog::create_widget()
+{
+  GtkWidget *dialog = gtk_dialog_new();
+
+  configure(GTK_DIALOG(dialog));
 
   return dialog;
 }

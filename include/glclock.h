@@ -112,9 +112,15 @@ class about_dialog
 {
 protected:
   static void handle_ok(GtkWidget *, gpointer);
+
 protected:
+  /* Configures a dialog widget.  */
+  void configure(GtkDialog *widget);
+
   GtkWidget *create_widget();
-  void populate(GtkWidget *);
+
+  /* Populates a dialog with subwidgets.  */
+  void populate(GtkDialog *widget);
 };
 
 #endif /* not GLCLOCK_H */

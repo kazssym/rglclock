@@ -1,5 +1,14 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/about.cc (populate): Change the argument type.
+	(configure): New function.
+	(create_widget): Use configure.
+
+	* include/glclock.h (class about_dialog): Add new member
+ 	configure.  Change the argument type of populate.
+
+	* Makefile.am (SUBDIRS): Move po to the end.
+
 	* include/utils.h (class modal_dialog): Rename populate to
  	configure.  Add new member update.
 
