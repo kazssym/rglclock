@@ -24,6 +24,9 @@
 #include "glclock.h"
 
 #include <gtk/gtk.h>
+#include <cstring>
+
+using namespace std;
 
 #ifndef DISABLE_TRANSIENT_FOR_HINT
 # define ENABLE_TRANSIENT_FOR_HINT 1
@@ -63,10 +66,15 @@ about_dialog::about_dialog(GtkWidget *parent)
 
   /* Sets the window title.  */
   const char *title_format = _("About %s");
-  GString *title = g_string_new(NULL);
-  g_string_sprintf(title, title_format, PACKAGE);
-  gtk_window_set_title(GTK_WINDOW(dialog), title->str);
-  g_string_free(title, 1);
+  char *title;
+#ifdef HAVE_ASPRINTF
+  asprintf(&title, title_format, PACKAGE);
+#else /* not HAVE_ASPRINTF */
+  title = (char *) malloc(strlen(title_format) + sizeof PACKAGE);
+  sprintf(title, title_format, PACKAGE);
+#endif /* not HAVE_ASPRINTF */
+  gtk_window_set_title(GTK_WINDOW(dialog), title);
+  free(title);
 
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
