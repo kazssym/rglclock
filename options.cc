@@ -165,7 +165,8 @@ GtkWidget *
 options_dialog::create_widget()
 {
   GtkWidget *dialog = gtk_dialog_new();
-  I(GTK_IS_DIALOG(dialog));
+
+  gtk_window_set_title(GTK_WINDOW(dialog), _("Options"));
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
 

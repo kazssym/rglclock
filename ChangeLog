@@ -1,5 +1,7 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* options.cc (create_widget): Set the window title.
+
 	* utils.h (UTILS_H): Renamed from OPTIONS_H.
 
 	* Makefile.am (noinst_HEADERS): Change options.h to utils.h.
