@@ -1,5 +1,7 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* include/glclock.h (class about_dialog): Removed.
+
 	* lib/about.cc: Removed.
 
 	* lib/Makefile.am (libclock_a_SOURCES): Remove about.cc.

@@ -111,21 +111,4 @@ public:
   explicit clock_options_dialog(glclock *);
 };
 
-/* The about dialog.  */
-class about_dialog
-  : public modal_dialog
-{
-public:
-  /* Handles an OK.  */
-  void handle_ok(GtkWidget *button);
-
-protected:
-  /* Configures a dialog widget.  */
-  void configure(GtkDialog *widget);
-
-protected:
-  /* Populates a dialog with subwidgets.  */
-  void populate(GtkDialog *widget);
-};
-
 #endif /* not GLCLOCK_H */
