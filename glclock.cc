@@ -27,10 +27,15 @@
 
 #include <gtk/gtk.h>
 #include <GL/glu.h>
+#include <libintl.h>
 #ifdef HAVE_SYS_TIME_H
 # include <sys/time.h>
 #endif
 #include <math.h>
+
+#define _(MSG) gettext(MSG)
+
+using namespace std;
 
 void
 glclock::menu_listener::menu_activate (GtkWidget *widget, gpointer opaque)
@@ -103,12 +108,12 @@ glclock::glclock ()
       GtkMenuEntry entries[] =
       {
 	/* {path, accelerator, callback, callback_data, widget} */
-	{"Reset Rotation", NULL, NULL, NULL, NULL},
+	{_("Reset Rotation"), NULL, NULL, NULL, NULL},
 	{"<separator>", NULL, NULL, NULL, NULL},
-	{"Properties...", NULL, NULL, NULL, NULL},
-	{"About...", NULL, menu_listener::menu_activate, &about, NULL},
+	{_("Properties..."), NULL, NULL, NULL, NULL},
+	{_("About..."), NULL, menu_listener::menu_activate, &about, NULL},
 	{"<separator>", NULL, NULL, NULL, NULL},
-	{"Exit", NULL, menu_quit, this, NULL}
+	{_("Exit"), NULL, menu_quit, this, NULL}
       };
       gtk_menu_factory_add_entries (menu_factory, entries, 6);
 

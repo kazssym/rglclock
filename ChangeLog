@@ -1,5 +1,10 @@
 1999-02-12  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc: Add #include <libintl.h>.
+	Add using namespace std.
+	(_): Defined.
+	(glclock): Use the _ macro for message text.
+
 	* about.cc: Add #include <libintl.h>.
 	(_): Defined to use gettext.
 
