@@ -49,6 +49,22 @@ const char TEXTURE_CHECK_BUTTON_KEY[] = "texture_check_button";
 const char TEXTURE_FILE_ENTRY_KEY[] = "texture_file_entry";
 
 void
+clock_options_dialog::general_options_page::update(GtkWidget *page)
+{
+  gpointer update_rate_data
+    = gtk_object_get_data(GTK_OBJECT(page), UPDATE_RATE_ENTRY_KEY);
+  I(update_rate_data != NULL);
+
+  GtkWidget *update_rate_widget = GTK_WIDGET(update_rate_data);
+  I(GTK_IS_SPIN_BUTTON(update_rate_widget));
+
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(update_rate_widget),
+			    target->update_rate());
+
+  /* FIXME */
+}
+
+void
 clock_options_dialog::general_options_page::apply(GtkWidget *widget)
 {
   gpointer data
@@ -99,8 +115,7 @@ clock_options_dialog::general_options_page::create_widget()
       gtk_widget_show(label1);
       gtk_box_pack_start(GTK_BOX(hbox1), label1, false, false, 0);
 
-      int rate = target->update_rate();
-      GtkObject *update_adjust = gtk_adjustment_new(rate, 5, 30, 1, 5, 1);
+      GtkObject *update_adjust = gtk_adjustment_new(5, 5, 30, 1, 5, 1);
       GtkWidget *update_input
 	= gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
       gtk_object_set_data(GTK_OBJECT(vbox),

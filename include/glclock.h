@@ -98,7 +98,12 @@ public:
     explicit general_options_page(glclock *);
   public:
     GtkWidget *create_widget();
-    void apply(GtkWidget *);
+
+    /* Updates the state of subwidgets.  */
+    void update(GtkWidget *page);
+
+    /* Applies the current state.  */
+    void apply(GtkWidget *page);
   };
 private:
   general_options_page general;

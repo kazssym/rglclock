@@ -1,5 +1,11 @@
 1999-11-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* lib/clockoptions.cc (update): New function.
+	(create_widget): Use the minimum value for update rate to display.
+
+	* include/glclock.h (class clock_options_dialog): Add new member
+ 	update to class general_options_page.
+
 	* lib/modaldialog.cc (act): Call update on window.
 
 	* include/utils.h (struct options_page): Add new member update.
