@@ -24,14 +24,13 @@
 #include "glclock.h"
 
 #include <gtk/gtk.h>
-
-#ifndef DISABLE_TRANSIENT_FOR_HINT
-# define ENABLE_TRANSIENT_FOR_HINT 1
-#endif
+#include <cstring>
 
 #ifdef ENABLE_TRANSIENT_FOR_HINT
 # include <gdk/gdkx.h>
 #endif
+
+using namespace std;
 
 /* Preparing for gettext migration.  */
 #define _(S) (S)
@@ -63,10 +62,17 @@ about_dialog::about_dialog(GtkWidget *parent)
 
   /* Sets the window title.  */
   const char *title_format = _("About %s");
-  GString *title = g_string_new(NULL);
-  g_string_sprintf(title, title_format, PACKAGE);
-  gtk_window_set_title(GTK_WINDOW(dialog), title->str);
-  g_string_free(title, 1);
+  /* I decided to avoid glib functions here, as the format string may
+     contain extended conversions like "%1$s".  */
+  char *title;
+#ifdef HAVE_ASPRINTF
+  asprintf(&title, title_format, PACKAGE);
+#else /* not HAVE_ASPRINTF */
+  title = (char *) malloc(strlen(title_format) + sizeof PACKAGE);
+  sprintf(title, title_format, PACKAGE);
+#endif /* not HAVE_ASPRINTF */
+  gtk_window_set_title(GTK_WINDOW(dialog), title);
+  free(title);
 
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
@@ -78,6 +84,8 @@ about_dialog::about_dialog(GtkWidget *parent)
   populate(dialog);
 }
 
+#define YEARS "1998, 1999"
+
 /* Populates a dialog with children.  */
 void
 about_dialog::populate(GtkWidget *dialog)
@@ -85,8 +93,20 @@ about_dialog::populate(GtkWidget *dialog)
   GtkWidget *child;
 
   /* Makes the vbox area.  */
-  child = gtk_label_new(PACKAGE " " VERSION "\n"
-			"Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.");
+  const char *version_format
+    = _("%s %s\nCopyright (C) %s Hypercore Software Design, Ltd.");
+  char *version;
+  /* I decided to avoid glib functions here, as the format string may
+     contain extended conversions like "%1$s".  */
+#ifdef HAVE_ASPRINTF
+  asprintf(&version, version_format, PACKAGE, VERSION, YEARS);
+#else /* not HAVE_ASPRINTF */
+  version = (char *) malloc(strlen(version_format)
+			    + sizeof PACKAGE + sizeof VERSION + sizeof YEARS);
+  sprintf(version, version_format, PACKAGE, VERSION, YEARS);
+#endif /* not HAVE_ASPRINTF */
+  child = gtk_label_new(version);
+  free(version);
   gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
   gtk_misc_set_padding(GTK_MISC(child), 10, 10);
   gtk_widget_show(child);
