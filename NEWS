@@ -1,11 +1,15 @@
 NEWS of rglclock:
-$ProjectVersion: 0.55 $
+$Version: 1.1u.1 $ ($ProjectVersion: menu-0.2 $)
 
 Changes since version 1.1.6:
 
-* Rotation speed has been compensated via gettimeofday.
+* Uses gdkgl in Janne Lof's gtkglarea library instead of gdkGL.
+Rglclock now chooses a visual appropriate for rendering.  The author
+hopes this will improve performance on real OpenGL systems.
 
-* Pop-up menu added.
+* The rotation speed is compensated via gettimeofday.
+
+* A pop-up menu is added.
 
 Changes since version 0.24:
 
