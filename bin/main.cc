@@ -56,11 +56,38 @@
 
 using namespace std;
 
+/* Clock application.  */
+class clock_app
+{
+public:
+  static int opt_with_menu_bar;
+  static int opt_with_saved_options;
+  static int opt_with_private_colormap;
+
+protected:
+  static void edit_options(gpointer, guint, GtkWidget *);
+  static void describe(gpointer, guint, GtkWidget *);
+
+private:
+  glclock clock;
+  class profile profile;
+
+  /* Dialog for clock options.  */
+  clock_options_dialog dialog;
+
+  /* About dialog.  */
+  about_dialog ad;
+
+public:
+  clock_app();
+  ~clock_app();
+
+public:
+  GtkWidget *create_window();
+};
+
 namespace
 {
-  int opt_hide_menu_bar = 0;
-  int opt_private_colormap = false;
-  int opt_no_options = false;
   int opt_help = 0;
   int opt_version = 0;
 
@@ -70,9 +97,10 @@ namespace
   {
     static const struct option longopts[] =
     {
-      {"hide-menu-bar", no_argument, &opt_hide_menu_bar, 1},
-      {"private-colormap", no_argument, &opt_private_colormap, true},
-      {"no-options", no_argument, &opt_no_options, true},
+      {"hide-menu-bar", no_argument, &clock_app::opt_with_menu_bar, false},
+      {"no-options", no_argument, &clock_app::opt_with_saved_options, false},
+      {"private-colormap", no_argument,
+       &clock_app::opt_with_private_colormap, true},
       {"help", no_argument, &opt_help, 1},
       {"version", no_argument, &opt_version, 1},
       {NULL, 0, NULL, 0}
@@ -87,7 +115,7 @@ namespace
 	switch (optc)
 	  {
 	  case 'm':
-	    opt_hide_menu_bar = 1;
+	    clock_app::opt_with_menu_bar = false;
 	    break;
 	  case 0:		// long option
 	    break;
@@ -131,32 +159,11 @@ namespace
 	  gtk_rc_parse(gtkrc.c_str());
 	}
     }
-
-  /* Clock application.  */
-  class clock_app
-  {
-  protected:
-    static void edit_options(gpointer, guint, GtkWidget *);
-    static void describe(gpointer, guint, GtkWidget *);
-
-  private:
-    glclock clock;
-    class profile profile;
-
-    /* Dialog for clock options.  */
-    clock_options_dialog dialog;
-
-    /* About dialog.  */
-    about_dialog ad;
-
-  public:
-    clock_app();
-    ~clock_app();
-
-  public:
-    GtkWidget *create_window();
-  };
 } // (unnamed namespace)
+
+int clock_app::opt_with_menu_bar = true;
+int clock_app::opt_with_saved_options = true;
+int clock_app::opt_with_private_colormap = false;
 
 void
 clock_app::edit_options(gpointer data, guint, GtkWidget *item)
@@ -216,7 +223,7 @@ clock_app::create_window()
 				    sizeof entries / sizeof entries[0],
 				    entries, toplevel);
 
-      if (!opt_hide_menu_bar)
+      if (opt_with_menu_bar)
 	gtk_widget_show(ifactory->widget);
       gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
 			 FALSE, FALSE, 0);
@@ -253,14 +260,14 @@ clock_app::clock_app()
   s.append("/options");
 
   profile.open(s.c_str());
-  if (!opt_no_options)
+  if (opt_with_saved_options)
     profile.restore(&clock);
   clock.add_callback(&profile);
 
   GdkVisual *visual = glclock::best_visual();
   gtk_widget_set_default_visual(visual);
 
-  GdkColormap *cm = gdk_colormap_new(visual, opt_private_colormap);
+  GdkColormap *cm = gdk_colormap_new(visual, opt_with_private_colormap);
   gtk_widget_set_default_colormap(cm);
   gdk_colormap_unref(cm);
 }

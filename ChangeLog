@@ -1,5 +1,10 @@
 1999-12-12  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* bin/main.cc (class clock_app): Moved out of unnamed namespace.
+	(class clock_app): Add static variables for options.
+	(namespace): Remove options variable moved to class clock_app.
+	(parse_options): Change options handling.
+
 	* NEWS: Modified.
 
 	* bin/profile.cc (save): Set DTD.
