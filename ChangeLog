@@ -5,6 +5,7 @@
 	(populate): Set the default to the OK button.
 	(about_dialog): Construct the title string on the fly.
 	(_): Defined for later gettext migration.
+	(populate): Mark "OK" as a translation string.
 
 	* about.cc (show): Remove the argument and use the parent_widget
 	member.

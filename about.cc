@@ -94,7 +94,7 @@ about_dialog::populate(GtkWidget *dialog)
 		     FALSE, FALSE, 0);
 
   /* Makes the action area.  */
-  child =  gtk_button_new_with_label("OK");
+  child =  gtk_button_new_with_label(_("OK"));
   gtk_signal_connect(GTK_OBJECT(child), "clicked",
 		     GTK_SIGNAL_FUNC(handle_ok), dialog);
   gtk_widget_show(child);
