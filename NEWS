@@ -1,6 +1,6 @@
-List of User-Visible Changes
+User-Visible Changes
 
-$Version: 1.3.0x $ ($ProjectVersion: 0.105 $)
+$Version: 1.3.0x $ ($ProjectVersion: 0.107 $)
 
 * New configure options: --disable-wm-command, and
 --disable-wm-transient-for.
