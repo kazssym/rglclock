@@ -1,7 +1,6 @@
 1998-07-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* module.cc (draw_clock): Use glXXXf functions instead of glXXXd.
-	(rotate): Likewise.
 	(draw_clock): Draw a mark at the top of the dial.
 	(rotate): Correct rotation.
 
