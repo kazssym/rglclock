@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(glclock.cc)
 dnl $Format: "AM_INIT_AUTOMAKE($Project$, $ProjectVersion$)" $
-AM_INIT_AUTOMAKE(rglclock, 0.36)
+AM_INIT_AUTOMAKE(rglclock, 0.38)
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -23,10 +23,11 @@ fi
 
 
 dnl Checks for header files.
-AC_CHECK_HEADERS(unistd.h)
+AC_CHECK_HEADERS(sys/time.h unistd.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_STRUCT_TM
+AC_HEADER_TIME
 AC_C_CONST
 
 dnl Checks for library functions.

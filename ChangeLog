@@ -1,5 +1,7 @@
 1998-07-14  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Add check for sys/time.h.  Add AC_HEADER_TIME.
+
 	* glclock.cc (update): Compensate rotation speed using
 	gettimeofday.
 
