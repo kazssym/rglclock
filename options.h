@@ -47,6 +47,17 @@ protected:
   void add(GtkWidget *);
 };
 
+class modal_dialog
+  : public controller
+{
+protected:
+  static gint handle_delete_event(GtkWidget *, GdkEventAny *,
+				  gpointer) throw ();
+protected:
+  virtual GtkWidget *create_widget() = 0;
+  void quit();
+};
+
 struct options_page
 {
   virtual GtkWidget *create_widget() = 0;
@@ -55,7 +66,7 @@ struct options_page
 
 /* The options dialog.  */
 class options_dialog
-  : public controller
+  : public modal_dialog
 {
 protected:
   static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer) throw ();

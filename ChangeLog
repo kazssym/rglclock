@@ -1,5 +1,9 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* options.h (class modal_dialog): New class.
+	(class options_dialog): Change the base class to modal_dialog from
+	controller.
+
 	* profile.h: Add comments.
 	Remove unneccesary struct decl.
 
