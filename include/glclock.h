@@ -32,6 +32,34 @@
 #include <gdk/gdktypes.h>
 #include <time.h>
 
+class glclock;
+
+/* The options dialog.  */
+class clock_options_dialog: public options_dialog
+{
+public:
+  class general_options_page
+    : public options_page
+  {
+  private:
+    glclock *target;
+  public:
+    explicit general_options_page(glclock *);
+  public:
+    GtkWidget *create_widget();
+
+    /* Updates the state of subwidgets.  */
+    void update(GtkWidget *page);
+
+    /* Applies the current state.  */
+    void apply(GtkWidget *page);
+  };
+private:
+  general_options_page general;
+public:
+  explicit clock_options_dialog(glclock *);
+};
+
 /* Clock application.  */
 class glclock
 {
@@ -82,33 +110,10 @@ public:
     {m->set_prop(name, value);}
 
   GtkWidget *create_widget();
-};
 
-/* The options dialog.  */
-class clock_options_dialog
-  : public options_dialog
-{
 public:
-  class general_options_page
-    : public options_page
-  {
-  private:
-    glclock *target;
-  public:
-    explicit general_options_page(glclock *);
-  public:
-    GtkWidget *create_widget();
-
-    /* Updates the state of subwidgets.  */
-    void update(GtkWidget *page);
-
-    /* Applies the current state.  */
-    void apply(GtkWidget *page);
-  };
-private:
-  general_options_page general;
-public:
-  explicit clock_options_dialog(glclock *);
+  /* Shows the `Options' dialog.  */
+  void show_options_dialog(GtkWidget *);
 };
 
 #endif /* not GLCLOCK_H */

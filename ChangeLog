@@ -1,6 +1,8 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* include/glclock.h (class about_dialog): Removed.
+	(class clock_options_dialog): Moved before class glclock.
+	(class glclock): Add new member show_options_dialog.
 
 	* lib/about.cc: Removed.
 
