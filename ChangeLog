@@ -1,6 +1,6 @@
 1999-01-27  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
-	* configure.in: Modify the version number for snapshot.
+	* Makefile.am (dist-snapshot): New target.
 
 	* simple.c (simple_draw_clock): Modify the look.
 	(simple_draw_clock): Fix the test condition.
