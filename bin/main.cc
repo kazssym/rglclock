@@ -273,8 +273,7 @@ clock_app::create_window()
 	       {_("/_File/"), NULL, NULL, 0, "<Separator>"},
 	       {_("/_File/E_xit"), NULL,
 		ITEM_FACTORY_CALLBACK(&gtk_main_quit), 1, "<Item>"},
-	       {_("/_File/"), NULL, NULL, 0, "<Separator>"},
-	       {_("/_File/_About..."), NULL,
+	       {_("/_Help/_About..."), NULL,
 		ITEM_FACTORY_CALLBACK(&handle_about_command), 2, "<Item>"}};
 #undef ITEM_FACTORY_CALLBACK
 	  gtk_item_factory_create_items(ifactory.get(),

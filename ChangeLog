@@ -1,3 +1,10 @@
+2000-07-19  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* bin/main.cc (create_window): Add "Help" to the menu bar.
+
+	* lib/glclock.cc (create_widget): Change the initial window size
+	to 160x160.
+
 2000-03-07  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* lib/simple.h: Declare simple_LTX_query_interface.
