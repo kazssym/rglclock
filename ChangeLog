@@ -1,6 +1,13 @@
 1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* configure.in: Set VERSION to 1.4.0.
+
+	* main.cc: Include <sys/stat.h>.
+
+	* NEWS: Modified.
+
 	* configure.in: Add check for mkdir.
+	Set VERSION to 1.3.1.
 
 	* main.cc (main): Make ~/.rglclock directory.
 
