@@ -70,6 +70,7 @@ show_about(GtkWidget *parent)
   child = gtk_label_new(PACKAGE " " VERSION "\n"
 			"Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.");
   gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
+  gtk_misc_set_padding(GTK_MISC(child), 10, 10);
   gtk_widget_show(child);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), child, FALSE, FALSE, 0);
 

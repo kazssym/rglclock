@@ -1,5 +1,7 @@
 1999-01-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* about.cc (show_about): Set padding for the label.
+
 	* about.cc: #include "glclock.h".
 	* glclock.cc: Remove delaration of show_about.
 	* glclock.h: Declare show_about.
