@@ -1,5 +1,7 @@
 1999-02-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* NEWS: Updated.
+
 	* Makefile.am (INCLUDES): Remove -DSESSION.
 
 	* about.cc: Remove #define ENABLE_TRANSIENT_FOR_HINT.
