@@ -109,7 +109,7 @@ modal_dialog::handle_delete_event(GtkWidget *dialog,
 				  GdkEventAny *event,
 				  gpointer data) throw ()
 {
-  options_dialog *d = static_cast<options_dialog *>(to_ptr(data));
+  modal_dialog *d = static_cast<modal_dialog *>(to_ptr(data));
   I(d != NULL);
 
   d->quit();
