@@ -314,6 +314,6 @@ glclock::edit_options(gpointer data, guint, GtkWidget *)
 			       GTK_WINDOW(gtk_widget_get_toplevel(object->drawing_area)));
   gtk_widget_show(widget);
   gtk_main();
-  gtk_widget_hide(widget);
+  gtk_widget_destroy(widget);
 }
 

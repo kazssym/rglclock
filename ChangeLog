@@ -1,3 +1,10 @@
+1999-04-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* options.cc (populate, create_dialog): Add assertions.
+	(create_widget, add_page, remove_widget): Add logging.
+
+	* glclock.cc (edit_options): Use gtk_widget_destroy.
+
 1999-04-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* NEWS: Modified.

@@ -45,10 +45,56 @@
 
 using namespace std;
 
+void
+options_dialog::populate(GtkWidget *dialog)
+{
+  I(GTK_IS_DIALOG(dialog));
+
+  GtkWidget *notebook1 = gtk_notebook_new();
+  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+       i != pages.end();
+       ++i)
+    {
+      GtkWidget *page_widget = i->second->create_widget();
+      I(page_widget != NULL);
+      gtk_widget_show(page_widget);
+      gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
+			       gtk_label_new(i->first.c_str()));
+    }
+  gtk_widget_show(notebook1);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook1,
+		     FALSE, FALSE, 0);
+
+  /* Label for the OK button.  */
+  const char *ok_text = _("OK");
+  I(ok_text != NULL);
+  GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
+  I(GTK_IS_BUTTON(ok_button));
+  gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
+		     GTK_SIGNAL_FUNC(handle_ok), this);
+  gtk_widget_show(ok_button);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button,
+		     FALSE, FALSE, 0);
+
+  /* Label for the Cancel button.  */
+  const char *cancel_text = _("Cancel");
+  I(cancel_text != NULL);
+  GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
+  I(GTK_IS_BUTTON(cancel_button));
+  gtk_signal_connect(GTK_OBJECT(cancel_button), "clicked",
+		     GTK_SIGNAL_FUNC(handle_cancel), this);
+  gtk_widget_show(cancel_button);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), cancel_button,
+		     FALSE, FALSE, 0);
+
+  gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
+}
+
 GtkWidget *
 options_dialog::create_widget()
 {
   GtkWidget *dialog = gtk_dialog_new();
+  I(GTK_IS_DIALOG(dialog));
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
   gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
@@ -59,6 +105,9 @@ options_dialog::create_widget()
 
   populate(dialog);
 
+#ifdef L
+  L("options_dialog: Creating a widget %p\n", dialog);
+#endif
   widgets.push_back(dialog);
   return dialog;
 }
@@ -66,6 +115,9 @@ options_dialog::create_widget()
 void
 options_dialog::add_page(const char *tab_text, options_page *page)
 {
+#ifdef L
+  L("options_dialog: Adding page %s -> %p\n", tab_text, page);
+#endif
   pages.push_back(make_pair(tab_text, page));
 }
 
@@ -122,44 +174,6 @@ options_dialog::handle_delete_event(GtkWidget *dialog,
 }
 
 void
-options_dialog::populate(GtkWidget *dialog)
-{
-  GtkWidget *notebook1 = gtk_notebook_new();
-  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
-       i != pages.end();
-       ++i)
-    {
-      GtkWidget *page_widget = i->second->create_widget();
-      gtk_widget_show(page_widget);
-      gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
-			       gtk_label_new(i->first.c_str()));
-    }
-  gtk_widget_show(notebook1);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook1,
-		     FALSE, FALSE, 0);
-
-  /* Label for the OK button.  */
-  const char *ok_text = _("OK");
-  GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
-  gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
-		     GTK_SIGNAL_FUNC(handle_ok), this);
-  gtk_widget_show(ok_button);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), ok_button,
-		     FALSE, FALSE, 0);
-
-  /* Label for the Cancel button.  */
-  const char *cancel_text = _("Cancel");
-  GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
-  gtk_signal_connect(GTK_OBJECT(cancel_button), "clicked",
-		     GTK_SIGNAL_FUNC(handle_cancel), this);
-  gtk_widget_show(cancel_button);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), cancel_button,
-		     FALSE, FALSE, 0);
-
-  gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
-}
-
-void
 options_dialog::remove_widget(GtkObject *object, gpointer data)
 {
   GtkWidget *widget = GTK_WIDGET(object);
@@ -168,6 +182,9 @@ options_dialog::remove_widget(GtkObject *object, gpointer data)
   I(d != NULL);
   vector<GtkWidget *>::iterator k
     = find(d->widgets.begin(), d->widgets.end(), widget);
+#ifdef LG
+  LG(k == d->widgets.end(), "options_dialog: No widget to remove?\n");
+#endif
   if (k != d->widgets.end())
     d->widgets.erase(k);
 }
