@@ -1,0 +1,11 @@
+TODO for rglclock:
+
+* Loadable module support.
+
+* OpenGL libraries support in configure.
+
+* Handle "configure_event" signal.
+
+* Ignore "expose_event" signal.
+
+* Compensate the rotation velocity.
