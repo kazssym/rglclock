@@ -1,5 +1,7 @@
 1999-01-29  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* rglclock.1: Update text.
+
 	* about.cc (show_about): Set padding for the label.
 
 	* about.cc: #include "glclock.h".
