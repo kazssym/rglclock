@@ -1,5 +1,7 @@
 2000-03-06  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* Update po files.
+
 	* POTFILES.in: Remove lib/about.cc.
 
 2000-03-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
