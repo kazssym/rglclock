@@ -66,6 +66,8 @@ about_dialog::about_dialog(GtkWidget *parent)
 
   /* Sets the window title.  */
   const char *title_format = _("About %s");
+  /* I decided to avoid glib functions here, as the format string may
+     contain extended conversions like "%1$s".  */
   char *title;
 #ifdef HAVE_ASPRINTF
   asprintf(&title, title_format, PACKAGE);
@@ -86,6 +88,8 @@ about_dialog::about_dialog(GtkWidget *parent)
   populate(dialog);
 }
 
+#define YEARS "1998, 1999"
+
 /* Populates a dialog with children.  */
 void
 about_dialog::populate(GtkWidget *dialog)
@@ -93,8 +97,20 @@ about_dialog::populate(GtkWidget *dialog)
   GtkWidget *child;
 
   /* Makes the vbox area.  */
-  child = gtk_label_new(PACKAGE " " VERSION "\n"
-			"Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.");
+  const char *version_format
+    = _("%s %s\nCopyright (C) %s Hypercore Software Design, Ltd.");
+  char *version;
+  /* I decided to avoid glib functions here, as the format string may
+     contain extended conversions like "%1$s".  */
+#ifdef HAVE_ASPRINTF
+  asprintf(&version, version_format, PACKAGE, VERSION, YEARS);
+#else /* not HAVE_ASPRINTF */
+  version = (char *) malloc(strlen(version_format)
+			    + sizeof PACKAGE + sizeof VERSION + sizeof YEARS);
+  sprintf(version, version_format, PACKAGE, VERSION, YEARS);
+#endif /* not HAVE_ASPRINTF */
+  child = gtk_label_new(version);
+  free(version);
   gtk_label_set_justify(GTK_LABEL(child), GTK_JUSTIFY_LEFT);
   gtk_misc_set_padding(GTK_MISC(child), 10, 10);
   gtk_widget_show(child);
