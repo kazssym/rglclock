@@ -23,6 +23,7 @@
 #endif
 #undef const
 
+#include <math.h>
 #include <gtk/gtk.h>
 #include <gdkGL/gdkGL.h>
 #include <GL/glu.h>
@@ -48,18 +49,28 @@ glclock::glclock ()
   : m (new module),
     drawing_area (gtk_drawing_area_new ()),
     context (NULL),
-    rot_velocity (90),
+    rot_velocity (0),
     rot_x (0), rot_y (1), rot_z (0)
 {
   gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 100, 100);
+
+  gtk_widget_set_events (drawing_area, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
   gtk_signal_connect_after (GTK_OBJECT (drawing_area), "realize",
 			    reinterpret_cast <GtkSignalFunc> (create_context),
 			    this);
   gtk_signal_connect (GTK_OBJECT (drawing_area), "configure_event",
 		      reinterpret_cast <GtkSignalFunc> (handle_configure_event),
 		      this);
+#if 0
   gtk_signal_connect (GTK_OBJECT (drawing_area), "expose_event",
 		      reinterpret_cast <GtkSignalFunc> (handle_expose_event),
+		      this);
+#endif
+  gtk_signal_connect (GTK_OBJECT (drawing_area), "button_press_event",
+		      reinterpret_cast <GtkSignalFunc> (handle_button_event),
+		      this);
+  gtk_signal_connect (GTK_OBJECT (drawing_area), "button_release_event",
+		      reinterpret_cast <GtkSignalFunc> (handle_button_event),
 		      this);
   gtk_widget_show (drawing_area);
 
@@ -80,7 +91,7 @@ glclock::update (gpointer opaque)
   time_t now = time (NULL);
   object->tm = *localtime (&now);
 
-  object->m->rotate (object->rot_velocity / 10.,
+  object->m->rotate (object->rot_velocity / 10. * (180. / 3.14159),
 		     object->rot_x, object->rot_y, object->rot_z);
 
   GtkWidget *widget = object->drawing_area;
@@ -92,6 +103,36 @@ glclock::update (gpointer opaque)
   gdk_gl_unset_current ();
 
   return 1;			// Do not remove this callback.
+}
+
+gint
+glclock::handle_button_event (GtkWidget *widget, GdkEventButton *event,
+			      gpointer opaque)
+{
+  glclock *object = static_cast <glclock *> (opaque);
+  g_assert (object != NULL);
+  g_assert (object->drawing_area == widget);
+
+  if (event->type == GDK_BUTTON_PRESS && event->button == 1)
+    {
+      object->press_x = event->x;
+      object->press_y = event->y;
+      gtk_grab_add (widget);
+    }
+  else if (event->type == GDK_BUTTON_RELEASE && event->button == 1)
+    {
+      gtk_grab_remove (widget);
+      double vel_x = double (event->x - object->press_x) / widget->allocation.width;
+      double vel_y = double (event->y - object->press_y) / widget->allocation.height;
+      if (vel_x != 0 || vel_y != 0)
+	{
+	  object->rot_y = vel_x;
+	  object->rot_x = vel_y;
+	}
+      object->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
+    }
+
+  return 0;
 }
 
 gint

@@ -1,5 +1,19 @@
 1998-07-09  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc (glclock): Install the "button_press/release_event"
+	handlers.
+	(glclock): Change rot_velocity's initial value to 0.
+	(update): Convert the rotation velocity into degrees.
+
+	* glclock.h (class glclock): Update the definition.
+	(class glclock): Add new members press_x and press_y.
+
+	* glclock.cc (glclock): Do not install the "expose_event"
+	handler.
+	(handle_button_event): New function.
+
+	* Version 0.21 released.
+
 	* TODO: Updated.
 
 	* NEWS: Updated.

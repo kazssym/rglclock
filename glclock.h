@@ -38,6 +38,7 @@ protected:
   static void create_context (GtkWidget *, gpointer);
   static gint handle_configure_event (GtkWidget *, GdkEventConfigure *, gpointer);
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
+  static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
 private:
   module *m;
@@ -47,6 +48,7 @@ private:
   guint timeout_id;
   double rot_velocity;
   double rot_x, rot_y, rot_z;
+  double press_x, press_y;
 };
 
 #endif /* not glclock_h */
