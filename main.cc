@@ -1,5 +1,5 @@
 /* rglclock - Rotating GL Clock.
-   Copyright (C) 1998 Hypercore Software Design, Ltd.
+   Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -52,11 +52,15 @@ using namespace std;
 
 namespace
 {
+  int opt_hide_menu_bar = 0;
+  int opt_help = 0;
   int opt_version = 0;
 
 #ifdef HAVE_GETOPT_LONG
   const struct option longopts[] =
   {
+    {"hide-menu-bar", no_argument, &opt_hide_menu_bar, 1},
+    {"help", no_argument, &opt_help, 1},
     {"version", no_argument, &opt_version, 1},
     {NULL, 0, NULL, 0}
   };
@@ -69,13 +73,16 @@ namespace
 	{
 #ifdef HAVE_GETOPT_LONG
 	  int index;
-	  optc = getopt_long(argc, argv, "", longopts, &index);
+	  optc = getopt_long(argc, argv, "m", longopts, &index);
 #else /* not HAVE_GETOPT_LONG */
-	  optc = getopt(argc, argv, "");
+	  optc = getopt(argc, argv, "m");
 #endif /* not HAVE_GETOPT_LONG */
 
 	  switch (optc)
 	    {
+	    case 'm':
+	      opt_hide_menu_bar = 1;
+	      break;
 	    case 0:		// long option
 	      break;
 	    case '?':
@@ -85,6 +92,17 @@ namespace
       while (optc != -1);
 
       return true;
+    }
+
+  /* Displays the help.  */
+  void display_help(const char *arg0)
+    {
+      printf(_("Usage: %s [OPTIONS]\n"), arg0);
+      printf(_("Display a rotating 3D clock.\n"));
+      printf("\n");
+      printf(_("  -m, --hide-menu-bar   hide the menu bar\n"));
+      printf(_("      --help            display this help and exit\n"));
+      printf(_("      --version         output version information and exit\n"));
     }
 
   void parse_gtkrcs()
@@ -153,7 +171,8 @@ namespace
 					sizeof entries / sizeof entries[0],
 					entries, glc);
 
-	  gtk_widget_show(ifactory->widget);
+	  if (!opt_hide_menu_bar)
+	    gtk_widget_show(ifactory->widget);
 	  gtk_box_pack_start(GTK_BOX(box1.get()), ifactory->widget,
 			     FALSE, FALSE, 0);
 
@@ -188,6 +207,12 @@ main (int argc, char **argv)
   if (opt_version)
     {
       printf("%s %s\n", PACKAGE, VERSION);
+      return EXIT_SUCCESS;
+    }
+
+  if (opt_help)
+    {
+      display_help(argv[0]);
       return EXIT_SUCCESS;
     }
 
