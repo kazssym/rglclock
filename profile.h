@@ -28,8 +28,6 @@
 #include "glclock.h"
 #include <string>
 
-struct xmlDoc;
-
 class profile
   : public virtual glclock::options_callback
 {
