@@ -4,3 +4,6 @@ Authors
 
 This package contains gdkgl.*, part of gtkglarea by Janne Löf.
 
+The getopt.h, getopt.c, and getopt1.c files are from the GNU C
+Library.
+

@@ -24,7 +24,7 @@ if test $ac_cv_lib_GLU_gluLookAt = no; then
 fi
 
 dnl Checks for header files.
-AC_CHECK_HEADERS(getopt.h gnome-xml/parser.h sys/time.h unistd.h)
+AC_CHECK_HEADERS(gnome-xml/parser.h sys/time.h unistd.h)
 AC_ARG_WITH(nana,
 [  --with-nana             use GNU Nana for testing [no]],, with_nana=no)
 if test "$with_nana" != no; then
@@ -37,7 +37,7 @@ AC_STRUCT_TM
 AC_HEADER_TIME
 AC_C_CONST
 dnl Checks for library functions.
-AC_CHECK_FUNCS(asprintf getopt_long gettimeofday mkdir)
+AC_CHECK_FUNCS(asprintf gettimeofday mkdir)
 ALL_LINGUAS="ja"
 AM_GNU_GETTEXT
 AC_OUTPUT(Makefile intl/Makefile po/Makefile.in)

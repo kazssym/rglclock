@@ -11,10 +11,11 @@ libgdkgl_a_SOURCES = gdkgl.c
 libclock_a_SOURCES = simple.c module.cc glclock.cc \
 options.cc clockoptions.cc about.cc
 
-rglclock_SOURCES = profile.cc main.cc
+rglclock_SOURCES = getopt.c getopt1.c profile.cc main.cc
 rglclock_LDADD = libclock.a libgdkgl.a ${GL_LIBS} ${GTK_LIBS}
 
-noinst_HEADERS = utils.h profile.h glclock.h module.h simple.h autowidget.h gdkgl.h
+noinst_HEADERS = utils.h profile.h glclock.h module.h simple.h autowidget.h gdkgl.h \
+getopt.h
 
 man_MANS = rglclock.1
 

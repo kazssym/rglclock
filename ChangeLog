@@ -1,3 +1,20 @@
+1999-05-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* AUTHORS: Modified.
+
+	* NEWS: Modified.
+
+	* main.cc (parse_options): Use getopt_long unconditionally.
+
+	* configure.in: Removed tests for <getopt.h> and getopt_long.
+
+	* Makefile.am (rglclock_SOURCES): Add getopt.c and getopt1.c.
+	(noinst_HEADERS): Add getopt.h.
+
+	* getopt.h, getopt.c, getopt1.c: New file, copied from glibc 2.1.
+
+	* THANKS: New file.  Also regenerate Makefile.in.
+
 1999-05-22  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* Makefile.am (EXTRA_DIST): Add MEMO.ja.
