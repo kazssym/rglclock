@@ -1,5 +1,7 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* clockoptions.cc (create_widget): Add items for texture mapping.
+
 	* configure.in: Add checks for -lpng and <png.h>.
 
 1999-05-15  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
