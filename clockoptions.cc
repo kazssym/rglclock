@@ -44,13 +44,19 @@
 
 using namespace std;
 
+const char UPDATE_RATE_ENTRY_KEY[] = "update_rate_entry";
+const char TEXTURE_CHECK_BUTTON_KEY[] = "texture_check_button";
+const char TEXTURE_FILE_ENTRY_KEY[] = "texture_file_entry";
+
 void
 clock_options_dialog::general_options_page::apply(GtkWidget *widget)
 {
-  GtkWidget *update_input
-    = GTK_WIDGET(gtk_object_get_data(GTK_OBJECT(widget), "update_input"));
-  I(update_input != NULL);
+  gpointer data
+    = gtk_object_get_data(GTK_OBJECT(widget), UPDATE_RATE_ENTRY_KEY);
+  I(data != NULL);
+  GtkWidget *update_input = GTK_WIDGET(data);
   I(GTK_IS_ENTRY(update_input));
+
   int rate = atoi(gtk_entry_get_text(GTK_ENTRY(update_input)));
 #ifdef L
   L("new update rate = %d\n", rate);
@@ -64,7 +70,6 @@ clock_options_dialog::general_options_page::create_widget()
 {
   I(target != NULL);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
-  I(GTK_IS_VBOX(vbox));
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
   {
     GtkWidget *hbox1 = gtk_hbox_new(false, 0);
@@ -77,7 +82,8 @@ clock_options_dialog::general_options_page::create_widget()
       GtkObject *update_adjust = gtk_adjustment_new(rate, 5, 30, 1, 5, 1);
       GtkWidget *update_input
 	= gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
-      gtk_object_set_data(GTK_OBJECT(vbox), "update_input", update_input);
+      gtk_object_set_data(GTK_OBJECT(vbox),
+			  UPDATE_RATE_ENTRY_KEY, update_input);
       gtk_widget_show(update_input);
       gtk_box_pack_start(GTK_BOX(hbox1), update_input, false, false, 0);
 
@@ -91,12 +97,18 @@ clock_options_dialog::general_options_page::create_widget()
 
     GtkWidget *hbox2 = gtk_hbox_new(false, 0);
     {
+      /* Check button to enable texture mapping.  */
       GtkWidget *check1
 	= gtk_check_button_new_with_label(_("Map texture file: "));
+      gtk_object_set_data(GTK_OBJECT(vbox),
+			  TEXTURE_CHECK_BUTTON_KEY, check1);
       gtk_widget_show(check1);
       gtk_box_pack_start(GTK_BOX(hbox2), check1, false, false, 0);
 
+      /* Name of texture file.  */
       GtkWidget *entry1 = gtk_entry_new();
+      gtk_object_set_data(GTK_OBJECT(vbox),
+			  TEXTURE_FILE_ENTRY_KEY, entry1);
       gtk_widget_show(entry1);
       gtk_box_pack_start(GTK_BOX(hbox2), entry1, true, true, 0);
 

@@ -1,6 +1,7 @@
 1999-05-16  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* clockoptions.cc (create_widget): Add items for texture mapping.
+	(apply): Use macro for widget data key.
 
 	* configure.in: Add checks for -lpng and <png.h>.
 
