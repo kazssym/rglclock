@@ -5,7 +5,7 @@
 
 	* glclock.h: Include <gtk/gtkmenufactory.h>.
 
-	* configure.in: Change the version number scheme.
+	* configure.in: Change the version number system.
 	Remove unneeded blank lines.
 	Define _GNU_SOURCE.
 	Add checks for <getopt.h> and getopt_long.
