@@ -169,9 +169,6 @@
 /* Define if you have the nana library (-lnana).  */
 #undef HAVE_LIBNANA
 
-/* Define if you have the png library (-lpng).  */
-#undef HAVE_LIBPNG
-
 /* Define if you have the xml library (-lxml).  */
 #undef HAVE_LIBXML
 

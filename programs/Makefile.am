@@ -10,7 +10,7 @@ bin_PROGRAMS = rglclock
 rglclock_SOURCES = getopt.c getopt1.c profile.cc main.cc
 rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a \
 ../lib/libutils.a \
-${GL_LIBS} ${GTK_LIBS}
+$(GL_LIBS) $(GTK_LIBS) $(PNG_LIBS)
 
 noinst_HEADERS = getopt.h profile.h
 

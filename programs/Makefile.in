@@ -83,6 +83,7 @@ MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PNG_LIBS = @PNG_LIBS@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -96,7 +97,7 @@ INCLUDES = -I${top_srcdir}/include -DPKGDATADIR=\"${pkgdatadir}\" -DLOCALEDIR=\"
 bin_PROGRAMS = rglclock
 
 rglclock_SOURCES = getopt.c getopt1.c profile.cc main.cc
-rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a ../lib/libutils.a ${GL_LIBS} ${GTK_LIBS}
+rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a ../lib/libutils.a $(GL_LIBS) $(GTK_LIBS) $(PNG_LIBS)
 
 
 noinst_HEADERS = getopt.h profile.h
