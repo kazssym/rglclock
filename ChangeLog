@@ -7,7 +7,7 @@
 
 	* NEWS: Updated.
 
-	* about.cc: Add an exception to licence terms.
+	* about.cc: Add an exception to license terms.
 	* glclock.cc: Likewise.
 	* glclock.h: Likewise.
 	* main.cc: Likewise.
