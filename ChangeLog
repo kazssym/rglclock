@@ -1,5 +1,10 @@
 1999-02-13  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* main.cc (parse_gtkrc) [PKGDATADIR]: Add gtk_rc_parse for default
+	gtkrc file.
+
+	* Makefile.am (INCLUDES): Add -DPKGDATADIR=....
+
 	* gettextize.
 	* po/POTFILES.in: New file.
 	* po/ja.po: New file.

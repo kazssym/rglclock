@@ -82,6 +82,10 @@ namespace
 
   void parse_gtkrcs()
     {
+#ifdef PKGDATADIR
+      gtk_rc_parse(PKGDATADIR "/gtkrc");
+#endif /* PKGDATADIR */
+
       const char *homedir = getenv("HOME");
       if (homedir != NULL)
 	{
