@@ -27,6 +27,7 @@
 #include <gdkGL/gdkGL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "module.h"
 
 #include "glclock.h"
 
@@ -41,10 +42,12 @@ glclock::~glclock ()
   if (context != NULL)
     gdk_gl_context_unref (context);
   gtk_widget_unref (drawing_area);
+  delete m;
 }
 
 glclock::glclock ()
-  : drawing_area (gtk_drawing_area_new ()),
+  : m (new module),
+    drawing_area (gtk_drawing_area_new ()),
     context (NULL),
     rot_velocity (90),
     rot_x (0), rot_y (1), rot_z (0)
@@ -67,51 +70,6 @@ glclock::glclock ()
 }
 
 void
-draw_clock (struct tm *tm)
-{
-  glMatrixMode (GL_MODELVIEW);
-#if 0
-  glLoadIdentity ();
-  gluLookAt (0, 0, 100,
-	     0, 0, 0,
-	     0, 1, 0);
-#endif
-
-  glClear (GL_COLOR_BUFFER_BIT);
-
-  /* Short hand.  */
-  glPushMatrix ();
-  glRotated (((tm->tm_hour * 60 + tm->tm_min) * 60
-	      + tm->tm_sec) / 120., 0, 0, -1);
-  glBegin (GL_TRIANGLES);
-  glNormal3d (0.333, 0., 1.);
-  glVertex3d (3., 3., 1.);
-  glVertex3d (0., 25., 2.);
-  glVertex3d (0., 0., 2.);
-  glNormal3d (-0.333, 0., 1.);
-  glVertex3d (0., 0., 2.);
-  glVertex3d (0., 25., 2.);
-  glVertex3d (-3., 3., 1.);
-  glEnd ();
-  glPopMatrix ();
-
-  /* Long hand.  */
-  glPushMatrix ();
-  glRotated ((tm->tm_min * 60 + tm->tm_sec) / 10., 0, 0, -1);
-  glBegin (GL_TRIANGLES);
-  glNormal3d (0.5, 0., 1.);
-  glVertex3d (2., 2., 3.);
-  glVertex3d (0., 40., 4.);
-  glVertex3d (0., 0., 4.);
-  glNormal3d (-0.5, 0., 1.);
-  glVertex3d (0., 0., 4.);
-  glVertex3d (0., 40., 4.);
-  glVertex3d (-2., 2., 3.);
-  glEnd ();
-  glPopMatrix ();
-}
-
-void
 glclock::update (gpointer opaque)
 {
   glclock *object = static_cast <glclock *> (opaque);
@@ -120,10 +78,8 @@ glclock::update (gpointer opaque)
   time_t now = time (NULL);
   object->tm = *localtime (&now);
 
-  glMatrixMode (GL_MODELVIEW);
-  glRotated (object->rot_velocity / 10.,
-	     object->rot_x, object->rot_y, object->rot_z);
-
+  object->m->rotate (object->rot_velocity / 10.,
+		     object->rot_x, object->rot_y, object->rot_z);
   gtk_widget_draw (object->drawing_area, NULL);
 }
 
@@ -140,7 +96,7 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   /* glViewport can be in configure handler?  */
   glViewport (widget->allocation.x, widget->allocation.y,
 	      widget->allocation.width, widget->allocation.height);
-  draw_clock (&object->tm);
+  object->m->draw_clock (&object->tm);
   gdk_gl_swap_buffers (widget->window);
 
   gdk_gl_unset_current ();

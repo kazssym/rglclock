@@ -1,3 +1,22 @@
+1998-06-30  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* glclock.cc (update): Use module::rotate.
+
+	* module.h (class module): Update definition.
+	* module.cc (rotate): New function.
+
+	* glclock.h (class glclock): Add member m.
+	* glclock.cc (glclock): Delete member m.
+	(glclock): Allocate member m.
+	(draw_clock): Removed.
+	(handle_expose_event): Use module::draw_clock.
+
+	* Makefile.am (rglclock_SOURCES): Add module.cc.
+	(noinst_HEADERS): Add module.h.
+
+	* module.h: New file.
+	* module.cc: New file.
+
 1998-06-28  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
 	* README: Update description.

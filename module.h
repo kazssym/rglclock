@@ -17,35 +17,19 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
    02111-1307, USA.  */
 
-#ifndef glclock_h
-#define glclock_h 1
+#ifndef module_h
+#define module_h 1
 
-#include <time.h>
-#include <gtk/gtkwidget.h>
-#include <gdk/gdktypes.h>
-#include "gdkGL/gdkGLtypes.h"
+struct tm;
 
-class module;
-
-class glclock
+class module
 {
 public:
-  glclock ();
-  ~glclock ();
+  module ();
+  ~module ();
 public:
-  operator GtkWidget *() const;
-protected:
-  static void create_context (GtkWidget *, gpointer);
-  static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
-  static void update (gpointer);
-private:
-  module *m;
-  GtkWidget *drawing_area;
-  GdkGLContext *context;
-  struct tm tm;
-  guint timeout_id;
-  double rot_velocity;
-  double rot_x, rot_y, rot_z;
+  void rotate (double, double, double, double);
+  void draw_clock (const struct tm *) const;
 };
 
-#endif /* not glclock_h */
+#endif /* not module_h */
