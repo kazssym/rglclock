@@ -1,5 +1,8 @@
 1998-08-19  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* module.cc (draw_clock) [LOGO128]: Add experimental texture code.
+	(init) [LOGO]: Likewise.
+
 	* module.h (class module): Add member rot.
 	* module.cc (rot): Removed.
 	(init): Initialize this->rot.

@@ -30,6 +30,10 @@
 
 #include "module.h"
 
+#ifdef LOGO128
+# include "logo128.h"
+#endif
+
 const GLfloat HAND_ADC[4] = {0.1, 0.1, 0.1, 1};
 const GLfloat HAND_SC[4] = {0.6, 0.6, 0.6, 1};
 const GLfloat HAND_SR = 32;
@@ -49,16 +53,28 @@ module::draw_clock (const struct tm *tm) const
   /* Use flat shading for the dial disk.  */
   glShadeModel (GL_FLAT);
 
+#ifdef LOGO128
+  const GLfloat vs[4] = {0, 0, 0, 1};
+#else
   const GLfloat vs[4] = {0.6, 0.6, 0.6, 1.};
+#endif
   glMaterialfv (GL_FRONT, GL_SPECULAR, vs);
   glMaterialf (GL_FRONT, GL_SHININESS, 16.);
 
   {
+#ifdef LOGO128
+    const GLfloat v[4] = {0.6, 0.6, 0.6, 1.};
+#else
     const GLfloat v[4] = {0.1, 0.0, 0.4, 1.};
+#endif
     glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
     GLUquadricObj *qobj = gluNewQuadric ();
     if (qobj == NULL)
       throw std::bad_alloc ();
+#ifdef LOGO128
+    glEnable (GL_TEXTURE_2D);
+    gluQuadricTexture (qobj, GL_TRUE);
+#endif
     gluDisk (qobj, 0., 45., 24, 1);
 
     /* Draw the back.  */
@@ -67,6 +83,9 @@ module::draw_clock (const struct tm *tm) const
     gluDisk (qobj, 0., 45., 24, 1);
     glPopMatrix ();
 
+#ifdef LOGO128
+    glDisable (GL_TEXTURE_2D);
+#endif
     gluDeleteQuadric (qobj);
   }
 
@@ -177,6 +196,15 @@ module::init ()
 
   glEnable (GL_DEPTH_TEST);
   glEnable (GL_CULL_FACE);
+
+#ifdef LOGO128
+  glTexImage2D (GL_TEXTURE_2D, 0,
+		3, 128, 128, 0,
+		GL_RGB, GL_UNSIGNED_BYTE,
+		data);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+#endif
 }
 
 module::~module ()
