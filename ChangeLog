@@ -1,5 +1,9 @@
 2000-03-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* bin/main.cc (show_about_dialog): Remove _() for version_format.
+
+	* configure.in (ALL_LINGUAS): Changed.
+
 	* bin/main.cc (PROGRAM, COPYRIGHT_YEAR): New macros.
 	(class clock_app): Remove members describe and ad.  Add new
 	members main_window and show_about_dialog.

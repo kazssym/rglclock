@@ -1,54 +1,54 @@
-# ja.po - Japanese message catalogue for rglclock
-# Copyright (C) 1999 Hypercore Software Design, Ltd.
+# ja_JP.eucJP.po - Japanese message catalogue for rglclock
+# Copyright (C) 1999, 2000 Hypercore Software Design, Ltd.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 1999-10-26 21:20+0900\n"
-"PO-Revision-Date: 1999-07-16 17:24+09:00\n"
+"POT-Creation-Date: 2000-03-04 08:41+0900\n"
+"PO-Revision-Date: 2000-03-04 08:48+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
-"Language-Team:\n"
+"Language-Team: <rglclock@lists.hypercore.co.jp>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=EUC-JP\n"
+"Content-Type: text/plain; charset=euc-jp\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Label for the OK button.
-#: lib/about.cc:78 lib/options.cc:140
+#: bin/main.cc:208 lib/about.cc:98 lib/options.cc:179
 msgid "OK"
 msgstr "OK"
 
 #. Label for the Cancel button.
-#: lib/options.cc:151
+#: lib/options.cc:190
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: lib/options.cc:169
+#: lib/options.cc:206
 msgid "Options"
 msgstr "オプション"
 
-#: lib/clockoptions.cc:98
+#: lib/clockoptions.cc:114
 msgid "Update rate: "
 msgstr "更新レート: "
 
 #. Unit name for update rate
-#: lib/clockoptions.cc:112
+#: lib/clockoptions.cc:127
 msgid "Hz"
 msgstr "Hz"
 
-#: lib/clockoptions.cc:123
+#: lib/clockoptions.cc:138
 msgid "Map texture file: "
 msgstr "テクスチャマッピング: "
 
-#: lib/clockoptions.cc:136
+#: lib/clockoptions.cc:151
 msgid "Select..."
 msgstr "選択..."
 
 #. Label for the General page.
-#: lib/clockoptions.cc:156
+#: lib/clockoptions.cc:171
 msgid "General"
 msgstr "一般"
 
-#: lib/about.cc:58
+#: lib/about.cc:78
 #, c-format
 msgid ""
 "%s %s\n"
@@ -58,62 +58,81 @@ msgstr ""
 "Copyright (C) %s 有限会社ハイパーコア"
 
 #. Window title.
-#: lib/about.cc:94
+#: bin/main.cc:127 lib/about.cc:112
 #, c-format
 msgid "About %s"
 msgstr "%sのバージョン情報"
 
-#: bin/main.cc:107
+#: bin/main.cc:167
+#, c-format
+msgid "Copyright (C) %s Hypercore Software Design, Ltd."
+msgstr "Copyright (C) %s 有限会社ハイパーコア"
+
+#: bin/main.cc:186
+msgid ""
+"This is free software; see the source for copying conditions.\n"
+"There is NO WARRANTY; not even for MERCHANTABILITY\n"
+"or FITNESS FOR A PARTICULAR PURPOSE."
+msgstr ""
+"This is free software; see the source for copying conditions.\n"
+"There is NO WARRANTY; not even for MERCHANTABILITY\n"
+"or FITNESS FOR A PARTICULAR PURPOSE."
+
+#: bin/main.cc:198
+msgid "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
+msgstr "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
+
+#: bin/main.cc:275
+msgid "/_File/_Options..."
+msgstr "/ファイル(_F)/オプション(_O)..."
+
+#: bin/main.cc:277 bin/main.cc:280
+msgid "/_File/"
+msgstr "/ファイル(_F)/"
+
+#: bin/main.cc:278
+msgid "/_File/E_xit"
+msgstr "/ファイル(_F)/終了(_X)"
+
+#: bin/main.cc:281
+msgid "/_File/_About..."
+msgstr "/ファイル(_F)/バージョン情報(_A)..."
+
+#: bin/main.cc:385
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr "使用法: %s [オプション]...\n"
 
-#: bin/main.cc:108
+#: bin/main.cc:386
 msgid "Display a rotating 3D clock.\n"
 msgstr "自転する3D時計を表示します。\n"
 
-#: bin/main.cc:110
+#: bin/main.cc:388
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   メニューバーを隠す\n"
 
-#: bin/main.cc:111
+#: bin/main.cc:389
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr "      --private-colormap プライベートカラーマップを割り当てる\n"
 
-#: bin/main.cc:112
+#: bin/main.cc:390
 msgid "      --no-options      start without restoring options\n"
 msgstr "      --no-options      オプションを再設定しないで起動する\n"
 
-#: bin/main.cc:113
+#: bin/main.cc:391
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            このヘルプを表示して終了する\n"
 
-#: bin/main.cc:114
+#: bin/main.cc:392
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
-#: bin/main.cc:116
+#: bin/main.cc:394
 msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
 msgstr ""
 "バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
 
-#: bin/main.cc:197
-msgid "/_File/_Options..."
-msgstr "/ファイル(_F)/オプション(_O)..."
-
-#: bin/main.cc:200 bin/main.cc:204
-msgid "/_File/"
-msgstr "/ファイル(_F)/"
-
-#: bin/main.cc:201
-msgid "/_File/E_xit"
-msgstr "/ファイル(_F)/終了(_X)"
-
-#: bin/main.cc:205
-msgid "/_File/_About..."
-msgstr "/ファイル(_F)/バージョン情報(_A)..."
-
-#: bin/main.cc:310
+#: bin/main.cc:467
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr "%s: 処理されなかった例外: %s\n"

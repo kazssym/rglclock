@@ -144,7 +144,7 @@ clock_app::show_about_dialog()
       gtk_widget_show(vbox1);
       gtk_container_set_border_width(GTK_CONTAINER(vbox1), 20);
       {
-	const char *version_format = _("%s %s");
+	const char *version_format = "%s %s";
 	char *version;
 #ifdef HAVE_ASPRINTF
 	asprintf(&version, version_format, PROGRAM, VERSION);
