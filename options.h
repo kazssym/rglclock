@@ -53,6 +53,8 @@ class modal_dialog
 protected:
   static gint handle_delete_event(GtkWidget *, GdkEventAny *,
 				  gpointer) throw ();
+public:
+  void act(GtkWindow *parent);
 protected:
   virtual GtkWidget *create_widget() = 0;
   void quit();
@@ -69,14 +71,12 @@ class options_dialog
   : public modal_dialog
 {
 protected:
-  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer) throw ();
   static void handle_ok(GtkWidget *, gpointer) throw ();
   static void handle_cancel(GtkWidget *, gpointer) throw ();
 private:
   std::vector<std::pair<std::string, options_page *> > pages;
 public:
   void add_page(const char *, options_page *);
-  void act(GtkWindow *parent);
 protected:
   void populate(GtkWidget *);
   GtkWidget *create_widget();

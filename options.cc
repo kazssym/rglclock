@@ -81,6 +81,42 @@ controller::remove_widget(GtkObject *object, gpointer data) throw ()
 }
 
 void
+modal_dialog::act(GtkWindow *parent)
+{
+  GtkWidget *widget = create_widget();
+  I(GTK_IS_WINDOW(widget));
+
+  if (parent != NULL)
+    gtk_window_set_transient_for(GTK_WINDOW(widget), parent);
+  gtk_window_set_modal(GTK_WINDOW(widget), true);
+  gtk_signal_connect(GTK_OBJECT(widget), "delete_event",
+		     GTK_SIGNAL_FUNC(handle_delete_event), func_data());
+
+  gtk_widget_show(widget);
+  gtk_main();
+  gtk_widget_destroy(widget);
+}
+
+void
+modal_dialog::quit()
+{
+  gtk_main_quit();
+}
+
+/* Handles a delete event on the dialog.  */
+gint
+modal_dialog::handle_delete_event(GtkWidget *dialog,
+				  GdkEventAny *event,
+				  gpointer data) throw ()
+{
+  options_dialog *d = static_cast<options_dialog *>(to_ptr(data));
+  I(d != NULL);
+
+  d->quit();
+  return 1;
+}
+
+void
 options_dialog::populate(GtkWidget *dialog)
 {
   I(GTK_IS_DIALOG(dialog));
@@ -132,8 +168,6 @@ options_dialog::create_widget()
   I(GTK_IS_DIALOG(dialog));
   gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-  gtk_signal_connect(GTK_OBJECT(dialog), "delete_event",
-		     GTK_SIGNAL_FUNC(handle_delete_event), func_data());
 
   populate(dialog);
 
@@ -142,21 +176,6 @@ options_dialog::create_widget()
 #endif
   add(dialog);
   return dialog;
-}
-
-void
-options_dialog::act(GtkWindow *parent)
-{
-  GtkWidget *widget = create_widget();
-  I(GTK_IS_WINDOW(widget));
-
-  if (parent != NULL)
-    gtk_window_set_transient_for(GTK_WINDOW(widget), parent);
-  gtk_window_set_modal(GTK_WINDOW(widget), true);
-
-  gtk_widget_show(widget);
-  gtk_main();
-  gtk_widget_destroy(widget);
 }
 
 void
@@ -192,23 +211,17 @@ options_dialog::handle_ok(GtkWidget *button,
       I(page_widget != NULL);
       i->second->apply(page_widget);
     }
-  gtk_main_quit();
+
+  d->quit();
 }
 
 void
 options_dialog::handle_cancel(GtkWidget *button,
 			      gpointer data) throw ()
 {
-  gtk_main_quit();
-}
+  options_dialog *d = static_cast<options_dialog *>(to_ptr(data));
+  I(d != NULL);
 
-/* Handles a delete event on the dialog.  */
-gint
-options_dialog::handle_delete_event(GtkWidget *dialog,
-				    GdkEventAny *event,
-				    gpointer data) throw ()
-{
-  gtk_main_quit();
-  return 1;
+  d->quit();
 }
 
