@@ -95,12 +95,15 @@ glclock::update (gpointer opaque)
 		     object->rot_x, object->rot_y, object->rot_z);
 
   GtkWidget *widget = object->drawing_area;
-  gdk_gl_set_current (object->context, widget->window);
+  if (widget->window != NULL && object->context != NULL)
+    {
+      gdk_gl_set_current (object->context, widget->window);
 
-  object->m->draw_clock (&object->tm);
-  gdk_gl_swap_buffers (widget->window);
+      object->m->draw_clock (&object->tm);
+      gdk_gl_swap_buffers (widget->window);
 
-  gdk_gl_unset_current ();
+      gdk_gl_unset_current ();
+    }
 
   return 1;			// Do not remove this callback.
 }

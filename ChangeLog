@@ -1,4 +1,16 @@
+1998-07-11  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* rglclock.prj: 
+
+	* main.cc (handle_delete_event): New function.
+	(main): Connect a "delete_event" handler for toplevel.
+
+	* glclock.cc (update): Draw clock only when a window and a context
+	are available.
+
 1998-07-09  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
+
+	* Version 0.24 released.
 
 	* TODO: Updated.
 
