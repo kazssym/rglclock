@@ -1,1 +1,0 @@
-/home/kaz/share/getopt.c

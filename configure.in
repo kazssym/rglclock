@@ -47,5 +47,5 @@ ALL_LINGUAS="ja"
 AM_GNU_GETTEXT
 AC_CONFIG_SUBDIRS(libltdl)
 AC_OUTPUT(Makefile intl/Makefile \
-include/Makefile lib/Makefile bin/Makefile \
+include/Makefile lib/Makefile modules/Makefile programs/Makefile \
 doc/Makefile po/Makefile.in)

@@ -1,3 +1,40 @@
+2002-05-01  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
+
+	* COPYING.LIB: Removed.
+
+	* lib/glclock.cc: Use "gdk_gl.h" instead of "gdkgl.h".
+	(~glclock, handle_expose_event, best_visual): Use "gdk_gl.h" functions.
+
+	* include/glclock.h: Use "gl_context.h" instead of "gdkgl.h".
+	(class glclock): Change member context's type.
+
+	* programs/Makefile.am (rglclock_LDADD): Remove libgdkgl.a.
+
+	* lib/Makefile.am (noinst_LIBRARIES): Remove libgdkgl.a.
+	(libgdkgl_a_SOURCES): Removed.
+	(libutils_a_SOURCES): Add gdk_gl.cc.
+	(noinst_HEADERS): Add gdk_gl.h.
+	* gdkgl.c: Removed.
+
+	* include/Makefile.am (noinst_HEADERS): Remove gdkgl.h.  Add
+	gl_context.h.
+	* include/gdkgl.h: Removed.
+
+	* lib/gdk_gl.cc: New file.
+	(initialize, best_visual, create_context, destroy_context,
+	make_current, swap_buffers): New functions.
+
+	* lib/gdk_gl.h: New file.
+	(class gdk_gl): New class.
+
+	* include/gl_context.h: New file.
+
+	* Makefile.am (update-po): Removed.
+
+	* Rename directory bin to programs.
+	* configure.in: Updated.
+	* Makefile.am (SUBDIRS): Updated.
+
 2002-04-30  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
 	* configure.in: Rename ja_JP.eucJP to ja.

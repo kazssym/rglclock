@@ -6,16 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-19 23:30+0900\n"
+"POT-Creation-Date: 2002-05-01 21:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. Label for the OK button.
-#: bin/main.cc:206 lib/options.cc:179
+#: lib/options.cc:179 programs/main.cc:206
 msgid "OK"
 msgstr ""
 
@@ -50,77 +50,77 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: bin/main.cc:125
+#: programs/main.cc:125
 #, c-format
 msgid "About %s"
 msgstr ""
 
-#: bin/main.cc:165
+#: programs/main.cc:165
 #, c-format
 msgid "Copyright (C) %s Hypercore Software Design, Ltd."
 msgstr ""
 
-#: bin/main.cc:184
+#: programs/main.cc:184
 msgid ""
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY; not even for MERCHANTABILITY\n"
 "or FITNESS FOR A PARTICULAR PURPOSE."
 msgstr ""
 
-#: bin/main.cc:196
+#: programs/main.cc:196
 msgid "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
 msgstr ""
 
-#: bin/main.cc:271
+#: programs/main.cc:271
 msgid "/_File/_Options..."
 msgstr ""
 
-#: bin/main.cc:273
+#: programs/main.cc:273
 msgid "/_File/"
 msgstr ""
 
-#: bin/main.cc:274
+#: programs/main.cc:274
 msgid "/_File/E_xit"
 msgstr ""
 
-#: bin/main.cc:276
+#: programs/main.cc:276
 msgid "/_Help/_About..."
 msgstr ""
 
-#: bin/main.cc:379
+#: programs/main.cc:379
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: bin/main.cc:380
+#: programs/main.cc:380
 msgid "Display a rotating 3D clock.\n"
 msgstr ""
 
-#: bin/main.cc:382
+#: programs/main.cc:382
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr ""
 
-#: bin/main.cc:383
+#: programs/main.cc:383
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr ""
 
-#: bin/main.cc:384
+#: programs/main.cc:384
 msgid "      --no-options      start without restoring options\n"
 msgstr ""
 
-#: bin/main.cc:385
+#: programs/main.cc:385
 msgid "      --help            display this help and exit\n"
 msgstr ""
 
-#: bin/main.cc:386
+#: programs/main.cc:386
 msgid "      --version         output version information and exit\n"
 msgstr ""
 
-#: bin/main.cc:388
+#: programs/main.cc:388
 msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
 msgstr ""
 
-#: bin/main.cc:461
+#: programs/main.cc:461
 #, c-format
 msgid "%s: Unhandled exception: %s\n"
 msgstr ""
