@@ -1,6 +1,6 @@
 Rglclock User-Visible Changes
 
-$Date: Tue, 04 May 1999 14:45:48 +0900 $
+$Date: Tue, 04 May 1999 16:11:18 +0900 $
 
 Version 1.3.0
 
@@ -10,6 +10,8 @@ directory.
 
 Note this feature requires libxml from the GNOME group.  The program
 should still work but options will not be saved without libxml.
+
+* Menu bar, which replaces the old popup menu.
 
 * Updates for GTK+ 1.2.
 

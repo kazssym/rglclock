@@ -99,13 +99,11 @@ glclock::~glclock ()
 
   gdk_gl_context_unref(context);
   gtk_timeout_remove (timeout_id);
-  gtk_object_unref(GTK_OBJECT(menu_factory));
   delete m;
 }
 
 glclock::glclock ()
   : m (NULL),
-    menu_factory (NULL),
     timeout_rate(DEFAULT_TIMEOUT_RATE),
     context (NULL),
     rot_velocity (0),
@@ -116,22 +114,6 @@ glclock::glclock ()
       /* Objects are allocated here to avoid leaks when an exception
 	 is thrown in the middle of the ctor.  */
       m = new module ();
-      menu_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<Popup>", NULL);
-
-      /* {path, accelerator, callback, callback_data, widget} */
-      GtkItemFactoryEntry entries[] =
-      {
-	{_("/Reset Rotation"), NULL, NULL, 1, ""},
-	{"/", NULL, NULL, 0, "<Separator>"},
-	{_("/Options..."), NULL, (GtkItemFactoryCallback) &edit_options, 2, ""},
-	{_("/About..."), NULL, (GtkItemFactoryCallback) &menu_about, 3, ""},
-	{"/", NULL, NULL, 0, "<Separator>"},
-	{_("/Exit"), NULL, (GtkItemFactoryCallback) &menu_quit, 4, ""}
-      };
-      gtk_item_factory_create_items(menu_factory, 6, entries, this);
-      gtk_widget_set_sensitive(gtk_item_factory_get_widget(menu_factory,
-							   entries[0].path),
-			       FALSE);
 
       timeout_id
 	= gtk_timeout_add(rate_to_interval(timeout_rate), update, this);
@@ -140,8 +122,6 @@ glclock::glclock ()
     {
       /* These are safe as they are initialized to NULLs before
          entering the try block.  */
-      if (menu_factory != NULL)
-	gtk_object_unref(GTK_OBJECT(menu_factory));
       delete m;
       throw;
     }
@@ -240,24 +220,6 @@ glclock::handle_button_event (GtkWidget *widget, GdkEventButton *event,
 	  }
       }
       break;
-    case 3:
-      {
-	switch (event->type)
-	  {
-	  case GDK_BUTTON_PRESS:
-	    object->menu_parent = widget;
-	    gtk_menu_popup (GTK_MENU (object->menu_factory->widget),
-			    NULL, NULL, NULL, NULL,
-			    event->button, event->time);
-	    return 1;
-	  case GDK_BUTTON_RELEASE:
-	    gtk_menu_popdown (GTK_MENU (object->menu_factory->widget));
-	    return 1;
-	  default:
-	    break;
-	  }
-      }
-      break;
     }
 
   return 0;
@@ -271,35 +233,6 @@ glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
   g_assert (object != NULL);
 
   return 0;
-}
-
-void
-glclock::menu_quit(gpointer, guint, GtkWidget *)
-{
-  gtk_main_quit ();
-}
-
-void
-glclock::menu_about(gpointer data, guint, GtkWidget *)
-{
-  glclock *object = static_cast<glclock *>(data);
-
-  about_dialog about(gtk_widget_get_toplevel(object->menu_parent));
-  about.show();
-}
-
-void
-glclock::edit_options(gpointer data, guint, GtkWidget *)
-{
-  glclock *object = static_cast <glclock *> (data);
-
-  clock_options_dialog dialog(object);
-  GtkWidget *widget = dialog.create_widget();
-  gtk_window_set_transient_for(GTK_WINDOW(widget),
-			       GTK_WINDOW(gtk_widget_get_toplevel(object->menu_parent)));
-  gtk_widget_show(widget);
-  gtk_main();
-  gtk_widget_destroy(widget);
 }
 
 void

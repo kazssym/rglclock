@@ -1,5 +1,11 @@
 1999-05-04  Kaz Sasayama  <Kaz.Sasayama@hypercore.co.jp>
 
+	* glclock.cc (glclock): Remove creation of a item factory.
+	(handle_button_event): Remove the case for button-3.
+	(menu_quit, menu_about, edit_options): Removed.
+
+	* glclock.h (class glclock): Remove members for the popup menu.
+
 	* main.cc (edit_options, describe): New function.
 	(create_widget): Modify the menu.
 

@@ -27,7 +27,6 @@
 
 #include "options.h"
 #include "gdkgl.h"
-#include <gtk/gtkitemfactory.h>
 #include <gtk/gtkwidget.h>
 #include <gdk/gdktypes.h>
 #include <time.h>
@@ -45,12 +44,8 @@ protected:
   static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
   static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
   static gint update (gpointer);
-  static void edit_options(gpointer, guint, GtkWidget *);
-  static void menu_about(gpointer, guint, GtkWidget *);
-  static void menu_quit(gpointer, guint, GtkWidget *);
 private:
   module *m;
-  GtkItemFactory *menu_factory;
   int timeout_rate;
   guint timeout_id;
   GdkGLContext *context;
