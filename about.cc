@@ -33,23 +33,8 @@
 # include <gdk/gdkx.h>
 #endif
 
-#ifdef ENABLE_TRANSIENT_FOR_HINT
-
-static gint
-handle_configure_event(GtkWidget *widget, GdkEventConfigure *event,
-		       gpointer opaque)
-{
-  GtkWidget *par = static_cast <GtkWidget *> (opaque);
-  GdkWindow *w = widget->window;
-
-  XSetTransientForHint(GDK_WINDOW_XDISPLAY(w), GDK_WINDOW_XWINDOW(w),
-		       GDK_WINDOW_XWINDOW(par->window));
-
-  return 0;
-}
-
-#endif /* ENABLE_TRANSIENT_FOR_HINT */
-
+/* Shows this about dialog and wait.  PARENT will become insensible
+   while this dialog is shown.  */
 void
 about_dialog::show(GtkWidget *parent)
 {
@@ -123,10 +108,30 @@ about_dialog::handle_ok(GtkWidget *dialog,
 
 /* Handles delete events on the dialog.  */
 gint
-about_dialog::handle_delete_event(GtkWidget *dialog, GdkEventAny *event,
+about_dialog::handle_delete_event(GtkWidget *dialog,
+				  GdkEventAny *event,
 				  gpointer data)
 {
   gtk_main_quit();
   return 1;
+}
+
+gint
+about_dialog::handle_configure_event(GtkWidget *dialog,
+				     GdkEventConfigure *event,
+				     gpointer data)
+{
+  GtkWidget *par = static_cast <GtkWidget *> (data);
+
+#ifdef ENABLE_TRANSIENT_FOR_HINT
+  if (par != NULL)
+    {
+      GdkWindow *w = dialog->window;
+      XSetTransientForHint(GDK_WINDOW_XDISPLAY(w), GDK_WINDOW_XWINDOW(w),
+			   GDK_WINDOW_XWINDOW(par->window));
+    }
+#endif /* ENABLE_TRANSIENT_FOR_HINT */
+
+  return 0;
 }
 

@@ -72,6 +72,7 @@ protected:
   static void populate(GtkWidget *);
   static void handle_ok(GtkWidget *, gpointer);
   static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
+  static gint handle_configure_event(GtkWidget *, GdkEventConfigure *, gpointer);
 public:
   about_dialog();
   ~about_dialog();
