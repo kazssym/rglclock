@@ -1,6 +1,6 @@
 /* -*-C++-*- */
 /* rglclock - Rotating GL Clock.
-   Copyright (C) 1998 Hypercore Software Design, Ltd.
+   Copyright (C) 1998, 1999 Hypercore Software Design, Ltd.
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -17,8 +17,8 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
    02111-1307, USA.  */
 
-#ifndef glclock_h
-#define glclock_h 1
+#ifndef GLCLOCK_H
+#define GLCLOCK_H 1
 
 #include "gdkgl.h"
 #include <gtk/gtkmenufactory.h>
@@ -63,6 +63,22 @@ private:
   menu_listener about;
 };
 
-void show_about(GtkWidget *);
+/* The about dialog.  */
+class about_dialog
+{
+private:
+  GtkWidget *parent_widget;
+  GtkWidget *dialog;
+protected:
+  static void populate(GtkWidget *);
+  static void handle_ok(GtkWidget *, gpointer);
+  static gint handle_delete_event(GtkWidget *, GdkEventAny *, gpointer);
+  static gint handle_configure_event(GtkWidget *, GdkEventConfigure *, gpointer);
+public:
+  explicit about_dialog(GtkWidget *parent);
+  ~about_dialog();
+public:
+  void show();
+};
 
-#endif /* not glclock_h */
+#endif /* not GLCLOCK_H */
