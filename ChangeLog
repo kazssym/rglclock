@@ -1,5 +1,10 @@
 2007-05-04  gettextize  <bug-gnu-gettext@gnu.org>
 
+	* Makefile.am (SUBDIRS): Add intl.
+	* configure.in (AC_OUTPUT): Add intl/Makefile.
+
+2007-05-04  gettextize  <bug-gnu-gettext@gnu.org>
+
 	* Makefile.am (SUBDIRS): Remove intl.
 	(ACLOCAL_AMFLAGS): New variable.
 	(EXTRA_DIST): Add config.rpath, m4/ChangeLog.
