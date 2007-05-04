@@ -40,7 +40,7 @@ namespace
 {
 #ifdef HAVE_GNOME_XML_PARSER_H
   class xmlNode_iterator
-    : public bidirectional_iterator<xmlNode, ptrdiff_t>
+    : public iterator <bidirectional_iterator_tag, xmlNode>
   {
     friend bool operator==(const xmlNode_iterator &a,
 			   const xmlNode_iterator &b)

@@ -1,12 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) YEAR Hypercore Software Design, Ltd.
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-05-02 20:33+0900\n"
+"Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
+"POT-Creation-Date: 2007-05-04 20:44+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,12 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Label for the OK button.
 #: lib/options.cc:179 programs/main.cc:209
 msgid "OK"
 msgstr ""
 
-#. Label for the Cancel button.
 #: lib/options.cc:190
 msgid "Cancel"
 msgstr ""
@@ -32,7 +32,6 @@ msgstr ""
 msgid "Update rate: "
 msgstr ""
 
-#. Unit name for update rate
 #: lib/clockoptions.cc:127
 msgid "Hz"
 msgstr ""
@@ -45,7 +44,6 @@ msgstr ""
 msgid "Select..."
 msgstr ""
 
-#. Label for the General page.
 #: lib/clockoptions.cc:171
 msgid "General"
 msgstr ""
@@ -93,30 +91,37 @@ msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
 #: programs/main.cc:383
+#, c-format
 msgid "Display a rotating 3D clock.\n"
 msgstr ""
 
 #: programs/main.cc:385
+#, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr ""
 
 #: programs/main.cc:386
+#, c-format
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr ""
 
 #: programs/main.cc:387
+#, c-format
 msgid "      --no-options      start without restoring options\n"
 msgstr ""
 
 #: programs/main.cc:388
+#, c-format
 msgid "      --help            display this help and exit\n"
 msgstr ""
 
 #: programs/main.cc:389
+#, c-format
 msgid "      --version         output version information and exit\n"
 msgstr ""
 
 #: programs/main.cc:391
+#, c-format
 msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
 msgstr ""
 

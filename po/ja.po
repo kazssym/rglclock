@@ -4,7 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
-"POT-Creation-Date: 2002-05-02 20:33+0900\n"
+"Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
+"POT-Creation-Date: 2007-05-04 20:44+0900\n"
 "PO-Revision-Date: 2000-12-10 21:49+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.hypercore.co.jp>\n"
@@ -12,12 +13,10 @@ msgstr ""
 "Content-Type: text/plain; charset=euc-jp\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Label for the OK button.
 #: lib/options.cc:179 programs/main.cc:209
 msgid "OK"
 msgstr "OK"
 
-#. Label for the Cancel button.
 #: lib/options.cc:190
 msgid "Cancel"
 msgstr "キャンセル"
@@ -30,7 +29,6 @@ msgstr "オプション"
 msgid "Update rate: "
 msgstr "更新レート: "
 
-#. Unit name for update rate
 #: lib/clockoptions.cc:127
 msgid "Hz"
 msgstr "Hz"
@@ -43,7 +41,6 @@ msgstr "テクスチャマッピング: "
 msgid "Select..."
 msgstr "選択..."
 
-#. Label for the General page.
 #: lib/clockoptions.cc:171
 msgid "General"
 msgstr "一般"
@@ -94,30 +91,37 @@ msgid "Usage: %s [OPTION]...\n"
 msgstr "使用法: %s [オプション]...\n"
 
 #: programs/main.cc:383
+#, c-format
 msgid "Display a rotating 3D clock.\n"
 msgstr "自転する3D時計を表示します。\n"
 
 #: programs/main.cc:385
+#, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   メニューバーを隠す\n"
 
 #: programs/main.cc:386
+#, c-format
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr "      --private-colormap プライベートカラーマップを割り当てる\n"
 
 #: programs/main.cc:387
+#, c-format
 msgid "      --no-options      start without restoring options\n"
 msgstr "      --no-options      オプションを再設定しないで起動する\n"
 
 #: programs/main.cc:388
+#, c-format
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            このヘルプを表示して終了する\n"
 
 #: programs/main.cc:389
+#, c-format
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
 #: programs/main.cc:391
+#, c-format
 msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
 msgstr ""
 "バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
