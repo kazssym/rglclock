@@ -1,3 +1,10 @@
+2007-05-04  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath, m4/ChangeLog.
+	* configure.in (AC_OUTPUT): Remove intl/Makefile.
+
 2002-05-02  Kaz Sasayama  <Kaz.Sasayama@Hypercore.co.jp>
 
 	* Version 1.4.1.

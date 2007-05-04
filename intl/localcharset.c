@@ -1,1 +1,0 @@
-/usr/share/gettext/intl/localcharset.c

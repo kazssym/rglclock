@@ -1,1 +1,0 @@
-/usr/share/gettext/intl/ngettext.c

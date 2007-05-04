@@ -1,5 +1,7 @@
 ## Process this file with automake to produce a Makefile.in.
 
-EXTRA_DIST = README.ja MEMO.ja
+ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = intl include lib modules programs doc po
+EXTRA_DIST = config.rpath m4/ChangeLog  README.ja MEMO.ja
+
+SUBDIRS = include lib modules programs doc po
