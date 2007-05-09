@@ -1,4 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
+AC_PREREQ([2.61])
 AC_INIT([RGLClock], [1.4.1], [rglclock@lists.yaromai.net], [rglclock])
 AC_CONFIG_SRCDIR([lib/glclock.cc])
 AC_CONFIG_HEADER([config.h])
@@ -8,6 +9,8 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_RANLIB
+AC_PROG_CC_STDC
+AC_USE_SYSTEM_EXTENSIONS
 
 dnl Checks for libraries.
 AC_CHECK_LIB([z], [deflate])
@@ -22,13 +25,14 @@ AC_CHECK_LIB([nana], [_I_default_handler])
 
 dnl Checks for header files.
 AC_HEADER_STDC
+AC_HEADER_STDBOOL
+AC_HEADER_ASSERT
 AC_CHECK_HEADERS([unistd.h sys/time.h png.h gnome-xml/parser.h])
 AC_CHECK_HEADERS([nana.h])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_STRUCT_TM
 AC_HEADER_TIME
-AC_C_CONST
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS([asprintf gettimeofday mkdir])

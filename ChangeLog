@@ -1,3 +1,10 @@
+2007-05-09  Kaz Sasayama  <kazssym@yaromai.net>
+
+	* programs/profile.cc (class xmlNode_iterator): Changed base class.
+
+	* configure.ac: Renamed from configure.in and updated for recent
+	Autoconf and Automake.
+
 2007-05-04  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.am (SUBDIRS): Add intl.
