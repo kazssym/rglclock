@@ -5,11 +5,15 @@ AC_PREREQ([2.57])
 AC_INIT([RGLClock], [1.5.1], [rglclock@lists.yaromai.net], [rglclock])
 AC_CONFIG_SRCDIR([glclock.cc])
 AM_INIT_AUTOMAKE
+dnl For compatibility only
+MKINSTALLDIRS=$srcdir'/install-sh -d'
+AC_SUBST([MKINSTALLDIRS])
 
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
 AC_USE_SYSTEM_EXTENSIONS
+AC_PROG_RANLIB
 
 # Checks for libraries.
 AC_CHECK_LIB([m], [sqrt])
