@@ -1,16 +1,15 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.61])
-AC_INIT([RGLClock], [1.4.1], [rglclock@lists.yaromai.net], [rglclock])
+AC_INIT([RGLClock], [2.0.0], [rglclock@lists.yaromai.net], [rglclock])
 AC_CONFIG_SRCDIR([lib/glclock.cc])
-AC_CONFIG_HEADER([config.h])
-AM_INIT_AUTOMAKE([1.9])
+AM_INIT_AUTOMAKE
 
 dnl Checks for programs.
 AC_PROG_CC
-AC_PROG_CXX
-AC_PROG_RANLIB
 AC_PROG_CC_STDC
+AC_PROG_CXX
 AC_USE_SYSTEM_EXTENSIONS
+AC_PROG_LIBTOOL
 
 dnl Checks for libraries.
 AC_CHECK_LIB([z], [deflate])
@@ -42,4 +41,5 @@ AM_GNU_GETTEXT([no-libtool])
 AC_CONFIG_FILES([Makefile intl/Makefile \
 include/Makefile lib/Makefile modules/Makefile programs/Makefile \
 doc/Makefile po/Makefile.in])
+AC_CONFIG_HEADER([config.h])
 AC_OUTPUT
