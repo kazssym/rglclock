@@ -40,14 +40,19 @@ namespace
 {
 #ifdef HAVE_GNOME_XML_PARSER_H
   class xmlNode_iterator
-    : public bidirectional_iterator<xmlNode, ptrdiff_t>
   {
     friend bool operator==(const xmlNode_iterator &a,
 			   const xmlNode_iterator &b)
-      {return a.ptr == b.ptr;}
+    {return a.ptr == b.ptr;}
     friend bool operator!=(const xmlNode_iterator &a,
 			   const xmlNode_iterator &b)
     {return a.ptr != b.ptr;}
+  public:
+    typedef bidirectional_iterator_tag iterator_category;
+    typedef xmlNode value_type;
+    typedef ptrdiff_t difference_type;
+    typedef xmlNode *pointer;
+    typedef xmlNode &reference;
   private:
     xmlNode *ptr;
   public:
@@ -57,20 +62,20 @@ namespace
       : ptr(p) {}
   public:
     xmlNode &operator*() const
-      {return *ptr;}
+    {return *ptr;}
     xmlNode *operator->() const
-      {return ptr;}
+    {return ptr;}
     xmlNode_iterator &operator++()
-      {ptr = ptr->next; return *this;}
+    {ptr = ptr->next; return *this;}
     xmlNode_iterator operator++(int)
-      {xmlNode_iterator tmp = *this; ++*this; return tmp;}
+    {xmlNode_iterator tmp = *this; ++*this; return tmp;}
     xmlNode_iterator &operator--()
-      {ptr = ptr->prev; return *this;}
+    {ptr = ptr->prev; return *this;}
     xmlNode_iterator operator--(int)
-      {xmlNode_iterator tmp = *this; --*this; return tmp;}
+    {xmlNode_iterator tmp = *this; --*this; return tmp;}
   };
 #endif /* HAVE_GNOME_XML_PARSER_H */
-} // (unnamed namespace)
+}
 
 void
 profile::options_changed(glclock *clock)

@@ -1,3 +1,17 @@
+2003-10-12  Kaz Sasayama  <kazssym@yaromai.net>
+
+	* POTFILES.in: Add files.  Also update *.po.
+
+2003-08-09  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2003-08-09  Kaz Sasayama  <kaz2003@hypercore.co.jp>
+
+	* POTFILES.in: Update file names.
+
+	* ja.po: Change charset to UTF-8.
+
 2002-04-23  gettextize  <bug-gnu-utils@gnu.org>
 
 	* Makefile.in.in: Upgrade to gettext-0.10.40.

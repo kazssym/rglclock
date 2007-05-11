@@ -1,5 +1,8 @@
+rglclock.cpp
+profile.cpp
+getopt.c
+getopt1.c
 clockoptions.cc
-main.cc
 glclock.cc
 options.cc
 about.cc
