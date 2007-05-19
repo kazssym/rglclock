@@ -1,14 +1,32 @@
+2007-05-19  Kaz Sasayama  <kazssym@yaromai.net>
+
+	* programs/rglclock.cpp: Rename from main.cc.
+	* programs/profile.cpp: Rename from profile.cc.
+
+	* programs/Makefile.am (AM_CPPFLAGS): Renamed from INCLUDES and
+	added new -I options.
+	(rglclock_SOURCES): Removed getopt.c and getopt1.c.
+	(noinst_HEADERS): Removed getopt.h.
+
+	* modules/Makefile.am (LIBS): Added.
+	(AM_CPPFLAGS): Added.
+	(modules_LTLIBRARIES): Added.
+	(plain_la_LDFLAGS): Added.
+	(plain_la_SOURCES): Added.
+	(plain_la_LIBADD): Added.
+
+	* Makefile.am (ACLOCAL_AMFLAGS): Added '-I libgnu/m4'.
+	(EXTRA_DIST): Removed m4/ChangeLog.
+	(SUBDIRS): Added $(subdirs).
+
+	* configure.ac: Added libltdl and gnulib.
+
 2007-05-09  Kaz Sasayama  <kazssym@yaromai.net>
 
 	* programs/profile.cc (class xmlNode_iterator): Changed base class.
 
 	* configure.ac: Renamed from configure.in and updated for recent
 	Autoconf and Automake.
-
-2007-05-04  gettextize  <bug-gnu-gettext@gnu.org>
-
-	* Makefile.am (SUBDIRS): Add intl.
-	* configure.in (AC_OUTPUT): Add intl/Makefile.
 
 2007-05-04  gettextize  <bug-gnu-gettext@gnu.org>
 

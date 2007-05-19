@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-05-04 20:44+0900\n"
+"POT-Creation-Date: 2007-05-19 17:44+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/options.cc:179 programs/main.cc:209
+#: lib/options.cc:179 programs/rglclock.cpp:191
 msgid "OK"
 msgstr ""
 
@@ -48,84 +48,79 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: programs/main.cc:128
+#: programs/rglclock.cpp:110
 #, c-format
 msgid "About %s"
 msgstr ""
 
-#: programs/main.cc:168
+#: programs/rglclock.cpp:150
 #, c-format
 msgid "Copyright (C) %s Hypercore Software Design, Ltd."
 msgstr ""
 
-#: programs/main.cc:187
+#: programs/rglclock.cpp:169
 msgid ""
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY; not even for MERCHANTABILITY\n"
 "or FITNESS FOR A PARTICULAR PURPOSE."
 msgstr ""
 
-#: programs/main.cc:199
+#: programs/rglclock.cpp:181
 msgid "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
 msgstr ""
 
-#: programs/main.cc:274
+#: programs/rglclock.cpp:253
 msgid "/_File/_Options..."
 msgstr ""
 
-#: programs/main.cc:276
+#: programs/rglclock.cpp:255
 msgid "/_File/"
 msgstr ""
 
-#: programs/main.cc:277
+#: programs/rglclock.cpp:256
 msgid "/_File/E_xit"
 msgstr ""
 
-#: programs/main.cc:279
+#: programs/rglclock.cpp:258
 msgid "/_Help/_About..."
 msgstr ""
 
-#: programs/main.cc:382
+#: programs/rglclock.cpp:359
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: programs/main.cc:383
+#: programs/rglclock.cpp:360
 #, c-format
-msgid "Display a rotating 3D clock.\n"
+msgid "Display a 3D rotating clock.\n"
 msgstr ""
 
-#: programs/main.cc:385
+#: programs/rglclock.cpp:362
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr ""
 
-#: programs/main.cc:386
+#: programs/rglclock.cpp:363
 #, c-format
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr ""
 
-#: programs/main.cc:387
+#: programs/rglclock.cpp:364
 #, c-format
 msgid "      --no-options      start without restoring options\n"
 msgstr ""
 
-#: programs/main.cc:388
+#: programs/rglclock.cpp:365
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr ""
 
-#: programs/main.cc:389
+#: programs/rglclock.cpp:366
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr ""
 
-#: programs/main.cc:391
+#: programs/rglclock.cpp:368
 #, c-format
-msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
-msgstr ""
-
-#: programs/main.cc:464
-#, c-format
-msgid "%s: Unhandled exception: %s\n"
+msgid "Report bugs to <%s>.\n"
 msgstr ""

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 1.3\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-05-04 20:44+0900\n"
+"POT-Creation-Date: 2007-05-19 17:44+0900\n"
 "PO-Revision-Date: 2000-12-10 21:49+09:00\n"
 "Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.hypercore.co.jp>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=euc-jp\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/options.cc:179 programs/main.cc:209
+#: lib/options.cc:179 programs/rglclock.cpp:191
 msgid "OK"
 msgstr "OK"
 
@@ -45,17 +45,17 @@ msgstr "選択..."
 msgid "General"
 msgstr "一般"
 
-#: programs/main.cc:128
+#: programs/rglclock.cpp:110
 #, c-format
 msgid "About %s"
 msgstr "%sのバージョン情報"
 
-#: programs/main.cc:168
+#: programs/rglclock.cpp:150
 #, c-format
 msgid "Copyright (C) %s Hypercore Software Design, Ltd."
 msgstr "Copyright (C) %s 有限会社ハイパーコア"
 
-#: programs/main.cc:187
+#: programs/rglclock.cpp:169
 msgid ""
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY; not even for MERCHANTABILITY\n"
@@ -65,71 +65,72 @@ msgstr ""
 "There is NO WARRANTY; not even for MERCHANTABILITY\n"
 "or FITNESS FOR A PARTICULAR PURPOSE."
 
-#: programs/main.cc:199
+#: programs/rglclock.cpp:181
 msgid "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
 msgstr "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
 
-#: programs/main.cc:274
+#: programs/rglclock.cpp:253
 msgid "/_File/_Options..."
 msgstr "/ファイル(_F)/オプション(_O)..."
 
-#: programs/main.cc:276
+#: programs/rglclock.cpp:255
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
-#: programs/main.cc:277
+#: programs/rglclock.cpp:256
 msgid "/_File/E_xit"
 msgstr "/ファイル(_F)/終了(_X)"
 
-#: programs/main.cc:279
+#: programs/rglclock.cpp:258
 msgid "/_Help/_About..."
 msgstr "/ヘルプ(_H)/バージョン情報(_A)..."
 
-#: programs/main.cc:382
+#: programs/rglclock.cpp:359
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr "使用法: %s [オプション]...\n"
 
-#: programs/main.cc:383
-#, c-format
-msgid "Display a rotating 3D clock.\n"
+#: programs/rglclock.cpp:360
+#, fuzzy, c-format
+msgid "Display a 3D rotating clock.\n"
 msgstr "自転する3D時計を表示します。\n"
 
-#: programs/main.cc:385
+#: programs/rglclock.cpp:362
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   メニューバーを隠す\n"
 
-#: programs/main.cc:386
+#: programs/rglclock.cpp:363
 #, c-format
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr "      --private-colormap プライベートカラーマップを割り当てる\n"
 
-#: programs/main.cc:387
+#: programs/rglclock.cpp:364
 #, c-format
 msgid "      --no-options      start without restoring options\n"
 msgstr "      --no-options      オプションを再設定しないで起動する\n"
 
-#: programs/main.cc:388
+#: programs/rglclock.cpp:365
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            このヘルプを表示して終了する\n"
 
-#: programs/main.cc:389
+#: programs/rglclock.cpp:366
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
-#: programs/main.cc:391
+#: programs/rglclock.cpp:368
 #, c-format
-msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
+msgid "Report bugs to <%s>.\n"
 msgstr ""
-"バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
 
-#: programs/main.cc:464
-#, c-format
-msgid "%s: Unhandled exception: %s\n"
-msgstr "%s: 処理されなかった例外: %s\n"
+#~ msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
+#~ msgstr ""
+#~ "バグを見付けたら <rglclock@lists.hypercore.co.jp> に報告してください。\n"
+
+#~ msgid "%s: Unhandled exception: %s\n"
+#~ msgstr "%s: 処理されなかった例外: %s\n"
 
 #~ msgid ""
 #~ "%s %s\n"
