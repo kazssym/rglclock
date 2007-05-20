@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.61])
 AC_INIT([RGLClock], [2.0.0], [rglclock@lists.yaromai.net], [rglclock])
 AC_CONFIG_SRCDIR([lib/glclock.cc])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([1.9])
 AC_LIBTOOL_DLOPEN
 AC_LIBLTDL_INSTALLABLE
 
