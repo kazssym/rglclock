@@ -7,6 +7,8 @@ AM_CPPFLAGS = -I ../libgnu -I $(top_srcdir)/libgnu -I $(top_srcdir)/include \
 
 bin_PROGRAMS = rglclock
 
+rglclock_LDFLAGS = -dlopen ../modules/libplain.la
+
 rglclock_SOURCES = rglclock.cpp about.cpp profile.cpp
 rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a \
 	../lib/libutils.a ../libgnu/libgnu.la \
