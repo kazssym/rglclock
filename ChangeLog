@@ -1,5 +1,7 @@
 2007-05-20  Kaz Sasayama  <kazssym@yaromai.net>
 
+	* Migrated to GTK+ version 2.0 or later.
+
 	* programs/rglclock.cpp (show_about_dialog): Rewrote using
 	about_dialog.
 
