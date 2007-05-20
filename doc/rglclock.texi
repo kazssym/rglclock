@@ -8,6 +8,8 @@
 @c Please send any bug reports, improvements, comments, 
 @c patches, etc. to Steve Cheng <steve@ggi-project.org>.
 
+@include version.texi
+
 @titlepage
 @title rglclock
 @subtitle Rotating 3D Clock Program
