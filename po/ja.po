@@ -1,12 +1,15 @@
-# ja.po - Japanese message catalogue for rglclock
-# Copyright (C) 1999, 2000 Hypercore Software Design, Ltd.
+# Japanese message catalogue for RGLClock
+# Copyright (C) 1999, 2000, 2007 Hypercore Software Design, Ltd.
+#
+# This file is distributed under the same license as the RGLClock package.
+# Kaz Sasayama <kazssym@hypercore.co.jp>, 1999.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: RGLClock 2.0.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
 "POT-Creation-Date: 2007-05-20 09:32+0900\n"
-"PO-Revision-Date: 2007-05-20 00:43+0900\n"
+"PO-Revision-Date: 2007-05-20 09:39+0900\n"
 "Last-Translator: Kaz Sasayama <kazssym@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.yaromai.net>\n"
 "MIME-Version: 1.0\n"
