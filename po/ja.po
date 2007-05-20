@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RGLClock 2.0.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-05-20 00:01+0900\n"
+"POT-Creation-Date: 2007-05-20 09:32+0900\n"
 "PO-Revision-Date: 2007-05-20 00:43+0900\n"
 "Last-Translator: Kaz Sasayama <kazssym@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.yaromai.net>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=SHIFT_JIS\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/options.cc:179 programs/about.cpp:126
+#: lib/options.cc:179 programs/about.cpp:128
 msgid "OK"
 msgstr "OK"
 
@@ -45,68 +45,68 @@ msgstr "選択..."
 msgid "General"
 msgstr "一般"
 
-#: programs/rglclock.cpp:134
+#: programs/rglclock.cpp:133
 msgid "/_File/_Options..."
 msgstr "/ファイル(_F)/オプション(_O)..."
 
-#: programs/rglclock.cpp:136
+#: programs/rglclock.cpp:135
 msgid "/_File/"
 msgstr "/ファイル(_F)/"
 
-#: programs/rglclock.cpp:137
+#: programs/rglclock.cpp:136
 msgid "/_File/E_xit"
 msgstr "/ファイル(_F)/終了(_X)"
 
-#: programs/rglclock.cpp:139
+#: programs/rglclock.cpp:138
 msgid "/_Help/_About..."
 msgstr "/ヘルプ(_H)/バージョン情報(_A)..."
 
-#: programs/rglclock.cpp:253
+#: programs/rglclock.cpp:250
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr "臥用法: %s [オプション]...\n"
 
-#: programs/rglclock.cpp:254
+#: programs/rglclock.cpp:251
 #, c-format
 msgid "Display a 3D rotating clock.\n"
 msgstr "3Dで自転する時計を表示します。\n"
 
-#: programs/rglclock.cpp:256
+#: programs/rglclock.cpp:253
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   メニューバーを隠す\n"
 
-#: programs/rglclock.cpp:257
+#: programs/rglclock.cpp:254
 #, c-format
 msgid "      --private-colormap allocate a private colormap\n"
 msgstr "      --private-colormap プライベートカラーマップを割り当てる\n"
 
-#: programs/rglclock.cpp:258
+#: programs/rglclock.cpp:255
 #, c-format
 msgid "      --no-options      start without restoring options\n"
 msgstr "      --no-options      オプションを再設定しないで起動する\n"
 
-#: programs/rglclock.cpp:259
+#: programs/rglclock.cpp:256
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            このヘルプを表襖して終了する\n"
 
-#: programs/rglclock.cpp:260
+#: programs/rglclock.cpp:257
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
-#: programs/rglclock.cpp:262
+#: programs/rglclock.cpp:259
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 
-#: programs/about.cpp:78
+#: programs/about.cpp:80
 #, c-format
 msgid "About %s"
 msgstr "%sのバージョン情報"
 
-#: programs/about.cpp:92
+#: programs/about.cpp:94
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -115,7 +115,7 @@ msgstr ""
 "%s バージョン%s\n"
 "Copyright (C) 1998, 2000, 2007 有限会社ハイパーコア"
 
-#: programs/about.cpp:105
+#: programs/about.cpp:107
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the GNU General Public License as publishd by the Free Software "
@@ -123,7 +123,7 @@ msgid ""
 "version."
 msgstr ""
 
-#: programs/about.cpp:117
+#: programs/about.cpp:119
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr ""
