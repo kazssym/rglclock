@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RGLClock 2.0.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-05-20 09:57+0900\n"
+"POT-Creation-Date: 2007-05-20 11:40+0900\n"
 "PO-Revision-Date: 2007-05-20 09:58+0900\n"
 "Last-Translator: Kaz Sasayama <kazssym@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.yaromai.net>\n"
@@ -99,17 +99,12 @@ msgstr "      --help            このヘルプを表襖して終了する\n"
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
-#: programs/rglclock.cpp:262
+#: programs/rglclock.cpp:262 programs/about.cpp:119
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs to <%s>."
 msgstr ""
 
-#: programs/about.cpp:79
-#, c-format
-msgid "About %s"
-msgstr "%sのバージョン情報"
-
-#: programs/about.cpp:94
+#: programs/rglclock.cpp:300 programs/about.cpp:94
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -118,15 +113,15 @@ msgstr ""
 "%s バージョン%s\n"
 "Copyright (C) 1998, 1999, 2000, 2002, 2007 有限会社ハイパーコア"
 
+#: programs/about.cpp:79
+#, c-format
+msgid "About %s"
+msgstr "%sのバージョン情報"
+
 #: programs/about.cpp:107
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the GNU General Public License as publishd by the Free Software "
 "Foundation; either version 2 of the License, or (at your option) any later "
 "version."
-msgstr ""
-
-#: programs/about.cpp:119
-#, c-format
-msgid "Report bugs to <%s>."
 msgstr ""

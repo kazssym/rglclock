@@ -258,8 +258,8 @@ namespace
         printf (_ ("      --no-options      start without restoring options\n"));
         printf (_ ("      --help            display this help and exit\n"));
         printf (_ ("      --version         output version information and exit\n"));
-        printf ("\n");
-        printf (_ ("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
+        puts ("\n");
+        printf (_ ("Report bugs to <%s>."), PACKAGE_BUGREPORT);
     }
 
     void parse_gtkrcs ()
@@ -291,19 +291,24 @@ int main (int argc, char **argv)
 
     /* Initialize NLS.  */
 #ifdef LOCALEDIR
-    bindtextdomain (PACKAGE, LOCALEDIR);
+    bindtextdomain (PACKAGE_TARNAME, LOCALEDIR);
 #endif
-    textdomain (PACKAGE);
+    textdomain (PACKAGE_TARNAME);
 
     if (opt_version)
     {
-        printf ("%s %s\n", PACKAGE_NAME, PACKAGE_VERSION);
+        printf (_ ("%s version %s\n"
+                   "Copyright (C) 1998, 1999, 2000, 2002, 2007 "
+                   "Hypercore Software Design, Ltd."),
+                PACKAGE_NAME, PACKAGE_VERSION);
+        puts ("\n");
         return EXIT_SUCCESS;
     }
 
     if (opt_help)
     {
         display_help (argv[0]);
+        puts ("\n");
         return EXIT_SUCCESS;
     }
 
