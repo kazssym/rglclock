@@ -121,7 +121,7 @@ GtkWidget *clock_app::create_window ()
                             GTK_SIGNAL_FUNC (gtk_main_quit), this);
 
         GtkAccelGroup *ag = gtk_accel_group_new ();
-        gtk_accel_group_attach (ag, GTK_OBJECT (main_window));
+        gtk_window_add_accel_group (GTK_WINDOW (main_window), ag);
 
         {
             GtkObject_ptr<GtkWidget> box1 (gtk_vbox_new (FALSE, 0));
@@ -289,11 +289,13 @@ int main (int argc, char **argv)
         return EXIT_FAILURE;
     }
 
+#if ENABLE_NLS
     /* Initialize NLS.  */
 #ifdef LOCALEDIR
-    bindtextdomain (PACKAGE_TARNAME, LOCALEDIR);
+    bindtextdomain (PACKAGE, LOCALEDIR);
 #endif
-    textdomain (PACKAGE_TARNAME);
+    textdomain (PACKAGE);
+#endif
 
     if (opt_version)
     {
@@ -317,18 +319,12 @@ int main (int argc, char **argv)
     clock_app app;
 
     GtkWidget *toplevel = app.create_window ();
-    try
-    {
-        gtk_widget_show (toplevel);
+    gtk_object_ref (GTK_OBJECT (toplevel));
+    gtk_widget_show (toplevel);
 
-        gtk_main ();
-    }
-    catch (...)
-    {
-        gtk_widget_destroy (toplevel);
-        throw;
-    }
-    gtk_widget_destroy (toplevel);
+    gtk_main ();
+
+    gtk_object_destroy (GTK_OBJECT (toplevel));
 
     return EXIT_SUCCESS;
 }

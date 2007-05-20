@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.61])
 AC_INIT([RGLClock], [2.0.0], [rglclock@lists.yaromai.net], [rglclock])
 AC_CONFIG_SRCDIR([lib/glclock.cc])
-AM_INIT_AUTOMAKE([1.9])
+AM_INIT_AUTOMAKE([1.9.0])
 AC_LIBTOOL_DLOPEN
 AC_LIBLTDL_INSTALLABLE
 
@@ -19,7 +19,7 @@ AC_CHECK_LIB([z], [deflate])
 AC_CHECK_LIB([xml], [xmlParseDocument])
 AC_CHECK_LIB([png], [png_create_read_struct], [PNG_LIBS="-lpng -lz"], [-lz])
 AC_SUBST([PNG_LIBS])dnl
-AM_PATH_GTK([1.2.0])
+AM_PATH_GTK_2_0([2.8.0])
 AC_CHECK_LIB([GL], [glClear], [GL_LIBS="-lGL $GL_LIBS"],, [$GL_LIBS $GTK_LIBS])
 AC_CHECK_LIB([GLU], [gluLookAt], [GL_LIBS="-lGLU $GL_LIBS"],, [$GL_LIBS $GTK_LIBS])
 AC_SUBST([GL_LIBS])dnl

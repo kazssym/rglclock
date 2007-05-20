@@ -97,7 +97,7 @@ clock_options_dialog::general_options_page::apply(GtkWidget *widget)
     I(data != NULL);
     GtkWidget *texture_file_entry = GTK_WIDGET(data);
 
-    gchar *name = gtk_entry_get_text(GTK_ENTRY(texture_file_entry));
+    const gchar *name = gtk_entry_get_text(GTK_ENTRY(texture_file_entry));
     target->set_module_prop("texture_file", name);
   }
 }

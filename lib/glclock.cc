@@ -71,6 +71,7 @@ glclock::create_widget()
 {
   GtkWidget *drawing_area = gtk_drawing_area_new();
   gtk_drawing_area_size(GTK_DRAWING_AREA(drawing_area), 160, 160);
+  gtk_widget_set_double_buffered (drawing_area, false);
   gtk_signal_connect(GTK_OBJECT(drawing_area), "destroy",
 		     GTK_SIGNAL_FUNC(remove_widget), this);
   gtk_widget_set_events(drawing_area,

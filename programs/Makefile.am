@@ -1,7 +1,7 @@
 ## Process this file with automake to produce a Makefile.in.
 
 AM_CPPFLAGS = -I ../libgnu -I $(top_srcdir)/libgnu -I $(top_srcdir)/include \
-	-DPKGDATADIR=\"${pkgdatadir}\" -DLOCALEDIR=\"${datadir}/locale\" \
+	-DPKGDATADIR=\"${pkgdatadir}\" -DLOCALEDIR=\"$(localedir)\" \
 	-DOPTIONS_DTD=\"${pkgdatadir}/options-0.dtd\" \
 	$(GTK_CFLAGS) $(LTDL_CPPFLAGS)
 
