@@ -20,7 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
+#if HAVE_CONFIG_H
 #include <config.h>
 #endif
 
@@ -30,8 +30,7 @@
 #include "autowidget.h"
 #include <gtk/gtk.h>
 #include <getopt.h>
-#include <libintl.h>
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #include <sys/stat.h>
@@ -43,10 +42,14 @@
 
 #include "about.h"
 
-using std::string;
-using about::about_dialog;
+#if ENABLE_NLS
+#include <libintl.h>
+#define _(t) gettext (t)
+#else
+#define _(t) (t)
+#endif
 
-#define _(MSG) gettext (MSG)
+using std::string;
 
 /* Clock application.  */
 class clock_app

@@ -36,7 +36,7 @@ dnl Checks for library functions.
 AC_CHECK_FUNCS([asprintf gettimeofday mkdir])
 
 gl_INIT
-ALL_LINGUAS="ja"
+ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
 LTDL_CPPFLAGS="$INCLTDL"
 AC_SUBST([LTDL_CPPFLAGS])dnl

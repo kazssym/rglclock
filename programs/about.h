@@ -26,33 +26,30 @@
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkwindow.h>
 
-namespace about
+class about_dialog
 {
-    class about_dialog
+private:
+    GtkWidget *dialog;
+    GtkWidget *label1;
+    GtkWidget *label2;
+    GtkWidget *label3;
+    GtkWidget *ok_button;
+
+public:
+    explicit about_dialog (GtkWindow *parent);
+    about_dialog (const about_dialog &);
+
+public:
+    virtual ~about_dialog ();
+
+    GtkWidget *to_widget () const
     {
-    private:
-        GtkWidget *dialog;
-        GtkWidget *label1;
-        GtkWidget *label2;
-        GtkWidget *label3;
-        GtkWidget *ok_button;
+        return dialog;
+    }
 
-    public:
-        explicit about_dialog (GtkWindow *parent);
-        about_dialog (const about_dialog &);
-
-    public:
-        virtual ~about_dialog ();
-
-        GtkWidget *to_widget () const
-        {
-            return dialog;
-        }
-
-    protected:
-        void initialize (GtkWindow *parent);
-    };
-}
+protected:
+    void initialize (GtkWindow *parent);
+};
 
 #endif
 
