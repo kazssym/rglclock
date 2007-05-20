@@ -50,6 +50,8 @@
 #endif
 
 using std::string;
+using std::printf;
+using std::putchar;
 
 /* Clock application.  */
 class clock_app
@@ -258,7 +260,7 @@ namespace
         printf (_ ("      --no-options      start without restoring options\n"));
         printf (_ ("      --help            display this help and exit\n"));
         printf (_ ("      --version         output version information and exit\n"));
-        puts ("\n");
+        putchar ('\n');
         printf (_ ("Report bugs to <%s>."), PACKAGE_BUGREPORT);
     }
 
@@ -291,10 +293,10 @@ int main (int argc, char **argv)
 
 #if ENABLE_NLS
     /* Initialize NLS.  */
+    textdomain (PACKAGE);
 #ifdef LOCALEDIR
     bindtextdomain (PACKAGE, LOCALEDIR);
 #endif
-    textdomain (PACKAGE);
 #endif
 
     if (opt_version)
@@ -303,16 +305,20 @@ int main (int argc, char **argv)
                    "Copyright (C) 1998, 1999, 2000, 2002, 2007 "
                    "Hypercore Software Design, Ltd."),
                 PACKAGE_NAME, PACKAGE_VERSION);
-        puts ("\n");
+        putchar ('\n');
         return EXIT_SUCCESS;
     }
 
     if (opt_help)
     {
         display_help (argv[0]);
-        puts ("\n");
+        putchar ('\n');
         return EXIT_SUCCESS;
     }
+
+#if ENABLE_NLS
+    bind_textdomain_codeset (PACKAGE, "UTF-8");
+#endif
 
     parse_gtkrcs ();
 
