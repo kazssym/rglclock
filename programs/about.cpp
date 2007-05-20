@@ -62,7 +62,7 @@ void about_dialog::initialize (GtkWindow *parent)
 {
     using std::snprintf;
 
-    const int buf_size = 512; 
+    const size_t buf_size = 512; 
     gchar buf[buf_size];
 
     dialog = gtk_dialog_new ();
@@ -83,7 +83,7 @@ void about_dialog::initialize (GtkWindow *parent)
     gtk_widget_show (hbox1);
     gtk_container_set_border_width (GTK_CONTAINER (hbox1), 0);
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox1,
-                        true, true, 0);
+        true, true, 0);
 
     GtkWidget *vbox1 = gtk_vbox_new (false, 10);
     gtk_widget_show (vbox1);
@@ -103,12 +103,12 @@ void about_dialog::initialize (GtkWindow *parent)
     gtk_label_set_line_wrap (GTK_LABEL (label1), true);
     gtk_box_pack_start (GTK_BOX (vbox1), label1, false, false, 0);
 
-    label2 = gtk_label_new
-        (_ ("This program is free software; you can redistribute it "
-            "and/or modify it under the GNU General Public License "
-            "as publishd by the Free Software Foundation; "
-            "either version 2 of the License, or (at your option) "
-            "any later version."));
+    label2 = gtk_label_new (
+        _ ("This program is free software; you can redistribute it "
+           "and/or modify it under the GNU General Public License "
+           "as publishd by the Free Software Foundation; "
+           "either version 2 of the License, or (at your option) "
+           "any later version."));
     gtk_widget_show (label2);
     gtk_widget_set_usize (label2, 500, 0);
     gtk_misc_set_alignment (GTK_MISC (label2), 0.0, 0.0);
@@ -144,6 +144,6 @@ void handle_ok_clicked (GtkButton *button, gpointer data) throw ()
 /*
  * Local variables:
  * c-basic-offset: 4
- * c-file-offsets: ((substatement-open . 0))
+ * c-file-offsets: ((substatement-open . 0) (arglist-intro . +) (arglist-close . 0))
  * End:
  */

@@ -56,6 +56,6 @@ protected:
 /*
  * Local variables:
  * c-basic-offset: 4
- * c-file-offsets: ((substatement-open . 0))
+ * c-file-offsets: ((substatement-open . 0) (arglist-intro . +) (arglist-close . 0))
  * End:
  */
