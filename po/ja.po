@@ -3,31 +3,31 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: rglclock 1.3\n"
+"Project-Id-Version: RGLClock 2.0.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-05-19 17:44+0900\n"
-"PO-Revision-Date: 2000-12-10 21:49+09:00\n"
-"Last-Translator: Kaz Sasayama <Kaz.Sasayama@hypercore.co.jp>\n"
-"Language-Team: <rglclock@lists.hypercore.co.jp>\n"
+"POT-Creation-Date: 2007-05-20 00:01+0900\n"
+"PO-Revision-Date: 2007-05-20 00:43+0900\n"
+"Last-Translator: Kaz Sasayama <kazssym@hypercore.co.jp>\n"
+"Language-Team: <rglclock@lists.yaromai.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=euc-jp\n"
+"Content-Type: text/plain; charset=SHIFT_JIS\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/options.cc:179 programs/rglclock.cpp:191
+#: lib/options.cc:179 programs/about.cpp:126
 msgid "OK"
 msgstr "OK"
 
 #: lib/options.cc:190
 msgid "Cancel"
-msgstr "¥­¥ã¥ó¥»¥ë"
+msgstr "ƒLƒƒƒ“ƒZƒ‹"
 
 #: lib/options.cc:206
 msgid "Options"
-msgstr "¥ª¥×¥·¥ç¥ó"
+msgstr "ƒIƒvƒVƒ‡ƒ“"
 
 #: lib/clockoptions.cc:114
 msgid "Update rate: "
-msgstr "¹¹¿·¥ì¡¼¥È: "
+msgstr "XVƒŒ[ƒg: "
 
 #: lib/clockoptions.cc:127
 msgid "Hz"
@@ -35,106 +35,95 @@ msgstr "Hz"
 
 #: lib/clockoptions.cc:138
 msgid "Map texture file: "
-msgstr "¥Æ¥¯¥¹¥Á¥ã¥Ş¥Ã¥Ô¥ó¥°: "
+msgstr "ƒeƒNƒXƒ`ƒƒƒ}ƒbƒsƒ“ƒO: "
 
 #: lib/clockoptions.cc:151
 msgid "Select..."
-msgstr "ÁªÂò..."
+msgstr "‘I‘ğ..."
 
 #: lib/clockoptions.cc:171
 msgid "General"
-msgstr "°ìÈÌ"
+msgstr "ˆê”Ê"
 
-#: programs/rglclock.cpp:110
-#, c-format
-msgid "About %s"
-msgstr "%s¤Î¥Ğ¡¼¥¸¥ç¥ó¾ğÊó"
+#: programs/rglclock.cpp:134
+msgid "/_File/_Options..."
+msgstr "/ƒtƒ@ƒCƒ‹(_F)/ƒIƒvƒVƒ‡ƒ“(_O)..."
 
-#: programs/rglclock.cpp:150
-#, c-format
-msgid "Copyright (C) %s Hypercore Software Design, Ltd."
-msgstr "Copyright (C) %s Í­¸Â²ñ¼Ò¥Ï¥¤¥Ñ¡¼¥³¥¢"
+#: programs/rglclock.cpp:136
+msgid "/_File/"
+msgstr "/ƒtƒ@ƒCƒ‹(_F)/"
 
-#: programs/rglclock.cpp:169
-msgid ""
-"This is free software; see the source for copying conditions.\n"
-"There is NO WARRANTY; not even for MERCHANTABILITY\n"
-"or FITNESS FOR A PARTICULAR PURPOSE."
-msgstr ""
-"This is free software; see the source for copying conditions.\n"
-"There is NO WARRANTY; not even for MERCHANTABILITY\n"
-"or FITNESS FOR A PARTICULAR PURPOSE."
+#: programs/rglclock.cpp:137
+msgid "/_File/E_xit"
+msgstr "/ƒtƒ@ƒCƒ‹(_F)/I—¹(_X)"
 
-#: programs/rglclock.cpp:181
-msgid "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
-msgstr "Send comments or report bugs to <rglclock@lists.hypercore.co.jp>."
+#: programs/rglclock.cpp:139
+msgid "/_Help/_About..."
+msgstr "/ƒwƒ‹ƒv(_H)/ƒo[ƒWƒ‡ƒ“î•ñ(_A)..."
 
 #: programs/rglclock.cpp:253
-msgid "/_File/_Options..."
-msgstr "/¥Õ¥¡¥¤¥ë(_F)/¥ª¥×¥·¥ç¥ó(_O)..."
-
-#: programs/rglclock.cpp:255
-msgid "/_File/"
-msgstr "/¥Õ¥¡¥¤¥ë(_F)/"
-
-#: programs/rglclock.cpp:256
-msgid "/_File/E_xit"
-msgstr "/¥Õ¥¡¥¤¥ë(_F)/½ªÎ»(_X)"
-
-#: programs/rglclock.cpp:258
-msgid "/_Help/_About..."
-msgstr "/¥Ø¥ë¥×(_H)/¥Ğ¡¼¥¸¥ç¥ó¾ğÊó(_A)..."
-
-#: programs/rglclock.cpp:359
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
-msgstr "»ÈÍÑË¡: %s [¥ª¥×¥·¥ç¥ó]...\n"
+msgstr "‰ç—p–@: %s [ƒIƒvƒVƒ‡ƒ“]...\n"
 
-#: programs/rglclock.cpp:360
-#, fuzzy, c-format
+#: programs/rglclock.cpp:254
+#, c-format
 msgid "Display a 3D rotating clock.\n"
-msgstr "¼«Å¾¤¹¤ë3D»ş·×¤òÉ½¼¨¤·¤Ş¤¹¡£\n"
+msgstr "3D‚Å©“]‚·‚éŒv‚ğ•\¦‚µ‚Ü‚·B\n"
 
-#: programs/rglclock.cpp:362
+#: programs/rglclock.cpp:256
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
-msgstr "  -m, --hide-menu-bar   ¥á¥Ë¥å¡¼¥Ğ¡¼¤ò±£¤¹\n"
+msgstr "  -m, --hide-menu-bar   ƒƒjƒ…[ƒo[‚ğ‰B‚·\n"
 
-#: programs/rglclock.cpp:363
+#: programs/rglclock.cpp:257
 #, c-format
 msgid "      --private-colormap allocate a private colormap\n"
-msgstr "      --private-colormap ¥×¥é¥¤¥Ù¡¼¥È¥«¥é¡¼¥Ş¥Ã¥×¤ò³ä¤êÅö¤Æ¤ë\n"
+msgstr "      --private-colormap ƒvƒ‰ƒCƒx[ƒgƒJƒ‰[ƒ}ƒbƒv‚ğŠ„‚è“–‚Ä‚é\n"
 
-#: programs/rglclock.cpp:364
+#: programs/rglclock.cpp:258
 #, c-format
 msgid "      --no-options      start without restoring options\n"
-msgstr "      --no-options      ¥ª¥×¥·¥ç¥ó¤òºÆÀßÄê¤·¤Ê¤¤¤Çµ¯Æ°¤¹¤ë\n"
+msgstr "      --no-options      ƒIƒvƒVƒ‡ƒ“‚ğÄİ’è‚µ‚È‚¢‚Å‹N“®‚·‚é\n"
 
-#: programs/rglclock.cpp:365
+#: programs/rglclock.cpp:259
 #, c-format
 msgid "      --help            display this help and exit\n"
-msgstr "      --help            ¤³¤Î¥Ø¥ë¥×¤òÉ½¼¨¤·¤Æ½ªÎ»¤¹¤ë\n"
+msgstr "      --help            ‚±‚Ìƒwƒ‹ƒv‚ğ•\‰¦‚µ‚ÄI—¹‚·‚é\n"
 
-#: programs/rglclock.cpp:366
+#: programs/rglclock.cpp:260
 #, c-format
 msgid "      --version         output version information and exit\n"
-msgstr "      --version         ¥Ğ¡¼¥¸¥ç¥ó¾ğÊó¤ò½ĞÎÏ¤·¤Æ½ªÎ»¤¹¤ë\n"
+msgstr "      --version         ƒo[ƒWƒ‡ƒ“î•ñ‚ğo—Í‚µ‚ÄI—¹‚·‚é\n"
 
-#: programs/rglclock.cpp:368
+#: programs/rglclock.cpp:262
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 
-#~ msgid "Report bugs to <rglclock@lists.hypercore.co.jp>.\n"
-#~ msgstr ""
-#~ "¥Ğ¥°¤ò¸«ÉÕ¤±¤¿¤é <rglclock@lists.hypercore.co.jp> ¤ËÊó¹ğ¤·¤Æ¤¯¤À¤µ¤¤¡£\n"
+#: programs/about.cpp:78
+#, c-format
+msgid "About %s"
+msgstr "%s‚Ìƒo[ƒWƒ‡ƒ“î•ñ"
 
-#~ msgid "%s: Unhandled exception: %s\n"
-#~ msgstr "%s: ½èÍı¤µ¤ì¤Ê¤«¤Ã¤¿Îã³°: %s\n"
+#: programs/about.cpp:92
+#, c-format
+msgid ""
+"%s version %s\n"
+"Copyright (C) 1998, 2000, 2007 Hypercore Software Design, Ltd."
+msgstr ""
+"%s ƒo[ƒWƒ‡ƒ“%s\n"
+"Copyright (C) 1998, 2000, 2007 —LŒÀ‰ïĞƒnƒCƒp[ƒRƒA"
 
-#~ msgid ""
-#~ "%s %s\n"
-#~ "Copyright (C) %s Hypercore Software Design, Ltd."
-#~ msgstr ""
-#~ "%s %s\n"
-#~ "Copyright (C) %s Í­¸Â²ñ¼Ò¥Ï¥¤¥Ñ¡¼¥³¥¢"
+#: programs/about.cpp:105
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the GNU General Public License as publishd by the Free Software "
+"Foundation; either version 2 of the License, or (at your option) any later "
+"version."
+msgstr ""
+
+#: programs/about.cpp:117
+#, c-format
+msgid "Report bugs to <%s>."
+msgstr ""

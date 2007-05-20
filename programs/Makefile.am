@@ -7,12 +7,12 @@ AM_CPPFLAGS = -I ../libgnu -I $(top_srcdir)/libgnu -I $(top_srcdir)/include \
 
 bin_PROGRAMS = rglclock
 
-rglclock_SOURCES = rglclock.cpp profile.cpp
+rglclock_SOURCES = rglclock.cpp about.cpp profile.cpp
 rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a \
 	../lib/libutils.a ../libgnu/libgnu.la \
 	$(GL_LIBS) $(GTK_LIBS) $(LTDL_LIBS) $(PNG_LIBS)
 
-noinst_HEADERS = profile.h
+noinst_HEADERS = about.h profile.h
 
 pkgdata_DATA = options-0.dtd
 

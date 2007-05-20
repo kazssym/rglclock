@@ -1,4 +1,12 @@
+2007-05-20  Kaz Sasayama  <kazssym@yaromai.net>
+
+	* programs/rglclock.cpp (show_about_dialog): Rewrote using
+	about_dialog.
+
 2007-05-19  Kaz Sasayama  <kazssym@yaromai.net>
+
+	* programs/about.cpp: New file.
+	* programs/about.h: New file.
 
 	* programs/rglclock.cpp: Rename from main.cc.
 	* programs/profile.cpp: Rename from profile.cc.
