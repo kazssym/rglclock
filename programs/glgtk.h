@@ -20,37 +20,44 @@
  *
  */
 
-#ifndef aboutH
-#define aboutH 1
+#ifndef glgtkH
+#define glgtkH 1
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
+#include "gl_context.h"
+#include <GL/glx.h>
+#include <gdk/gdktypes.h>
 
-class about_dialog
+namespace glgtk
 {
-private:
-    GtkWindow *_parent;
-    GtkWidget *dialog;
-    GtkWidget *label1;
-    GtkWidget *label2;
-    GtkWidget *label3;
-    GtkWidget *ok_button;
-
-public:
-    explicit about_dialog (GtkWindow *parent);
-    about_dialog (const about_dialog &object);
-
-public:
-    virtual ~about_dialog (void);
-
-    GtkWidget *widget (void) const
+    class glgtk_context
     {
-        return dialog;
-    }
+    private:
+        Display *_display;
+        GLXContext _context;
 
-protected:
-    void initialize (GtkWindow *parent);
-};
+    public:
+        explicit glgtk_context (GdkDrawable *drawable);
+        glgtk_context (const glgtk_context &object);
+
+    public:
+        virtual ~glgtk_context ();
+        bool make_current (GdkDrawable *drawable);
+        void swap_buffers (GdkDrawable *drawable);
+    };
+
+    class gl
+    {
+    protected:
+        static void initialize ();
+
+    public:
+        static GdkVisual *best_visual ();
+        static rglclock::gl_context create_context (GdkVisual *v);
+        static void destroy_context (rglclock::gl_context c);
+        static void make_current (rglclock::gl_context c, GdkDrawable *d);
+        static void swap_buffers (GdkDrawable *d);
+    };
+}
 
 #endif
 

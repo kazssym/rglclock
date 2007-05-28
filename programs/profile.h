@@ -25,7 +25,7 @@
 #ifndef PROFILE_H
 #define PROFILE_H 1
 
-#include "glclock.h"
+#include "clock.h"
 #include <string>
 
 /* Options profile of a clock.  This object keeps the options setting

@@ -8,25 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RGLClock 2.0.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-05-20 12:55+0900\n"
+"POT-Creation-Date: 2007-05-21 08:49+0900\n"
 "PO-Revision-Date: 2007-05-20 13:04+0900\n"
 "Last-Translator: Kaz Sasayama <kazssym@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.yaromai.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: lib/options.cc:179 programs/about.cpp:128
-msgid "OK"
-msgstr "OK"
-
-#: lib/options.cc:190
-msgid "Cancel"
-msgstr "Cancel"
-
-#: lib/options.cc:206
-msgid "Options"
-msgstr "Options"
 
 #: lib/clockoptions.cc:114
 msgid "Update rate: "
@@ -129,3 +117,15 @@ msgstr ""
 "under the GNU General Public License as publishd by the Free Software "
 "Foundation; either version 2 of the License, or (at your option) any later "
 "version."
+
+#: programs/about.cpp:128 programs/options.cpp:179
+msgid "OK"
+msgstr "OK"
+
+#: programs/options.cpp:190
+msgid "Cancel"
+msgstr "Cancel"
+
+#: programs/options.cpp:206
+msgid "Options"
+msgstr "Options"

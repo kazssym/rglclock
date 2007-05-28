@@ -1,3 +1,32 @@
+2007-05-23  Kaz Sasayama  <kazssym@yaromai.net>
+
+	* programs/glgtk.cpp: Moved from lib/gdk_gl.h.
+
+	* programs/glgtk.h: Moved from lib/gdk_gl.h.
+	(class glgtk_context): New class.
+
+	* programs/clock.h: Moved from include/glclock.h.
+
+	* programs/clock.cpp: Moved from lib/glclock.cc.
+
+	* programs/Makefile.am (rglclock_SOURCES): Added clock.cpp,
+	options.cpp, modaldialog.cpp, and glgtk.cpp, which were moved from
+	lib with renaming.
+	(rglclock_LDADD): Removed libutils.h.
+	(noinst_HEADERS): Added clock.h and glgtk.h.
+
+	* lib/Makefile.am (AM_CPPFLAGS): Renamed from old name INCLUDES
+	and added an include path to $(top_srcdir)/programs.
+	(noinst_LIBRARIES): Removed libutils.a.
+	(libclock_a_SOURCES): Removed glclock.cc.
+	(noinst_HEADERS): Removed gdk_gl.h.
+
+	* include/Makefile.am (noinst_HEADERS): Removed glclock.h.
+
+2007-05-21  Kaz Sasayama  <kazssym@yaromai.net>
+
+	* configure.ac: Changed VERSION to 2.0.2.
+
 2007-05-20  Kaz Sasayama  <kazssym@yaromai.net>
 
 	* Migrated to GTK+ version 2.0 or later.

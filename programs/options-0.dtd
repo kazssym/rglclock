@@ -1,3 +1,0 @@
-<!ELEMENT rglclock (misc)*>
-<!ELEMENT misc EMPTY>
-<!ATTLIST misc update CDATA #IMPLIED>

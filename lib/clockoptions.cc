@@ -26,7 +26,7 @@
 #endif
 #undef const
 
-#include "glclock.h"
+#include "clock.h"
 
 #include <gtk/gtk.h>
 #include <libintl.h>

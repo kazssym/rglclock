@@ -1,5 +1,5 @@
 /*
- * RGLClock - 3D rotating clock
+ * RGLClock - rotating 3D clock
  * Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software
  * Design, Ltd.
  *
@@ -37,18 +37,22 @@
 #define _(t) (t)
 #endif
 
+using std::snprintf;
+
 about_dialog::about_dialog (GtkWindow *parent)
 {
+    _parent = parent;
     this->initialize (parent);
 }
 
-about_dialog::about_dialog (const about_dialog &dialog)
+about_dialog::about_dialog (const about_dialog &object)
 {
-    GtkWindow *parent = GTK_WINDOW (dialog.to_widget ())->transient_parent;
+    GtkWindow *parent = object._parent;
+    _parent = parent;
     this->initialize (parent);
 }
 
-about_dialog::~about_dialog ()
+about_dialog::~about_dialog (void)
 {
     if (dialog != NULL)
     {
@@ -60,13 +64,10 @@ static void handle_ok_clicked (GtkButton *button, gpointer data) throw ();
 
 void about_dialog::initialize (GtkWindow *parent)
 {
-    using std::snprintf;
-
     const size_t buf_size = 512; 
     gchar buf[buf_size];
 
     dialog = gtk_dialog_new ();
-    gtk_object_ref (GTK_OBJECT (dialog));
     gtk_widget_set_usize (dialog, 540, 360);
     gtk_window_set_policy (GTK_WINDOW (dialog), false, false, false);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
@@ -75,6 +76,7 @@ void about_dialog::initialize (GtkWindow *parent)
     {
         gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
     }
+    g_object_ref_sink (GTK_OBJECT (dialog));
 
     snprintf (buf, buf_size, _ ("About %s"), PACKAGE_NAME);
     gtk_window_set_title (GTK_WINDOW (dialog), buf);
@@ -138,7 +140,7 @@ void about_dialog::initialize (GtkWindow *parent)
 void handle_ok_clicked (GtkButton *button, gpointer data) throw ()
 {
     about_dialog *dialog = static_cast<about_dialog *> (data);
-    gtk_widget_hide (dialog->to_widget ());
+    gtk_widget_hide (dialog->widget ());
 }
 
 /*
