@@ -36,11 +36,23 @@ AC_DEFUN([gl_INIT],
   m4_pushdef([AC_LIBSOURCES], m4_defn([gl_LIBSOURCES]))
   AM_CONDITIONAL([GL_COND_LIBTOOL], [true])
   gl_cond_libtool=true
-  gl_source_base='gnu'
+  gl_source_base='libgnu'
+  gl_FUNC_ALLOCA
   gl_GETOPT
   AC_SUBST([LIBINTL])
   AC_SUBST([LTLIBINTL])
+  gl_FUNC_GETTIMEOFDAY
+  gl_SIZE_MAX
+  gl_FUNC_SNPRINTF
+  gl_STDIO_MODULE_INDICATOR([snprintf])
+  gl_STDINT_H
+  gl_STDIO_H
+  gl_HEADER_SYS_TIME_H
+  AC_PROG_MKDIR_P
   gl_UNISTD_H
+  gl_FUNC_VASNPRINTF
+  gl_WCHAR_H
+  gl_XSIZE
   m4_popdef([AC_LIBSOURCES])
   m4_popdef([AC_REPLACE_FUNCS])
   m4_popdef([AC_LIBOBJ])
@@ -79,15 +91,49 @@ AC_DEFUN([gl_LIBSOURCES],
 # gnulib-tool and may be removed by future gnulib-tool invocations.
 AC_DEFUN([gl_FILE_LIST], [
   build-aux/link-warning.h
+  lib/alloca_.h
+  lib/asnprintf.c
   lib/dummy.c
   lib/getopt.c
   lib/getopt1.c
   lib/getopt_.h
   lib/getopt_int.h
   lib/gettext.h
+  lib/gettimeofday.c
+  lib/printf-args.c
+  lib/printf-args.h
+  lib/printf-parse.c
+  lib/printf-parse.h
+  lib/size_max.h
+  lib/snprintf.c
+  lib/stdint_.h
+  lib/stdio_.h
+  lib/sys_time_.h
   lib/unistd_.h
+  lib/vasnprintf.c
+  lib/vasnprintf.h
+  lib/wchar_.h
+  lib/xsize.h
   m4/absolute-header.m4
+  m4/alloca.m4
+  m4/eoverflow.m4
   m4/getopt.m4
+  m4/gettimeofday.m4
   m4/gnulib-common.m4
+  m4/intmax_t.m4
+  m4/inttypes_h.m4
+  m4/longlong.m4
+  m4/size_max.m4
+  m4/snprintf.m4
+  m4/stdint.m4
+  m4/stdint_h.m4
+  m4/stdio_h.m4
+  m4/sys_time_h.m4
+  m4/ulonglong.m4
   m4/unistd_h.m4
+  m4/vasnprintf.m4
+  m4/wchar.m4
+  m4/wchar_t.m4
+  m4/wint_t.m4
+  m4/xsize.m4
 ])
