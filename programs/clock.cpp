@@ -58,9 +58,9 @@ using glgtk::glgtk_context;
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
 
 static gboolean handle_timeout (gpointer data) throw ();
-static void handle_button_press_event (
+static gboolean handle_button_press_event (
     GtkWidget *widget, GdkEventButton *event, gpointer data) throw ();
-static void handle_button_release_event (
+static gboolean handle_button_release_event (
     GtkWidget *widget, GdkEventButton *event, gpointer data) throw ();
 
 glclock::glclock (void)
@@ -225,52 +225,52 @@ gboolean handle_timeout (gpointer data) throw ()
     return true;
 }
 
-void handle_button_press_event (
+gboolean handle_button_press_event (
     GtkWidget *widget, GdkEventButton *event, gpointer data) throw ()
 {
     glclock *clock = static_cast<glclock *> (data);
     g_assert (clock != NULL);
 
-#if 0
     switch (event->button)
     {
+#if 0
     case 1:
-        {
-            object->press_x = event->x;
-            object->press_y = event->y;
-            gtk_grab_add (widget);
-            return 1;
-        }
-        break;
-    }
+        clock->press_x = event->x;
+        clock->press_y = event->y;
+        gtk_grab_add (widget);
+        return true;
 #endif
+    }
+
+    return false;
 }
 
-void handle_button_release_event (
+gboolean handle_button_release_event (
     GtkWidget *widget, GdkEventButton *event, gpointer data) throw ()
 {
     glclock *clock = static_cast<glclock *> (data);
     g_assert (clock != NULL);
 
-#if 0
     switch (event->button)
     {
+#if 0
     case 1:
+        gtk_grab_remove (widget);
         {
-            gtk_grab_remove (widget);
-            double vel_x = double (event->x - object->press_x) / widget->allocation.width;
-            double vel_y = double (event->y - object->press_y) / widget->allocation.height;
+            double vel_x = (double) (event->x - clock->press_x) / widget->allocation.width;
+            double vel_y = (double) (event->y - clock->press_y) / widget->allocation.height;
             if (vel_x != 0 || vel_y != 0)
             {
-                object->rot_y = vel_x;
-                object->rot_x = vel_y;
+                clock->rot_y = vel_x;
+                clock->rot_x = vel_y;
             }
-            object->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
-            return 1;
+            clock->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
         }
-        break;
-    }
+        return true;
 #endif
+    }
+
+    return false;
 }
 
 #if 0

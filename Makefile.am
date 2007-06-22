@@ -1,7 +1,8 @@
 ## Process this file with automake to produce a Makefile.in.
 
+AUTOMAKE_OPTIONS = 1.9
 ACLOCAL_AMFLAGS = -I m4 -I libgnu/m4
 
-EXTRA_DIST = config.rpath README.ja MEMO.ja
+SUBDIRS = $(subdirs) libgnu include lib modules programs testsuite doc po
 
-SUBDIRS = $(subdirs) libgnu include lib modules programs doc po
+EXTRA_DIST = config.rpath README.ja MEMO.ja

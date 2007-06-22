@@ -9,14 +9,14 @@ bin_PROGRAMS = rglclock
 
 rglclock_LDFLAGS = -dlopen ../modules/libplain.la
 
-rglclock_SOURCES = main.cpp about.cpp profile.cpp clock.cpp \
+rglclock_SOURCES = rglclock.cpp about.cpp profile.cpp clock.cpp \
 	options.cpp modaldialog.cpp glgtk.cpp
-rglclock_LDADD = ../lib/libclock.a ../lib/libsimple.a ../libgnu/libgnu.la \
+rglclock_LDADD = ../lib/librglclock.a ../lib/libsimple.a ../libgnu/libgnu.la \
 	$(GL_LIBS) $(GTK_LIBS) $(LTDL_LIBS) $(PNG_LIBS)
 
 noinst_HEADERS = about.h profile.h clock.h glgtk.h
 
 man_MANS = rglclock.1
 
-EXTRA_DIST = options-0.dtd ${man_MANS}
+EXTRA_DIST = $(man_MANS)
 

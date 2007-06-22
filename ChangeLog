@@ -1,4 +1,24 @@
-2007-05-23  Kaz Sasayama  <kazssym@yaromai.net>
+2007-06-22  Kaz Sasayama  <kazssym@vx68k.org>
+
+	* programs/clock.cpp (handle_button_press_event): Changed the
+	return type from void to gboolean.
+
+	* lib/Makefile.am (noinst_LIBRARIES): Renamed libclock to
+	librglclock.
+	* programs/Makefile.am (rglclock_LDADD): Changed libclock to
+	librglclock.
+	(EXTRA_DIST): Removed options-0.dtd.
+
+	* Makefile.am (AUTOMAKE_OPTIONS): New macro.
+	(SUBDIRS): Added testsuite.
+
+	* configure.ac: Changed the source directory test file.
+	Added testsuite/Makefilt to AC_CONFIG_FILES.
+
+	* testsuite/config/unix.exp: New file.
+	* testsuite/Makefile.am: New file.
+
+2007-05-23  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* programs/glgtk.cpp: Moved from lib/gdk_gl.h.
 
@@ -23,18 +43,18 @@
 
 	* include/Makefile.am (noinst_HEADERS): Removed glclock.h.
 
-2007-05-21  Kaz Sasayama  <kazssym@yaromai.net>
+2007-05-21  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* configure.ac: Changed VERSION to 2.0.2.
 
-2007-05-20  Kaz Sasayama  <kazssym@yaromai.net>
+2007-05-20  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* Migrated to GTK+ version 2.0 or later.
 
 	* programs/rglclock.cpp (show_about_dialog): Rewrote using
 	about_dialog.
 
-2007-05-19  Kaz Sasayama  <kazssym@yaromai.net>
+2007-05-19  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* programs/about.cpp: New file.
 	* programs/about.h: New file.
@@ -60,7 +80,7 @@
 
 	* configure.ac: Added libltdl and gnulib.
 
-2007-05-09  Kaz Sasayama  <kazssym@yaromai.net>
+2007-05-09  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* programs/profile.cc (class xmlNode_iterator): Changed base class.
 
