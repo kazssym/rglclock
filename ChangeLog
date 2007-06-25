@@ -1,3 +1,7 @@
+2007-06-23  Kaz Sasayama  <kazssym@vx68k.org>
+
+	* configure.ac: Removed the test for asprintf.
+
 2007-06-22  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* programs/clock.cpp (handle_button_press_event): Changed the
@@ -19,6 +23,8 @@
 	* testsuite/Makefile.am: New file.
 
 2007-05-23  Kaz Sasayama  <kazssym@vx68k.org>
+
+	* configure.ac: Changed VERSION to 2.0.3.
 
 	* programs/glgtk.cpp: Moved from lib/gdk_gl.h.
 

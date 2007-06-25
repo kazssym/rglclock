@@ -33,7 +33,7 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
 
 dnl Checks for library functions.
-AC_CHECK_FUNCS([asprintf gettimeofday mkdir])
+AC_CHECK_FUNCS([mkdir gettimeofday])
 
 gl_INIT
 ALL_LINGUAS="en ja"
