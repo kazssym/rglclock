@@ -98,8 +98,9 @@ glclock::~glclock (void)
 
     if (_widget != NULL)
     {
-        gtk_signal_disconnect_by_data (GTK_OBJECT (_widget), this);
-        g_object_unref (G_OBJECT (_widget));
+        g_signal_handlers_disconnect_matched (_widget, G_SIGNAL_MATCH_DATA,
+                                              0, 0, NULL, NULL, this);
+        g_object_unref (_widget);
     }
 
     if (_update_timeout != 0)
@@ -164,7 +165,7 @@ GtkWidget *glclock::widget (void)
         gtk_signal_connect (GTK_OBJECT (_widget), "button_release_event",
                             GTK_SIGNAL_FUNC (&handle_button_release_event),
                             this);
-        g_object_ref_sink (G_OBJECT (_widget));
+        g_object_ref_sink (_widget);
     }
 
     return _widget;

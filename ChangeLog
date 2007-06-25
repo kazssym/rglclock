@@ -1,3 +1,9 @@
+2007-06-25  Kaz Sasayama  <kazssym@vx68k.org>
+
+	* programs/clock.cpp (glclock::~glclock): Changed to use
+	g_signal_handlers_disconnect_matched instead of
+	gtk_signal_disconnect_by_data.
+
 2007-06-23  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* configure.ac: Removed the test for asprintf.
