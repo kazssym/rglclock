@@ -1,13 +1,17 @@
 ## Process this file with automake to produce a Makefile.in.
 
+LIBS =
+
 AM_CPPFLAGS = -I $(top_srcdir)/include -I $(top_srcdir)/programs \
 	$(GTK_CFLAGS)
 
-noinst_LIBRARIES = libsimple.a librglclock.a
+noinst_LIBRARIES = libsimple.a
+lib_LTLIBRARIES = librglclock.la
 
 libsimple_a_SOURCES = simple.c
 
-librglclock_a_SOURCES = module.cpp clockoptions.cc
+librglclock_la_LDFLAGS = -release experimental -version-info 0:0:0
+librglclock_la_SOURCES = module.cpp clockoptions.cc
 
 noinst_HEADERS = simple.h
 

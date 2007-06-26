@@ -1,5 +1,14 @@
 2007-06-26  Kaz Sasayama  <kazssym@vx68k.org>
 
+	* programs/Makefile.am (rglclock_LDADD): Changed librglclock to a
+	libtool library.
+
+	* lib/Makefile.am (noinst_LIBRARIES): Removed librglclock.
+	(lib_LTLIBRARIES): New macro.
+	(librglclock_la_LDFLAGS): New macro.
+	(librglclock_la_SOURCES): Renamed from librglclock_a_SOURCES.
+	(LIBS): New macro.
+
 	* configure.ac: Moved libtool macros near the end.
 
 2007-06-25  Kaz Sasayama  <kazssym@vx68k.org>
