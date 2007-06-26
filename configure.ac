@@ -3,15 +3,14 @@ AC_PREREQ([2.61])
 AC_INIT([RGLClock], [2.0.3], [rglclock@lists.yaromai.net], [rglclock])
 AC_CONFIG_SRCDIR([programs/clock.cpp])
 AM_INIT_AUTOMAKE
-AC_LIBTOOL_DLOPEN
-AC_LIBLTDL_INSTALLABLE
 
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CC_STDC
 AC_PROG_CXX
+AC_PROG_RANLIB
 AC_USE_SYSTEM_EXTENSIONS
-AC_PROG_LIBTOOL
+
 gl_EARLY
 
 dnl Checks for libraries.
@@ -36,8 +35,13 @@ dnl Checks for library functions.
 AC_CHECK_FUNCS([mkdir gettimeofday])
 
 gl_INIT
+
 ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
+
+AC_LIBTOOL_DLOPEN
+AC_LIBLTDL_INSTALLABLE
+AC_PROG_LIBTOOL
 LTDL_CPPFLAGS="$INCLTDL"
 AC_SUBST([LTDL_CPPFLAGS])dnl
 LTDL_LIBS="$LIBLTDL"

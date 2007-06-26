@@ -1,3 +1,7 @@
+2007-06-26  Kaz Sasayama  <kazssym@vx68k.org>
+
+	* configure.ac: Moved libtool macros near the end.
+
 2007-06-25  Kaz Sasayama  <kazssym@vx68k.org>
 
 	* programs/clock.cpp (glclock::~glclock): Changed to use
