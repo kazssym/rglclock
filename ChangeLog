@@ -1,5 +1,7 @@
 2007-06-26  Kaz Sasayama  <kazssym@vx68k.org>
 
+	* NEWS: Updated.
+
 	* programs/Makefile.am (rglclock_LDADD): Changed librglclock to a
 	libtool library.
 
