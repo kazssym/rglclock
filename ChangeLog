@@ -1,5 +1,7 @@
 2007-10-14  Kaz Sasayama  <kazssym@vx68k.org>
 
+	* lib/Makefile.am (librglclock_la_LDFLAGS): Change the release name.
+
 	* Makefile.am (dist-hook): New target.
 
 	* NEWS: Updated for new release.
