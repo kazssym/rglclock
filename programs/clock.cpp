@@ -141,7 +141,7 @@ void glclock::set_update_rate (int rate)
 
 GtkWidget *glclock::widget (void)
 {
-    if (_update_timeout ==0)
+    if (_update_timeout == 0)
     {
         long interval = rate_to_interval (_update_rate);
         assert (interval > 0);
@@ -151,20 +151,16 @@ GtkWidget *glclock::widget (void)
     if (_widget == NULL)
     {
         _widget = gtk_drawing_area_new ();
-        gtk_drawing_area_size (GTK_DRAWING_AREA (_widget), 160, 160);
+        gtk_drawing_area_size (GTK_DRAWING_AREA (_widget), 200, 200);
         gtk_widget_set_double_buffered (_widget, false);
         gtk_widget_set_events (
             _widget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-#if 0
-        gtk_signal_connect (GTK_OBJECT (_widget), "expose_event",
-                            GTK_SIGNAL_FUNC (&handle_expose_event), this);
-#endif
-        gtk_signal_connect (GTK_OBJECT (_widget), "button_press_event",
-                            GTK_SIGNAL_FUNC (&handle_button_press_event),
-                            this);
-        gtk_signal_connect (GTK_OBJECT (_widget), "button_release_event",
-                            GTK_SIGNAL_FUNC (&handle_button_release_event),
-                            this);
+        g_signal_connect (_widget, "button_press_event",
+                          G_CALLBACK (&handle_button_press_event),
+                          this);
+        g_signal_connect (_widget, "button_release_event",
+                          G_CALLBACK (&handle_button_release_event),
+                          this);
         g_object_ref_sink (_widget);
     }
 
@@ -226,7 +222,7 @@ gboolean handle_timeout (gpointer data) throw ()
     return true;
 }
 
-gboolean handle_button_press_event (
+gboolean glclock::handle_button_press_event (
     GtkWidget *widget, GdkEventButton *event, gpointer data) throw ()
 {
     glclock *clock = static_cast<glclock *> (data);
@@ -234,19 +230,17 @@ gboolean handle_button_press_event (
 
     switch (event->button)
     {
-#if 0
     case 1:
         clock->press_x = event->x;
         clock->press_y = event->y;
         gtk_grab_add (widget);
         return true;
-#endif
     }
 
     return false;
 }
 
-gboolean handle_button_release_event (
+gboolean glclock::handle_button_release_event (
     GtkWidget *widget, GdkEventButton *event, gpointer data) throw ()
 {
     glclock *clock = static_cast<glclock *> (data);
@@ -254,7 +248,6 @@ gboolean handle_button_release_event (
 
     switch (event->button)
     {
-#if 0
     case 1:
         gtk_grab_remove (widget);
         {
@@ -268,7 +261,6 @@ gboolean handle_button_release_event (
             clock->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
         }
         return true;
-#endif
     }
 
     return false;
@@ -314,43 +306,6 @@ void glclock::remove_callback (options_callback *callback)
 void glclock::add_callback (options_callback *callback)
 {
     callbacks.push_back(callback);
-}
-
-gint glclock::handle_button_event (GtkWidget *widget, GdkEventButton *event,
-                                   gpointer opaque)
-{
-    glclock *object = static_cast <glclock *> (opaque);
-    g_assert (object != NULL);
-
-    switch (event->button)
-    {
-    case 1:
-        {
-            if (event->type == GDK_BUTTON_PRESS)
-            {
-                object->press_x = event->x;
-                object->press_y = event->y;
-                gtk_grab_add (widget);
-                return 1;
-            }
-            else if (event->type == GDK_BUTTON_RELEASE)
-            {
-                gtk_grab_remove (widget);
-                double vel_x = double (event->x - object->press_x) / widget->allocation.width;
-                double vel_y = double (event->y - object->press_y) / widget->allocation.height;
-                if (vel_x != 0 || vel_y != 0)
-                {
-                    object->rot_y = vel_x;
-                    object->rot_x = vel_y;
-                }
-                object->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
-                return 1;
-            }
-        }
-        break;
-    }
-
-    return 0;
 }
 
 #if 0

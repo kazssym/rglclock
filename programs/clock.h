@@ -103,8 +103,8 @@ public:
 
 protected:
     static void remove_widget(GtkObject *, gpointer);
-    static gint handle_expose_event (GtkWidget *, GdkEventExpose *, gpointer);
-    static gint handle_button_event (GtkWidget *, GdkEventButton *, gpointer);
+    static gboolean handle_button_press_event (GtkWidget *, GdkEventButton *, gpointer) throw ();
+    static gboolean handle_button_release_event (GtkWidget *, GdkEventButton *, gpointer) throw ();
 private:
     module *m;
     std::vector<options_callback *> callbacks;

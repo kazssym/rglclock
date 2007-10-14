@@ -1,10 +1,17 @@
 2007-10-14  Kaz Sasayama  <kazssym@vx68k.org>
 
+	* NEWS: Updated for new release.
+
 	* lib/Makefile.am (librglclock_la_LDFLAGS): Change the release name.
 
 	* Makefile.am (dist-hook): New target.
 
-	* NEWS: Updated for new release.
+	* programs/clock.cpp (widget): Change the visible size of
+	the widget.
+	(widget): Rewrite signal handling for newer GTK+.
+	(handle_button_press_event, handle_button_release_event): Reenable
+	the handling code.
+	(handle_button_event): Removed.
 
 2007-06-26  Kaz Sasayama  <kazssym@vx68k.org>
 
