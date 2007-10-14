@@ -1,5 +1,7 @@
 2007-10-14  Kaz Sasayama  <kazssym@vx68k.org>
 
+	* Makefile.am (dist-hook): New target.
+
 	* NEWS: Updated for new release.
 
 2007-06-26  Kaz Sasayama  <kazssym@vx68k.org>

@@ -3,6 +3,14 @@
 AUTOMAKE_OPTIONS = 1.9
 ACLOCAL_AMFLAGS = -I m4 -I libgnu/m4
 
+EXTRA_DIST = config.rpath README.ja MEMO.ja
+
 SUBDIRS = $(subdirs) libgnu include lib modules programs testsuite doc po
 
-EXTRA_DIST = config.rpath README.ja MEMO.ja
+dist-hook:
+	cd $(distdir); \
+find . ! -name SHA1SUMS -type f -print | sed 's,^\./,,' | xargs sha1sum > SHA1SUMS \
+|| rm -f SHA1SUMS
+	if test -f $(srcdir)/sign-distdir.sh; then \
+  $(SHELL) $(srcdir)/sign-distdir.sh $(distdir); \
+fi
