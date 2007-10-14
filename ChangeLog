@@ -1,3 +1,7 @@
+2007-10-14  Kaz Sasayama  <kazssym@vx68k.org>
+
+	* Makefile.am (dist-hook): New target.
+
 2003-10-12  Kaz Sasayama  <kazssym@yaromai.net>
 
 	* configure.ac: Set PACKAGE_VERSION to 1.5.0.

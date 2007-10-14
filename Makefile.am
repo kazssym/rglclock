@@ -23,3 +23,11 @@ man_MANS = rglclock.1
 EXTRA_DIST = README.ja $(man_MANS)
 
 SUBDIRS = intl po
+
+dist-hook:
+	cd $(distdir); \
+find . ! -name SHA1SUMS -type f -print | sed 's,^\./,,' | xargs sha1sum > SHA1SUMS \
+|| rm -f SHA1SUMS
+	if test -f $(srcdir)/sign-distdir.sh; then \
+  $(SHELL) $(srcdir)/sign-distdir.sh $(distdir); \
+fi
