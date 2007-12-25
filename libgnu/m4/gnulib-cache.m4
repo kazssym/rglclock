@@ -15,7 +15,7 @@
 
 
 # Specification in the form of a command-line invocation:
-#   gnulib-tool --import --dir=. --lib=libgnu --source-base=libgnu --m4-base=libgnu/m4 --doc-base=doc --aux-dir=. --libtool --macro-prefix=gl getopt gettimeofday snprintf
+#   gnulib-tool --import --dir=. --lib=libgnu --source-base=libgnu --m4-base=libgnu/m4 --doc-base=doc --aux-dir=build-aux --libtool --macro-prefix=gl getopt gettimeofday snprintf
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
