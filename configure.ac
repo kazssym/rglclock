@@ -1,5 +1,5 @@
-dnl Process this file with autoconf to produce a configure script.
-AC_PREREQ([2.61])
+# Process this file with autoconf to produce a configure script.
+AC_PREREQ([2.69])
 AC_INIT([RGLClock], [2.0.4], [rglclock@lists.yaromai.net], [rglclock])
 AC_CONFIG_SRCDIR([programs/clock.cpp])
 AM_INIT_AUTOMAKE
