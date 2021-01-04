@@ -35,7 +35,8 @@
 #  getopt \
 #  gettimeofday \
 #  mkdir \
-#  snprintf
+#  snprintf \
+#  stdbool
 
 AUTOMAKE_OPTIONS = 1.11 gnits
 
