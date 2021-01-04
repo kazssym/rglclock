@@ -1,6 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
-AC_INIT([RGLClock], [3.0], [rglclock@lists.yaromai.net], [rglclock])
+AC_INIT([RGLClock], [3.0],
+[https://github.com/kazssym/rglclock/issues/new], [rglclock])
 AC_CONFIG_SRCDIR([programs/clock.cpp])
 AM_INIT_AUTOMAKE
 
