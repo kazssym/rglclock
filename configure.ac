@@ -6,14 +6,9 @@ AC_CONFIG_SRCDIR([programs/clock.cpp])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([subdir-objects])
-
-dnl Checks for programs.
+# Checks for programs.
 AC_PROG_CC
-AC_PROG_CC_STDC
 AC_PROG_CXX
-AC_PROG_RANLIB
-AC_USE_SYSTEM_EXTENSIONS
-
 gl_EARLY
 
 dnl Checks for libraries.
