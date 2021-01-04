@@ -29,10 +29,8 @@
 #include "profile.h"
 
 #include <iterator>
-#ifdef HAVE_GNOME_XML_PARSER_H
-# include <cstdio>
-# include <gnome-xml/parser.h>
-#endif
+#include <cstdio>
+#include <libxml/parser.h>
 
 using namespace std;
 
