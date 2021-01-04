@@ -28,9 +28,7 @@
 #include <simple.h>
 #include <rglclockmod.h>
 
-#ifdef HAVE_PNG_H
-# include <png.h>
-#endif
+#include <png.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #ifdef HAVE_SYS_TIME_H
