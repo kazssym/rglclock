@@ -3,7 +3,7 @@
 AM_CPPFLAGS = -I ../libgnu -I $(top_srcdir)/libgnu -I $(top_srcdir)/include \
 	-DPKGDATADIR=\"$(pkgdatadir)\" -DLOCALEDIR=\"$(localedir)\" \
 	-DOPTIONS_DTD=\"$(pkgdatadir)/options-0.dtd\" \
-	$(GTK_CFLAGS) $(LIBXML2_CFLAGS) $(LIBPNG_CFLAGS)
+	$(LIBPNG_CFLAGS) $(LIBXML2_CFLAGS) $(GTK_CFLAGS)
 
 bin_PROGRAMS = rglclock
 
