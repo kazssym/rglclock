@@ -12,7 +12,6 @@ AC_PROG_CXX
 gl_EARLY
 
 dnl Checks for libraries.
-AC_CHECK_LIB([z], [deflate])
 AC_CHECK_LIB([xml], [xmlParseDocument])
 AC_CHECK_LIB([png], [png_create_read_struct], [PNG_LIBS="-lpng -lz"], [-lz])
 AC_SUBST([PNG_LIBS])dnl
