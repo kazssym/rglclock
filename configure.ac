@@ -10,9 +10,7 @@ AM_INIT_AUTOMAKE([subdir-objects])
 AC_PROG_CC
 AC_PROG_CXX
 gl_EARLY
-
-dnl Checks for libraries.
-AC_CHECK_LIB([xml], [xmlParseDocument])
+# Checks for libraries.
 AC_CHECK_LIB([png], [png_create_read_struct], [PNG_LIBS="-lpng -lz"], [-lz])
 AC_SUBST([PNG_LIBS])dnl
 AM_PATH_GTK_2_0([2.8.0])
@@ -36,6 +34,7 @@ gl_INIT
 
 ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
+PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 
 LTDL_CPPFLAGS="$INCLTDL"
 AC_SUBST([LTDL_CPPFLAGS])dnl
