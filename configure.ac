@@ -11,8 +11,6 @@ AC_PROG_CC
 AC_PROG_CXX
 gl_EARLY
 # Checks for libraries.
-AC_CHECK_LIB([png], [png_create_read_struct], [PNG_LIBS="-lpng -lz"], [-lz])
-AC_SUBST([PNG_LIBS])dnl
 AM_PATH_GTK_2_0([2.8.0])
 AC_CHECK_LIB([GL], [glClear], [GL_LIBS="-lGL $GL_LIBS"],, [$GL_LIBS $GTK_LIBS])
 AC_CHECK_LIB([GLU], [gluLookAt], [GL_LIBS="-lGLU $GL_LIBS"],, [$GL_LIBS $GTK_LIBS])
@@ -35,6 +33,7 @@ gl_INIT
 ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
 PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
+PKG_CHECK_MODULES([LIBPNG], [libpng])
 
 LTDL_CPPFLAGS="$INCLTDL"
 AC_SUBST([LTDL_CPPFLAGS])dnl
