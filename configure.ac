@@ -24,9 +24,7 @@ AC_CHECK_HEADERS([ltdl.h unistd.h sys/time.h])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
-
-dnl Checks for library functions.
-AC_CHECK_FUNCS([mkdir gettimeofday])
+# Checks for library functions.
 
 LT_INIT([dlopen])
 gl_INIT
