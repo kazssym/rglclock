@@ -18,7 +18,7 @@ AC_CHECK_LIB([ltdl], [lt_dlopen], [LTDL_LIBS="-lltdl $LTDL_LIBS"],, [$LTDL_LIBS]
 AC_SUBST([LTDL_LIBS])dnl
 # Checks for header files.
 AC_HEADER_ASSERT
-AC_CHECK_HEADERS([ltdl.h unistd.h])
+AC_CHECK_HEADERS([ltdl.h])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
