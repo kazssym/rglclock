@@ -16,7 +16,6 @@ AC_SEARCH_LIBS([glClear], [GL])
 AC_SEARCH_LIBS([gluLookAt], [GLU])
 AC_CHECK_LIB([ltdl], [lt_dlopen], [LTDL_LIBS="-lltdl $LTDL_LIBS"],, [$LTDL_LIBS])
 AC_SUBST([LTDL_LIBS])dnl
-AM_PATH_GTK_2_0([2.8.0])
 
 dnl Checks for header files.
 AC_HEADER_ASSERT
@@ -34,6 +33,7 @@ gl_INIT
 
 ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
+PKG_CHECK_MODULES([GTK], [gtk+-2.0])
 PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 PKG_CHECK_MODULES([LIBPNG], [libpng])
 
