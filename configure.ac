@@ -12,9 +12,8 @@ AC_PROG_CXX
 gl_EARLY
 # Checks for libraries.
 AC_SEARCH_LIBS([XFree], [X11])
-AC_SEARCH_LIBS([glClear], [GL], [GL_LIBS="-lGL $GL_LIBS"],, [$GL_LIBS])
-AC_SEARCH_LIBS([gluLookAt], [GLU], [GL_LIBS="-lGLU $GL_LIBS"],, [$GL_LIBS])
-AC_SUBST([GL_LIBS])dnl
+AC_SEARCH_LIBS([glClear], [GL])
+AC_SEARCH_LIBS([gluLookAt], [GLU])
 AM_PATH_GTK_2_0([2.8.0])
 
 dnl Checks for header files.
