@@ -187,7 +187,7 @@ load_texture_image(void)
       goto error_return_2;
     }
 
-  if (setjmp(png_ptr->jmpbuf) != 0)
+  if (setjmp(png_jmpbuf(png_ptr)) != 0)
     {
       goto error_return_2;
     }
