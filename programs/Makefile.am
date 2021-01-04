@@ -12,7 +12,7 @@ rglclock_LDFLAGS = -dlopen ../modules/libplain.la
 rglclock_SOURCES = rglclock.cpp about.cpp profile.cpp clock.cpp \
 	options.cpp modaldialog.cpp glgtk.cpp
 rglclock_LDADD = ../lib/librglclock.la ../lib/libsimple.a ../libgnu/libgnu.la \
-	$(GL_LIBS) $(GTK_LIBS) $(LTDL_LIBS) $(LIBPNG_LIBS) $(LIBXML2_LIBS)
+	$(GTK_LIBS) $(LTDL_LIBS) $(LIBPNG_LIBS) $(LIBXML2_LIBS) $(GL_LIBS)
 
 noinst_HEADERS = about.h profile.h clock.h glgtk.h
 
