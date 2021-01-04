@@ -2,8 +2,6 @@
 
 modulesdir = $(pkglibdir)/modules
 
-LIBS =
-
 AM_CPPFLAGS = -I $(top_srcdir)/lib -I $(top_srcdir)/include $(LIBPNG_CFLAGS)
 
 modules_LTLIBRARIES = libplain.la

@@ -1,7 +1,5 @@
 ## Process this file with automake to produce a Makefile.in.
 
-LIBS =
-
 AM_CPPFLAGS = -I $(top_srcdir)/include -I $(top_srcdir)/programs \
 	$(LIBPNG_CFLAGS) $(GTK_CFLAGS)
 
