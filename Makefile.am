@@ -1,7 +1,7 @@
 ## Process this file with automake to produce a Makefile.in.
 
 AUTOMAKE_OPTIONS = 1.9
-ACLOCAL_AMFLAGS = -I m4 -I libgnu/m4
+ACLOCAL_AMFLAGS = -Im4
 
 EXTRA_DIST = config.rpath README.ja MEMO.ja
 
