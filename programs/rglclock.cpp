@@ -30,9 +30,6 @@
 #include "autowidget.h"
 #include <gtk/gtk.h>
 #include <getopt.h>
-#if HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #include <sys/stat.h>
 #include <signal.h>
 
