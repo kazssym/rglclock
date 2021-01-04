@@ -3,7 +3,7 @@
 LIBS =
 
 AM_CPPFLAGS = -I $(top_srcdir)/include -I $(top_srcdir)/programs \
-	$(GTK_CFLAGS)
+	$(LIBPNG_CFLAGS) $(GTK_CFLAGS)
 
 noinst_LIBRARIES = libsimple.a
 lib_LTLIBRARIES = librglclock.la
