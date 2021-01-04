@@ -5,7 +5,7 @@ AC_INIT([RGLClock], [3.0],
 AC_CONFIG_SRCDIR([programs/clock.cpp])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 
 dnl Checks for programs.
 AC_PROG_CC
