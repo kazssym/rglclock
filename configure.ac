@@ -32,14 +32,12 @@ AC_C_INLINE
 dnl Checks for library functions.
 AC_CHECK_FUNCS([mkdir gettimeofday])
 
+LT_INIT([dlopen])
 gl_INIT
 
 ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
 
-AC_LIBTOOL_DLOPEN
-AC_LIBLTDL_INSTALLABLE
-AC_PROG_LIBTOOL
 LTDL_CPPFLAGS="$INCLTDL"
 AC_SUBST([LTDL_CPPFLAGS])dnl
 LTDL_LIBS="$LIBLTDL"
