@@ -3,6 +3,7 @@ AC_PREREQ([2.69])
 AC_INIT([RGLClock], [3.0],
 [https://github.com/kazssym/rglclock/issues/new], [rglclock])
 AC_CONFIG_SRCDIR([programs/clock.cpp])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 
 dnl Checks for programs.
