@@ -21,7 +21,7 @@ AC_SUBST([GL_LIBS])dnl
 dnl Checks for header files.
 AC_HEADER_ASSERT
 AC_HEADER_STDBOOL
-AC_CHECK_HEADERS([unistd.h sys/time.h png.h gnome-xml/parser.h])
+AC_CHECK_HEADERS([unistd.h sys/time.h png.h])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
