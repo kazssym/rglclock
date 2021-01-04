@@ -14,6 +14,8 @@ gl_EARLY
 AC_SEARCH_LIBS([XFree], [X11])
 AC_SEARCH_LIBS([glClear], [GL])
 AC_SEARCH_LIBS([gluLookAt], [GLU])
+AC_CHECK_LIB([ltdl], [lt_dlopen], [LTDL_LIBS="-lltdl $LTDL_LIBS"],, [$LTDL_LIBS])
+AC_SUBST([LTDL_LIBS])dnl
 AM_PATH_GTK_2_0([2.8.0])
 
 dnl Checks for header files.
@@ -34,11 +36,6 @@ ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
 PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 PKG_CHECK_MODULES([LIBPNG], [libpng])
-
-LTDL_CPPFLAGS="$INCLTDL"
-AC_SUBST([LTDL_CPPFLAGS])dnl
-LTDL_LIBS="$LIBLTDL"
-AC_SUBST([LTDL_LIBS])dnl
 
 AC_CONFIG_FILES([Makefile libgnu/Makefile \
 include/Makefile lib/Makefile modules/Makefile programs/Makefile \
