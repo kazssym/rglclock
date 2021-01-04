@@ -32,7 +32,7 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
-#  getopt \
+#  getopt-gnu \
 #  gettimeofday \
 #  mkdir \
 #  snprintf \

@@ -51,7 +51,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module extensions:
   # Code from module extern-inline:
   # Code from module float:
-  # Code from module getopt:
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
   # Code from module gettext-h:

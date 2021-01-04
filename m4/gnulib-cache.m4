@@ -37,7 +37,7 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
-#  getopt \
+#  getopt-gnu \
 #  gettimeofday \
 #  mkdir \
 #  snprintf \
@@ -46,7 +46,7 @@
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
-  getopt
+  getopt-gnu
   gettimeofday
   mkdir
   snprintf
