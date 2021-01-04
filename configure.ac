@@ -21,7 +21,7 @@ AM_PATH_GTK_2_0([2.8.0])
 dnl Checks for header files.
 AC_HEADER_ASSERT
 AC_HEADER_STDBOOL
-AC_CHECK_HEADERS([unistd.h sys/time.h])
+AC_CHECK_HEADERS([ltdl.h unistd.h sys/time.h])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
