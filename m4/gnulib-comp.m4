@@ -44,6 +44,9 @@ AC_DEFUN([gl_EARLY],
 
   # Code from module absolute-header:
   # Code from module alloca-opt:
+  # Code from module dirname-lgpl:
+  # Code from module dosname:
+  # Code from module double-slash-root:
   # Code from module errno:
   # Code from module extensions:
   # Code from module extern-inline:
@@ -57,19 +60,25 @@ AC_DEFUN([gl_EARLY],
   # Code from module inttypes-incomplete:
   # Code from module limits-h:
   # Code from module localtime-buffer:
+  # Code from module malloc-posix:
   # Code from module memchr:
+  # Code from module mkdir:
   # Code from module multiarch:
   # Code from module nocrash:
   # Code from module size_max:
+  # Code from module snippet/_Noreturn:
   # Code from module snippet/arg-nonnull:
   # Code from module snippet/c++defs:
   # Code from module snippet/warn-on-use:
   # Code from module snprintf:
   # Code from module ssize_t:
+  # Code from module stdbool:
   # Code from module stddef:
   # Code from module stdint:
   # Code from module stdio:
+  # Code from module stdlib:
   # Code from module string:
+  # Code from module sys_stat:
   # Code from module sys_time:
   # Code from module sys_types:
   # Code from module time:
@@ -95,6 +104,8 @@ AC_DEFUN([gl_INIT],
   gl_COMMON
   gl_source_base='libgnu'
   gl_FUNC_ALLOCA
+  gl_DIRNAME_LGPL
+  gl_DOUBLE_SLASH_ROOT
   gl_HEADER_ERRNO_H
   AC_REQUIRE([gl_EXTERN_INLINE])
   gl_FLOAT_H
@@ -129,22 +140,35 @@ AC_DEFUN([gl_INIT],
   gl_LIMITS_H
   AC_REQUIRE([gl_LOCALTIME_BUFFER_DEFAULTS])
   AC_LIBOBJ([localtime-buffer])
+  gl_FUNC_MALLOC_POSIX
+  if test $REPLACE_MALLOC = 1; then
+    AC_LIBOBJ([malloc])
+  fi
+  gl_STDLIB_MODULE_INDICATOR([malloc-posix])
   gl_FUNC_MEMCHR
   if test $HAVE_MEMCHR = 0 || test $REPLACE_MEMCHR = 1; then
     AC_LIBOBJ([memchr])
     gl_PREREQ_MEMCHR
   fi
   gl_STRING_MODULE_INDICATOR([memchr])
+  gl_FUNC_MKDIR
+  if test $REPLACE_MKDIR = 1; then
+    AC_LIBOBJ([mkdir])
+  fi
   gl_MULTIARCH
   gl_SIZE_MAX
   gl_FUNC_SNPRINTF
   gl_STDIO_MODULE_INDICATOR([snprintf])
   gl_MODULE_INDICATOR([snprintf])
   gt_TYPE_SSIZE_T
+  AM_STDBOOL_H
   gl_STDDEF_H
   gl_STDINT_H
   gl_STDIO_H
+  gl_STDLIB_H
   gl_HEADER_STRING_H
+  gl_HEADER_SYS_STAT_H
+  AC_PROG_MKDIR_P
   gl_HEADER_SYS_TIME_H
   AC_PROG_MKDIR_P
   gl_SYS_TYPES_H
@@ -290,10 +314,15 @@ AC_DEFUN([gltests_LIBSOURCES], [
 # This macro records the list of files which have been installed by
 # gnulib-tool and may be removed by future gnulib-tool invocations.
 AC_DEFUN([gl_FILE_LIST], [
+  lib/_Noreturn.h
   lib/alloca.in.h
   lib/arg-nonnull.h
   lib/asnprintf.c
+  lib/basename-lgpl.c
   lib/c++defs.h
+  lib/dirname-lgpl.c
+  lib/dirname.h
+  lib/dosname.h
   lib/errno.in.h
   lib/float+.h
   lib/float.c
@@ -314,18 +343,24 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/limits.in.h
   lib/localtime-buffer.c
   lib/localtime-buffer.h
+  lib/malloc.c
   lib/memchr.c
   lib/memchr.valgrind
+  lib/mkdir.c
   lib/printf-args.c
   lib/printf-args.h
   lib/printf-parse.c
   lib/printf-parse.h
   lib/size_max.h
   lib/snprintf.c
+  lib/stdbool.in.h
   lib/stddef.in.h
   lib/stdint.in.h
   lib/stdio.in.h
+  lib/stdlib.in.h
   lib/string.in.h
+  lib/stripslash.c
+  lib/sys_stat.in.h
   lib/sys_time.in.h
   lib/sys_types.in.h
   lib/time.in.h
@@ -341,6 +376,8 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/00gnulib.m4
   m4/absolute-header.m4
   m4/alloca.m4
+  m4/dirname.m4
+  m4/double-slash-root.m4
   m4/errno_h.m4
   m4/exponentd.m4
   m4/extensions.m4
@@ -355,8 +392,10 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/inttypes_h.m4
   m4/limits-h.m4
   m4/localtime-buffer.m4
+  m4/malloc.m4
   m4/math_h.m4
   m4/memchr.m4
+  m4/mkdir.m4
   m4/mmap-anon.m4
   m4/multiarch.m4
   m4/nocrash.m4
@@ -365,12 +404,15 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/size_max.m4
   m4/snprintf.m4
   m4/ssize_t.m4
+  m4/stdbool.m4
   m4/stddef_h.m4
   m4/stdint.m4
   m4/stdint_h.m4
   m4/stdio_h.m4
+  m4/stdlib_h.m4
   m4/string_h.m4
   m4/sys_socket_h.m4
+  m4/sys_stat_h.m4
   m4/sys_time_h.m4
   m4/sys_types_h.m4
   m4/time_h.m4

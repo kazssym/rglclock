@@ -39,6 +39,7 @@
 #  --macro-prefix=gl \
 #  getopt \
 #  gettimeofday \
+#  mkdir \
 #  snprintf
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
@@ -46,6 +47,7 @@ gl_LOCAL_DIR([])
 gl_MODULES([
   getopt
   gettimeofday
+  mkdir
   snprintf
 ])
 gl_AVOID([])
