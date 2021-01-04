@@ -54,5 +54,4 @@ AC_CONFIG_FILES([Makefile libgnu/Makefile \
 include/Makefile lib/Makefile modules/Makefile programs/Makefile \
 testsuite/Makefile doc/Makefile po/Makefile.in])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_SUBDIRS([libltdl])
 AC_OUTPUT
