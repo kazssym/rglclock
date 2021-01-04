@@ -11,6 +11,7 @@ AC_PROG_CC
 AC_PROG_CXX
 gl_EARLY
 # Checks for libraries.
+AC_SEARCH_LIBS([XFree], [X11])
 AM_PATH_GTK_2_0([2.8.0])
 AC_CHECK_LIB([GL], [glClear], [GL_LIBS="-lGL $GL_LIBS"],, [$GL_LIBS $GTK_LIBS])
 AC_CHECK_LIB([GLU], [gluLookAt], [GL_LIBS="-lGLU $GL_LIBS"],, [$GL_LIBS $GTK_LIBS])
