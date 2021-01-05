@@ -67,8 +67,9 @@ glclock::glclock (void)
       rot_velocity (0),
       rot_x (0), rot_y (1), rot_z (0)
 {
-    _update_rate = DEFAULT_UPDATE_RATE;
-    _update_timeout = rate_to_interval (_update_rate); 
+    _update_rate = 0;
+    _update_timeout = 0;
+    set_update_rate (DEFAULT_UPDATE_RATE);
     _widget = NULL;
     _context = NULL;
 
