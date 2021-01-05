@@ -32,9 +32,7 @@
 #include <algorithm>
 #include <GL/glu.h>
 #include <gtk/gtk.h>
-#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
-#endif
 
 #include "module.h"
 #include "glgtk.h"
@@ -187,7 +185,6 @@ void glclock::update (void)
         m->init ();
     }
 
-#ifdef HAVE_GETTIMEOFDAY
     double angle = 0;
     // FIXME.  The last update time should be kept in the object.
     static struct timeval tv_last = {0};
@@ -200,9 +197,6 @@ void glclock::update (void)
         angle = rot_velocity * t;
     }
     tv_last = tv;
-#else /* !HAVE_GETTIMEOFDAY */
-    double angle = rot_velocity / _update_rate;
-#endif /* !HAVE_GETTIMEOFDAY */
     m->rotate (angle * (180 / M_PI), rot_x, rot_y, rot_z);
 
     int width, height;
