@@ -1,0 +1,144 @@
+# English translations for rglclock package.
+# Copyright (C) 2021 Hypercore Software Design, Ltd.
+# This file is distributed under the same license as the rglclock package.
+# Automatically generated, 2021.
+#
+# All this catalog "translates" are quotation characters.
+# The msgids must be ASCII and therefore cannot contain real quotation
+# characters, only substitutes like grave accent (0x60), apostrophe (0x27)
+# and double quote (0x22). These substitutes look strange; see
+# http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html
+#
+# This catalog translates grave accent (0x60) and apostrophe (0x27) to
+# left single quotation mark (U+2018) and right single quotation mark (U+2019).
+# It also translates pairs of apostrophe (0x27) to
+# left single quotation mark (U+2018) and right single quotation mark (U+2019)
+# and pairs of quotation mark (0x22) to
+# left double quotation mark (U+201C) and right double quotation mark (U+201D).
+#
+# When output to an UTF-8 terminal, the quotation characters appear perfectly.
+# When output to an ISO-8859-1 terminal, the single quotation marks are
+# transliterated to apostrophes (by iconv in glibc 2.2 or newer) or to
+# grave/acute accent (by libiconv), and the double quotation marks are
+# transliterated to 0x22.
+# When output to an ASCII terminal, the single quotation marks are
+# transliterated to apostrophes, and the double quotation marks are
+# transliterated to 0x22.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rglclock 3.0\n"
+"Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
+"POT-Creation-Date: 2021-01-07 18:14+0900\n"
+"PO-Revision-Date: 2021-01-07 18:14+0900\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en@quot\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/clockoptions.cc:114
+msgid "Update rate: "
+msgstr "Update rate: "
+
+#: lib/clockoptions.cc:127
+msgid "Hz"
+msgstr "Hz"
+
+#: lib/clockoptions.cc:138
+msgid "Map texture file: "
+msgstr "Map texture file: "
+
+#: lib/clockoptions.cc:151
+msgid "Select..."
+msgstr "Select..."
+
+#: lib/clockoptions.cc:171
+msgid "General"
+msgstr "General"
+
+#: programs/rglclock.cpp:154
+msgid "/_File/_Options..."
+msgstr "/_File/_Options..."
+
+#: programs/rglclock.cpp:156
+msgid "/_File/"
+msgstr "/_File/"
+
+#: programs/rglclock.cpp:157
+msgid "/_File/E_xit"
+msgstr "/_File/E_xit"
+
+#: programs/rglclock.cpp:159
+msgid "/_Help/_About..."
+msgstr "/_Help/_About..."
+
+#: programs/rglclock.cpp:229 programs/about.cpp:96
+#, c-format
+msgid ""
+"%s version %s\n"
+"Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
+msgstr ""
+"%s version %s\n"
+"Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
+
+#: programs/rglclock.cpp:297
+#, c-format
+msgid "Usage: %s [OPTION]...\n"
+msgstr "Usage: %s [OPTION]...\n"
+
+#: programs/rglclock.cpp:298
+#, c-format
+msgid "Display a 3D rotating clock.\n"
+msgstr "Display a 3D rotating clock.\n"
+
+#: programs/rglclock.cpp:300
+#, c-format
+msgid "  -m, --hide-menu-bar   hide the menu bar\n"
+msgstr "  -m, --hide-menu-bar   hide the menu bar\n"
+
+#: programs/rglclock.cpp:301
+#, c-format
+msgid "      --help            display this help and exit\n"
+msgstr "      --help            display this help and exit\n"
+
+#: programs/rglclock.cpp:302
+#, c-format
+msgid "      --version         output version information and exit\n"
+msgstr "      --version         output version information and exit\n"
+
+#: programs/rglclock.cpp:304 programs/about.cpp:121
+#, c-format
+msgid "Report bugs to <%s>."
+msgstr "Report bugs to <%s>."
+
+#: programs/about.cpp:81
+#, c-format
+msgid "About %s"
+msgstr "About %s"
+
+#: programs/about.cpp:109
+msgid ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the GNU General Public License as publishd by the Free Software "
+"Foundation; either version 2 of the License, or (at your option) any later "
+"version."
+msgstr ""
+"This program is free software; you can redistribute it and/or modify it "
+"under the GNU General Public License as publishd by the Free Software "
+"Foundation; either version 2 of the License, or (at your option) any later "
+"version."
+
+#: programs/about.cpp:130 programs/options.cpp:179
+msgid "OK"
+msgstr "OK"
+
+#: programs/options.cpp:190
+msgid "Cancel"
+msgstr "Cancel"
+
+#: programs/options.cpp:206
+msgid "Options"
+msgstr "Options"
