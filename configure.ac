@@ -26,8 +26,6 @@ AC_C_INLINE
 
 LT_INIT([dlopen])
 gl_INIT
-
-ALL_LINGUAS="en ja"
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 PKG_CHECK_MODULES([GTK], [gtk+-2.0])
