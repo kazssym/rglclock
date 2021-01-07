@@ -8,17 +8,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RGLClock 2.0.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-06-22 23:05+0900\n"
+"POT-Creation-Date: 2021-01-07 18:14+0900\n"
 "PO-Revision-Date: 2007-06-26 23:35+0900\n"
 "Last-Translator: Kaz Sasayama <kazssym@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.yaromai.net>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=SHIFT_JIS\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lib/clockoptions.cc:114
 msgid "Update rate: "
-msgstr "XVƒŒ[ƒg: "
+msgstr "æ›´æ–°ãƒ¬ãƒ¼ãƒˆ: "
 
 #: lib/clockoptions.cc:127
 msgid "Hz"
@@ -26,67 +27,67 @@ msgstr "Hz"
 
 #: lib/clockoptions.cc:138
 msgid "Map texture file: "
-msgstr "ƒeƒNƒXƒ`ƒƒƒ}ƒbƒsƒ“ƒO: "
+msgstr "ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ”ãƒ³ã‚°: "
 
 #: lib/clockoptions.cc:151
 msgid "Select..."
-msgstr "‘I‘ğ..."
+msgstr "é¸æŠ..."
 
 #: lib/clockoptions.cc:171
 msgid "General"
-msgstr "ˆê”Ê"
+msgstr "ä¸€èˆ¬"
+
+#: programs/rglclock.cpp:154
+msgid "/_File/_Options..."
+msgstr "/ãƒ•ã‚¡ã‚¤ãƒ«(_F)/ã‚ªãƒ—ã‚·ãƒ§ãƒ³(_O)..."
+
+#: programs/rglclock.cpp:156
+msgid "/_File/"
+msgstr "/ãƒ•ã‚¡ã‚¤ãƒ«(_F)/"
 
 #: programs/rglclock.cpp:157
-msgid "/_File/_Options..."
-msgstr "/ƒtƒ@ƒCƒ‹(_F)/ƒIƒvƒVƒ‡ƒ“(_O)..."
+msgid "/_File/E_xit"
+msgstr "/ãƒ•ã‚¡ã‚¤ãƒ«(_F)/çµ‚äº†(_X)"
 
 #: programs/rglclock.cpp:159
-msgid "/_File/"
-msgstr "/ƒtƒ@ƒCƒ‹(_F)/"
-
-#: programs/rglclock.cpp:160
-msgid "/_File/E_xit"
-msgstr "/ƒtƒ@ƒCƒ‹(_F)/I—¹(_X)"
-
-#: programs/rglclock.cpp:162
 msgid "/_Help/_About..."
-msgstr "/ƒwƒ‹ƒv(_H)/ƒo[ƒWƒ‡ƒ“î•ñ(_A)..."
+msgstr "/ãƒ˜ãƒ«ãƒ—(_H)/ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±(_A)..."
 
-#: programs/rglclock.cpp:232 programs/about.cpp:96
+#: programs/rglclock.cpp:229 programs/about.cpp:96
 #, c-format
 msgid ""
 "%s version %s\n"
 "Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
 msgstr ""
-"%s ƒo[ƒWƒ‡ƒ“%s\n"
-"Copyright (C) 1998, 1999, 2000, 2002, 2007 —LŒÀ‰ïĞƒnƒCƒp[ƒRƒA"
+"%s ãƒãƒ¼ã‚¸ãƒ§ãƒ³%s\n"
+"Copyright (C) 1998, 1999, 2000, 2002, 2007 æœ‰é™ä¼šç¤¾ãƒã‚¤ãƒ‘ãƒ¼ã‚³ã‚¢"
+
+#: programs/rglclock.cpp:297
+#, c-format
+msgid "Usage: %s [OPTION]...\n"
+msgstr "ä½¿ç”¨æ³•: %s [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]...\n"
+
+#: programs/rglclock.cpp:298
+#, c-format
+msgid "Display a 3D rotating clock.\n"
+msgstr "3Dã§è‡ªè»¢ã™ã‚‹æ™‚è¨ˆã‚’è¡¨ç¤ºã—ã¾ã™ã€‚\n"
 
 #: programs/rglclock.cpp:300
 #, c-format
-msgid "Usage: %s [OPTION]...\n"
-msgstr "g—p–@: %s [ƒIƒvƒVƒ‡ƒ“]...\n"
+msgid "  -m, --hide-menu-bar   hide the menu bar\n"
+msgstr "  -m, --hide-menu-bar   ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã‚’éš ã™\n"
 
 #: programs/rglclock.cpp:301
 #, c-format
-msgid "Display a 3D rotating clock.\n"
-msgstr "3D‚Å©“]‚·‚éŒv‚ğ•\¦‚µ‚Ü‚·B\n"
-
-#: programs/rglclock.cpp:303
-#, c-format
-msgid "  -m, --hide-menu-bar   hide the menu bar\n"
-msgstr "  -m, --hide-menu-bar   ƒƒjƒ…[ƒo[‚ğ‰B‚·\n"
-
-#: programs/rglclock.cpp:304
-#, c-format
 msgid "      --help            display this help and exit\n"
-msgstr "      --help            ‚±‚Ìƒwƒ‹ƒv‚ğ•\¦‚µ‚ÄI—¹‚·‚é\n"
+msgstr "      --help            ã“ã®ãƒ˜ãƒ«ãƒ—ã‚’è¡¨ç¤ºã—ã¦çµ‚äº†ã™ã‚‹\n"
 
-#: programs/rglclock.cpp:305
+#: programs/rglclock.cpp:302
 #, c-format
 msgid "      --version         output version information and exit\n"
-msgstr "      --version         ƒo[ƒWƒ‡ƒ“î•ñ‚ğo—Í‚µ‚ÄI—¹‚·‚é\n"
+msgstr "      --version         ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã‚’å‡ºåŠ›ã—ã¦çµ‚äº†ã™ã‚‹\n"
 
-#: programs/rglclock.cpp:307 programs/about.cpp:121
+#: programs/rglclock.cpp:304 programs/about.cpp:121
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr "Report bugs to <%s>."
@@ -94,7 +95,7 @@ msgstr "Report bugs to <%s>."
 #: programs/about.cpp:81
 #, c-format
 msgid "About %s"
-msgstr "%s‚Ìƒo[ƒWƒ‡ƒ“î•ñ"
+msgstr "%sã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±"
 
 #: programs/about.cpp:109
 msgid ""
@@ -114,8 +115,8 @@ msgstr "OK"
 
 #: programs/options.cpp:190
 msgid "Cancel"
-msgstr "ƒLƒƒƒ“ƒZƒ‹"
+msgstr "ã‚­ãƒ£ãƒ³ã‚»ãƒ«"
 
 #: programs/options.cpp:206
 msgid "Options"
-msgstr "ƒIƒvƒVƒ‡ƒ“"
+msgstr "ã‚ªãƒ—ã‚·ãƒ§ãƒ³"

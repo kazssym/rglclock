@@ -8,12 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RGLClock 2.0.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2007-06-22 23:05+0900\n"
+"POT-Creation-Date: 2021-01-07 18:14+0900\n"
 "PO-Revision-Date: 2007-05-20 13:04+0900\n"
 "Last-Translator: Kaz Sasayama <kazssym@hypercore.co.jp>\n"
 "Language-Team: <rglclock@lists.yaromai.net>\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lib/clockoptions.cc:114
@@ -36,57 +37,57 @@ msgstr "Select..."
 msgid "General"
 msgstr "General"
 
-#: programs/rglclock.cpp:157
+#: programs/rglclock.cpp:154
 msgid "/_File/_Options..."
 msgstr "/_File/_Options..."
 
-#: programs/rglclock.cpp:159
+#: programs/rglclock.cpp:156
 msgid "/_File/"
 msgstr "/_File/"
 
-#: programs/rglclock.cpp:160
+#: programs/rglclock.cpp:157
 msgid "/_File/E_xit"
 msgstr "/_File/E_xit"
 
-#: programs/rglclock.cpp:162
+#: programs/rglclock.cpp:159
 msgid "/_Help/_About..."
 msgstr "/_Help/_About..."
 
-#: programs/rglclock.cpp:232 programs/about.cpp:96
+#: programs/rglclock.cpp:229 programs/about.cpp:96
 #, c-format
 msgid ""
 "%s version %s\n"
 "Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
 msgstr ""
 "%s version %s\n"
-"Copyright © 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
+"Copyright Â© 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
 
-#: programs/rglclock.cpp:300
+#: programs/rglclock.cpp:297
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr "Usage: %s [OPTION]...\n"
 
-#: programs/rglclock.cpp:301
+#: programs/rglclock.cpp:298
 #, c-format
 msgid "Display a 3D rotating clock.\n"
 msgstr "Display a 3D rotating clock.\n"
 
-#: programs/rglclock.cpp:303
+#: programs/rglclock.cpp:300
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   hide the menu bar\n"
 
-#: programs/rglclock.cpp:304
+#: programs/rglclock.cpp:301
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            display this help and exit\n"
 
-#: programs/rglclock.cpp:305
+#: programs/rglclock.cpp:302
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         output version information and exit\n"
 
-#: programs/rglclock.cpp:307 programs/about.cpp:121
+#: programs/rglclock.cpp:304 programs/about.cpp:121
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr "Report bugs to <%s>."
