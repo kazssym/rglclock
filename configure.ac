@@ -12,8 +12,8 @@ AC_PROG_CXX
 gl_EARLY
 # Checks for libraries.
 AC_SEARCH_LIBS([XFree], [X11])
-AC_SEARCH_LIBS([glClear], [GL])
-AC_SEARCH_LIBS([gluLookAt], [GLU])
+AC_SEARCH_LIBS([glClear], [GL],, [AC_MSG_ERROR([missing OpenGL library])])
+AC_SEARCH_LIBS([gluLookAt], [GLU],, [AC_MSG_ERROR([missing GLU library])])
 AC_CHECK_LIB([ltdl], [lt_dlopen], [LTDL_LIBS="-lltdl $LTDL_LIBS"],, [$LTDL_LIBS])
 AC_SUBST([LTDL_LIBS])dnl
 # Checks for header files.
