@@ -19,8 +19,7 @@ AC_SUBST([LTDL_LIBS])dnl
 # Checks for header files.
 AC_HEADER_ASSERT
 AC_CHECK_HEADERS([ltdl.h])
-
-dnl Checks for typedefs, structures, and compiler characteristics.
+# Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
 # Checks for library functions.
 
