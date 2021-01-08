@@ -23,6 +23,7 @@ AC_CHECK_HEADERS([ltdl.h])
 AC_C_INLINE
 # Checks for library functions.
 
+LT_PREREQ([2.4.6])
 LT_INIT([dlopen])
 gl_INIT
 AM_GNU_GETTEXT([external])
