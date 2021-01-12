@@ -24,7 +24,7 @@
 #ifndef AUTOWIDGET_H
 #define AUTOWIDGET_H 1
 
-#include <gtk/gtkwidget.h>
+#include <glib-object.h>
 
 template <class Object> class GtkObject_ptr
 {
@@ -44,10 +44,10 @@ public:
     {
       if (&another != this)
         {
-	  unref();
-	  object = another.object;
-	  ref();
-	}
+          unref();
+          object = another.object;
+          ref();
+        }
       return *this;
     }
   Object &operator*() const throw()
@@ -58,17 +58,16 @@ public:
     {return object;}
 protected:
   void ref() const
-    {if (object != 0) {gtk_object_ref(GTK_OBJECT(object));}}
+    {if (object != 0) {g_object_ref(G_OBJECT(object));}}
   void ref_sink() const
     {
       if (object != 0)
-	{
-	  gtk_object_ref(GTK_OBJECT(object));
-	  gtk_object_sink(GTK_OBJECT(object));
-	}
+        {
+          g_object_ref_sink(G_OBJECT(object));
+        }
     }
   void unref() const
-    {if (object != 0) gtk_object_unref(GTK_OBJECT(object));}
+    {if (object != 0) g_object_unref(G_OBJECT(object));}
 };
 
 #endif /* not AUTOWIDGET_H */
