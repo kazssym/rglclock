@@ -27,14 +27,14 @@
 
 #include <glib-object.h>
 
-template<class Object> class g_ptr
+template<class T> class g_ptr
 {
 private:
-  Object *object;
+  T *object;
 public:
   g_ptr() throw()
     : object(0) {}
-  g_ptr(Object *x)
+  g_ptr(T *x)
     : object(x) {ref_sink();}
   g_ptr(const g_ptr &another)
     : object(another.object) {ref();}
@@ -51,11 +51,11 @@ public:
         }
       return *this;
     }
-  Object &operator*() const throw()
+  T &operator*() const throw()
     {return *object;}
-  Object *operator->() const throw()
+  T *operator->() const throw()
     {return object;}
-  Object *get() const throw()
+  T *get() const throw()
     {return object;}
 protected:
   void ref() const
