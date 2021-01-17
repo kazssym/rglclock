@@ -109,11 +109,18 @@ public:
         return ptr;
     }
 
-  T &operator*() const throw()
-    {return *_ptr;}
-  T *operator->() const throw()
-    {return _ptr;}
-  T *get() const throw()
+public:
+    T &operator *() const noexcept
+    {
+        return *_ptr;
+    }
+
+    T *operator ->() const noexcept
+    {
+        return _ptr;
+    }
+
+    T *get() const throw()
     {return _ptr;}
 protected:
   void ref() const
