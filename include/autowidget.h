@@ -96,7 +96,7 @@ public:
     {
         using std::swap;
         if (this != &other) {
-            swap(_ptr, _other._ptr);
+            swap(_ptr, other._ptr);
         }
     }
 
