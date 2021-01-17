@@ -76,16 +76,16 @@ public:
     }
 
 public:
-  g_ptr &operator=(const g_ptr &another)
+    g_ptr &operator =(const g_ptr &other)
     {
-      if (&another != this)
-        {
-          unref();
-          _ptr = another._ptr;
-          ref();
+        if (this != &other) {
+            unref();
+            _ptr = other._ptr;
+            ref();
         }
-      return *this;
+        return *this;
     }
+
   T &operator*() const throw()
     {return *_ptr;}
   T *operator->() const throw()
