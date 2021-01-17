@@ -109,7 +109,7 @@ public:
         return ptr;
     }
 
-public
+public:
     T *get() const noexcept
     {
         return _ptr;
