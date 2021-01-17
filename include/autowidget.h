@@ -86,6 +86,20 @@ public:
         return *this;
     }
 
+    g_ptr &operator =(g_ptr &&other) noexcept
+    {
+        swap(other);
+    }
+
+public:
+    void swap(g_ptr &other) noexcept
+    {
+        using std::swap;
+        if (this != &other) {
+            swap(_ptr, _other._ptr);
+        }
+    }
+
   T &operator*() const throw()
     {return *_ptr;}
   T *operator->() const throw()
