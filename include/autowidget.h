@@ -64,7 +64,7 @@ public:
 
     g_ptr(g_ptr &&other) noexcept
     :
-        _ptr {std::move(other._ptr)}
+        _ptr {other.release()}
     {
         // Nothing to do.
     }
@@ -98,6 +98,15 @@ public:
         if (this != &other) {
             swap(_ptr, other._ptr);
         }
+    }
+
+public:
+    T *release() noexcept
+    {
+        using std::swap;
+        T *ptr = nullptr;
+        swap(_ptr, ptr);
+        return ptr;
     }
 
   T &operator*() const throw()
