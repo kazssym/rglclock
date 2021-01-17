@@ -127,17 +127,28 @@ public:
     }
 
 protected:
-  void ref() const
-    {if (_ptr != 0) {g_object_ref(G_OBJECT(_ptr));}}
-  void ref_sink() const
+    void ref() const
     {
-      if (_ptr != 0)
-        {
-          g_object_ref_sink(G_OBJECT(_ptr));
+        if (_ptr != nullptr) {
+            g_object_ref(G_OBJECT(_ptr));
         }
     }
-  void unref() const
-    {if (_ptr != 0) g_object_unref(G_OBJECT(_ptr));}
+
+protected:
+    void ref_sink() const
+    {
+        if (_ptr != nullptr) {
+            g_object_ref_sink(G_OBJECT(_ptr));
+        }
+    }
+
+protected:
+    void unref() const
+    {
+        if (_ptr != nullptr) {
+            g_object_unref(G_OBJECT(_ptr));
+        }
+    }
 };
 
 #endif /* not AUTOWIDGET_H */
