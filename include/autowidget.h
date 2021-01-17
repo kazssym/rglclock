@@ -109,6 +109,12 @@ public:
         return ptr;
     }
 
+public
+    T *get() const noexcept
+    {
+        return _ptr;
+    }
+
 public:
     T &operator *() const noexcept
     {
@@ -120,8 +126,6 @@ public:
         return _ptr;
     }
 
-    T *get() const throw()
-    {return _ptr;}
 protected:
   void ref() const
     {if (_ptr != 0) {g_object_ref(G_OBJECT(_ptr));}}
