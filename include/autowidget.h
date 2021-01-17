@@ -30,14 +30,15 @@
 template<class T> class g_ptr
 {
 private:
-  T *object;
+    T *_ptr;
+
 public:
   g_ptr() throw()
-    : object(0) {}
+    : _ptr(0) {}
   g_ptr(T *x)
-    : object(x) {ref_sink();}
+    : _ptr(x) {ref_sink();}
   g_ptr(const g_ptr &another)
-    : object(another.object) {ref();}
+    : _ptr(another._ptr) {ref();}
   ~g_ptr()
     {unref();}
 public:
@@ -46,29 +47,29 @@ public:
       if (&another != this)
         {
           unref();
-          object = another.object;
+          _ptr = another._ptr;
           ref();
         }
       return *this;
     }
   T &operator*() const throw()
-    {return *object;}
+    {return *_ptr;}
   T *operator->() const throw()
-    {return object;}
+    {return _ptr;}
   T *get() const throw()
-    {return object;}
+    {return _ptr;}
 protected:
   void ref() const
-    {if (object != 0) {g_object_ref(G_OBJECT(object));}}
+    {if (_ptr != 0) {g_object_ref(G_OBJECT(_ptr));}}
   void ref_sink() const
     {
-      if (object != 0)
+      if (_ptr != 0)
         {
-          g_object_ref_sink(G_OBJECT(object));
+          g_object_ref_sink(G_OBJECT(_ptr));
         }
     }
   void unref() const
-    {if (object != 0) g_object_unref(G_OBJECT(object));}
+    {if (_ptr != 0) g_object_unref(G_OBJECT(_ptr));}
 };
 
 #endif /* not AUTOWIDGET_H */
