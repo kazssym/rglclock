@@ -142,12 +142,12 @@ GtkWidget *application::widget (void)
         gtk_window_add_accel_group (GTK_WINDOW (window), ag);
 
         {
-            GtkObject_ptr<GtkWidget> box1 (gtk_vbox_new (FALSE, 0));
+            g_ptr<GtkWidget> box1 (gtk_vbox_new (FALSE, 0));
             gtk_widget_show (box1.get ());
             gtk_container_add (GTK_CONTAINER (window), box1.get ());
 
             {
-                GtkObject_ptr<GtkItemFactory> ifactory
+                g_ptr<GtkItemFactory> ifactory
                     (gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<Window>", ag));
 #define ITEM_FACTORY_CALLBACK(f) (reinterpret_cast<GtkItemFactoryCallback> (f))
                 GtkItemFactoryEntry entries[] = {
@@ -170,7 +170,7 @@ GtkWidget *application::widget (void)
                 gtk_box_pack_start (GTK_BOX (box1.get ()), ifactory->widget,
                                     FALSE, FALSE, 0);
 
-                GtkObject_ptr<GtkWidget> content (clock.widget ());
+                g_ptr<GtkWidget> content (clock.widget ());
                 gtk_widget_show (content.get());
                 gtk_box_pack_start (GTK_BOX (box1.get ()), content.get (),
                                     TRUE, TRUE, 0);

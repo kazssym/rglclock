@@ -1,5 +1,6 @@
 /* -*-C++-*- */
 /* Copyright (C) 1999 Hypercore Software Design, Ltd.
+   Copyright (C) 2021 Kaz Nishimura
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -26,21 +27,21 @@
 
 #include <glib-object.h>
 
-template <class Object> class GtkObject_ptr
+template<class Object> class g_ptr
 {
 private:
   Object *object;
 public:
-  GtkObject_ptr() throw()
+  g_ptr() throw()
     : object(0) {}
-  GtkObject_ptr(Object *x)
+  g_ptr(Object *x)
     : object(x) {ref_sink();}
-  GtkObject_ptr(const GtkObject_ptr &another)
+  g_ptr(const g_ptr &another)
     : object(another.object) {ref();}
-  ~GtkObject_ptr()
+  ~g_ptr()
     {unref();}
 public:
-  GtkObject_ptr &operator=(const GtkObject_ptr &another)
+  g_ptr &operator=(const g_ptr &another)
     {
       if (&another != this)
         {
