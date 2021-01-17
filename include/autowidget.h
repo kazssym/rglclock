@@ -34,14 +34,14 @@ private:
     T *_ptr;
 
 public:
-    g_ptr() noexcept
+    constexpr g_ptr() noexcept
     :
         g_ptr(nullptr)
     {
         // Nothing to do.
     }
 
-    explicit g_ptr(nullptr_t) noexcept
+    constexpr explicit g_ptr(nullptr_t) noexcept
     :
         _ptr {nullptr}
     {
