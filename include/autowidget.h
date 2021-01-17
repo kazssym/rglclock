@@ -101,6 +101,16 @@ public:
     }
 
 public:
+    void reset(T *ptr = nullptr)
+    {
+        if (_ptr != ptr) {
+            unref();
+            _ptr = ptr;
+            ref_sink();
+        }
+    }
+
+public:
     T *release() noexcept
     {
         using std::swap;
