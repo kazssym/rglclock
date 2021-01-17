@@ -26,6 +26,7 @@
 #define AUTOWIDGET_H 1
 
 #include <glib-object.h>
+#include <utility>
 
 template<class T> class g_ptr
 {
@@ -33,14 +34,47 @@ private:
     T *_ptr;
 
 public:
-  g_ptr() throw()
-    : _ptr(0) {}
-  g_ptr(T *x)
-    : _ptr(x) {ref_sink();}
-  g_ptr(const g_ptr &another)
-    : _ptr(another._ptr) {ref();}
-  ~g_ptr()
-    {unref();}
+    g_ptr() noexcept
+    :
+        g_ptr(nullptr)
+    {
+        // Nothing to do.
+    }
+
+    explicit g_ptr(nullptr_t) noexcept
+    :
+        _ptr {nullptr}
+    {
+        // Nothing to do.
+    }
+
+    explicit g_ptr(T *ptr)
+    :
+        _ptr {ptr}
+    {
+        ref_sink();
+    }
+
+    g_ptr(const g_ptr &other)
+    :
+        _ptr {other._ptr}
+    {
+        ref();
+    }
+
+    g_ptr(g_ptr &&other) noexcept
+    :
+        _ptr {std::move(other._ptr)}
+    {
+        // Nothing to do.
+    }
+
+public:
+    ~g_ptr()
+    {
+        unref();
+    }
+
 public:
   g_ptr &operator=(const g_ptr &another)
     {
