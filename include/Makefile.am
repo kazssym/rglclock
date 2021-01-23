@@ -2,6 +2,6 @@
 
 include_HEADERS = rglclockmod.h
 
-noinst_HEADERS = gl_context.h autowidget.h utils.h \
+noinst_HEADERS = gl_context.h g_ptr.h utils.h \
 module.h
 

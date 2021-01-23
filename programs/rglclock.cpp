@@ -27,7 +27,7 @@
 #include <string>
 #include <cstdio>
 
-#include "autowidget.h"
+#include "g_ptr.h"
 #include <gtk/gtk.h>
 #include <getopt.h>
 #include <sys/stat.h>

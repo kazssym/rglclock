@@ -1,4 +1,4 @@
-// autowidget.h
+// g_ptr.h
 // Copyright (C) 1999 Hypercore Software Design, Ltd.
 // Copyright (C) 2021 Kaz Nishimura
 //
@@ -17,8 +17,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef AUTOWIDGET_H
-#define AUTOWIDGET_H 1
+#ifndef G_PTR_H
+#define G_PTR_H 1
 
 #include <glib-object.h>
 #include <utility>
