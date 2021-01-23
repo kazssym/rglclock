@@ -1,0 +1,110 @@
+# azure-pipelines.yml - configuration for Azure Pipelines
+# Copyright (C) 2020-2021 Kaz Nishimura
+#
+# Copying and distribution of this file, with or without modification, are
+# permitted in any medium without royalty provided the copyright notice and
+# this notice are preserved.  This file is offered as-is, without any warranty.
+---
+variables:
+  package.distName: rglclock-3.0
+  uploadRepository: kazssym/rglclock
+trigger:
+  - master
+  - feature/azure-pipelines
+  - release/*
+stages:
+  - stage: Default
+    jobs:
+      - job: Build
+        pool:
+          vmImage: ubuntu-latest
+        variables:
+          - group: gpg
+        steps:
+          - task: DownloadSecureFile@1
+            name: Keys
+            inputs:
+              secureFile: keys.asc
+          - bash: |
+              echo '$(gpg.passphrase)' |
+              sh ./setupkeys.sh '$(Keys.secureFilePath)'
+            displayName: Set up signing keys
+          - bash: |
+              sudo apt-get install -q --no-install-recommends \
+                texinfo
+            displayName: Install build dependencies
+          - bash: |
+              autoreconf --verbose
+            displayName: Bootstrap
+          - bash: |
+              ./configure --disable-static &&
+              echo "##vso[task.uploadfile]`pwd`/config.log"
+            displayName: Configure
+          - bash: |
+              make check
+            displayName: Build
+          - task: PublishTestResults@2
+            condition: succeededOrFailed()
+          - bash: |
+              make dist &&
+              mkdir -p _dist &&
+              mv -f '$(package.distName)'.* _dist/
+            displayName: Make distributables
+          - publish: _dist
+            artifact: dist
+  - stage: Test
+    jobs:
+      - job: Build
+        strategy:
+          matrix:
+            Ubuntu:
+              VM_IMAGE: ubuntu-latest
+              CC: gcc
+              CXX: g++
+            macOS:
+              VM_IMAGE: macOS-latest
+              CC: clang
+              CXX: clang++ -std=c++11
+        continueOnError: true
+        pool:
+          vmImage: $(VM_IMAGE)
+        steps:
+          - checkout: none
+          - download: current
+            artifact: dist
+          - bash: |
+              gzip -dc '$(Agent.BuildDirectory)'/dist/*.tar.gz |
+              tar -x --strip-components=1
+            displayName: Unpack
+          - bash: |
+              $CC --version
+              $CXX --version
+              ./configure --prefix='$(Build.BinariesDirectory)' &&
+              echo "##vso[task.uploadfile]`pwd`/config.log"
+            displayName: Configure
+          - bash: |
+              make check
+            displayName: Build
+          - bash: |
+              make install &&
+              make installcheck
+            displayName: Install
+  - stage: Release
+    dependsOn: Default
+    condition:
+      and(succeeded(),
+        startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))
+    jobs:
+      - job: UploadToBitbucket
+        displayName: Upload to Bitbucket
+        pool:
+          vmImage: ubuntu-latest
+        variables:
+          - group: bitbucket
+        steps:
+          - download: current
+            artifact: dist
+          - bash: |
+              sh ./upload.sh -u '$(bitbucket.username):$(bitbucket.password)' \
+                -r '$(uploadRepository)' '$(Agent.BuildDirectory)'/dist/*
+            displayName: Upload
