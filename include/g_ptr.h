@@ -156,4 +156,4 @@ protected:
     }
 };
 
-#endif /* not AUTOWIDGET_H */
+#endif
