@@ -36,7 +36,7 @@ namespace glgtk
 {
     glgtk_context::glgtk_context (GdkWindow *drawable)
     {
-        _display = GDK_DRAWABLE_XDISPLAY (drawable);
+        _display = GDK_WINDOW_XDISPLAY (drawable);
         _context = NULL;
 
         int error_base, event_base;
@@ -107,7 +107,7 @@ namespace glgtk
         }
         else
         {
-            if (!glXMakeCurrent (_display, GDK_DRAWABLE_XID (drawable),
+            if (!glXMakeCurrent (_display, GDK_WINDOW_XID (drawable),
                                  _context))
             {
                 return false;
@@ -119,7 +119,7 @@ namespace glgtk
 
     void glgtk_context::swap_buffers (GdkWindow *drawable)
     {
-        glXSwapBuffers (_display, GDK_DRAWABLE_XID (drawable));
+        glXSwapBuffers (_display, GDK_WINDOW_XID (drawable));
     }
 
 #if 1
