@@ -26,18 +26,15 @@
 
 #include "about.h"
 
+#include <gettext.h>
 #include <cstdio>
 #include <cassert>
 #include <gtk/gtk.h>
 
-#if ENABLE_NLS
-#include <libintl.h>
-#define _(t) gettext (t)
-#else
-#define _(t) (t)
-#endif
-
 using std::snprintf;
+
+#define _(String) gettext(String)
+#define N_(String) gettext_noop(String)
 
 about_dialog::about_dialog (GtkWindow *parent)
 {
@@ -64,7 +61,7 @@ static void handle_ok_clicked (GtkButton *button, gpointer data) throw ();
 
 void about_dialog::initialize (GtkWindow *parent)
 {
-    const size_t buf_size = 512; 
+    const size_t buf_size = 512;
     gchar buf[buf_size];
 
     dialog = gtk_dialog_new ();

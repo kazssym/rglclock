@@ -29,7 +29,7 @@
 #include "clock.h"
 
 #include <gtk/gtk.h>
-#include <libintl.h>
+#include <gettext.h>
 #include <cstdlib>
 
 #ifdef HAVE_NANA_H
@@ -40,9 +40,10 @@
 # define I assert
 #endif
 
-#define _(MSG) gettext(MSG)
-
 using namespace std;
+
+#define _(String) gettext(String)
+#define N_(String) gettext_noop(String)
 
 const char UPDATE_RATE_ENTRY_KEY[] = "update_rate_entry";
 const char TEXTURE_CHECK_BUTTON_KEY[] = "texture_check_button";
@@ -150,7 +151,7 @@ clock_options_dialog::general_options_page::create_widget()
 
       GtkWidget *button1 = gtk_button_new_with_label(_("Select..."));
       gtk_widget_show(button1);
-      gtk_box_pack_start(GTK_BOX(hbox2), button1, false, false, 0);      
+      gtk_box_pack_start(GTK_BOX(hbox2), button1, false, false, 0);
     }
     gtk_widget_show(hbox2);
     gtk_box_pack_start(GTK_BOX(vbox), hbox2, false, false, 0);

@@ -37,13 +37,6 @@
 #include "module.h"
 #include "glgtk.h"
 
-#if ENABLE_NLS
-#include <libintl.h>
-#define _(t) gettext (t)
-#else
-#define _(t) (t)
-#endif
-
 #ifndef DEFAULT_UPDATE_RATE
 #define DEFAULT_UPDATE_RATE 10
 #endif

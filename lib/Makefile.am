@@ -1,7 +1,8 @@
 ## Process this file with automake to produce a Makefile.in.
 
 AM_CPPFLAGS = -I $(top_srcdir)/include -I $(top_srcdir)/programs \
-	$(LIBPNG_CFLAGS) $(GTK_CFLAGS)
+-I$(top_srcdir)/libgnu -I$(top_builddir)/libgnu \
+$(LIBPNG_CFLAGS) $(GTK_CFLAGS)
 
 noinst_LIBRARIES = libsimple.a
 lib_LTLIBRARIES = librglclock.la

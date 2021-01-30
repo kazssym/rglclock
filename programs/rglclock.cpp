@@ -29,16 +29,10 @@
 
 #include "g_ptr.h"
 #include <gtk/gtk.h>
+#include <gettext.h>
 #include <getopt.h>
 #include <sys/stat.h>
 #include <signal.h>
-
-#if ENABLE_NLS
-#include <libintl.h>
-#define _(t) gettext (t)
-#else
-#define _(t) (t)
-#endif
 
 #include "clock.h"
 #include "profile.h"
@@ -47,6 +41,9 @@
 using std::string;
 using std::printf;
 using std::putchar;
+
+#define _(String) gettext(String)
+#define N_(String) gettext_noop(String)
 
 /* Clock application.  */
 class application

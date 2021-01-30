@@ -29,7 +29,6 @@
 #include "utils.h"
 
 #include <gtk/gtk.h>
-#include <libintl.h>
 //#include <algorithm>
 //#include <cstring>
 
@@ -40,8 +39,6 @@
 # include <cassert>
 # define I assert
 #endif
-
-#define _(MSG) gettext(MSG)
 
 using namespace std;
 
