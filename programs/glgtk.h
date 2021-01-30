@@ -36,13 +36,13 @@ namespace glgtk
         GLXContext _context;
 
     public:
-        explicit glgtk_context (GdkDrawable *drawable);
+        explicit glgtk_context (GdkWindow *drawable);
         glgtk_context (const glgtk_context &object);
 
     public:
         virtual ~glgtk_context ();
-        bool make_current (GdkDrawable *drawable);
-        void swap_buffers (GdkDrawable *drawable);
+        bool make_current (GdkWindow *drawable);
+        void swap_buffers (GdkWindow *drawable);
     };
 
     class gl
@@ -54,8 +54,8 @@ namespace glgtk
         static GdkVisual *best_visual ();
         static rglclock::gl_context create_context (GdkVisual *v);
         static void destroy_context (rglclock::gl_context c);
-        static void make_current (rglclock::gl_context c, GdkDrawable *d);
-        static void swap_buffers (GdkDrawable *d);
+        static void make_current (rglclock::gl_context c, GdkWindow *d);
+        static void swap_buffers (GdkWindow *d);
     };
 }
 

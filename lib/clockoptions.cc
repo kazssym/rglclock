@@ -53,7 +53,7 @@ void
 clock_options_dialog::general_options_page::update(GtkWidget *page)
 {
   gpointer update_rate_data
-    = gtk_object_get_data(GTK_OBJECT(page), UPDATE_RATE_ENTRY_KEY);
+    = g_object_get_data(G_OBJECT(page), UPDATE_RATE_ENTRY_KEY);
   I(update_rate_data != NULL);
 
   GtkWidget *update_rate_widget = GTK_WIDGET(update_rate_data);
@@ -69,7 +69,7 @@ void
 clock_options_dialog::general_options_page::apply(GtkWidget *widget)
 {
   gpointer data
-    = gtk_object_get_data(GTK_OBJECT(widget), UPDATE_RATE_ENTRY_KEY);
+    = g_object_get_data(G_OBJECT(widget), UPDATE_RATE_ENTRY_KEY);
   I(data != NULL);
   GtkWidget *update_input = GTK_WIDGET(data);
   I(GTK_IS_ENTRY(update_input));
@@ -83,7 +83,7 @@ clock_options_dialog::general_options_page::apply(GtkWidget *widget)
 
   {
     gpointer data
-      = gtk_object_get_data(GTK_OBJECT(widget), TEXTURE_CHECK_BUTTON_KEY);
+      = g_object_get_data(G_OBJECT(widget), TEXTURE_CHECK_BUTTON_KEY);
     I(data != NULL);
     GtkWidget *texture_check_button = GTK_WIDGET(data);
 
@@ -94,7 +94,7 @@ clock_options_dialog::general_options_page::apply(GtkWidget *widget)
 
   {
     gpointer data
-      = gtk_object_get_data(GTK_OBJECT(widget), TEXTURE_FILE_ENTRY_KEY);
+      = g_object_get_data(G_OBJECT(widget), TEXTURE_FILE_ENTRY_KEY);
     I(data != NULL);
     GtkWidget *texture_file_entry = GTK_WIDGET(data);
 
@@ -119,7 +119,7 @@ clock_options_dialog::general_options_page::create_widget()
       GtkObject *update_adjust = gtk_adjustment_new(5, 5, 30, 1, 5, 1);
       GtkWidget *update_input
 	= gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
-      gtk_object_set_data(GTK_OBJECT(vbox),
+      g_object_set_data(G_OBJECT(vbox),
 			  UPDATE_RATE_ENTRY_KEY, update_input);
       gtk_widget_show(update_input);
       gtk_box_pack_start(GTK_BOX(hbox1), update_input, false, false, 0);
@@ -137,14 +137,14 @@ clock_options_dialog::general_options_page::create_widget()
       /* Check button to enable texture mapping.  */
       GtkWidget *check1
 	= gtk_check_button_new_with_label(_("Map texture file: "));
-      gtk_object_set_data(GTK_OBJECT(vbox),
+      g_object_set_data(G_OBJECT(vbox),
 			  TEXTURE_CHECK_BUTTON_KEY, check1);
       gtk_widget_show(check1);
       gtk_box_pack_start(GTK_BOX(hbox2), check1, false, false, 0);
 
       /* Name of texture file.  */
       GtkWidget *entry1 = gtk_entry_new();
-      gtk_object_set_data(GTK_OBJECT(vbox),
+      g_object_set_data(G_OBJECT(vbox),
 			  TEXTURE_FILE_ENTRY_KEY, entry1);
       gtk_widget_show(entry1);
       gtk_box_pack_start(GTK_BOX(hbox2), entry1, true, true, 0);

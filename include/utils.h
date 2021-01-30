@@ -25,7 +25,7 @@
 #ifndef UTILS_H
 #define UTILS_H 1
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <vector>
 #include <string>
 
@@ -35,7 +35,7 @@ protected:
   static controller *to_ptr(gpointer data)
     {return static_cast<controller *>(data);}
 private:
-  static void remove_widget(GtkObject *, gpointer) throw ();
+  static void remove_widget(GtkWidget *, gpointer) throw ();
 private:
   std::vector<GtkWidget *> widgets;
 public:

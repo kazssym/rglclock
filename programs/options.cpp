@@ -69,9 +69,8 @@ controller::~controller()
 }
 
 void
-controller::remove_widget(GtkObject *object, gpointer data) throw ()
+controller::remove_widget(GtkWidget *widget, gpointer data) throw ()
 {
-  GtkWidget *widget = GTK_WIDGET(object);
   controller *c = to_ptr(data);
 
   I(c != NULL);

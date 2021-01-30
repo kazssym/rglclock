@@ -34,9 +34,9 @@ using std::runtime_error;
 
 namespace glgtk
 {
-    glgtk_context::glgtk_context (GdkDrawable *drawable)
+    glgtk_context::glgtk_context (GdkWindow *drawable)
     {
-        _display = GDK_DRAWABLE_XDISPLAY (drawable);
+        _display = GDK_WINDOW_XDISPLAY (drawable);
         _context = NULL;
 
         int error_base, event_base;
@@ -66,7 +66,7 @@ namespace glgtk
         }
     }
 
-    bool glgtk_context::make_current (GdkDrawable *drawable)
+    bool glgtk_context::make_current (GdkWindow *drawable)
     {
         if (_context == NULL)
         {
@@ -107,7 +107,7 @@ namespace glgtk
         }
         else
         {
-            if (!glXMakeCurrent (_display, GDK_DRAWABLE_XID (drawable),
+            if (!glXMakeCurrent (_display, GDK_WINDOW_XID (drawable),
                                  _context))
             {
                 return false;
@@ -117,9 +117,9 @@ namespace glgtk
         return true;
     }
 
-    void glgtk_context::swap_buffers (GdkDrawable *drawable)
+    void glgtk_context::swap_buffers (GdkWindow *drawable)
     {
-        glXSwapBuffers (_display, GDK_DRAWABLE_XID (drawable));
+        glXSwapBuffers (_display, GDK_WINDOW_XID (drawable));
     }
 
 #if 1
@@ -200,7 +200,7 @@ namespace glgtk
         }
     }
 
-    void gl::make_current (rglclock::gl_context c, GdkDrawable *d)
+    void gl::make_current (rglclock::gl_context c, GdkWindow *d)
     {
         Display *dd;
         Drawable dw;
@@ -224,7 +224,7 @@ namespace glgtk
             throw runtime_error ("glXMakeCurrent");
     }
 
-    void gl::swap_buffers (GdkDrawable *d)
+    void gl::swap_buffers (GdkWindow *d)
     {
         Drawable xd = GDK_WINDOW_XWINDOW (d);
 
