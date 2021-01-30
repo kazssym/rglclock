@@ -35,7 +35,7 @@ protected:
   static controller *to_ptr(gpointer data)
     {return static_cast<controller *>(data);}
 private:
-  static void remove_widget(GtkObject *, gpointer) throw ();
+  static void remove_widget(GtkWidget *, gpointer) throw ();
 private:
   std::vector<GtkWidget *> widgets;
 public:
