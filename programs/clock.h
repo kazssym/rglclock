@@ -99,7 +99,7 @@ public:
     static GdkVisual *best_visual();
 
 protected:
-    static void remove_widget(GtkObject *, gpointer);
+    static void remove_widget(GtkWidget *, gpointer);
     static gboolean handle_button_press_event (GtkWidget *, GdkEventButton *, gpointer) throw ();
     static gboolean handle_button_release_event (GtkWidget *, GdkEventButton *, gpointer) throw ();
 private:

@@ -323,9 +323,8 @@ gint glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
     return true;
 }
 
-void glclock::remove_widget (GtkObject *object, gpointer data)
+void glclock::remove_widget (GtkWidget *widget, gpointer data)
 {
-    GtkWidget *widget = GTK_WIDGET (object);
     glclock *c = static_cast<glclock *> (data);
     assert (c != NULL);
 
