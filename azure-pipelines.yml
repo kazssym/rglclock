@@ -80,11 +80,12 @@ stages:
               tar -x --strip-components=1
             displayName: Unpack
           - bash: |
-              apt-get --version > /dev/null 2>&1 &&
-              sudo apt-get install -q --no-install-recommends \
-                libgl-dev \
-                libglu1-mesa-dev \
-                libgtk2.0-dev
+              if apt-get --version > /dev/null 2>&1; then
+                sudo apt-get install -q --no-install-recommends \
+                  libgl-dev \
+                  libglu1-mesa-dev \
+                  libgtk2.0-dev
+              fi
             displayName: Install build dependencies
           - bash: |
               $CC --version
