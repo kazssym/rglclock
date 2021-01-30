@@ -25,7 +25,7 @@
 #ifndef UTILS_H
 #define UTILS_H 1
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <vector>
 #include <string>
 
