@@ -33,6 +33,7 @@
 #  --libtool \
 #  --macro-prefix=gl \
 #  getopt-gnu \
+#  gettext-h \
 #  gettimeofday \
 #  mkdir \
 #  snprintf \
