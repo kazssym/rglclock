@@ -17,8 +17,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef clockH
-#define clockH 1
+#ifndef CLOCK_H
+#define CLOCK_H 1
 
 #include "gl_context.h"
 #include "utils.h"
