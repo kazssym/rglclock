@@ -26,16 +26,15 @@
 
 #include "clock.h"
 
-#include <cmath>
-#include <cassert>
-#include <stdexcept>
-#include <algorithm>
+#include "module.h"
+#include "glgtk.h"
 #include <GL/glu.h>
 #include <gtk/gtk.h>
 #include <sys/time.h>
-
-#include "module.h"
-#include "glgtk.h"
+#include <algorithm>
+#include <stdexcept>
+#include <cmath>
+#include <cassert>
 
 #ifndef DEFAULT_UPDATE_RATE
 #define DEFAULT_UPDATE_RATE 10
