@@ -3,7 +3,7 @@
 AUTOMAKE_OPTIONS = 1.9
 ACLOCAL_AMFLAGS = -Im4
 
-EXTRA_DIST = config.rpath README.ja MEMO.ja
+EXTRA_DIST = README.ja MEMO.ja
 
 SUBDIRS = $(subdirs) libgnu include lib modules programs testsuite doc po
 

@@ -29,7 +29,7 @@
 #include "utils.h"
 
 #include <gtk/gtk.h>
-#include <libintl.h>
+#include <gettext.h>
 #include <algorithm>
 #include <cstring>
 
@@ -41,9 +41,10 @@
 # define I assert
 #endif
 
-#define _(MSG) gettext(MSG)
-
 using namespace std;
+
+#define _(String) gettext(String)
+#define N_(String) gettext_noop(String)
 
 /* FIXME: Move these controller functions to another file for
    modularity.  */

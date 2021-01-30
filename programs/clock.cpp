@@ -1,24 +1,21 @@
-/*
- * RGLClock - rotating 3D clock
- * Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software
- * Design, Ltd.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301 USA.
- *
- */
+// clock.cpp
+// Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
+// Copyright (C) 2021 Kaz Nishimura
+//
+// This program is free software: you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -26,23 +23,15 @@
 
 #include "clock.h"
 
-#include <cmath>
-#include <cassert>
-#include <stdexcept>
-#include <algorithm>
+#include "module.h"
+#include "glgtk.h"
 #include <GL/glu.h>
 #include <gtk/gtk.h>
 #include <sys/time.h>
-
-#include "module.h"
-#include "glgtk.h"
-
-#if ENABLE_NLS
-#include <libintl.h>
-#define _(t) gettext (t)
-#else
-#define _(t) (t)
-#endif
+#include <algorithm>
+#include <stdexcept>
+#include <cmath>
+#include <cassert>
 
 #ifndef DEFAULT_UPDATE_RATE
 #define DEFAULT_UPDATE_RATE 10

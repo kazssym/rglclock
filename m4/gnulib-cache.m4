@@ -38,6 +38,7 @@
 #  --libtool \
 #  --macro-prefix=gl \
 #  getopt-gnu \
+#  gettext-h \
 #  gettimeofday \
 #  mkdir \
 #  snprintf \
@@ -47,6 +48,7 @@
 gl_LOCAL_DIR([])
 gl_MODULES([
   getopt-gnu
+  gettext-h
   gettimeofday
   mkdir
   snprintf
