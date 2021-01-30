@@ -10,7 +10,6 @@ variables:
   uploadRepository: kazssym/rglclock
 trigger:
   - master
-  - feature/azure-pipelines
   - release/*
 stages:
   - stage: Default
