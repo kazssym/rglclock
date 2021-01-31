@@ -47,7 +47,9 @@ class application
 {
 private:
     glclock clock;
-    class profile profile;
+
+private:
+    profile _profile;
 
     /* Main window of this application.  */
     GtkWidget *window;
@@ -100,9 +102,9 @@ application::application (void)
     mkdir (s.c_str (), 0777);   // XXX: Ignoring errors.
     s.append ("/options");
 
-    profile.open (s.c_str ());
-    profile.restore (&clock);
-    clock.add_callback (&profile);
+    _profile.open (s.c_str ());
+    _profile.restore (&clock);
+    clock.add_callback (&_profile);
 
 #if 0 /* temporarily disabled */
     GdkVisual *visual = glclock::best_visual ();
@@ -117,7 +119,7 @@ application::application (void)
 application::~application (void)
 {
     // FIXME This seems too late.
-    profile.save (&clock);
+    _profile.save (&clock);
 }
 
 GtkWidget *application::widget (void)
