@@ -131,7 +131,6 @@ GtkWidget *application::widget (void)
     {
         window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
         // gtk_window_set_policy (GTK_WINDOW (window), true, true, false);
-        gtk_object_set_user_data (GTK_OBJECT (window), this);
         g_signal_connect(G_OBJECT(window), "delete_event",
                          G_CALLBACK(gtk_main_quit), this);
 
