@@ -53,7 +53,8 @@ about_dialog::~about_dialog (void)
 {
     if (dialog != NULL)
     {
-        gtk_object_destroy (GTK_OBJECT (dialog));
+        gtk_widget_destroy(dialog);
+        g_object_unref(G_OBJECT(dialog));
     }
 }
 
