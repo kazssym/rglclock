@@ -23,8 +23,7 @@
 #ifndef aboutH
 #define aboutH 1
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 class about_dialog
 {
