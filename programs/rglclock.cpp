@@ -97,9 +97,7 @@ application::application (void)
 
     string s (getenv ("HOME"));
     s.append ("/.rglclock");
-#ifdef HAVE_MKDIR
     mkdir (s.c_str (), 0777);   // XXX: Ignoring errors.
-#endif
     s.append ("/options");
 
     profile.open (s.c_str ());
