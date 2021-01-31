@@ -116,7 +116,7 @@ clock_options_dialog::general_options_page::create_widget()
       gtk_widget_show(label1);
       gtk_box_pack_start(GTK_BOX(hbox1), label1, false, false, 0);
 
-      GtkObject *update_adjust = gtk_adjustment_new(5, 5, 30, 1, 5, 1);
+      GtkAdjustment *update_adjust = gtk_adjustment_new(5, 5, 30, 1, 5, 1);
       GtkWidget *update_input
 	= gtk_spin_button_new(GTK_ADJUSTMENT(update_adjust), 1, 0);
       g_object_set_data(G_OBJECT(vbox),
