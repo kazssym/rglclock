@@ -78,13 +78,13 @@ void about_dialog::initialize (GtkWindow *parent)
     snprintf (buf, buf_size, _ ("About %s"), PACKAGE_NAME);
     gtk_window_set_title (GTK_WINDOW (dialog), buf);
 
-    GtkWidget *hbox1 = gtk_hbox_new (false, 0);
+    GtkWidget *hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_show (hbox1);
     gtk_container_set_border_width (GTK_CONTAINER (hbox1), 0);
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox1,
         true, true, 0);
 
-    GtkWidget *vbox1 = gtk_vbox_new (false, 10);
+    GtkWidget *vbox1 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_show (vbox1);
     gtk_container_set_border_width (GTK_CONTAINER (vbox1), 20);
     gtk_box_pack_start (GTK_BOX (hbox1), vbox1, true, true, 0);

@@ -139,7 +139,7 @@ GtkWidget *application::widget (void)
         gtk_window_add_accel_group (GTK_WINDOW (window), ag);
 
         {
-            g_ptr<GtkWidget> box1 (gtk_vbox_new (FALSE, 0));
+            g_ptr<GtkWidget> box1 (gtk_box_new(GTK_ORIENTATION_VERTICAL, 0));
             gtk_widget_show (box1.get ());
             gtk_container_add (GTK_CONTAINER (window), box1.get ());
 

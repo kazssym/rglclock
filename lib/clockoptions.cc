@@ -107,10 +107,10 @@ GtkWidget *
 clock_options_dialog::general_options_page::create_widget()
 {
   I(target != NULL);
-  GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
+  GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 10);
   {
-    GtkWidget *hbox1 = gtk_hbox_new(false, 0);
+    GtkWidget *hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     {
       GtkWidget *label1 = gtk_label_new(_("Update rate: "));
       gtk_widget_show(label1);
@@ -132,7 +132,7 @@ clock_options_dialog::general_options_page::create_widget()
     gtk_widget_show(hbox1);
     gtk_box_pack_start(GTK_BOX(vbox), hbox1, false, false, 0);
 
-    GtkWidget *hbox2 = gtk_hbox_new(false, 0);
+    GtkWidget *hbox2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     {
       /* Check button to enable texture mapping.  */
       GtkWidget *check1
