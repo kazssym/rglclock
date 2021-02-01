@@ -151,8 +151,7 @@ void application::show_about_dialog ()
     about_dialog dialog (GTK_WINDOW (window));
     gtk_widget_show (dialog.widget ());
 
-    while (GTK_WIDGET_VISIBLE (dialog.widget ()))
-    {
+    while (gtk_widget_get_visible(dialog.widget())) {
         gtk_main_iteration ();
     }
 }
