@@ -134,21 +134,13 @@ GtkWidget *application::widget (void)
         GtkAccelGroup *ag = gtk_accel_group_new ();
         gtk_window_add_accel_group (GTK_WINDOW (window), ag);
 
-        {
-            g_ptr<GtkWidget> box1 (gtk_vbox_new (FALSE, 0));
-            gtk_widget_show (box1.get ());
-            gtk_container_add (GTK_CONTAINER (window), box1.get ());
+        auto &&content = g_ptr<GtkWidget>(clock.widget());
+        gtk_widget_show(&*content);
+        gtk_container_add(GTK_CONTAINER(window), &*content);
 
-            {
-                g_ptr<GtkWidget> content (clock.widget ());
-                gtk_widget_show (content.get());
-                gtk_box_pack_start (GTK_BOX (box1.get ()), content.get (),
-                                    TRUE, TRUE, 0);
-                GdkGeometry geometry = {0, 0, 0, 0, 0, 0, 1, 1};
-                gtk_window_set_geometry_hints (GTK_WINDOW (window), content.get (),
-                                               &geometry, GDK_HINT_RESIZE_INC);
-            }
-        }
+        GdkGeometry geometry {0, 0, 0, 0, 0, 0, 1, 1};
+        gtk_window_set_geometry_hints(GTK_WINDOW(window), &*content,
+            &geometry, GDK_HINT_RESIZE_INC);
     }
 
     return window;
