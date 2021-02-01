@@ -140,29 +140,6 @@ GtkWidget *application::widget (void)
             gtk_container_add (GTK_CONTAINER (window), box1.get ());
 
             {
-                g_ptr<GtkItemFactory> ifactory
-                    (gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<Window>", ag));
-#define ITEM_FACTORY_CALLBACK(f) (reinterpret_cast<GtkItemFactoryCallback> (f))
-                GtkItemFactoryEntry entries[] = {
-                    {_("/_File/_Options..."), NULL,
-                     ITEM_FACTORY_CALLBACK (&proxy::handle_options_command), 0, "<Item>"},
-                    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
-                    {_("/_File/E_xit"), NULL,
-                     ITEM_FACTORY_CALLBACK (&gtk_main_quit), 1, "<Item>"},
-                    {_("/_Help/_About..."), NULL,
-                     ITEM_FACTORY_CALLBACK (&proxy::handle_about_command), 2, "<Item>"}};
-#undef ITEM_FACTORY_CALLBACK
-                gtk_item_factory_create_items (ifactory.get (),
-                                               sizeof entries / sizeof entries[0],
-                                               entries, this);
-
-#if 0 /* temporarily disabled */
-                if (opt_with_menu_bar)
-                    gtk_widget_show (ifactory->widget);
-#endif
-                gtk_box_pack_start (GTK_BOX (box1.get ()), ifactory->widget,
-                                    FALSE, FALSE, 0);
-
                 g_ptr<GtkWidget> content (clock.widget ());
                 gtk_widget_show (content.get());
                 gtk_box_pack_start (GTK_BOX (box1.get ()), content.get (),
