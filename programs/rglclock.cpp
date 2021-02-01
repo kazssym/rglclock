@@ -1,24 +1,21 @@
-/*
- * RGLClock - rotating 3D clock
- * Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software
- * Design, Ltd.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301 USA.
- *
- */
+// rglclock.cpp
+// Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
+// Copyright (C) 2021 Kaz Nishimura
+//
+// This program is free software: you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -50,7 +47,9 @@ class application
 {
 private:
     glclock clock;
-    class profile profile;
+
+private:
+    profile _profile;
 
     /* Main window of this application.  */
     GtkWidget *window;
@@ -100,14 +99,12 @@ application::application (void)
 
     string s (getenv ("HOME"));
     s.append ("/.rglclock");
-#ifdef HAVE_MKDIR
     mkdir (s.c_str (), 0777);   // XXX: Ignoring errors.
-#endif
     s.append ("/options");
 
-    profile.open (s.c_str ());
-    profile.restore (&clock);
-    clock.add_callback (&profile);
+    _profile.open (s.c_str ());
+    _profile.restore (&clock);
+    clock.add_callback (&_profile);
 
 #if 0 /* temporarily disabled */
     GdkVisual *visual = glclock::best_visual ();
@@ -122,7 +119,7 @@ application::application (void)
 application::~application (void)
 {
     // FIXME This seems too late.
-    profile.save (&clock);
+    _profile.save (&clock);
 }
 
 GtkWidget *application::widget (void)
@@ -130,52 +127,20 @@ GtkWidget *application::widget (void)
     if (window == NULL)
     {
         window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-        gtk_window_set_policy (GTK_WINDOW (window), true, true, false);
-        gtk_object_set_user_data (GTK_OBJECT (window), this);
-        gtk_signal_connect (GTK_OBJECT (window), "delete_event",
-                            GTK_SIGNAL_FUNC (gtk_main_quit), this);
+        // gtk_window_set_policy (GTK_WINDOW (window), true, true, false);
+        g_signal_connect(G_OBJECT(window), "delete_event",
+                         G_CALLBACK(gtk_main_quit), this);
 
         GtkAccelGroup *ag = gtk_accel_group_new ();
         gtk_window_add_accel_group (GTK_WINDOW (window), ag);
 
-        {
-            g_ptr<GtkWidget> box1 (gtk_box_new(GTK_ORIENTATION_VERTICAL, 0));
-            gtk_widget_show (box1.get ());
-            gtk_container_add (GTK_CONTAINER (window), box1.get ());
+        auto &&content = g_ptr<GtkWidget>(clock.widget());
+        gtk_widget_show(&*content);
+        gtk_container_add(GTK_CONTAINER(window), &*content);
 
-            {
-                g_ptr<GtkItemFactory> ifactory
-                    (gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<Window>", ag));
-#define ITEM_FACTORY_CALLBACK(f) (reinterpret_cast<GtkItemFactoryCallback> (f))
-                GtkItemFactoryEntry entries[] = {
-                    {_("/_File/_Options..."), NULL,
-                     ITEM_FACTORY_CALLBACK (&proxy::handle_options_command), 0, "<Item>"},
-                    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
-                    {_("/_File/E_xit"), NULL,
-                     ITEM_FACTORY_CALLBACK (&gtk_main_quit), 1, "<Item>"},
-                    {_("/_Help/_About..."), NULL,
-                     ITEM_FACTORY_CALLBACK (&proxy::handle_about_command), 2, "<Item>"}};
-#undef ITEM_FACTORY_CALLBACK
-                gtk_item_factory_create_items (ifactory.get (),
-                                               sizeof entries / sizeof entries[0],
-                                               entries, this);
-
-#if 0 /* temporarily disabled */
-                if (opt_with_menu_bar)
-                    gtk_widget_show (ifactory->widget);
-#endif
-                gtk_box_pack_start (GTK_BOX (box1.get ()), ifactory->widget,
-                                    FALSE, FALSE, 0);
-
-                g_ptr<GtkWidget> content (clock.widget ());
-                gtk_widget_show (content.get());
-                gtk_box_pack_start (GTK_BOX (box1.get ()), content.get (),
-                                    TRUE, TRUE, 0);
-                GdkGeometry geometry = {0, 0, 0, 0, 0, 0, 1, 1};
-                gtk_window_set_geometry_hints (GTK_WINDOW (window), content.get (),
-                                               &geometry, GDK_HINT_RESIZE_INC);
-            }
-        }
+        GdkGeometry geometry {0, 0, 0, 0, 0, 0, 1, 1};
+        gtk_window_set_geometry_hints(GTK_WINDOW(window), &*content,
+            &geometry, GDK_HINT_RESIZE_INC);
     }
 
     return window;

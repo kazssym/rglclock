@@ -23,7 +23,7 @@
 #include "gl_context.h"
 #include "utils.h"
 #include <module.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
 #include <time.h>
 
