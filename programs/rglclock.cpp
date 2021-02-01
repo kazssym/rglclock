@@ -30,11 +30,13 @@
 #include <getopt.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <locale>
 
 #include "clock.h"
 #include "profile.h"
 #include "about.h"
 
+using std::locale;
 using std::string;
 using std::printf;
 using std::putchar;
@@ -151,8 +153,7 @@ void application::show_about_dialog ()
     about_dialog dialog (GTK_WINDOW (window));
     gtk_widget_show (dialog.widget ());
 
-    while (GTK_WIDGET_VISIBLE (dialog.widget ()))
-    {
+    while (gtk_widget_get_visible(dialog.widget())) {
         gtk_main_iteration ();
     }
 }
@@ -178,7 +179,7 @@ int main (int argc, char **argv)
 #endif
 #endif
 
-    gtk_set_locale ();
+    locale::global(locale(""));
     gtk_init (&argc, &argv);
 
     if (!parse_options (argc, argv))
