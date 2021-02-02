@@ -188,9 +188,7 @@ void glclock::update (void)
     tv_last = tv;
     m->rotate (angle * (180 / M_PI), rot_x, rot_y, rot_z);
 
-    int width, height;
-    gdk_window_get_size(window, &width, &height);
-    m->viewport (0, 0, width, height);
+    m->viewport(0, 0, gdk_window_get_width(window), gdk_window_get_height(window));
     m->draw_clock ();
 
     _context->swap_buffers(window);
