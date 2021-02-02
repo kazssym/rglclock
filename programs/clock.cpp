@@ -167,11 +167,10 @@ void glclock::update (void)
         return;
     }
 
-    if (_context == NULL)
-    {
-        assert (_widget->window != NULL);
-        _context = new glgtk_context (_widget->window);
-        _context->make_current (_widget->window);
+    auto &&window = gtk_widget_get_window(_widget);
+    if (_context == NULL) {
+        _context = new glgtk_context(window);
+        _context->make_current(window);
         m->init ();
     }
 
@@ -190,11 +189,11 @@ void glclock::update (void)
     m->rotate (angle * (180 / M_PI), rot_x, rot_y, rot_z);
 
     int width, height;
-    gdk_window_get_size (_widget->window, &width, &height);
+    gdk_window_get_size(window, &width, &height);
     m->viewport (0, 0, width, height);
     m->draw_clock ();
 
-    _context->swap_buffers (_widget->window);
+    _context->swap_buffers(window);
 }
 
 gboolean handle_timeout (gpointer data) throw ()
