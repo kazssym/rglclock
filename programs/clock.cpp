@@ -230,13 +230,15 @@ gboolean glclock::handle_button_release_event (
     glclock *clock = static_cast<glclock *> (data);
     g_assert (clock != NULL);
 
+    GtkAllocation allocation {};
     switch (event->button)
     {
     case 1:
         gtk_grab_remove (widget);
+        gtk_widget_get_allocation(widget, &allocation);
         {
-            double vel_x = (double) (event->x - clock->press_x) / widget->allocation.width;
-            double vel_y = (double) (event->y - clock->press_y) / widget->allocation.height;
+            double vel_x = (double) (event->x - clock->press_x) / allocation.width;
+            double vel_y = (double) (event->y - clock->press_y) / allocation.height;
             if (vel_x != 0 || vel_y != 0)
             {
                 clock->rot_y = vel_x;
