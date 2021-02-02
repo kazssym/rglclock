@@ -129,8 +129,8 @@ void about_dialog::initialize (GtkWindow *parent)
     gtk_widget_show (ok_button);
     gtk_widget_set_usize (ok_button, 100, 0);
     gtk_window_set_focus (GTK_WINDOW (dialog), ok_button);
-    gtk_signal_connect (GTK_OBJECT (ok_button), "clicked",
-                        GTK_SIGNAL_FUNC (&handle_ok_clicked), this);
+    g_signal_connect(G_OBJECT(ok_button), "clicked",
+        G_CALLBACK(&handle_ok_clicked), this);
     gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)->action_area),
                       ok_button, false, false, 0);
 }
