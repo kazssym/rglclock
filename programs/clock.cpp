@@ -162,7 +162,7 @@ void glclock::update (void)
     time (&t);
 #endif
 
-    if (_widget == NULL || !GTK_WIDGET_REALIZED (_widget))
+    if (_widget == NULL || !gtk_widget_get_realized(_widget))
     {
         return;
     }
