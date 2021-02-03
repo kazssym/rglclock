@@ -139,7 +139,6 @@ GtkWidget *glclock::widget (void)
     if (_widget == NULL)
     {
         _widget = gtk_drawing_area_new ();
-        gtk_drawing_area_size (GTK_DRAWING_AREA (_widget), 200, 200);
         gtk_widget_set_double_buffered (_widget, false);
         gtk_widget_set_events (
             _widget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
