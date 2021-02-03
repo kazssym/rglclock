@@ -74,7 +74,7 @@ void about_dialog::initialize (GtkWindow *parent)
     {
         gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
     }
-    g_object_ref_sink (GTK_OBJECT (dialog));
+    g_object_ref_sink(G_OBJECT(dialog));
 
     snprintf (buf, buf_size, _ ("About %s"), PACKAGE_NAME);
     gtk_window_set_title (GTK_WINDOW (dialog), buf);
