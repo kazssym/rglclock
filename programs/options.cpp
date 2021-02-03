@@ -52,8 +52,8 @@ using namespace std;
 void
 controller::add(GtkWidget *widget)
 {
-  gtk_signal_connect(GTK_OBJECT(widget), "destroy",
-                     GTK_SIGNAL_FUNC(remove_widget), func_data());
+  g_signal_connect(G_OBJECT(widget), "destroy",
+    G_CALLBACK(remove_widget), func_data());
   widgets.push_back(widget);
 }
 
@@ -180,8 +180,8 @@ options_dialog::populate(GtkDialog *dialog)
   I(ok_text != NULL);
   GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
   I(GTK_IS_BUTTON(ok_button));
-  gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
-                     GTK_SIGNAL_FUNC(&deliver_ok), this);
+  g_signal_connect(G_OBJECT(ok_button), "clicked",
+    G_CALLBACK(&deliver_ok), this);
   gtk_widget_show(ok_button);
   gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), ok_button,
                      FALSE, FALSE, 0);
@@ -191,8 +191,8 @@ options_dialog::populate(GtkDialog *dialog)
   I(cancel_text != NULL);
   GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
   I(GTK_IS_BUTTON(cancel_button));
-  gtk_signal_connect(GTK_OBJECT(cancel_button), "clicked",
-                     GTK_SIGNAL_FUNC(&deliver_cancel), this);
+  g_signal_connect(G_OBJECT(cancel_button), "clicked",
+    G_CALLBACK(&deliver_cancel), this);
   gtk_widget_show(cancel_button);
   gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), cancel_button,
                      FALSE, FALSE, 0);
