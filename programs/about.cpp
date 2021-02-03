@@ -82,8 +82,8 @@ void about_dialog::initialize (GtkWindow *parent)
     GtkWidget *hbox1 = gtk_hbox_new (false, 0);
     gtk_widget_show (hbox1);
     gtk_container_set_border_width (GTK_CONTAINER (hbox1), 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox1,
-        true, true, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG (dialog))),
+        hbox1, true, true, 0);
 
     GtkWidget *vbox1 = gtk_vbox_new (false, 10);
     gtk_widget_show (vbox1);
