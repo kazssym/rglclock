@@ -66,15 +66,15 @@ void about_dialog::initialize (GtkWindow *parent)
     gchar buf[buf_size];
 
     dialog = gtk_dialog_new ();
-    gtk_widget_set_usize (dialog, 540, 360);
-    gtk_window_set_policy (GTK_WINDOW (dialog), false, false, false);
+    gtk_window_set_default_size(GTK_WINDOW(dialog), 540, 360);
+    gtk_window_set_resizable(GTK_WINDOW(dialog), false);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
     gtk_window_set_modal (GTK_WINDOW (dialog), true);
     if (parent != NULL)
     {
         gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
     }
-    g_object_ref_sink (GTK_OBJECT (dialog));
+    g_object_ref_sink(G_OBJECT(dialog));
 
     snprintf (buf, buf_size, _ ("About %s"), PACKAGE_NAME);
     gtk_window_set_title (GTK_WINDOW (dialog), buf);
@@ -82,8 +82,8 @@ void about_dialog::initialize (GtkWindow *parent)
     GtkWidget *hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_show (hbox1);
     gtk_container_set_border_width (GTK_CONTAINER (hbox1), 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox1,
-        true, true, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG (dialog))),
+        hbox1, true, true, 0);
 
     GtkWidget *vbox1 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_show (vbox1);
@@ -97,7 +97,7 @@ void about_dialog::initialize (GtkWindow *parent)
               PACKAGE_NAME, PACKAGE_VERSION);
     label1 = gtk_label_new (buf);
     gtk_widget_show (label1);
-    gtk_widget_set_usize (label1, 500, 0);
+    gtk_widget_set_size_request(label1, 500, 0);
     gtk_misc_set_alignment (GTK_MISC (label1), 0.0, 0.0);
     //gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
     gtk_label_set_line_wrap (GTK_LABEL (label1), true);
@@ -110,7 +110,7 @@ void about_dialog::initialize (GtkWindow *parent)
            "either version 2 of the License, or (at your option) "
            "any later version."));
     gtk_widget_show (label2);
-    gtk_widget_set_usize (label2, 500, 0);
+    gtk_widget_set_size_request(label2, 500, 0);
     gtk_misc_set_alignment (GTK_MISC (label2), 0.0, 0.0);
     //gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
     gtk_label_set_line_wrap (GTK_LABEL (label2), true);
@@ -119,7 +119,7 @@ void about_dialog::initialize (GtkWindow *parent)
     snprintf (buf, 256, _ ("Report bugs to <%s>."), PACKAGE_BUGREPORT);
     label3 = gtk_label_new (buf);
     gtk_widget_show (label3);
-    gtk_widget_set_usize (label3, 500, 0);
+    gtk_widget_set_size_request(label3, 500, 0);
     gtk_misc_set_alignment (GTK_MISC (label3), 0.0, 0.0);
     //gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
     gtk_label_set_line_wrap (GTK_LABEL (label3), true);
@@ -127,7 +127,7 @@ void about_dialog::initialize (GtkWindow *parent)
 
     ok_button = gtk_button_new_with_label (_ ("OK"));
     gtk_widget_show (ok_button);
-    gtk_widget_set_usize (ok_button, 100, 0);
+    gtk_widget_set_size_request(ok_button, 100, 0);
     gtk_window_set_focus (GTK_WINDOW (dialog), ok_button);
     g_signal_connect(G_OBJECT(ok_button), "clicked",
         G_CALLBACK(&handle_ok_clicked), this);
