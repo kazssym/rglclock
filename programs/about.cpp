@@ -97,7 +97,7 @@ void about_dialog::initialize (GtkWindow *parent)
               PACKAGE_NAME, PACKAGE_VERSION);
     label1 = gtk_label_new (buf);
     gtk_widget_show (label1);
-    gtk_widget_set_usize (label1, 500, 0);
+    gtk_widget_set_size_request(label1, 500, 0);
     gtk_misc_set_alignment (GTK_MISC (label1), 0.0, 0.0);
     //gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
     gtk_label_set_line_wrap (GTK_LABEL (label1), true);
@@ -110,7 +110,7 @@ void about_dialog::initialize (GtkWindow *parent)
            "either version 2 of the License, or (at your option) "
            "any later version."));
     gtk_widget_show (label2);
-    gtk_widget_set_usize (label2, 500, 0);
+    gtk_widget_set_size_request(label2, 500, 0);
     gtk_misc_set_alignment (GTK_MISC (label2), 0.0, 0.0);
     //gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
     gtk_label_set_line_wrap (GTK_LABEL (label2), true);
@@ -119,7 +119,7 @@ void about_dialog::initialize (GtkWindow *parent)
     snprintf (buf, 256, _ ("Report bugs to <%s>."), PACKAGE_BUGREPORT);
     label3 = gtk_label_new (buf);
     gtk_widget_show (label3);
-    gtk_widget_set_usize (label3, 500, 0);
+    gtk_widget_set_size_request(label3, 500, 0);
     gtk_misc_set_alignment (GTK_MISC (label3), 0.0, 0.0);
     //gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
     gtk_label_set_line_wrap (GTK_LABEL (label3), true);
@@ -127,7 +127,7 @@ void about_dialog::initialize (GtkWindow *parent)
 
     ok_button = gtk_button_new_with_label (_ ("OK"));
     gtk_widget_show (ok_button);
-    gtk_widget_set_usize (ok_button, 100, 0);
+    gtk_widget_set_size_request(ok_button, 100, 0);
     gtk_window_set_focus (GTK_WINDOW (dialog), ok_button);
     g_signal_connect(G_OBJECT(ok_button), "clicked",
         G_CALLBACK(&handle_ok_clicked), this);
