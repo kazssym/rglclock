@@ -66,7 +66,7 @@ void about_dialog::initialize (GtkWindow *parent)
     gchar buf[buf_size];
 
     dialog = gtk_dialog_new ();
-    gtk_widget_set_usize (dialog, 540, 360);
+    gtk_window_set_default_size(GTK_WINDOW(dialog), 540, 360);
     gtk_window_set_policy (GTK_WINDOW (dialog), false, false, false);
     gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
     gtk_window_set_modal (GTK_WINDOW (dialog), true);
