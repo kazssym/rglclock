@@ -52,8 +52,8 @@ using namespace std;
 void
 controller::add(GtkWidget *widget)
 {
-  gtk_signal_connect(GTK_OBJECT(widget), "destroy",
-		     GTK_SIGNAL_FUNC(remove_widget), func_data());
+  g_signal_connect(G_OBJECT(widget), "destroy",
+    G_CALLBACK(remove_widget), func_data());
   widgets.push_back(widget);
 }
 
@@ -99,7 +99,7 @@ options_dialog::handle_ok(GtkWidget *button)
        ++i)
     {
       GtkWidget *page_widget
-	= gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
+        = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
       I(page_widget != NULL);
       i->second->apply(page_widget);
     }
@@ -169,33 +169,33 @@ options_dialog::populate(GtkDialog *dialog)
       I(page_widget != NULL);
       gtk_widget_show(page_widget);
       gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
-			       gtk_label_new(i->first.c_str()));
+                               gtk_label_new(i->first.c_str()));
     }
   gtk_widget_show(notebook1);
   gtk_box_pack_start(GTK_BOX(dialog->vbox), notebook1,
-		     FALSE, FALSE, 0);
+                     FALSE, FALSE, 0);
 
   /* Label for the OK button.  */
   const char *ok_text = _("OK");
   I(ok_text != NULL);
   GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
   I(GTK_IS_BUTTON(ok_button));
-  gtk_signal_connect(GTK_OBJECT(ok_button), "clicked",
-		     GTK_SIGNAL_FUNC(&deliver_ok), this);
+  g_signal_connect(G_OBJECT(ok_button), "clicked",
+    G_CALLBACK(&deliver_ok), this);
   gtk_widget_show(ok_button);
-  gtk_box_pack_start(GTK_BOX(dialog->action_area), ok_button,
-		     FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), ok_button,
+                     FALSE, FALSE, 0);
 
   /* Label for the Cancel button.  */
   const char *cancel_text = _("Cancel");
   I(cancel_text != NULL);
   GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
   I(GTK_IS_BUTTON(cancel_button));
-  gtk_signal_connect(GTK_OBJECT(cancel_button), "clicked",
-		     GTK_SIGNAL_FUNC(&deliver_cancel), this);
+  g_signal_connect(G_OBJECT(cancel_button), "clicked",
+    G_CALLBACK(&deliver_cancel), this);
   gtk_widget_show(cancel_button);
-  gtk_box_pack_start(GTK_BOX(dialog->action_area), cancel_button,
-		     FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), cancel_button,
+                     FALSE, FALSE, 0);
 
   gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
 }

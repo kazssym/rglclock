@@ -139,7 +139,6 @@ GtkWidget *glclock::widget (void)
     if (_widget == NULL)
     {
         _widget = gtk_drawing_area_new ();
-        gtk_drawing_area_size (GTK_DRAWING_AREA (_widget), 200, 200);
         gtk_widget_set_double_buffered (_widget, false);
         gtk_widget_set_events (
             _widget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
@@ -162,16 +161,15 @@ void glclock::update (void)
     time (&t);
 #endif
 
-    if (_widget == NULL || !GTK_WIDGET_REALIZED (_widget))
+    if (_widget == NULL || !gtk_widget_get_realized(_widget))
     {
         return;
     }
 
-    if (_context == NULL)
-    {
-        assert (_widget->window != NULL);
-        _context = new glgtk_context (_widget->window);
-        _context->make_current (_widget->window);
+    auto &&window = gtk_widget_get_window(_widget);
+    if (_context == NULL) {
+        _context = new glgtk_context(window);
+        _context->make_current(window);
         m->init ();
     }
 
@@ -189,12 +187,10 @@ void glclock::update (void)
     tv_last = tv;
     m->rotate (angle * (180 / M_PI), rot_x, rot_y, rot_z);
 
-    int width, height;
-    gdk_window_get_size (_widget->window, &width, &height);
-    m->viewport (0, 0, width, height);
+    m->viewport(0, 0, gdk_window_get_width(window), gdk_window_get_height(window));
     m->draw_clock ();
 
-    _context->swap_buffers (_widget->window);
+    _context->swap_buffers(window);
 }
 
 gboolean handle_timeout (gpointer data) throw ()
@@ -230,13 +226,15 @@ gboolean glclock::handle_button_release_event (
     glclock *clock = static_cast<glclock *> (data);
     g_assert (clock != NULL);
 
+    GtkAllocation allocation {};
     switch (event->button)
     {
     case 1:
         gtk_grab_remove (widget);
+        gtk_widget_get_allocation(widget, &allocation);
         {
-            double vel_x = (double) (event->x - clock->press_x) / widget->allocation.width;
-            double vel_y = (double) (event->y - clock->press_y) / widget->allocation.height;
+            double vel_x = (double) (event->x - clock->press_x) / allocation.width;
+            double vel_y = (double) (event->y - clock->press_y) / allocation.height;
             if (vel_x != 0 || vel_y != 0)
             {
                 clock->rot_y = vel_x;
