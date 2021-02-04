@@ -63,7 +63,7 @@ controller::~controller()
        i != widgets.end();
        ++i)
     {
-      gtk_signal_disconnect_by_data(GTK_OBJECT(*i), func_data());
+      g_signal_handlers_disconnect_by_data(G_OBJECT(*i), func_data());
       gtk_widget_set_sensitive(*i, false);
     }
 }
@@ -87,7 +87,8 @@ options_dialog::handle_ok(GtkWidget *button)
   I(GTK_IS_DIALOG(dialog));
 
   GList *dialog_children
-    = gtk_container_children(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox));
+    = gtk_container_get_children(
+      GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))));
   I(dialog_children != NULL);
 
   GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
@@ -116,7 +117,8 @@ options_dialog::handle_cancel(GtkWidget *button)
 void
 options_dialog::update(GtkDialog *widget)
 {
-  GList *children = gtk_container_children(GTK_CONTAINER(widget->vbox));
+  GList *children = gtk_container_get_children(
+    GTK_CONTAINER(gtk_dialog_get_content_area(widget)));
   I(children != NULL);
 
   /* This assumes the first child is a GtkNotebook.  */
@@ -172,7 +174,7 @@ options_dialog::populate(GtkDialog *dialog)
                                gtk_label_new(i->first.c_str()));
     }
   gtk_widget_show(notebook1);
-  gtk_box_pack_start(GTK_BOX(dialog->vbox), notebook1,
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(dialog)), notebook1,
                      FALSE, FALSE, 0);
 
   /* Label for the OK button.  */
@@ -204,7 +206,7 @@ void
 options_dialog::configure(GtkDialog *widget)
 {
   gtk_window_set_title(GTK_WINDOW(widget), _("Options"));
-  gtk_window_set_policy(GTK_WINDOW(widget), FALSE, FALSE, FALSE);
+  gtk_window_set_resizable(GTK_WINDOW(widget), false);
   gtk_window_set_position(GTK_WINDOW(widget), GTK_WIN_POS_CENTER);
 
   populate(widget);
