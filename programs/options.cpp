@@ -63,7 +63,7 @@ controller::~controller()
        i != widgets.end();
        ++i)
     {
-      gtk_signal_disconnect_by_data(GTK_OBJECT(*i), func_data());
+      g_signal_handlers_disconnect_by_data(G_OBJECT(*i), func_data());
       gtk_widget_set_sensitive(*i, false);
     }
 }
