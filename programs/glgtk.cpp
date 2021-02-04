@@ -133,7 +133,7 @@ namespace glgtk
         static bool initialized;
         if (!initialized)
         {
-            Display *d = GDK_DISPLAY ();
+            Display *d = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
 
             if (!glXQueryExtension (d, &glx_error_base, &glx_event_base))
                 throw runtime_error ("glXQueryExtension");
@@ -151,7 +151,7 @@ namespace glgtk
         {
             initialize();
 
-            Display *d = GDK_DISPLAY ();
+            Display *d = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
 
             int glx_attr[] = {
                 GLX_RGBA,
@@ -175,7 +175,7 @@ namespace glgtk
     {
         initialize ();
 
-        Display *d = GDK_DISPLAY ();
+        Display *d = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
 
         XVisualInfo xvit;
         xvit.visualid = XVisualIDFromVisual (GDK_VISUAL_XVISUAL (v));
@@ -195,7 +195,7 @@ namespace glgtk
     {
         if (c != 0)
         {
-            Display *d = GDK_DISPLAY ();
+            Display *d = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
             glXDestroyContext (d, reinterpret_cast<GLXContext> (c));
         }
     }
@@ -206,12 +206,12 @@ namespace glgtk
         Drawable dw;
         if (c == 0)
         {
-            dd = GDK_DISPLAY ();
+            dd = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
             dw = None;
         }
         else if (d == 0)
         {
-            dd = GDK_DISPLAY ();
+            dd = GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
             dw = GDK_ROOT_WINDOW ();
         }
         else
