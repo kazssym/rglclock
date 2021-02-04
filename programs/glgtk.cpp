@@ -217,7 +217,7 @@ namespace glgtk
         else
         {
             dd = GDK_WINDOW_XDISPLAY (d);
-            dw = GDK_WINDOW_XWINDOW (d);
+            dw = GDK_WINDOW_XID(d);
         }
 
         if (!glXMakeCurrent(dd, dw, reinterpret_cast<GLXContext> (c)))
@@ -226,7 +226,7 @@ namespace glgtk
 
     void gl::swap_buffers (GdkWindow *d)
     {
-        Drawable xd = GDK_WINDOW_XWINDOW (d);
+        Drawable xd = GDK_WINDOW_XID(d);
 
         glXSwapBuffers (GDK_WINDOW_XDISPLAY (d), xd);
     }
