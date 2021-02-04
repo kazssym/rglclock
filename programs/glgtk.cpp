@@ -163,7 +163,8 @@ namespace glgtk
             if (xvi == NULL)
                 throw runtime_error ("glXChooseVisual");
 
-            bv = gdkx_visual_get (xvi->visualid);
+            bv = gdk_x11_screen_lookup_visual(gdk_screen_get_default(),
+                xvi->visualid);
 
             XFree (xvi);
         }
