@@ -88,8 +88,8 @@ modal_dialog::create_window()
 #endif
 
       gtk_window_set_modal(GTK_WINDOW(window), true);
-      gtk_signal_connect(GTK_OBJECT(window), "delete_event",
-			 GTK_SIGNAL_FUNC(&deliver_delete_event), this);
+      g_signal_connect(G_OBJECT(window), "delete_event",
+			 G_CALLBACK(&deliver_delete_event), this);
 
       configure(GTK_DIALOG(window));
     }
