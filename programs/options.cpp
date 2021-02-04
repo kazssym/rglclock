@@ -204,7 +204,7 @@ void
 options_dialog::configure(GtkDialog *widget)
 {
   gtk_window_set_title(GTK_WINDOW(widget), _("Options"));
-  gtk_window_set_policy(GTK_WINDOW(widget), FALSE, FALSE, FALSE);
+  gtk_window_set_resizable(GTK_WINDOW(widget), false);
   gtk_window_set_position(GTK_WINDOW(widget), GTK_WIN_POS_CENTER);
 
   populate(widget);
