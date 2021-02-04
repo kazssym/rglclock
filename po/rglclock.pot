@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2021-01-30 20:56+0900\n"
+"POT-Creation-Date: 2021-02-05 08:01+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,85 +17,69 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/clockoptions.cc:115
+#: lib/clockoptions.cc:111
 msgid "Update rate: "
 msgstr ""
 
-#: lib/clockoptions.cc:128
+#: lib/clockoptions.cc:124
 msgid "Hz"
 msgstr ""
 
-#: lib/clockoptions.cc:139
+#: lib/clockoptions.cc:135
 msgid "Map texture file: "
 msgstr ""
 
-#: lib/clockoptions.cc:152
+#: lib/clockoptions.cc:148
 msgid "Select..."
 msgstr ""
 
-#: lib/clockoptions.cc:172
+#: lib/clockoptions.cc:168
 msgid "General"
 msgstr ""
 
-#: programs/rglclock.cpp:151
-msgid "/_File/_Options..."
-msgstr ""
-
-#: programs/rglclock.cpp:153
-msgid "/_File/"
-msgstr ""
-
-#: programs/rglclock.cpp:154
-msgid "/_File/E_xit"
-msgstr ""
-
-#: programs/rglclock.cpp:156
-msgid "/_Help/_About..."
-msgstr ""
-
-#: programs/rglclock.cpp:226 programs/about.cpp:93
+#: programs/rglclock.cpp:192 programs/about.cpp:91
 #, c-format
 msgid ""
 "%s version %s\n"
 "Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
 msgstr ""
 
-#: programs/rglclock.cpp:294
+#: programs/rglclock.cpp:260
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: programs/rglclock.cpp:295
+#: programs/rglclock.cpp:261
 #, c-format
 msgid "Display a 3D rotating clock.\n"
 msgstr ""
 
-#: programs/rglclock.cpp:297
+#: programs/rglclock.cpp:263
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr ""
 
-#: programs/rglclock.cpp:298
+#: programs/rglclock.cpp:264
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr ""
 
-#: programs/rglclock.cpp:299
+#: programs/rglclock.cpp:265
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr ""
 
-#: programs/rglclock.cpp:301 programs/about.cpp:118
+#: programs/rglclock.cpp:267 programs/about.cpp:116
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr ""
 
-#: programs/about.cpp:78
+#: programs/about.cpp:76
 #, c-format
 msgid "About %s"
 msgstr ""
 
-#: programs/about.cpp:106
+#: programs/about.cpp:104
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the GNU General Public License as publishd by the Free Software "
@@ -103,14 +87,14 @@ msgid ""
 "version."
 msgstr ""
 
-#: programs/about.cpp:127 programs/options.cpp:180
+#: programs/about.cpp:125 programs/options.cpp:177
 msgid "OK"
 msgstr ""
 
-#: programs/options.cpp:191
+#: programs/options.cpp:188
 msgid "Cancel"
 msgstr ""
 
-#: programs/options.cpp:207
+#: programs/options.cpp:204
 msgid "Options"
 msgstr ""
