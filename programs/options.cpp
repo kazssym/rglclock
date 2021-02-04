@@ -87,7 +87,7 @@ options_dialog::handle_ok(GtkWidget *button)
   I(GTK_IS_DIALOG(dialog));
 
   GList *dialog_children
-    = gtk_container_children(
+    = gtk_container_get_children(
       GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))));
   I(dialog_children != NULL);
 
@@ -117,7 +117,7 @@ options_dialog::handle_cancel(GtkWidget *button)
 void
 options_dialog::update(GtkDialog *widget)
 {
-  GList *children = gtk_container_children(
+  GList *children = gtk_container_get_children(
     GTK_CONTAINER(gtk_dialog_get_content_area(widget)));
   I(children != NULL);
 
