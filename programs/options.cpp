@@ -42,40 +42,6 @@ using namespace std;
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
 
-/* FIXME: Move these controller functions to another file for
-   modularity.  */
-
-void
-controller::add(GtkWidget *widget)
-{
-  g_signal_connect(G_OBJECT(widget), "destroy",
-    G_CALLBACK(remove_widget), func_data());
-  widgets.push_back(widget);
-}
-
-controller::~controller()
-{
-  for (vector<GtkWidget *>::iterator i = widgets.begin();
-       i != widgets.end();
-       ++i)
-    {
-      g_signal_handlers_disconnect_by_data(G_OBJECT(*i), func_data());
-      gtk_widget_set_sensitive(*i, false);
-    }
-}
-
-void
-controller::remove_widget(GtkWidget *widget, gpointer data) throw ()
-{
-  controller *c = to_ptr(data);
-
-  I(c != NULL);
-  vector<GtkWidget *>::iterator k
-    = find(c->widgets.begin(), c->widgets.end(), widget);
-  if (k != c->widgets.end())
-    c->widgets.erase(k);
-}
-
 void
 options_dialog::handle_ok(GtkWidget *button)
 {

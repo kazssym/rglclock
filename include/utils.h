@@ -24,24 +24,6 @@
 #include <vector>
 #include <string>
 
-class controller
-{
-protected:
-  static controller *to_ptr(gpointer data)
-    {return static_cast<controller *>(data);}
-private:
-  static void remove_widget(GtkWidget *, gpointer) throw ();
-private:
-  std::vector<GtkWidget *> widgets;
-public:
-  virtual ~controller();
-public:
-  gpointer func_data()
-    {return this;}
-protected:
-  void add(GtkWidget *);
-};
-
 /* Base component for modal dialogs.  */
 class modal_dialog
 {
