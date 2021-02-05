@@ -28,14 +28,7 @@
 #include <gettext.h>
 #include <algorithm>
 #include <cstring>
-
-#ifdef HAVE_NANA_H
-# include <nana.h>
-# include <cstdio>
-#else
-# include <cassert>
-# define I assert
-#endif
+#include <cassert>
 
 using namespace std;
 
@@ -46,15 +39,15 @@ void
 options_dialog::handle_ok(GtkWidget *button)
 {
     GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
-    I(GTK_IS_DIALOG(dialog));
+    assert(GTK_IS_DIALOG(dialog));
 
     GList *dialog_children
         = gtk_container_get_children(
             GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))));
-    I(dialog_children != NULL);
+    assert(dialog_children != NULL);
 
     GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
-    I(GTK_IS_NOTEBOOK(notebook));
+    assert(GTK_IS_NOTEBOOK(notebook));
 
     int j = 0;
     for (vector<pair<string, options_page *> >::iterator i = pages.begin();
@@ -62,7 +55,7 @@ options_dialog::handle_ok(GtkWidget *button)
         ++i) {
         GtkWidget *page_widget
             = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
-        I(page_widget != NULL);
+        assert(page_widget != NULL);
         i->second->apply(page_widget);
     }
 
@@ -80,17 +73,17 @@ options_dialog::update(GtkDialog *widget)
 {
     GList *children = gtk_container_get_children(
         GTK_CONTAINER(gtk_dialog_get_content_area(widget)));
-    I(children != NULL);
+    assert(children != NULL);
 
     /* This assumes the first child is a GtkNotebook.  */
     GtkWidget *notebook = GTK_WIDGET(children->data);
-    I(GTK_IS_NOTEBOOK(notebook));
+    assert(GTK_IS_NOTEBOOK(notebook));
 
     int j = 0;
     for (vector<pair<string, options_page *> >::iterator i = pages.begin();
         i != pages.end(); ++i) {
         GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
-        I(page != NULL);
+        assert(page != NULL);
 
         i->second->update(page);
     }
@@ -103,7 +96,7 @@ namespace
     deliver_ok(GtkWidget *w, gpointer data) throw ()
     {
         options_dialog *recipient = static_cast<options_dialog *>(data);
-        I(recipient != NULL);
+        assert(recipient != NULL);
 
         recipient->handle_ok(w);
     }
@@ -113,7 +106,7 @@ namespace
     deliver_cancel(GtkWidget *w, gpointer data) throw ()
     {
         options_dialog *recipient = static_cast<options_dialog *>(data);
-        I(recipient != NULL);
+        assert(recipient != NULL);
 
         recipient->handle_cancel(w);
     }
@@ -127,7 +120,7 @@ options_dialog::populate(GtkDialog *dialog)
         i != pages.end();
         ++i) {
         GtkWidget *page_widget = i->second->create_widget();
-        I(page_widget != NULL);
+        assert(page_widget != NULL);
         gtk_widget_show(page_widget);
         gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
                                                             gtk_label_new(i->first.c_str()));
@@ -138,9 +131,9 @@ options_dialog::populate(GtkDialog *dialog)
 
     /* Label for the OK button.  */
     const char *ok_text = _("OK");
-    I(ok_text != NULL);
+    assert(ok_text != NULL);
     GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
-    I(GTK_IS_BUTTON(ok_button));
+    assert(GTK_IS_BUTTON(ok_button));
     g_signal_connect(G_OBJECT(ok_button), "clicked",
         G_CALLBACK(&deliver_ok), this);
     gtk_widget_show(ok_button);
@@ -149,9 +142,9 @@ options_dialog::populate(GtkDialog *dialog)
 
     /* Label for the Cancel button.  */
     const char *cancel_text = _("Cancel");
-    I(cancel_text != NULL);
+    assert(cancel_text != NULL);
     GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
-    I(GTK_IS_BUTTON(cancel_button));
+    assert(GTK_IS_BUTTON(cancel_button));
     g_signal_connect(G_OBJECT(cancel_button), "clicked",
         G_CALLBACK(&deliver_cancel), this);
     gtk_widget_show(cancel_button);
@@ -174,8 +167,5 @@ options_dialog::configure(GtkDialog *widget)
 void
 options_dialog::add_page(const char *tab_text, options_page *page)
 {
-#ifdef L
-    L("options_dialog: Adding page %s -> %p\n", tab_text, page);
-#endif
     pages.push_back(make_pair(tab_text, page));
 }
