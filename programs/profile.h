@@ -31,7 +31,7 @@
 /* Options profile of a clock.  This object keeps the options setting
    in a file.  */
 class profile
-  : public virtual glclock::options_callback
+  : public virtual glclock::listener
 {
 private:
   std::string file_name;

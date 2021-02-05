@@ -37,140 +37,97 @@
 #define DEFAULT_UPDATE_RATE 10
 #endif
 
-using std::vector;
+using std::for_each;
 using std::invalid_argument;
+using std::make_unique;
+using std::remove;
 using glgtk::glgtk_context;
 
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
 
-static gboolean handle_timeout (gpointer data) throw ();
-static gboolean handle_button_press_event (
-    GtkWidget *widget, GdkEventButton *event, gpointer data) throw ();
-static gboolean handle_button_release_event (
-    GtkWidget *widget, GdkEventButton *event, gpointer data) throw ();
-
-glclock::glclock (void)
-    : m (NULL),
-      options (this),
-      rot_velocity (0),
-      rot_x (0), rot_y (1), rot_z (0)
+glclock::glclock():
+    _update_rate {DEFAULT_UPDATE_RATE},
+    _module {new module()},
+    _widget {gtk_drawing_area_new()},
+    rot_velocity {0},
+    rot_x {0},
+    rot_y {1},
+    rot_z {0}
 {
-    _update_rate = 0;
-    _update_timeout = 0;
-    set_update_rate (DEFAULT_UPDATE_RATE);
-    _widget = NULL;
-    _context = NULL;
+    gtk_widget_set_events(&*_widget,
+        GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+    g_signal_connect(&*_widget, "button_press_event",
+        G_CALLBACK(handle_button_press_event), this);
+    g_signal_connect(&*_widget, "button_release_event",
+        G_CALLBACK(handle_button_release_event), this);
 
-    try
-    {
-        /* Objects are allocated here to avoid leaks when an exception
-           is thrown in the middle of the ctor.  */
-        m = new module ();
+    reset_timeout();
+}
+
+glclock::~glclock()
+{
+    if (&*_widget != nullptr) {
+        g_signal_handlers_disconnect_by_data(&*_widget, this);
     }
-    catch (...)
-    {
-        /* These are safe as they are initialized to NULLs before
-           entering the try block.  */
-        delete m;
-        throw;
+
+    if (_update_timeout != 0) {
+        g_source_remove(_update_timeout);
+        _update_timeout = 0;
     }
 }
 
-glclock::~glclock (void)
+void glclock::set_update_rate(int rate)
 {
-    if (_context != NULL)
-    {
-        delete _context;
+    if (rate < 1 || rate > 100) {
+        throw invalid_argument("Out of range");
     }
 
-    if (_widget != NULL)
-    {
-        g_signal_handlers_disconnect_matched (_widget, G_SIGNAL_MATCH_DATA,
-                                              0, 0, NULL, NULL, this);
-        g_object_unref (_widget);
-    }
-
-    if (_update_timeout != 0)
-    {
-        g_source_remove (_update_timeout);
-    }
-
-    delete m;
-}
-
-void glclock::set_update_rate (int rate)
-{
-    if (rate < 1 || rate > 100)
-    {
-        throw invalid_argument ("Out of range");
-    }
-
-    if (rate != _update_rate)
-    {
+    if (rate != _update_rate) {
         _update_rate = rate;
+        reset_timeout();
 
-        if (_update_timeout != 0)
-        {
-            g_source_remove (_update_timeout);
-        }
-
-        long interval = rate_to_interval (_update_rate);
-        assert (interval > 0);
-        _update_timeout = g_timeout_add (interval, handle_timeout, this);
-
-        for (vector<options_callback *>::iterator i = callbacks.begin();
-             i != callbacks.end(); ++i)
-        {
-            (*i)->options_changed (this);
-        }
+        for_each(_listeners.begin(), _listeners.end(),
+            [this](auto &&listener) {
+                listener->options_changed(this);
+            });
     }
 }
 
-GtkWidget *glclock::widget (void)
+void glclock::reset_timeout()
 {
-    if (_update_timeout == 0)
-    {
-        long interval = rate_to_interval (_update_rate);
-        assert (interval > 0);
-        _update_timeout = g_timeout_add (interval, handle_timeout, this);
+    if (_update_timeout != 0) {
+        g_source_remove(_update_timeout);
+        _update_timeout = 0;
     }
 
-    if (_widget == NULL)
-    {
-        _widget = gtk_drawing_area_new ();
-        gtk_widget_set_double_buffered (_widget, false);
-        gtk_widget_set_events (
-            _widget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-        g_signal_connect (_widget, "button_press_event",
-                          G_CALLBACK (&handle_button_press_event),
-                          this);
-        g_signal_connect (_widget, "button_release_event",
-                          G_CALLBACK (&handle_button_release_event),
-                          this);
-        g_object_ref_sink (_widget);
-    }
-
-    return _widget;
+    unsigned int interval = rate_to_interval(_update_rate);
+    assert(interval > 0);
+    _update_timeout = g_timeout_add(interval, handle_timeout, this);
 }
 
-void glclock::update (void)
+void glclock::add_listener(listener *listener)
 {
-#if 0
-    time_t t;
-    time (&t);
-#endif
+    _listeners.push_back(listener);
+}
 
-    if (_widget == NULL || !gtk_widget_get_realized(_widget))
-    {
+void glclock::remove_listener(listener *listener)
+{
+    auto &&last = remove(_listeners.begin(), _listeners.end(), listener);
+    _listeners.erase(last, _listeners.end());
+}
+
+void glclock::update()
+{
+    if (&*_widget == nullptr || !gtk_widget_get_realized(&*_widget)) {
         return;
     }
 
-    auto &&window = gtk_widget_get_window(_widget);
-    if (_context == NULL) {
-        _context = new glgtk_context(window);
+    auto &&window = gtk_widget_get_window(&*_widget);
+    if (_context == nullptr) {
+        _context = make_unique<glgtk_context>(window);
         _context->make_current(window);
-        m->init ();
+        _module->init();
     }
 
     double angle = 0;
@@ -185,158 +142,60 @@ void glclock::update (void)
         angle = rot_velocity * t;
     }
     tv_last = tv;
-    m->rotate (angle * (180 / M_PI), rot_x, rot_y, rot_z);
+    _module->rotate (angle * (180 / M_PI), rot_x, rot_y, rot_z);
 
-    m->viewport(0, 0, gdk_window_get_width(window), gdk_window_get_height(window));
-    m->draw_clock ();
+    _module->viewport(0, 0,
+        gdk_window_get_width(window), gdk_window_get_height(window));
+    _module->draw_clock ();
 
     _context->swap_buffers(window);
 }
 
-gboolean handle_timeout (gpointer data) throw ()
+gboolean handle_timeout(gpointer data) noexcept
 {
-    glclock *clock = static_cast<glclock *> (data);
-    assert (clock != NULL);
-    clock->update ();
+    auto &&clock = static_cast<glclock *>(data);
+    assert(clock != NULL);
+    clock->update();
 
     return true;
 }
 
-gboolean glclock::handle_button_press_event (
-    GtkWidget *widget, GdkEventButton *event, gpointer data) throw ()
+gboolean handle_button_press_event(GtkWidget *widget,
+    GdkEventButton *event, gpointer data) noexcept
 {
-    glclock *clock = static_cast<glclock *> (data);
-    g_assert (clock != NULL);
+    glclock *clock = static_cast<glclock *>(data);
 
-    switch (event->button)
-    {
+    switch (event->button) {
     case 1:
         clock->press_x = event->x;
         clock->press_y = event->y;
-        gtk_grab_add (widget);
+        gtk_grab_add(widget);
         return true;
+    default:
+        return false;
     }
-
-    return false;
 }
 
-gboolean glclock::handle_button_release_event (
-    GtkWidget *widget, GdkEventButton *event, gpointer data) throw ()
+gboolean handle_button_release_event(GtkWidget *widget,
+    GdkEventButton *event, gpointer data) noexcept
 {
-    glclock *clock = static_cast<glclock *> (data);
-    g_assert (clock != NULL);
+    glclock *clock = static_cast<glclock *>(data);
 
+    double velocity[2] {};
     GtkAllocation allocation {};
     switch (event->button)
     {
     case 1:
-        gtk_grab_remove (widget);
+        gtk_grab_remove(widget);
         gtk_widget_get_allocation(widget, &allocation);
-        {
-            double vel_x = (double) (event->x - clock->press_x) / allocation.width;
-            double vel_y = (double) (event->y - clock->press_y) / allocation.height;
-            if (vel_x != 0 || vel_y != 0)
-            {
-                clock->rot_y = vel_x;
-                clock->rot_x = vel_y;
-            }
-            clock->rot_velocity = sqrt (vel_x * vel_x + vel_y * vel_y);
-        }
+        velocity[0] = double(event->x - clock->press_x) / allocation.width;
+        velocity[1] = double(event->y - clock->press_y) / allocation.height;
+        clock->rot_x = velocity[1];
+        clock->rot_y = velocity[0];
+        clock->rot_velocity =
+            sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
         return true;
+    default:
+        return false;
     }
-
-    return false;
 }
-
-#if 0
-
-void glclock::show_options_dialog (GtkWindow *w)
-{
-    options.act (w);
-}
-
-GtkWidget *glclock::create_widget ()
-{
-    GtkWidget *drawing_area = gtk_drawing_area_new ();
-    gtk_drawing_area_size (GTK_DRAWING_AREA (drawing_area), 160, 160);
-    gtk_widget_set_double_buffered (drawing_area, false);
-    gtk_widget_set_events (drawing_area,
-                           GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-    gtk_signal_connect (GTK_OBJECT(drawing_area), "destroy",
-                        GTK_SIGNAL_FUNC(remove_widget), this);
-    gtk_signal_connect (GTK_OBJECT(drawing_area), "expose_event",
-                        GTK_SIGNAL_FUNC(handle_expose_event), this);
-    gtk_signal_connect (GTK_OBJECT(drawing_area), "button_press_event",
-                        GTK_SIGNAL_FUNC(handle_button_event), this);
-    gtk_signal_connect (GTK_OBJECT(drawing_area), "button_release_event",
-                        GTK_SIGNAL_FUNC(handle_button_event), this);
-
-    widgets.push_back(drawing_area);
-    return drawing_area;
-}
-
-#endif
-
-void glclock::remove_callback (options_callback *callback)
-{
-    vector<options_callback *>::iterator k
-        = find(callbacks.begin(), callbacks.end(), callback);
-    if (k != callbacks.end())
-        callbacks.erase(k);
-}
-
-void glclock::add_callback (options_callback *callback)
-{
-    callbacks.push_back(callback);
-}
-
-#if 0
-
-gint glclock::handle_expose_event (GtkWidget *widget, GdkEventExpose *event,
-                                   gpointer opaque)
-{
-    glclock *object = static_cast <glclock *> (opaque);
-    g_assert (object != NULL);
-
-    if (object->context == NULL)
-    {
-        object->context
-            = gl::create_context(gdk_window_get_visual(widget->window));
-
-        gl::make_current(object->context, widget->window);
-
-        object->m->init();
-    }
-
-    gl::make_current(object->context, widget->window);
-
-    int width, height;
-    gdk_window_get_size(widget->window, &width, &height);
-    object->m->viewport(0, 0, width, height);
-
-    object->m->draw_clock();
-
-    gl::swap_buffers(widget->window);
-
-    return true;
-}
-
-void glclock::remove_widget (GtkWidget *widget, gpointer data)
-{
-    glclock *c = static_cast<glclock *> (data);
-    assert (c != NULL);
-
-    vector<GtkWidget *>::iterator k
-        = find (c->widgets.begin(), c->widgets.end(), widget);
-    if (k != c->widgets.end())
-        c->widgets.erase (k);
-}
-
-#endif
-
-/*
- * Local variables:
- * c-basic-offset: 4
- * c-file-offsets: ((substatement-open . 0) (arglist-intro . +) (arglist-close . 0))
- * End:
- */

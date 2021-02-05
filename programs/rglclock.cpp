@@ -106,7 +106,7 @@ application::application (void)
 
     _profile.open (s.c_str ());
     _profile.restore (&clock);
-    clock.add_callback (&_profile);
+    clock.add_listener (&_profile);
 
 #if 0 /* temporarily disabled */
     GdkVisual *visual = glclock::best_visual ();
@@ -136,7 +136,7 @@ GtkWidget *application::widget (void)
         GtkAccelGroup *ag = gtk_accel_group_new ();
         gtk_window_add_accel_group (GTK_WINDOW (window), ag);
 
-        auto &&content = g_ptr<GtkWidget>(clock.widget());
+        auto &&content = clock.widget();
         gtk_widget_show(&*content);
         gtk_container_add(GTK_CONTAINER(window), &*content);
 

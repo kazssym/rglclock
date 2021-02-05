@@ -22,10 +22,12 @@
 
 #include "gl_context.h"
 #include "utils.h"
+#include "g_ptr.h"
 #include <module.h>
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
 #include <time.h>
+#include <memory>
 
 #include "glgtk.h"
 
@@ -59,40 +61,85 @@ public:
     explicit clock_options_dialog(glclock *);
 };
 
+extern "C" gboolean handle_timeout(gpointer data) noexcept;
+extern "C" gboolean handle_button_press_event(GtkWidget *widget,
+    GdkEventButton *event, gpointer data) noexcept;
+extern "C" gboolean handle_button_release_event(GtkWidget *widget,
+    GdkEventButton *event, gpointer data) noexcept;
+
 /* Clock application.  */
 class glclock
 {
-private:
-    int _update_rate;
-    guint _update_timeout;
-    GtkWidget *_widget;
-    glgtk_context *_context;
-
-public:
-    /* Constructs this clock with default properties.  */
-    glclock (void);
-    glclock (const glclock &object);
-
-public:
-    /* Destructs this clock.  */
-    virtual ~glclock (void);
-    void set_update_rate (int rate);
-
-    int update_rate (void) const
-    {
-        return _update_rate;
-    }
-
-    GtkWidget *widget (void);
-    void update (void);
+    friend gboolean handle_button_press_event(GtkWidget *widget,
+        GdkEventButton *event, gpointer data) noexcept;
+    friend gboolean handle_button_release_event(GtkWidget *widget,
+        GdkEventButton *event, gpointer data) noexcept;
 
 public:
     /* Call-back interface that is used to implement hooks about
      * options.  */
-    struct options_callback
+    struct listener
     {
         virtual void options_changed(glclock *) = 0;
     };
+
+private:
+    int _update_rate;
+
+private:
+    std::unique_ptr<module> _module;
+
+private:
+    guint _update_timeout {};
+
+private:
+    std::vector<listener *> _listeners;
+
+private:
+    g_ptr<GtkWidget> _widget;
+
+private:
+    std::unique_ptr<glgtk_context> _context;
+
+public:
+    /* Constructs this clock with default properties.  */
+    glclock();
+
+    glclock(const glclock &) = delete;
+
+public:
+    /* Destructs this clock.  */
+    virtual ~glclock();
+
+public:
+    void operator =(const glclock &) = delete;
+
+public:
+    int update_rate() const
+    {
+        return _update_rate;
+    }
+
+public:
+    void set_update_rate(int rate);
+
+protected:
+    void reset_timeout();
+
+public:
+    void add_listener(listener *);
+
+public:
+    void remove_listener(listener *);
+
+public:
+    const g_ptr<GtkWidget> &widget(void) const
+    {
+        return _widget;
+    }
+
+public:
+    void update();
 
 public:
     /* Returns the best visual for this class.  */
@@ -100,26 +147,16 @@ public:
 
 protected:
     static void remove_widget(GtkWidget *, gpointer);
-    static gboolean handle_button_press_event (GtkWidget *, GdkEventButton *, gpointer) throw ();
-    static gboolean handle_button_release_event (GtkWidget *, GdkEventButton *, gpointer) throw ();
+
 private:
-    module *m;
-    std::vector<options_callback *> callbacks;
-
-    /* `Options' dialog.  */
-    clock_options_dialog options;
-
     double rot_velocity;
     double rot_x, rot_y, rot_z;
     double press_x, press_y;
 
 public:
-    void add_callback(options_callback *);
-    void remove_callback(options_callback *);
-
     /* Sets modules's property NAME to VALUE.  */
     void set_module_prop(const std::string &name, const std::string &value)
-    {m->set_prop(name, value);}
+    {_module->set_prop(name, value);}
 
     GtkWidget *create_widget();
 
