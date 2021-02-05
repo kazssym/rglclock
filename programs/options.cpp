@@ -128,10 +128,7 @@ options_dialog::populate(GtkDialog *dialog)
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(dialog)), notebook1,
         FALSE, FALSE, 0);
 
-    /* Label for the OK button.  */
-    const char *ok_text = _("OK");
-    assert(ok_text != NULL);
-    GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
+    auto &&ok_button = gtk_button_new_with_label(_("OK"));
     assert(GTK_IS_BUTTON(ok_button));
     g_signal_connect(G_OBJECT(ok_button), "clicked",
         G_CALLBACK(&deliver_ok), this);
@@ -139,10 +136,7 @@ options_dialog::populate(GtkDialog *dialog)
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), ok_button,
         FALSE, FALSE, 0);
 
-    /* Label for the Cancel button.  */
-    const char *cancel_text = _("Cancel");
-    assert(cancel_text != NULL);
-    GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
+    auto &&cancel_button = gtk_button_new_with_label(_("Cancel"));
     assert(GTK_IS_BUTTON(cancel_button));
     g_signal_connect(G_OBJECT(cancel_button), "clicked",
         G_CALLBACK(&deliver_cancel), this);
