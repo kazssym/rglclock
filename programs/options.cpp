@@ -45,141 +45,137 @@ using namespace std;
 void
 options_dialog::handle_ok(GtkWidget *button)
 {
-  GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
-  I(GTK_IS_DIALOG(dialog));
+    GtkWidget *dialog = gtk_widget_get_ancestor(button, gtk_dialog_get_type());
+    I(GTK_IS_DIALOG(dialog));
 
-  GList *dialog_children
-    = gtk_container_get_children(
-      GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))));
-  I(dialog_children != NULL);
+    GList *dialog_children
+        = gtk_container_get_children(
+            GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))));
+    I(dialog_children != NULL);
 
-  GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
-  I(GTK_IS_NOTEBOOK(notebook));
+    GtkWidget *notebook = GTK_WIDGET(dialog_children->data);
+    I(GTK_IS_NOTEBOOK(notebook));
 
-  int j = 0;
-  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
-       i != pages.end();
-       ++i)
-    {
-      GtkWidget *page_widget
-        = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
-      I(page_widget != NULL);
-      i->second->apply(page_widget);
+    int j = 0;
+    for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+        i != pages.end();
+        ++i) {
+        GtkWidget *page_widget
+            = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
+        I(page_widget != NULL);
+        i->second->apply(page_widget);
     }
 
-  close(positive_action());
+    close(positive_action());
 }
 
 void
 options_dialog::handle_cancel(GtkWidget *button)
 {
-  close(negative_action());
+    close(negative_action());
 }
 
 void
 options_dialog::update(GtkDialog *widget)
 {
-  GList *children = gtk_container_get_children(
-    GTK_CONTAINER(gtk_dialog_get_content_area(widget)));
-  I(children != NULL);
+    GList *children = gtk_container_get_children(
+        GTK_CONTAINER(gtk_dialog_get_content_area(widget)));
+    I(children != NULL);
 
-  /* This assumes the first child is a GtkNotebook.  */
-  GtkWidget *notebook = GTK_WIDGET(children->data);
-  I(GTK_IS_NOTEBOOK(notebook));
+    /* This assumes the first child is a GtkNotebook.  */
+    GtkWidget *notebook = GTK_WIDGET(children->data);
+    I(GTK_IS_NOTEBOOK(notebook));
 
-  int j = 0;
-  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
-       i != pages.end(); ++i)
-    {
-      GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
-      I(page != NULL);
+    int j = 0;
+    for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+        i != pages.end(); ++i) {
+        GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), j++);
+        I(page != NULL);
 
-      i->second->update(page);
+        i->second->update(page);
     }
 }
 
 namespace
 {
-  /* Delivers an OK to the options dialog.  */
-  void
-  deliver_ok(GtkWidget *w, gpointer data) throw ()
-  {
-    options_dialog *recipient = static_cast<options_dialog *>(data);
-    I(recipient != NULL);
+    /* Delivers an OK to the options dialog.  */
+    void
+    deliver_ok(GtkWidget *w, gpointer data) throw ()
+    {
+        options_dialog *recipient = static_cast<options_dialog *>(data);
+        I(recipient != NULL);
 
-    recipient->handle_ok(w);
-  }
+        recipient->handle_ok(w);
+    }
 
-  /* Delivers a cancel to the options dialog.  */
-  void
-  deliver_cancel(GtkWidget *w, gpointer data) throw ()
-  {
-    options_dialog *recipient = static_cast<options_dialog *>(data);
-    I(recipient != NULL);
+    /* Delivers a cancel to the options dialog.  */
+    void
+    deliver_cancel(GtkWidget *w, gpointer data) throw ()
+    {
+        options_dialog *recipient = static_cast<options_dialog *>(data);
+        I(recipient != NULL);
 
-    recipient->handle_cancel(w);
-  }
+        recipient->handle_cancel(w);
+    }
 } // (unnamed)
 
 void
 options_dialog::populate(GtkDialog *dialog)
 {
-  GtkWidget *notebook1 = gtk_notebook_new();
-  for (vector<pair<string, options_page *> >::iterator i = pages.begin();
-       i != pages.end();
-       ++i)
-    {
-      GtkWidget *page_widget = i->second->create_widget();
-      I(page_widget != NULL);
-      gtk_widget_show(page_widget);
-      gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
-                               gtk_label_new(i->first.c_str()));
+    GtkWidget *notebook1 = gtk_notebook_new();
+    for (vector<pair<string, options_page *> >::iterator i = pages.begin();
+        i != pages.end();
+        ++i) {
+        GtkWidget *page_widget = i->second->create_widget();
+        I(page_widget != NULL);
+        gtk_widget_show(page_widget);
+        gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
+                                                            gtk_label_new(i->first.c_str()));
     }
-  gtk_widget_show(notebook1);
-  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(dialog)), notebook1,
-                     FALSE, FALSE, 0);
+    gtk_widget_show(notebook1);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(dialog)), notebook1,
+        FALSE, FALSE, 0);
 
-  /* Label for the OK button.  */
-  const char *ok_text = _("OK");
-  I(ok_text != NULL);
-  GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
-  I(GTK_IS_BUTTON(ok_button));
-  g_signal_connect(G_OBJECT(ok_button), "clicked",
-    G_CALLBACK(&deliver_ok), this);
-  gtk_widget_show(ok_button);
-  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), ok_button,
-                     FALSE, FALSE, 0);
+    /* Label for the OK button.  */
+    const char *ok_text = _("OK");
+    I(ok_text != NULL);
+    GtkWidget *ok_button = gtk_button_new_with_label(ok_text);
+    I(GTK_IS_BUTTON(ok_button));
+    g_signal_connect(G_OBJECT(ok_button), "clicked",
+        G_CALLBACK(&deliver_ok), this);
+    gtk_widget_show(ok_button);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), ok_button,
+        FALSE, FALSE, 0);
 
-  /* Label for the Cancel button.  */
-  const char *cancel_text = _("Cancel");
-  I(cancel_text != NULL);
-  GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
-  I(GTK_IS_BUTTON(cancel_button));
-  g_signal_connect(G_OBJECT(cancel_button), "clicked",
-    G_CALLBACK(&deliver_cancel), this);
-  gtk_widget_show(cancel_button);
-  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), cancel_button,
-                     FALSE, FALSE, 0);
+    /* Label for the Cancel button.  */
+    const char *cancel_text = _("Cancel");
+    I(cancel_text != NULL);
+    GtkWidget *cancel_button = gtk_button_new_with_label(cancel_text);
+    I(GTK_IS_BUTTON(cancel_button));
+    g_signal_connect(G_OBJECT(cancel_button), "clicked",
+        G_CALLBACK(&deliver_cancel), this);
+    gtk_widget_show(cancel_button);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_action_area(dialog)), cancel_button,
+        FALSE, FALSE, 0);
 
-  gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
+    gtk_window_set_focus(GTK_WINDOW(dialog), ok_button);
 }
 
 void
 options_dialog::configure(GtkDialog *widget)
 {
-  gtk_window_set_title(GTK_WINDOW(widget), _("Options"));
-  gtk_window_set_resizable(GTK_WINDOW(widget), false);
-  gtk_window_set_position(GTK_WINDOW(widget), GTK_WIN_POS_CENTER);
+    gtk_window_set_title(GTK_WINDOW(widget), _("Options"));
+    gtk_window_set_resizable(GTK_WINDOW(widget), false);
+    gtk_window_set_position(GTK_WINDOW(widget), GTK_WIN_POS_CENTER);
 
-  populate(widget);
+    populate(widget);
 }
 
 void
 options_dialog::add_page(const char *tab_text, options_page *page)
 {
 #ifdef L
-  L("options_dialog: Adding page %s -> %p\n", tab_text, page);
+    L("options_dialog: Adding page %s -> %p\n", tab_text, page);
 #endif
-  pages.push_back(make_pair(tab_text, page));
+    pages.push_back(make_pair(tab_text, page));
 }
-
