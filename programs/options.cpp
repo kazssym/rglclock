@@ -122,7 +122,7 @@ options_dialog::populate(GtkDialog *dialog)
         assert(page_widget != NULL);
         gtk_widget_show(page_widget);
         gtk_notebook_append_page(GTK_NOTEBOOK(notebook1), page_widget,
-                                                            gtk_label_new(i->first.c_str()));
+            gtk_label_new(i->first.c_str()));
     }
     gtk_widget_show(notebook1);
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(dialog)), notebook1,
