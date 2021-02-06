@@ -49,6 +49,8 @@ using std::string;
 extern "C" void handle_activate(GApplication *app, gpointer data) noexcept;
 extern "C" void handle_app_exit(GSimpleAction *action, GVariant *parameter,
     gpointer data) noexcept;
+extern "C" void handle_app_about(GAction *action, GVariant *parameter,
+    gpointer data) noexcept;
 
 /* Clock application.  */
 class rglclock_app
@@ -104,6 +106,12 @@ void handle_app_exit(GSimpleAction *, GVariant *, gpointer data) noexcept
     g_application_quit(G_APPLICATION(&*(app->_app)));
 }
 
+void handle_app_about(GAction *, GVariant *, gpointer data) noexcept
+{
+    about_dialog dialog;
+    dialog.show_modal();
+}
+
 namespace proxy
 {
     /* Handles an `Options' command.  */
@@ -140,6 +148,10 @@ rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
     g_ptr<GSimpleAction> exit {g_simple_action_new("exit", nullptr)};
     g_signal_connect(&*exit, "activate", G_CALLBACK(handle_app_exit), this);
     g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*exit));
+
+    g_ptr<GSimpleAction> about {g_simple_action_new("about", nullptr)};
+    g_signal_connect(&*about, "activate", G_CALLBACK(handle_app_about), this);
+    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*about));
 
 #if 0 /* temporarily disabled */
     GdkVisual *visual = movement::best_visual ();
