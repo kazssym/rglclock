@@ -141,6 +141,9 @@ public:
     void update();
 
 public:
+    void popup_menu(GtkWidget *widget, GdkEvent *event) const;
+
+public:
     /* Returns the best visual for this class.  */
     static GdkVisual *best_visual();
 

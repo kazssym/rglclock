@@ -159,6 +159,11 @@ void glclock::update()
     _context->swap_buffers(window);
 }
 
+void glclock::popup_menu(GtkWidget *, GdkEvent *event) const
+{
+    gtk_menu_popup_at_pointer(GTK_MENU(&*_menu), event);
+}
+
 gboolean handle_timeout(gpointer data) noexcept
 {
     auto &&clock = static_cast<glclock *>(data);
@@ -183,11 +188,8 @@ gboolean handle_button_press_event(GtkWidget *widget,
             return true;
         }
     case 3:
-        {
-            gtk_menu_popup_at_pointer(GTK_MENU(&*(clock->_menu)),
-                reinterpret_cast<GdkEvent *>(event));
-            return true;
-        }
+        clock->popup_menu(widget, reinterpret_cast<GdkEvent *>(event));
+        return true;
     default:
         return false;
     }
