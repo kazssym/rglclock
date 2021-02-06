@@ -44,37 +44,52 @@ using std::putchar;
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
 
+extern "C" void handle_activate(GApplication *app, gpointer data) noexcept;
+
 /* Clock application.  */
 class application
 {
 private:
-    glclock clock;
+    g_ptr<GtkApplication> _app;
+
+private:
+    glclock _clock;
 
 private:
     profile _profile;
 
-    /* Main window of this application.  */
-    GtkWidget *window;
+public:
+    explicit application(const g_ptr<GtkApplication> &app);
+
+    application(const application &) = delete;
 
 public:
-    application (void);
+    ~application();
 
 public:
-    ~application (void);
-    GtkWidget *widget (void);
+    void operator =(const application &) = delete;
+
+public:
+    void start();
 
 public:
     /* Shows the `Options' dialog.  */
     void show_options_dialog ()
     {
 #if 0 /* temporarily disabled */
-        clock.show_options_dialog (GTK_WINDOW (main_window));
+        _clock.show_options_dialog (GTK_WINDOW (main_window));
 #endif
     }
 
     /* Shows the about dialog and returns immediately.  */
     void show_about_dialog ();
 };
+
+void handle_activate(GApplication *, gpointer data) noexcept
+{
+    auto &&app = static_cast<application *>(data);
+    app->start();
+}
 
 namespace proxy
 {
@@ -95,18 +110,19 @@ namespace proxy
     }
 }
 
-application::application (void)
+application::application(const g_ptr<GtkApplication> &app):
+    _app {app}
 {
-    window = NULL;
-
     string s (getenv ("HOME"));
     s.append ("/.rglclock");
     mkdir (s.c_str (), 0777);   // XXX: Ignoring errors.
     s.append ("/options");
 
     _profile.open (s.c_str ());
-    _profile.restore (&clock);
-    clock.add_listener (&_profile);
+    _profile.restore (&_clock);
+    _clock.add_listener (&_profile);
+
+    g_signal_connect(&*_app, "activate", G_CALLBACK(handle_activate), this);
 
 #if 0 /* temporarily disabled */
     GdkVisual *visual = glclock::best_visual ();
@@ -121,41 +137,32 @@ application::application (void)
 application::~application (void)
 {
     // FIXME This seems too late.
-    _profile.save (&clock);
+    _profile.save (&_clock);
 }
 
-GtkWidget *application::widget (void)
+void application::start()
 {
-    if (window == NULL)
-    {
-        window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-        // gtk_window_set_policy (GTK_WINDOW (window), true, true, false);
-        g_signal_connect(G_OBJECT(window), "delete_event",
-                         G_CALLBACK(gtk_main_quit), this);
+    g_ptr<GtkWidget> window {gtk_application_window_new(&*_app)};
+    // g_signal_connect(&*window, "delete_event",
+    //     G_CALLBACK(gtk_main_quit), this);
 
-        GtkAccelGroup *ag = gtk_accel_group_new ();
-        gtk_window_add_accel_group (GTK_WINDOW (window), ag);
+    auto &&content = _clock.widget();
+    gtk_widget_show(&*content);
+    gtk_container_add(GTK_CONTAINER(&*window), &*content);
 
-        auto &&content = clock.widget();
-        gtk_widget_show(&*content);
-        gtk_container_add(GTK_CONTAINER(window), &*content);
-
-        GdkGeometry geometry {0, 0, 0, 0, 0, 0, 1, 1};
-        gtk_window_set_geometry_hints(GTK_WINDOW(window), &*content,
-            &geometry, GDK_HINT_RESIZE_INC);
-    }
-
-    return window;
+    gtk_widget_show(&*window);
 }
 
 void application::show_about_dialog ()
 {
-    about_dialog dialog (GTK_WINDOW (window));
+#if 0
+    about_dialog dialog (GTK_WINDOW (&*_widget));
     gtk_widget_show (dialog.widget ());
 
     while (gtk_widget_get_visible(dialog.widget())) {
         gtk_main_iteration ();
     }
+#endif
 }
 
 /* Command line interface.  */
@@ -211,14 +218,12 @@ int main (int argc, char **argv)
 
     parse_gtkrcs ();
 
-    application *app = new application ();
-    gtk_widget_show (app->widget ());
+    g_ptr<GtkApplication> app {
+        gtk_application_new(nullptr, G_APPLICATION_FLAGS_NONE)};
 
-    gtk_main ();
+    application rglclock {app};
 
-    delete app;
-
-    return EXIT_SUCCESS;
+    return g_application_run(G_APPLICATION(&*app), 0, nullptr);
 }
 
 /* Parses the program options.  */
