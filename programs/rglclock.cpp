@@ -21,8 +21,6 @@
 #include <config.h>
 #endif
 
-#include <string>
-#include <cstdio>
 
 #include "g_ptr.h"
 #include <gtk/gtk.h>
@@ -31,15 +29,19 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <locale>
+#include <string>
+#include <cstdio>
 
 #include "clock.h"
 #include "profile.h"
 #include "about.h"
 
+using std::fprintf;
 using std::locale;
-using std::string;
 using std::printf;
 using std::putchar;
+using std::runtime_error;
+using std::string;
 
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
@@ -193,6 +195,13 @@ static void parse_gtkrcs (void);
 
 int main (int argc, char **argv)
 {
+    try {
+        locale::global(locale(""));
+    }
+    catch (const runtime_error &error) {
+        fprintf(stderr, "error: failed to set locale: %s\n", error.what());
+    }
+
 #if ENABLE_NLS
     /* Initialize NLS.  */
     textdomain(PACKAGE_TARNAME);
@@ -201,7 +210,6 @@ int main (int argc, char **argv)
 #endif
 #endif
 
-    locale::global(locale(""));
     gtk_init (&argc, &argv);
 
     if (!parse_options (argc, argv))
