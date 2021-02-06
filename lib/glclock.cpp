@@ -25,6 +25,7 @@
 
 #include <GL/glu.h>
 #include <gtk/gtk.h>
+#include <gettext.h>
 #include <sys/time.h>
 #include <algorithm>
 #include <stdexcept>
@@ -40,6 +41,9 @@ using std::invalid_argument;
 using std::make_unique;
 using std::remove;
 using glgdkx::glgdkx_context;
+
+#define _(String) gettext(String)
+#define N_(String) gettext_noop(String)
 
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
@@ -165,10 +169,25 @@ gboolean handle_button_press_event(GtkWidget *widget,
 
     switch (event->button) {
     case 1:
-        clock->press_x = event->x;
-        clock->press_y = event->y;
-        gtk_grab_add(widget);
-        return true;
+        {
+            gtk_grab_add(widget);
+
+            clock->press_x = event->x;
+            clock->press_y = event->y;
+            return true;
+        }
+    case 3:
+        {
+            g_ptr<GMenu> model {g_menu_new()};
+            g_menu_append(&*model, _("_About..."), "app.about");
+            g_menu_append(&*model, _("E_xit"), "app.exit");
+
+            g_ptr<GtkWidget> menu {
+                gtk_menu_new_from_model(G_MENU_MODEL(&*model))};
+            gtk_menu_popup_at_pointer(GTK_MENU(&*menu),
+                reinterpret_cast<GdkEvent *>(event));
+            return true;
+        }
     default:
         return false;
     }
@@ -179,20 +198,24 @@ gboolean handle_button_release_event(GtkWidget *widget,
 {
     glclock *clock = static_cast<glclock *>(data);
 
-    double velocity[2] {};
-    GtkAllocation allocation {};
     switch (event->button)
     {
     case 1:
-        gtk_grab_remove(widget);
-        gtk_widget_get_allocation(widget, &allocation);
-        velocity[0] = double(event->x - clock->press_x) / allocation.width;
-        velocity[1] = double(event->y - clock->press_y) / allocation.height;
-        clock->rot_x = velocity[1];
-        clock->rot_y = velocity[0];
-        clock->rot_velocity =
-            sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1]);
-        return true;
+        {
+            gtk_grab_remove(widget);
+
+            GtkAllocation allocation {};
+            gtk_widget_get_allocation(widget, &allocation);
+
+            double v[2] {
+                double(event->x - clock->press_x) / allocation.width,
+                double(event->y - clock->press_y) / allocation.height,
+            };
+            clock->rot_x = v[1];
+            clock->rot_y = v[0];
+            clock->rot_velocity = sqrt(v[0] * v[0] + v[1] * v[1]);
+            return true;
+        }
     default:
         return false;
     }
