@@ -17,42 +17,30 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef aboutH
-#define aboutH 1
+#ifndef ABOUT_H
+#define ABOUT_H 1
 
+#include "g_ptr.h"
 #include <gtk/gtk.h>
 
 class about_dialog
 {
 private:
-    GtkWindow *_parent;
-    GtkWidget *dialog;
-    GtkWidget *label1;
-    GtkWidget *label2;
-    GtkWidget *label3;
-    GtkWidget *ok_button;
+    GtkWidget *_widget;
 
 public:
-    explicit about_dialog (GtkWindow *parent);
-    about_dialog (const about_dialog &object);
+    explicit about_dialog(GtkWindow *parent = nullptr);
+
+    about_dialog(const about_dialog &) = delete;
 
 public:
     virtual ~about_dialog (void);
 
-    GtkWidget *widget (void) const
-    {
-        return dialog;
-    }
+public:
+    void operator =(const about_dialog &) = delete;
 
-protected:
-    void initialize (GtkWindow *parent);
+public:
+    int show_modal();
 };
 
 #endif
-
-/*
- * Local variables:
- * c-basic-offset: 4
- * c-file-offsets: ((substatement-open . 0) (arglist-intro . +) (arglist-close . 0))
- * End:
- */
