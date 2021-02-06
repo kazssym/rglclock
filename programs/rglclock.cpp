@@ -58,7 +58,7 @@ private:
     g_ptr<GtkApplication> _app;
 
 private:
-    glclock _clock;
+    movement _clock;
 
 private:
     profile _profile;
@@ -140,7 +140,7 @@ rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
     g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*exit));
 
 #if 0 /* temporarily disabled */
-    GdkVisual *visual = glclock::best_visual ();
+    GdkVisual *visual = movement::best_visual ();
     gtk_widget_set_default_visual (visual);
 
     GdkColormap *cm = gdk_colormap_new (visual, false);

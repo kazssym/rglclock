@@ -48,7 +48,7 @@ using glgdkx::glgdkx_context;
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
 
-glclock::glclock():
+movement::movement():
     _update_rate {DEFAULT_UPDATE_RATE},
     _module {new module()},
     _widget {gtk_drawing_area_new()},
@@ -73,7 +73,7 @@ glclock::glclock():
     reset_timeout();
 }
 
-glclock::~glclock()
+movement::~movement()
 {
     if (&*_widget != nullptr) {
         g_signal_handlers_disconnect_by_data(&*_widget, this);
@@ -85,7 +85,7 @@ glclock::~glclock()
     }
 }
 
-void glclock::set_update_rate(int rate)
+void movement::set_update_rate(int rate)
 {
     if (rate < 1 || rate > 100) {
         throw invalid_argument("Out of range");
@@ -102,7 +102,7 @@ void glclock::set_update_rate(int rate)
     }
 }
 
-void glclock::reset_timeout()
+void movement::reset_timeout()
 {
     if (_update_timeout != 0) {
         g_source_remove(_update_timeout);
@@ -114,18 +114,18 @@ void glclock::reset_timeout()
     _update_timeout = g_timeout_add(interval, handle_timeout, this);
 }
 
-void glclock::add_listener(listener *listener)
+void movement::add_listener(listener *listener)
 {
     _listeners.push_back(listener);
 }
 
-void glclock::remove_listener(listener *listener)
+void movement::remove_listener(listener *listener)
 {
     auto &&last = remove(_listeners.begin(), _listeners.end(), listener);
     _listeners.erase(last, _listeners.end());
 }
 
-void glclock::update()
+void movement::update()
 {
     if (&*_widget == nullptr || !gtk_widget_get_realized(&*_widget)) {
         return;
@@ -159,14 +159,14 @@ void glclock::update()
     _context->swap_buffers(window);
 }
 
-void glclock::popup_menu(GtkWidget *, GdkEvent *event) const
+void movement::popup_menu(GtkWidget *, GdkEvent *event) const
 {
     gtk_menu_popup_at_pointer(GTK_MENU(&*_menu), event);
 }
 
 gboolean handle_timeout(gpointer data) noexcept
 {
-    auto &&clock = static_cast<glclock *>(data);
+    auto &&clock = static_cast<movement *>(data);
     assert(clock != NULL);
     clock->update();
 
@@ -176,7 +176,7 @@ gboolean handle_timeout(gpointer data) noexcept
 gboolean handle_button_press_event(GtkWidget *widget,
     GdkEventButton *event, gpointer data) noexcept
 {
-    glclock *clock = static_cast<glclock *>(data);
+    movement *clock = static_cast<movement *>(data);
 
     switch (event->button) {
     case 1:
@@ -198,7 +198,7 @@ gboolean handle_button_press_event(GtkWidget *widget,
 gboolean handle_button_release_event(GtkWidget *widget,
     GdkEventButton *event, gpointer data) noexcept
 {
-    glclock *clock = static_cast<glclock *>(data);
+    movement *clock = static_cast<movement *>(data);
 
     switch (event->button)
     {

@@ -29,7 +29,7 @@
 
 using glgdkx::glgdkx_context;
 
-class glclock;
+class movement;
 
 /* The options dialog.  */
 class clock_options_dialog: public options_dialog
@@ -39,9 +39,9 @@ public:
         : public options_page
     {
     private:
-        glclock *target;
+        movement *target;
     public:
-        explicit general_options_page(glclock *);
+        explicit general_options_page(movement *);
     public:
         GtkWidget *create_widget();
 
@@ -54,7 +54,7 @@ public:
 private:
     general_options_page general;
 public:
-    explicit clock_options_dialog(glclock *);
+    explicit clock_options_dialog(movement *);
 };
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
@@ -63,8 +63,8 @@ extern "C" gboolean handle_button_press_event(GtkWidget *widget,
 extern "C" gboolean handle_button_release_event(GtkWidget *widget,
     GdkEventButton *event, gpointer data) noexcept;
 
-/* Clock application.  */
-class glclock
+/* Clock movement. */
+class movement
 {
     friend gboolean handle_button_press_event(GtkWidget *widget,
         GdkEventButton *event, gpointer data) noexcept;
@@ -76,7 +76,7 @@ public:
      * options.  */
     struct listener
     {
-        virtual void options_changed(glclock *) = 0;
+        virtual void options_changed(movement *) = 0;
     };
 
 private:
@@ -102,16 +102,16 @@ private:
 
 public:
     /* Constructs this clock with default properties.  */
-    glclock();
+    movement();
 
-    glclock(const glclock &) = delete;
+    movement(const movement &) = delete;
 
 public:
     /* Destructs this clock.  */
-    virtual ~glclock();
+    virtual ~movement();
 
 public:
-    void operator =(const glclock &) = delete;
+    void operator =(const movement &) = delete;
 
 public:
     int update_rate() const

@@ -31,7 +31,7 @@
 /* Options profile of a clock.  This object keeps the options setting
    in a file.  */
 class profile
-  : public virtual glclock::listener
+  : public virtual movement::listener
 {
 private:
   std::string file_name;
@@ -44,12 +44,12 @@ public:
   void open(const char *name);
 
   /* Restores all options setting of CLOCK.  */
-  void restore(glclock *clock);
+  void restore(movement *clock);
 
   /* Saves all options setting of CLOCK.  */
-  void save(glclock *clock);
+  void save(movement *clock);
 
-  void options_changed(glclock *);
+  void options_changed(movement *);
 };
 
 #endif /* not PROFILE_H */

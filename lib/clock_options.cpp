@@ -156,12 +156,12 @@ clock_options_dialog::general_options_page::create_widget()
   return vbox;
 }
 
-clock_options_dialog::general_options_page::general_options_page(glclock *t)
+clock_options_dialog::general_options_page::general_options_page(movement *t)
   : target(t)
 {
 }
 
-clock_options_dialog::clock_options_dialog(glclock *t)
+clock_options_dialog::clock_options_dialog(movement *t)
   : general(t)
 {
   /* Label for the General page.  */

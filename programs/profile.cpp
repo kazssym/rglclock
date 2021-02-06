@@ -71,13 +71,13 @@ namespace
 } // (unnamed namespace)
 
 void
-profile::options_changed(glclock *clock)
+profile::options_changed(movement *clock)
 {
   changed = true;
 }
 
 void
-profile::save(glclock *clock)
+profile::save(movement *clock)
 {
   if (changed)
     {
@@ -142,7 +142,7 @@ profile::save(glclock *clock)
 }
 
 void
-profile::restore(glclock *clock)
+profile::restore(movement *clock)
 {
   changed = false;
 
