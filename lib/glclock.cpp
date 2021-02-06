@@ -39,7 +39,7 @@ using std::for_each;
 using std::invalid_argument;
 using std::make_unique;
 using std::remove;
-using glgdkx::glgtk_context;
+using glgdkx::glgdkx_context;
 
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
@@ -123,7 +123,7 @@ void glclock::update()
 
     auto &&window = gtk_widget_get_window(&*_widget);
     if (_context == nullptr) {
-        _context = make_unique<glgtk_context>(window);
+        _context = make_unique<glgdkx_context>(window);
         _context->make_current(window);
         _module->init();
     }

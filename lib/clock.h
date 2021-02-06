@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <memory>
 
-using glgdkx::glgtk_context;
+using glgdkx::glgdkx_context;
 
 class glclock;
 
@@ -95,7 +95,7 @@ private:
     g_ptr<GtkWidget> _widget;
 
 private:
-    std::unique_ptr<glgtk_context> _context;
+    std::unique_ptr<glgdkx_context> _context;
 
 public:
     /* Constructs this clock with default properties.  */

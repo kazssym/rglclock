@@ -31,7 +31,7 @@ using std::runtime_error;
 
 namespace glgdkx
 {
-    glgtk_context::glgtk_context (GdkWindow *drawable)
+    glgdkx_context::glgdkx_context (GdkWindow *drawable)
     {
         _display = GDK_WINDOW_XDISPLAY (drawable);
         _context = NULL;
@@ -49,13 +49,13 @@ namespace glgdkx
         }
     }
 
-    glgtk_context::glgtk_context (const glgtk_context &object)
+    glgdkx_context::glgdkx_context (const glgdkx_context &object)
     {
         _display = object._display;
         _context = NULL;
     }
 
-    glgtk_context::~glgtk_context ()
+    glgdkx_context::~glgdkx_context ()
     {
         if (_context != NULL)
         {
@@ -63,7 +63,7 @@ namespace glgdkx
         }
     }
 
-    bool glgtk_context::make_current (GdkWindow *drawable)
+    bool glgdkx_context::make_current (GdkWindow *drawable)
     {
         if (_context == NULL)
         {
@@ -114,7 +114,7 @@ namespace glgdkx
         return true;
     }
 
-    void glgtk_context::swap_buffers (GdkWindow *drawable)
+    void glgdkx_context::swap_buffers (GdkWindow *drawable)
     {
         glXSwapBuffers (_display, GDK_WINDOW_XID (drawable));
     }

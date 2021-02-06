@@ -26,18 +26,18 @@
 
 namespace glgdkx
 {
-    class glgtk_context
+    class glgdkx_context
     {
     private:
         Display *_display;
         GLXContext _context;
 
     public:
-        explicit glgtk_context (GdkWindow *drawable);
-        glgtk_context (const glgtk_context &object);
+        explicit glgdkx_context (GdkWindow *drawable);
+        glgdkx_context (const glgdkx_context &object);
 
     public:
-        virtual ~glgtk_context ();
+        virtual ~glgdkx_context ();
         bool make_current (GdkWindow *drawable);
         void swap_buffers (GdkWindow *drawable);
     };
