@@ -184,6 +184,7 @@ gboolean handle_button_press_event(GtkWidget *widget,
 
             g_ptr<GtkWidget> menu {
                 gtk_menu_new_from_model(G_MENU_MODEL(&*model))};
+            gtk_menu_attach_to_widget(GTK_MENU(&*menu), widget, nullptr);
             gtk_menu_popup_at_pointer(GTK_MENU(&*menu),
                 reinterpret_cast<GdkEvent *>(event));
             return true;

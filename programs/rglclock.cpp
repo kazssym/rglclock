@@ -45,10 +45,15 @@ using std::putchar;
 #define N_(String) gettext_noop(String)
 
 extern "C" void handle_activate(GApplication *app, gpointer data) noexcept;
+extern "C" void handle_app_exit(GSimpleAction *action, GVariant *parameter,
+    gpointer data) noexcept;
 
 /* Clock application.  */
 class rglclock_app
 {
+    friend void handle_app_exit(GSimpleAction *action, GVariant *parameter,
+        gpointer data) noexcept;
+
 private:
     g_ptr<GtkApplication> _app;
 
@@ -91,6 +96,12 @@ void handle_activate(GApplication *, gpointer data) noexcept
     app->start();
 }
 
+void handle_app_exit(GSimpleAction *, GVariant *, gpointer data) noexcept
+{
+    auto &&app = static_cast<rglclock_app *>(data);
+    g_application_quit(G_APPLICATION(&*(app->_app)));
+}
+
 namespace proxy
 {
     /* Handles an `Options' command.  */
@@ -123,6 +134,10 @@ rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
     _clock.add_listener (&_profile);
 
     g_signal_connect(&*_app, "activate", G_CALLBACK(handle_activate), this);
+
+    g_ptr<GSimpleAction> exit {g_simple_action_new("exit", nullptr)};
+    g_signal_connect(&*exit, "activate", G_CALLBACK(handle_app_exit), this);
+    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*exit));
 
 #if 0 /* temporarily disabled */
     GdkVisual *visual = glclock::best_visual ();
