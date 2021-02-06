@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
 "Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2021-02-05 08:01+0900\n"
+"POT-Creation-Date: 2021-02-06 18:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,59 +17,59 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/clockoptions.cc:111
+#: lib/clock_options.cpp:111
 msgid "Update rate: "
 msgstr ""
 
-#: lib/clockoptions.cc:124
+#: lib/clock_options.cpp:124
 msgid "Hz"
 msgstr ""
 
-#: lib/clockoptions.cc:135
+#: lib/clock_options.cpp:135
 msgid "Map texture file: "
 msgstr ""
 
-#: lib/clockoptions.cc:148
+#: lib/clock_options.cpp:148
 msgid "Select..."
 msgstr ""
 
-#: lib/clockoptions.cc:168
+#: lib/clock_options.cpp:168
 msgid "General"
 msgstr ""
 
-#: programs/rglclock.cpp:192 programs/about.cpp:91
+#: programs/rglclock.cpp:199 programs/about.cpp:91
 #, c-format
 msgid ""
 "%s version %s\n"
 "Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
 msgstr ""
 
-#: programs/rglclock.cpp:260
+#: programs/rglclock.cpp:265
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: programs/rglclock.cpp:261
+#: programs/rglclock.cpp:266
 #, c-format
 msgid "Display a 3D rotating clock.\n"
 msgstr ""
 
-#: programs/rglclock.cpp:263
+#: programs/rglclock.cpp:268
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr ""
 
-#: programs/rglclock.cpp:264
+#: programs/rglclock.cpp:269
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr ""
 
-#: programs/rglclock.cpp:265
+#: programs/rglclock.cpp:270
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr ""
 
-#: programs/rglclock.cpp:267 programs/about.cpp:116
+#: programs/rglclock.cpp:272 programs/about.cpp:116
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr ""
@@ -87,14 +87,14 @@ msgid ""
 "version."
 msgstr ""
 
-#: programs/about.cpp:125 programs/options.cpp:177
+#: programs/about.cpp:125 programs/options.cpp:131
 msgid "OK"
 msgstr ""
 
-#: programs/options.cpp:188
+#: programs/options.cpp:139
 msgid "Cancel"
 msgstr ""
 
-#: programs/options.cpp:204
+#: programs/options.cpp:153
 msgid "Options"
 msgstr ""
