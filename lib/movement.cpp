@@ -51,11 +51,7 @@ using glgdkx::glgdkx_context;
 movement::movement():
     _update_rate {DEFAULT_UPDATE_RATE},
     _module {new module()},
-    _widget {gtk_drawing_area_new()},
-    rot_velocity {0},
-    rot_x {0},
-    rot_y {1},
-    rot_z {0}
+    _widget {gtk_drawing_area_new()}
 {
     gtk_widget_set_events(&*_widget,
         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
@@ -147,16 +143,35 @@ void movement::update()
     {
         double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
         t += tv.tv_sec - tv_last.tv_sec;
-        angle = rot_velocity * t;
+        angle = _velocity * t;
     }
     tv_last = tv;
-    _module->rotate (angle * (180 / M_PI), rot_x, rot_y, rot_z);
+    _module->rotate((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
 
     _module->viewport(0, 0,
         gdk_window_get_width(window), gdk_window_get_height(window));
     _module->draw_clock ();
 
     _context->swap_buffers(window);
+}
+
+void movement::begin_drag(GtkWidget *, GdkEventButton *event)
+{
+    _x0 = event->x;
+    _y0 = event->y;
+}
+
+void movement::end_drag(GtkWidget *widget, GdkEventButton *event)
+{
+    GtkAllocation allocation {};
+    gtk_widget_get_allocation(widget, &allocation);
+
+    double v[2] {
+        double(event->x - _x0) / allocation.width,
+        double(event->y - _y0) / allocation.height,
+    };
+    _velocity = sqrt(v[0] * v[0] + v[1] * v[1]);
+    _axis = {v[1], v[0], 0};
 }
 
 void movement::popup_menu(GtkWidget *, GdkEvent *event) const
@@ -176,19 +191,15 @@ gboolean handle_timeout(gpointer data) noexcept
 gboolean handle_button_press_event(GtkWidget *widget,
     GdkEventButton *event, gpointer data) noexcept
 {
-    movement *clock = static_cast<movement *>(data);
+    movement *m = static_cast<movement *>(data);
 
     switch (event->button) {
     case 1:
-        {
-            gtk_grab_add(widget);
-
-            clock->press_x = event->x;
-            clock->press_y = event->y;
-            return true;
-        }
+        gtk_grab_add(widget);
+        m->begin_drag(widget, event);
+        return true;
     case 3:
-        clock->popup_menu(widget, reinterpret_cast<GdkEvent *>(event));
+        m->popup_menu(widget, reinterpret_cast<GdkEvent *>(event));
         return true;
     default:
         return false;
@@ -203,21 +214,9 @@ gboolean handle_button_release_event(GtkWidget *widget,
     switch (event->button)
     {
     case 1:
-        {
-            gtk_grab_remove(widget);
-
-            GtkAllocation allocation {};
-            gtk_widget_get_allocation(widget, &allocation);
-
-            double v[2] {
-                double(event->x - clock->press_x) / allocation.width,
-                double(event->y - clock->press_y) / allocation.height,
-            };
-            clock->rot_x = v[1];
-            clock->rot_y = v[0];
-            clock->rot_velocity = sqrt(v[0] * v[0] + v[1] * v[1]);
-            return true;
-        }
+        gtk_grab_remove(widget);
+        clock->end_drag(widget, event);
+        return true;
     default:
         return false;
     }

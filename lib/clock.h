@@ -25,6 +25,7 @@
 #include "glgdkx.h"
 #include "g_ptr.h"
 #include <gtk/gtk.h>
+#include <array>
 #include <memory>
 
 using glgdkx::glgdkx_context;
@@ -66,11 +67,6 @@ extern "C" gboolean handle_button_release_event(GtkWidget *widget,
 /* Clock movement. */
 class movement
 {
-    friend gboolean handle_button_press_event(GtkWidget *widget,
-        GdkEventButton *event, gpointer data) noexcept;
-    friend gboolean handle_button_release_event(GtkWidget *widget,
-        GdkEventButton *event, gpointer data) noexcept;
-
 public:
     /* Call-back interface that is used to implement hooks about
      * options.  */
@@ -99,6 +95,14 @@ private:
 
 private:
     std::unique_ptr<glgdkx_context> _context;
+
+private:
+    double _velocity {0};
+    std::array<double, 3> _axis {0, 0, 0};
+
+private:
+    double _x0;
+    double _y0;
 
 public:
     /* Constructs this clock with default properties.  */
@@ -141,6 +145,12 @@ public:
     void update();
 
 public:
+    void begin_drag(GtkWidget *widget, GdkEventButton *event);
+
+public:
+    void end_drag(GtkWidget *widget, GdkEventButton *event);
+
+public:
     void popup_menu(GtkWidget *widget, GdkEvent *event) const;
 
 public:
@@ -149,11 +159,6 @@ public:
 
 protected:
     static void remove_widget(GtkWidget *, gpointer);
-
-private:
-    double rot_velocity;
-    double rot_x, rot_y, rot_z;
-    double press_x, press_y;
 
 public:
     /* Sets modules's property NAME to VALUE.  */
