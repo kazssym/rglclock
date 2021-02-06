@@ -8,7 +8,7 @@ $(LIBPNG_CFLAGS) $(LIBXML2_CFLAGS) $(GTK_CFLAGS)
 
 bin_PROGRAMS = rglclock
 
-noinst_HEADERS = about.h profile.h glgtk.h
+noinst_HEADERS = about.h profile.h
 
 rglclock_LDFLAGS = -dlopen ../modules/libplain.la
 
