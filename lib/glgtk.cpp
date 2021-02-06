@@ -21,7 +21,7 @@
 #include <config.h>
 #endif
 
-#include "glgtk.h"
+#include "glgdkx.h"
 
 #include <stdexcept>
 #include <GL/glx.h>

@@ -23,8 +23,6 @@
 
 #include "clock.h"
 
-#include "module.h"
-#include "glgtk.h"
 #include <GL/glu.h>
 #include <gtk/gtk.h>
 #include <sys/time.h>

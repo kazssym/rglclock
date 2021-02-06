@@ -22,7 +22,7 @@
 
 #include "utils.h"
 #include "module.h"
-#include "glgtk.h"
+#include "glgdkx.h"
 #include "g_ptr.h"
 #include <gtk/gtk.h>
 #include <memory>

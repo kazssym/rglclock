@@ -1,4 +1,4 @@
-// glgtk.h
+// glgdkx.h
 // Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
 // Copyright (C) 2021 Kaz Nishimura
 //
@@ -17,8 +17,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef glgtkH
-#define glgtkH 1
+#ifndef GLGDKX_H
+#define GLGDKX_H 1
 
 #include "gl_context.h"
 #include <GL/glx.h>
