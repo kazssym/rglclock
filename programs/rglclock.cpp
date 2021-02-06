@@ -47,7 +47,7 @@ using std::putchar;
 extern "C" void handle_activate(GApplication *app, gpointer data) noexcept;
 
 /* Clock application.  */
-class application
+class rglclock_app
 {
 private:
     g_ptr<GtkApplication> _app;
@@ -59,15 +59,15 @@ private:
     profile _profile;
 
 public:
-    explicit application(const g_ptr<GtkApplication> &app);
+    explicit rglclock_app(const g_ptr<GtkApplication> &app);
 
-    application(const application &) = delete;
-
-public:
-    ~application();
+    rglclock_app(const rglclock_app &) = delete;
 
 public:
-    void operator =(const application &) = delete;
+    ~rglclock_app();
+
+public:
+    void operator =(const rglclock_app &) = delete;
 
 public:
     void start();
@@ -87,7 +87,7 @@ public:
 
 void handle_activate(GApplication *, gpointer data) noexcept
 {
-    auto &&app = static_cast<application *>(data);
+    auto &&app = static_cast<rglclock_app *>(data);
     app->start();
 }
 
@@ -96,7 +96,7 @@ namespace proxy
     /* Handles an `Options' command.  */
     void handle_options_command (gpointer data, guint, GtkWidget *item) throw ()
     {
-        application *app = static_cast<application *> (data);
+        rglclock_app *app = static_cast<rglclock_app *> (data);
 
         app->show_options_dialog ();
     }
@@ -104,13 +104,13 @@ namespace proxy
     /* Handles an `about' command.  */
     void handle_about_command (gpointer data, guint, GtkWidget *item) throw ()
     {
-        application *app = static_cast<application *> (data);
+        rglclock_app *app = static_cast<rglclock_app *> (data);
 
         app->show_about_dialog ();
     }
 }
 
-application::application(const g_ptr<GtkApplication> &app):
+rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
     _app {app}
 {
     string s (getenv ("HOME"));
@@ -134,13 +134,13 @@ application::application(const g_ptr<GtkApplication> &app):
 #endif
 }
 
-application::~application (void)
+rglclock_app::~rglclock_app (void)
 {
     // FIXME This seems too late.
     _profile.save (&_clock);
 }
 
-void application::start()
+void rglclock_app::start()
 {
     g_ptr<GtkWidget> window {gtk_application_window_new(&*_app)};
     // g_signal_connect(&*window, "delete_event",
@@ -153,7 +153,7 @@ void application::start()
     gtk_widget_show(&*window);
 }
 
-void application::show_about_dialog ()
+void rglclock_app::show_about_dialog ()
 {
 #if 0
     about_dialog dialog (GTK_WINDOW (&*_widget));
@@ -221,7 +221,7 @@ int main (int argc, char **argv)
     g_ptr<GtkApplication> app {
         gtk_application_new(nullptr, G_APPLICATION_FLAGS_NONE)};
 
-    application rglclock {app};
+    rglclock_app rglclock {app};
 
     return g_application_run(G_APPLICATION(&*app), 0, nullptr);
 }
