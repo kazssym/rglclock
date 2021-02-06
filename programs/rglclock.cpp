@@ -195,9 +195,9 @@ int main (int argc, char **argv)
 {
 #if ENABLE_NLS
     /* Initialize NLS.  */
-    textdomain (PACKAGE);
+    textdomain(PACKAGE_TARNAME);
 #ifdef LOCALEDIR
-    bindtextdomain (PACKAGE, LOCALEDIR);
+    bindtextdomain(PACKAGE_TARNAME, LOCALEDIR);
 #endif
 #endif
 
@@ -228,7 +228,7 @@ int main (int argc, char **argv)
 
 #if ENABLE_NLS
     /* GTK+ uses UTF-8.  */
-    bind_textdomain_codeset (PACKAGE, "UTF-8");
+    bind_textdomain_codeset(PACKAGE_TARNAME, "UTF-8");
 #endif
 
     parse_gtkrcs ();
