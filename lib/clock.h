@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <memory>
 
-using glgtk::glgtk_context;
+using glgdkx::glgtk_context;
 
 class glclock;
 

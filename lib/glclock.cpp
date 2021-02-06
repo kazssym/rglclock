@@ -39,7 +39,7 @@ using std::for_each;
 using std::invalid_argument;
 using std::make_unique;
 using std::remove;
-using glgtk::glgtk_context;
+using glgdkx::glgtk_context;
 
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))

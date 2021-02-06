@@ -29,7 +29,7 @@
 
 using std::runtime_error;
 
-namespace glgtk
+namespace glgdkx
 {
     glgtk_context::glgtk_context (GdkWindow *drawable)
     {

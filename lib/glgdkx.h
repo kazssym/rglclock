@@ -24,7 +24,7 @@
 #include <GL/glx.h>
 #include <gdk/gdk.h>
 
-namespace glgtk
+namespace glgdkx
 {
     class glgtk_context
     {
