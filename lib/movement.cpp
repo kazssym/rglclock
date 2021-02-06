@@ -32,10 +32,6 @@
 #include <cmath>
 #include <cassert>
 
-#ifndef DEFAULT_UPDATE_RATE
-#define DEFAULT_UPDATE_RATE 10
-#endif
-
 using std::for_each;
 using std::invalid_argument;
 using std::make_unique;
@@ -44,6 +40,10 @@ using glgdkx::glgdkx_context;
 
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
+
+#ifndef DEFAULT_UPDATE_RATE
+#define DEFAULT_UPDATE_RATE 20
+#endif
 
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
