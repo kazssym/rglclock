@@ -12,6 +12,6 @@ noinst_HEADERS = clock.h simple.h
 libsimple_a_SOURCES = simple.c
 
 librglclock_la_LDFLAGS = -release 2 -version-info 0:0:0
-librglclock_la_SOURCES = module.cpp clockoptions.cc glclock.cpp
+librglclock_la_SOURCES = module.cpp clock_options.cpp glclock.cpp
 librglclock_la_LIBADD = $(GTK_LIBS)
 

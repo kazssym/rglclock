@@ -1,4 +1,4 @@
-// clockoptions.cc
+// clock_options.cpp
 // Copyright (C) 1999 Hypercore Software Design, Ltd.
 // Copyright (C) 2021 Kaz Nishimura
 //
