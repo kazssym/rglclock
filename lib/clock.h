@@ -95,6 +95,9 @@ private:
     g_ptr<GtkWidget> _widget;
 
 private:
+    g_ptr<GtkWidget> _menu;
+
+private:
     std::unique_ptr<glgdkx_context> _context;
 
 public:

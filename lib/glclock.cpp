@@ -64,6 +64,12 @@ glclock::glclock():
     g_signal_connect(&*_widget, "button_release_event",
         G_CALLBACK(handle_button_release_event), this);
 
+    g_ptr<GMenu> model {g_menu_new()};
+    g_menu_append(&*model, _("_About..."), "app.about");
+    g_menu_append(&*model, _("E_xit"), "app.exit");
+    _menu.reset(gtk_menu_new_from_model(G_MENU_MODEL(&*model)));
+    gtk_menu_attach_to_widget(GTK_MENU(&*_menu), &*_widget, nullptr);
+
     reset_timeout();
 }
 
@@ -178,14 +184,7 @@ gboolean handle_button_press_event(GtkWidget *widget,
         }
     case 3:
         {
-            g_ptr<GMenu> model {g_menu_new()};
-            g_menu_append(&*model, _("_About..."), "app.about");
-            g_menu_append(&*model, _("E_xit"), "app.exit");
-
-            g_ptr<GtkWidget> menu {
-                gtk_menu_new_from_model(G_MENU_MODEL(&*model))};
-            gtk_menu_attach_to_widget(GTK_MENU(&*menu), widget, nullptr);
-            gtk_menu_popup_at_pointer(GTK_MENU(&*menu),
+            gtk_menu_popup_at_pointer(GTK_MENU(&*(clock->_menu)),
                 reinterpret_cast<GdkEvent *>(event));
             return true;
         }
