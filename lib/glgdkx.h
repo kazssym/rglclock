@@ -20,7 +20,6 @@
 #ifndef GLGDKX_H
 #define GLGDKX_H 1
 
-#include "gl_context.h"
 #include <GL/glx.h>
 #include <gdk/gdk.h>
 
@@ -41,26 +40,6 @@ namespace glgdkx
         bool make_current (GdkWindow *drawable);
         void swap_buffers (GdkWindow *drawable);
     };
-
-    class gl
-    {
-    protected:
-        static void initialize ();
-
-    public:
-        static GdkVisual *best_visual ();
-        static rglclock::gl_context create_context (GdkVisual *v);
-        static void destroy_context (rglclock::gl_context c);
-        static void make_current (rglclock::gl_context c, GdkWindow *d);
-        static void swap_buffers (GdkWindow *d);
-    };
 }
 
 #endif
-
-/*
- * Local variables:
- * c-basic-offset: 4
- * c-file-offsets: ((substatement-open . 0) (arglist-intro . +) (arglist-close . 0))
- * End:
- */
