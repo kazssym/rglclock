@@ -20,16 +20,12 @@
 #ifndef CLOCK_H
 #define CLOCK_H 1
 
-#include "gl_context.h"
 #include "utils.h"
-#include "g_ptr.h"
-#include <module.h>
-#include <gtk/gtk.h>
-#include <gdk/gdktypes.h>
-#include <time.h>
-#include <memory>
-
+#include "module.h"
 #include "glgtk.h"
+#include "g_ptr.h"
+#include <gtk/gtk.h>
+#include <memory>
 
 using glgtk::glgtk_context;
 
