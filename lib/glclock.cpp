@@ -1,4 +1,4 @@
-// clock.cpp
+// glclock.cpp
 // Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
 // Copyright (C) 2021 Kaz Nishimura
 //
