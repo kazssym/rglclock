@@ -1,4 +1,5 @@
-lib/clockoptions.cc
+lib/glclock.cpp
+lib/clock_options.cpp
 programs/rglclock.cpp
 programs/about.cpp
 programs/options.cpp
