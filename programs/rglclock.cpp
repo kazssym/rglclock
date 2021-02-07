@@ -90,8 +90,9 @@ public:
 #endif
     }
 
+public:
     /* Shows the about dialog and returns immediately.  */
-    void show_about_dialog ();
+    void show_about_dialog();
 };
 
 void handle_activate(GApplication *, gpointer data) noexcept
@@ -108,27 +109,8 @@ void handle_app_exit(GSimpleAction *, GVariant *, gpointer data) noexcept
 
 void handle_app_about(GAction *, GVariant *, gpointer data) noexcept
 {
-    about_dialog dialog;
-    dialog.show_modal();
-}
-
-namespace proxy
-{
-    /* Handles an `Options' command.  */
-    void handle_options_command (gpointer data, guint, GtkWidget *item) throw ()
-    {
-        rglclock_app *app = static_cast<rglclock_app *> (data);
-
-        app->show_options_dialog ();
-    }
-
-    /* Handles an `about' command.  */
-    void handle_about_command (gpointer data, guint, GtkWidget *item) throw ()
-    {
-        rglclock_app *app = static_cast<rglclock_app *> (data);
-
-        app->show_about_dialog ();
-    }
+    auto &&clock = static_cast<rglclock_app *>(data);
+    clock->show_about_dialog();
 }
 
 rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
@@ -182,16 +164,10 @@ void rglclock_app::start()
     gtk_widget_show(&*window);
 }
 
-void rglclock_app::show_about_dialog ()
+void rglclock_app::show_about_dialog()
 {
-#if 0
-    about_dialog dialog (GTK_WINDOW (&*_widget));
-    gtk_widget_show (dialog.widget ());
-
-    while (gtk_widget_get_visible(dialog.widget())) {
-        gtk_main_iteration ();
-    }
-#endif
+    about_dialog dialog;
+    dialog.show_modal();
 }
 
 /* Command line interface.  */
