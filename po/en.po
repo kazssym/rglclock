@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
-"Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2021-02-06 19:52+0900\n"
-"PO-Revision-Date: 2021-02-06 19:52+0900\n"
-"Last-Translator: Kaz Sasayama <kazssym@linuxfront.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
+"POT-Creation-Date: 2021-02-08 07:36+0900\n"
+"PO-Revision-Date: 2021-02-08 07:28+0900\n"
+"Last-Translator: Kaz Nishimura <kazssym@linuxfront.com>\n"
 "Language-Team: <rglclock@lists.yaromai.net>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "Select..."
 msgid "General"
 msgstr "General"
 
-#: programs/rglclock.cpp:214 programs/about.cpp:91
+#: programs/rglclock.cpp:210
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -54,54 +54,58 @@ msgstr ""
 "%s version %s\n"
 "Copyright © 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
 
-#: programs/rglclock.cpp:280
+#: programs/rglclock.cpp:276
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr "Usage: %s [OPTION]...\n"
 
-#: programs/rglclock.cpp:281
+#: programs/rglclock.cpp:277
 #, c-format
 msgid "Display a 3D rotating clock.\n"
 msgstr "Display a 3D rotating clock.\n"
 
-#: programs/rglclock.cpp:283
+#: programs/rglclock.cpp:279
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   hide the menu bar\n"
 
-#: programs/rglclock.cpp:284
+#: programs/rglclock.cpp:280
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            display this help and exit\n"
 
-#: programs/rglclock.cpp:285
+#: programs/rglclock.cpp:281
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         output version information and exit\n"
 
-#: programs/rglclock.cpp:287 programs/about.cpp:116
+#: programs/rglclock.cpp:283 programs/about.cpp:81
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr "Report bugs to <%s>."
 
-#: programs/about.cpp:76
+#: programs/about.cpp:46
 #, c-format
 msgid "About %s"
 msgstr "About %s"
 
-#: programs/about.cpp:104
+#: programs/about.cpp:60
+msgid "(C)"
+msgstr "©"
+
+#: programs/about.cpp:70
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the GNU General Public License as publishd by the Free Software "
-"Foundation; either version 2 of the License, or (at your option) any later "
+"Foundation; either version 3 of the License, or (at your option) any later "
 "version."
 msgstr ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the GNU General Public License as publishd by the Free Software "
-"Foundation; either version 2 of the License, or (at your option) any later "
+"Foundation; either version 3 of the License, or (at your option) any later "
 "version."
 
-#: programs/about.cpp:125 programs/options.cpp:131
+#: programs/about.cpp:90 programs/options.cpp:131
 msgid "OK"
 msgstr "OK"
 
