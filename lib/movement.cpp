@@ -198,9 +198,6 @@ gboolean handle_button_press_event(GtkWidget *widget,
         gtk_grab_add(widget);
         m->begin_drag(widget, event);
         return true;
-    case 3:
-        m->popup_menu(widget, reinterpret_cast<GdkEvent *>(event));
-        return true;
     default:
         return false;
     }
@@ -209,13 +206,16 @@ gboolean handle_button_press_event(GtkWidget *widget,
 gboolean handle_button_release_event(GtkWidget *widget,
     GdkEventButton *event, gpointer data) noexcept
 {
-    movement *clock = static_cast<movement *>(data);
+    movement *m = static_cast<movement *>(data);
 
     switch (event->button)
     {
     case 1:
         gtk_grab_remove(widget);
-        clock->end_drag(widget, event);
+        m->end_drag(widget, event);
+        return true;
+    case 3:
+        m->popup_menu(widget, reinterpret_cast<GdkEvent *>(event));
         return true;
     default:
         return false;
