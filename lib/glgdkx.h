@@ -1,4 +1,4 @@
-// about.h
+// glgdkx.h
 // Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
 // Copyright (C) 2021 Kaz Nishimura
 //
@@ -17,30 +17,29 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ABOUT_H
-#define ABOUT_H 1
+#ifndef GLGDKX_H
+#define GLGDKX_H 1
 
-#include "g_ptr.h"
-#include <gtk/gtk.h>
+#include <GL/glx.h>
+#include <gdk/gdk.h>
 
-class about_dialog
+namespace glgdkx
 {
-private:
-    GtkWidget *_widget;
+    class glgdkx_context
+    {
+    private:
+        Display *_display;
+        GLXContext _context;
 
-public:
-    explicit about_dialog(GtkWindow *parent = nullptr);
+    public:
+        explicit glgdkx_context (GdkWindow *drawable);
+        glgdkx_context (const glgdkx_context &object);
 
-    about_dialog(const about_dialog &) = delete;
-
-public:
-    virtual ~about_dialog (void);
-
-public:
-    void operator =(const about_dialog &) = delete;
-
-public:
-    int show_modal();
-};
+    public:
+        virtual ~glgdkx_context ();
+        bool make_current (GdkWindow *drawable);
+        void swap_buffers (GdkWindow *drawable);
+    };
+}
 
 #endif

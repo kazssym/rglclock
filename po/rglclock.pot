@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Hypercore Software Design, Ltd.
+# Copyright (C) YEAR Kaz Nishimura
 # This file is distributed under the same license as the rglclock package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
-"Report-Msgid-Bugs-To: <rglclock@lists.yaromai.net>\n"
-"POT-Creation-Date: 2021-01-07 18:14+0900\n"
+"Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
+"POT-Creation-Date: 2021-02-08 07:36+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,100 +17,96 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/clockoptions.cc:114
+#: lib/movement.cpp:64
+msgid "_About..."
+msgstr ""
+
+#: lib/movement.cpp:65
+msgid "E_xit"
+msgstr ""
+
+#: lib/clock_options.cpp:111
 msgid "Update rate: "
 msgstr ""
 
-#: lib/clockoptions.cc:127
+#: lib/clock_options.cpp:124
 msgid "Hz"
 msgstr ""
 
-#: lib/clockoptions.cc:138
+#: lib/clock_options.cpp:135
 msgid "Map texture file: "
 msgstr ""
 
-#: lib/clockoptions.cc:151
+#: lib/clock_options.cpp:148
 msgid "Select..."
 msgstr ""
 
-#: lib/clockoptions.cc:171
+#: lib/clock_options.cpp:168
 msgid "General"
 msgstr ""
 
-#: programs/rglclock.cpp:154
-msgid "/_File/_Options..."
-msgstr ""
-
-#: programs/rglclock.cpp:156
-msgid "/_File/"
-msgstr ""
-
-#: programs/rglclock.cpp:157
-msgid "/_File/E_xit"
-msgstr ""
-
-#: programs/rglclock.cpp:159
-msgid "/_Help/_About..."
-msgstr ""
-
-#: programs/rglclock.cpp:229 programs/about.cpp:96
+#: programs/rglclock.cpp:210
 #, c-format
 msgid ""
 "%s version %s\n"
 "Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software Design, Ltd."
 msgstr ""
 
-#: programs/rglclock.cpp:297
+#: programs/rglclock.cpp:276
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr ""
 
-#: programs/rglclock.cpp:298
+#: programs/rglclock.cpp:277
 #, c-format
 msgid "Display a 3D rotating clock.\n"
 msgstr ""
 
-#: programs/rglclock.cpp:300
+#: programs/rglclock.cpp:279
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr ""
 
-#: programs/rglclock.cpp:301
+#: programs/rglclock.cpp:280
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr ""
 
-#: programs/rglclock.cpp:302
+#: programs/rglclock.cpp:281
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr ""
 
-#: programs/rglclock.cpp:304 programs/about.cpp:121
+#: programs/rglclock.cpp:283 programs/about.cpp:81
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr ""
 
-#: programs/about.cpp:81
+#: programs/about.cpp:46
 #, c-format
 msgid "About %s"
 msgstr ""
 
-#: programs/about.cpp:109
+#: programs/about.cpp:60
+msgid "(C)"
+msgstr ""
+
+#: programs/about.cpp:70
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the GNU General Public License as publishd by the Free Software "
-"Foundation; either version 2 of the License, or (at your option) any later "
+"Foundation; either version 3 of the License, or (at your option) any later "
 "version."
 msgstr ""
 
-#: programs/about.cpp:130 programs/options.cpp:179
+#: programs/about.cpp:90 programs/options.cpp:131
 msgid "OK"
 msgstr ""
 
-#: programs/options.cpp:190
+#: programs/options.cpp:139
 msgid "Cancel"
 msgstr ""
 
-#: programs/options.cpp:206
+#: programs/options.cpp:153
 msgid "Options"
 msgstr ""

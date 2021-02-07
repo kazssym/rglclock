@@ -2,7 +2,7 @@
 AC_PREREQ([2.69])
 AC_INIT([RGLClock], [3.0],
 [https://github.com/kazssym/rglclock/issues/new], [rglclock])
-AC_CONFIG_SRCDIR([programs/clock.cpp])
+AC_CONFIG_SRCDIR([lib/movement.cpp])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([subdir-objects])
@@ -28,7 +28,7 @@ LT_INIT([dlopen])
 gl_INIT
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19.8])
-PKG_CHECK_MODULES([GTK], [gtk+-2.0])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 PKG_CHECK_MODULES([LIBPNG], [libpng])
 

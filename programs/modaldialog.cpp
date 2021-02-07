@@ -1,25 +1,21 @@
-/* rglclock - Rotating GL Clock.
-   Copyright (C) 1999 Hypercore Software Design, Ltd.
-
-   This program is free software; you can redistribute it and/or
-   modify it under the terms of the GNU General Public License as
-   published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful, but
-   WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307, USA.
-
-   As a special exception, you may copy and distribute this program
-   linked with an OpenGL library in executable form without the source
-   code for the library, only if such distribution is not prohibited
-   by the library's license.  */
+// modaldialog.cpp
+// Copyright (C) 1999 Hypercore Software Design, Ltd.
+// Copyright (C) 2021 Kaz Nishimura
+//
+// This program is free software: you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -29,7 +25,6 @@
 #include "utils.h"
 
 #include <gtk/gtk.h>
-#include <libintl.h>
 //#include <algorithm>
 //#include <cstring>
 
@@ -40,8 +35,6 @@
 # include <cassert>
 # define I assert
 #endif
-
-#define _(MSG) gettext(MSG)
 
 using namespace std;
 
@@ -91,8 +84,8 @@ modal_dialog::create_window()
 #endif
 
       gtk_window_set_modal(GTK_WINDOW(window), true);
-      gtk_signal_connect(GTK_OBJECT(window), "delete_event",
-			 GTK_SIGNAL_FUNC(&deliver_delete_event), this);
+      g_signal_connect(G_OBJECT(window), "delete_event",
+			 G_CALLBACK(&deliver_delete_event), this);
 
       configure(GTK_DIALOG(window));
     }
@@ -113,7 +106,7 @@ modal_dialog::act(GtkWindow *parent)
 {
   create_window();
 
-  if (!GTK_WIDGET_VISIBLE(window))
+  if (!gtk_widget_get_visible(window))
     {
       gtk_window_set_transient_for(GTK_WINDOW(window), parent);
 

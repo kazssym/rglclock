@@ -10,7 +10,6 @@ variables:
   uploadRepository: kazssym/rglclock
 trigger:
   - master
-  - feature/azure-pipelines
   - release/*
 stages:
   - stage: Default
@@ -33,7 +32,7 @@ stages:
               sudo apt-get install -q --no-install-recommends \
                 libgl-dev \
                 libglu1-mesa-dev \
-                libgtk2.0-dev \
+                libgtk-3-dev \
                 gettext \
                 texinfo
             displayName: Install build dependencies
@@ -80,6 +79,14 @@ stages:
               gzip -dc '$(Agent.BuildDirectory)'/dist/*.tar.gz |
               tar -x --strip-components=1
             displayName: Unpack
+          - bash: |
+              if apt-get --version > /dev/null 2>&1; then
+                sudo apt-get install -q --no-install-recommends \
+                  libgl-dev \
+                  libglu1-mesa-dev \
+                  libgtk-3-dev
+              fi
+            displayName: Install build dependencies
           - bash: |
               $CC --version
               $CXX --version

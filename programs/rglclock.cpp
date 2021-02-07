@@ -1,119 +1,142 @@
-/*
- * RGLClock - rotating 3D clock
- * Copyright (C) 1998, 1999, 2000, 2002, 2007 Hypercore Software
- * Design, Ltd.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301 USA.
- *
- */
+// rglclock.cpp
+// Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
+// Copyright (C) 2021 Kaz Nishimura
+//
+// This program is free software: you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <string>
-#include <cstdio>
 
 #include "g_ptr.h"
 #include <gtk/gtk.h>
+#include <gettext.h>
 #include <getopt.h>
 #include <sys/stat.h>
 #include <signal.h>
-
-#if ENABLE_NLS
-#include <libintl.h>
-#define _(t) gettext (t)
-#else
-#define _(t) (t)
-#endif
+#include <locale>
+#include <string>
+#include <cstdio>
 
 #include "clock.h"
 #include "profile.h"
 #include "about.h"
 
-using std::string;
+using std::fprintf;
+using std::locale;
 using std::printf;
 using std::putchar;
+using std::runtime_error;
+using std::string;
+
+#define _(String) gettext(String)
+#define N_(String) gettext_noop(String)
+
+extern "C" void handle_activate(GApplication *app, gpointer data) noexcept;
+extern "C" void handle_app_exit(GSimpleAction *action, GVariant *parameter,
+    gpointer data) noexcept;
+extern "C" void handle_app_about(GAction *action, GVariant *parameter,
+    gpointer data) noexcept;
 
 /* Clock application.  */
-class application
+class rglclock_app
 {
+    friend void handle_app_exit(GSimpleAction *action, GVariant *parameter,
+        gpointer data) noexcept;
+
 private:
-    glclock clock;
-    class profile profile;
+    g_ptr<GtkApplication> _app;
 
-    /* Main window of this application.  */
-    GtkWidget *window;
+private:
+    movement _clock;
+
+private:
+    profile _profile;
 
 public:
-    application (void);
+    explicit rglclock_app(const g_ptr<GtkApplication> &app);
+
+    rglclock_app(const rglclock_app &) = delete;
 
 public:
-    ~application (void);
-    GtkWidget *widget (void);
+    ~rglclock_app();
+
+public:
+    void operator =(const rglclock_app &) = delete;
+
+public:
+    void start();
 
 public:
     /* Shows the `Options' dialog.  */
     void show_options_dialog ()
     {
 #if 0 /* temporarily disabled */
-        clock.show_options_dialog (GTK_WINDOW (main_window));
+        _clock.show_options_dialog (GTK_WINDOW (main_window));
 #endif
     }
 
+public:
     /* Shows the about dialog and returns immediately.  */
-    void show_about_dialog ();
+    void show_about_dialog();
 };
 
-namespace proxy
+void handle_activate(GApplication *, gpointer data) noexcept
 {
-    /* Handles an `Options' command.  */
-    void handle_options_command (gpointer data, guint, GtkWidget *item) throw ()
-    {
-        application *app = static_cast<application *> (data);
-
-        app->show_options_dialog ();
-    }
-
-    /* Handles an `about' command.  */
-    void handle_about_command (gpointer data, guint, GtkWidget *item) throw ()
-    {
-        application *app = static_cast<application *> (data);
-
-        app->show_about_dialog ();
-    }
+    auto &&app = static_cast<rglclock_app *>(data);
+    app->start();
 }
 
-application::application (void)
+void handle_app_exit(GSimpleAction *, GVariant *, gpointer data) noexcept
 {
-    window = NULL;
+    auto &&app = static_cast<rglclock_app *>(data);
+    g_application_quit(G_APPLICATION(&*(app->_app)));
+}
 
+void handle_app_about(GAction *, GVariant *, gpointer data) noexcept
+{
+    auto &&clock = static_cast<rglclock_app *>(data);
+    clock->show_about_dialog();
+}
+
+rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
+    _app {app}
+{
     string s (getenv ("HOME"));
     s.append ("/.rglclock");
-#ifdef HAVE_MKDIR
     mkdir (s.c_str (), 0777);   // XXX: Ignoring errors.
-#endif
     s.append ("/options");
 
-    profile.open (s.c_str ());
-    profile.restore (&clock);
-    clock.add_callback (&profile);
+    _profile.open (s.c_str ());
+    _profile.restore (&_clock);
+    _clock.add_listener (&_profile);
+
+    g_signal_connect(&*_app, "activate", G_CALLBACK(handle_activate), this);
+
+    g_ptr<GSimpleAction> exit {g_simple_action_new("exit", nullptr)};
+    g_signal_connect(&*exit, "activate", G_CALLBACK(handle_app_exit), this);
+    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*exit));
+
+    g_ptr<GSimpleAction> about {g_simple_action_new("about", nullptr)};
+    g_signal_connect(&*about, "activate", G_CALLBACK(handle_app_about), this);
+    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*about));
 
 #if 0 /* temporarily disabled */
-    GdkVisual *visual = glclock::best_visual ();
+    GdkVisual *visual = movement::best_visual ();
     gtk_widget_set_default_visual (visual);
 
     GdkColormap *cm = gdk_colormap_new (visual, false);
@@ -122,77 +145,29 @@ application::application (void)
 #endif
 }
 
-application::~application (void)
+rglclock_app::~rglclock_app (void)
 {
     // FIXME This seems too late.
-    profile.save (&clock);
+    _profile.save (&_clock);
 }
 
-GtkWidget *application::widget (void)
+void rglclock_app::start()
 {
-    if (window == NULL)
-    {
-        window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-        gtk_window_set_policy (GTK_WINDOW (window), true, true, false);
-        gtk_object_set_user_data (GTK_OBJECT (window), this);
-        gtk_signal_connect (GTK_OBJECT (window), "delete_event",
-                            GTK_SIGNAL_FUNC (gtk_main_quit), this);
+    g_ptr<GtkWidget> window {gtk_application_window_new(&*_app)};
+    // g_signal_connect(&*window, "delete_event",
+    //     G_CALLBACK(gtk_main_quit), this);
 
-        GtkAccelGroup *ag = gtk_accel_group_new ();
-        gtk_window_add_accel_group (GTK_WINDOW (window), ag);
+    auto &&content = _clock.widget();
+    gtk_widget_show(&*content);
+    gtk_container_add(GTK_CONTAINER(&*window), &*content);
 
-        {
-            g_ptr<GtkWidget> box1 (gtk_vbox_new (FALSE, 0));
-            gtk_widget_show (box1.get ());
-            gtk_container_add (GTK_CONTAINER (window), box1.get ());
-
-            {
-                g_ptr<GtkItemFactory> ifactory
-                    (gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<Window>", ag));
-#define ITEM_FACTORY_CALLBACK(f) (reinterpret_cast<GtkItemFactoryCallback> (f))
-                GtkItemFactoryEntry entries[] = {
-                    {_("/_File/_Options..."), NULL,
-                     ITEM_FACTORY_CALLBACK (&proxy::handle_options_command), 0, "<Item>"},
-                    {_("/_File/"), NULL, NULL, 0, "<Separator>"},
-                    {_("/_File/E_xit"), NULL,
-                     ITEM_FACTORY_CALLBACK (&gtk_main_quit), 1, "<Item>"},
-                    {_("/_Help/_About..."), NULL,
-                     ITEM_FACTORY_CALLBACK (&proxy::handle_about_command), 2, "<Item>"}};
-#undef ITEM_FACTORY_CALLBACK
-                gtk_item_factory_create_items (ifactory.get (),
-                                               sizeof entries / sizeof entries[0],
-                                               entries, this);
-
-#if 0 /* temporarily disabled */
-                if (opt_with_menu_bar)
-                    gtk_widget_show (ifactory->widget);
-#endif
-                gtk_box_pack_start (GTK_BOX (box1.get ()), ifactory->widget,
-                                    FALSE, FALSE, 0);
-
-                g_ptr<GtkWidget> content (clock.widget ());
-                gtk_widget_show (content.get());
-                gtk_box_pack_start (GTK_BOX (box1.get ()), content.get (),
-                                    TRUE, TRUE, 0);
-                GdkGeometry geometry = {0, 0, 0, 0, 0, 0, 1, 1};
-                gtk_window_set_geometry_hints (GTK_WINDOW (window), content.get (),
-                                               &geometry, GDK_HINT_RESIZE_INC);
-            }
-        }
-    }
-
-    return window;
+    gtk_widget_show(&*window);
 }
 
-void application::show_about_dialog ()
+void rglclock_app::show_about_dialog()
 {
-    about_dialog dialog (GTK_WINDOW (window));
-    gtk_widget_show (dialog.widget ());
-
-    while (GTK_WIDGET_VISIBLE (dialog.widget ()))
-    {
-        gtk_main_iteration ();
-    }
+    about_dialog dialog;
+    dialog.show_modal();
 }
 
 /* Command line interface.  */
@@ -208,15 +183,21 @@ static void parse_gtkrcs (void);
 
 int main (int argc, char **argv)
 {
+    try {
+        locale::global(locale(""));
+    }
+    catch (const runtime_error &error) {
+        fprintf(stderr, "error: failed to set locale: %s\n", error.what());
+    }
+
 #if ENABLE_NLS
     /* Initialize NLS.  */
-    textdomain (PACKAGE);
+    textdomain(PACKAGE_TARNAME);
 #ifdef LOCALEDIR
-    bindtextdomain (PACKAGE, LOCALEDIR);
+    bindtextdomain(PACKAGE_TARNAME, LOCALEDIR);
 #endif
 #endif
 
-    gtk_set_locale ();
     gtk_init (&argc, &argv);
 
     if (!parse_options (argc, argv))
@@ -243,19 +224,17 @@ int main (int argc, char **argv)
 
 #if ENABLE_NLS
     /* GTK+ uses UTF-8.  */
-    bind_textdomain_codeset (PACKAGE, "UTF-8");
+    bind_textdomain_codeset(PACKAGE_TARNAME, "UTF-8");
 #endif
 
     parse_gtkrcs ();
 
-    application *app = new application ();
-    gtk_widget_show (app->widget ());
+    g_ptr<GtkApplication> app {
+        gtk_application_new(nullptr, G_APPLICATION_FLAGS_NONE)};
 
-    gtk_main ();
+    rglclock_app rglclock {app};
 
-    delete app;
-
-    return EXIT_SUCCESS;
+    return g_application_run(G_APPLICATION(&*app), 0, nullptr);
 }
 
 /* Parses the program options.  */
