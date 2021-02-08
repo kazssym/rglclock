@@ -60,9 +60,9 @@ public:
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
-    GdkEventButton *event, gpointer data) noexcept;
+    GdkEvent *event, gpointer data) noexcept;
 extern "C" gboolean handle_button_release_event(GtkWidget *widget,
-    GdkEventButton *event, gpointer data) noexcept;
+    GdkEvent *event, gpointer data) noexcept;
 
 /* Clock movement. */
 class movement
@@ -101,8 +101,8 @@ private:
     std::array<double, 3> _axis {0, 0, 0};
 
 private:
-    double _x0;
-    double _y0;
+    decltype(GdkEventButton::x) _x0;
+    decltype(GdkEventButton::y) _y0;
 
 public:
     /* Constructs this clock with default properties.  */
@@ -145,10 +145,10 @@ public:
     void update();
 
 public:
-    void begin_drag(GtkWidget *widget, GdkEventButton *event);
+    void begin_drag(GtkWidget *widget, GdkEvent *event);
 
 public:
-    void end_drag(GtkWidget *widget, GdkEventButton *event);
+    void end_drag(GtkWidget *widget, GdkEvent *event);
 
 public:
     void popup_menu(GtkWidget *widget, GdkEvent *event) const;
