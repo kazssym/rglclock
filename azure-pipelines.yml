@@ -6,7 +6,7 @@
 # this notice are preserved.  This file is offered as-is, without any warranty.
 ---
 variables:
-  package.distName: rglclock-3.0
+  package.distName: rglclock-4.0
   uploadRepository: kazssym/rglclock
 trigger:
   - master

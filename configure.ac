@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
-AC_INIT([RGLClock], [3.0],
+AC_INIT([RGLClock], [4.0],
 [https://github.com/kazssym/rglclock/issues/new], [rglclock])
 AC_CONFIG_SRCDIR([lib/movement.cpp])
 AC_CONFIG_AUX_DIR([build-aux])
