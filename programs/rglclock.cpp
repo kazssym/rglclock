@@ -127,13 +127,13 @@ rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
 
     g_signal_connect(&*_app, "activate", G_CALLBACK(handle_activate), this);
 
-    g_ptr<GSimpleAction> exit {g_simple_action_new("exit", nullptr)};
-    g_signal_connect(&*exit, "activate", G_CALLBACK(handle_app_exit), this);
-    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*exit));
+    auto &&exit = g_simple_action_new("exit", nullptr);
+    g_signal_connect(exit, "activate", G_CALLBACK(handle_app_exit), this);
+    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(exit));
 
-    g_ptr<GSimpleAction> about {g_simple_action_new("about", nullptr)};
-    g_signal_connect(&*about, "activate", G_CALLBACK(handle_app_about), this);
-    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(&*about));
+    auto &&about = g_simple_action_new("about", nullptr);
+    g_signal_connect(about, "activate", G_CALLBACK(handle_app_about), this);
+    g_action_map_add_action(G_ACTION_MAP(&*_app), G_ACTION(about));
 
 #if 0 /* temporarily disabled */
     GdkVisual *visual = movement::best_visual ();

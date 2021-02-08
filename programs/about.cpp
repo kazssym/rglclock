@@ -59,33 +59,33 @@ about_dialog::about_dialog(GtkWindow *parent):
         "Copyright %s 2021 Kaz Nishimura",
         PACKAGE_NAME, PACKAGE_VERSION, _("(C)"), _("(C)"));
 
-    g_ptr<GtkWidget> label1 {gtk_label_new(label1_text)};
-    gtk_label_set_max_width_chars(GTK_LABEL(&*label1), 60);
-    gtk_label_set_line_wrap(GTK_LABEL(&*label1), true);
-    gtk_label_set_xalign(GTK_LABEL(&*label1), 0.0F);
-    gtk_widget_show(&*label1);
-    gtk_box_pack_start(GTK_BOX(content_area), &*label1, false, false, 4);
+    auto &&label1 = gtk_label_new(label1_text);
+    gtk_label_set_max_width_chars(GTK_LABEL(label1), 60);
+    gtk_label_set_line_wrap(GTK_LABEL(label1), true);
+    gtk_label_set_xalign(GTK_LABEL(label1), 0.0F);
+    gtk_widget_show(label1);
+    gtk_box_pack_start(GTK_BOX(content_area), label1, false, false, 4);
 
-    g_ptr<GtkWidget> label2 {gtk_label_new(_(
+    auto &&label2 = gtk_label_new(_(
         "This program is free software; you can redistribute it and/or modify "
         "it under the GNU General Public License as publishd by the Free "
         "Software Foundation; either version 3 of the License, or (at your "
-        "option) any later version."))};
-    gtk_label_set_max_width_chars(GTK_LABEL(&*label2), 60);
-    gtk_label_set_line_wrap(GTK_LABEL(&*label2), true);
-    gtk_label_set_xalign(GTK_LABEL(&*label2), 0.0F);
-    gtk_widget_show(&*label2);
-    gtk_box_pack_start(GTK_BOX(content_area), &*label2, false, false, 4);
+        "option) any later version."));
+    gtk_label_set_max_width_chars(GTK_LABEL(label2), 60);
+    gtk_label_set_line_wrap(GTK_LABEL(label2), true);
+    gtk_label_set_xalign(GTK_LABEL(label2), 0.0F);
+    gtk_widget_show(label2);
+    gtk_box_pack_start(GTK_BOX(content_area), label2, false, false, 4);
 
     char label3_text[128];
     snprintf(label3_text, 128, _("Report bugs to <%s>."), PACKAGE_BUGREPORT);
 
-    g_ptr<GtkWidget> label3 {gtk_label_new (label3_text)};
-    gtk_label_set_max_width_chars(GTK_LABEL(&*label2), 60);
-    gtk_label_set_line_wrap(GTK_LABEL(&*label3), true);
-    gtk_label_set_xalign(GTK_LABEL(&*label3), 0.0F);
-    gtk_widget_show(&*label3);
-    gtk_box_pack_end(GTK_BOX(content_area), &*label3, false, false, 4);
+    auto &&label3 = gtk_label_new(label3_text);
+    gtk_label_set_max_width_chars(GTK_LABEL(label3), 60);
+    gtk_label_set_line_wrap(GTK_LABEL(label3), true);
+    gtk_label_set_xalign(GTK_LABEL(label3), 0.0F);
+    gtk_widget_show(label3);
+    gtk_box_pack_end(GTK_BOX(content_area), label3, false, false, 4);
 
     gtk_dialog_add_button(GTK_DIALOG(&*_widget), _("OK"), GTK_RESPONSE_OK);
 }
