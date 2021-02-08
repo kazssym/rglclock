@@ -155,20 +155,20 @@ void movement::update()
     _context->swap_buffers(window);
 }
 
-void movement::begin_drag(GtkWidget *, GdkEventButton *event)
+void movement::begin_drag(GtkWidget *, GdkEvent *event)
 {
-    _x0 = event->x;
-    _y0 = event->y;
+    _x0 = event->button.x;
+    _y0 = event->button.y;
 }
 
-void movement::end_drag(GtkWidget *widget, GdkEventButton *event)
+void movement::end_drag(GtkWidget *widget, GdkEvent *event)
 {
     GtkAllocation allocation {};
     gtk_widget_get_allocation(widget, &allocation);
 
     double v[2] {
-        double(event->x - _x0) / allocation.width,
-        double(event->y - _y0) / allocation.height,
+        double(event->button.x - _x0) / allocation.width,
+        double(event->button.y - _y0) / allocation.height,
     };
     _velocity = sqrt(v[0] * v[0] + v[1] * v[1]);
     _axis = {v[1], v[0], 0};
@@ -189,11 +189,12 @@ gboolean handle_timeout(gpointer data) noexcept
 }
 
 gboolean handle_button_press_event(GtkWidget *widget,
-    GdkEventButton *event, gpointer data) noexcept
+    GdkEvent *event, gpointer data) noexcept
 {
     movement *m = static_cast<movement *>(data);
 
-    switch (event->button) {
+    assert(event->type == GDK_BUTTON_PRESS);
+    switch (event->button.button) {
     case 1:
         gtk_grab_add(widget);
         m->begin_drag(widget, event);
@@ -204,18 +205,19 @@ gboolean handle_button_press_event(GtkWidget *widget,
 }
 
 gboolean handle_button_release_event(GtkWidget *widget,
-    GdkEventButton *event, gpointer data) noexcept
+    GdkEvent *event, gpointer data) noexcept
 {
     movement *m = static_cast<movement *>(data);
 
-    switch (event->button)
+    assert(event->type == GDK_BUTTON_RELEASE);
+    switch (event->button.button)
     {
     case 1:
         gtk_grab_remove(widget);
         m->end_drag(widget, event);
         return true;
     case 3:
-        m->popup_menu(widget, reinterpret_cast<GdkEvent *>(event));
+        m->popup_menu(widget, event);
         return true;
     default:
         return false;
