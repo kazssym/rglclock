@@ -4,7 +4,7 @@
 # This file is distributed under the same license as the rglclock package.
 #
 # Translators:
-# Kaz Nishimura <kazssym@linuxfront.com>, 1999-2021
+# Kaz Nishimura <kazssym@linuxfront.com>, 2021
 #
 msgid ""
 msgstr ""
@@ -85,12 +85,12 @@ msgstr "      --version         バージョン情報を出力して終了する
 #: programs/rglclock.cpp:283 programs/about.cpp:81
 #, c-format
 msgid "Report bugs to <%s>."
-msgstr "Report bugs to <%s>."
+msgstr "バグは <%s> へご報告ください。"
 
 #: programs/about.cpp:46
 #, c-format
 msgid "About %s"
-msgstr "%sのバージョン情報"
+msgstr "%s のバージョン情報"
 
 #: programs/about.cpp:60
 msgid "(C)"
