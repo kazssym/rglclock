@@ -29,6 +29,9 @@ private:
     T *_ptr;
 
 public:
+
+    // Constructors.
+
     constexpr g_ptr() noexcept
     :
         g_ptr(nullptr)
@@ -64,13 +67,17 @@ public:
         // Nothing to do.
     }
 
-public:
+
+    // Destructor.
+
     ~g_ptr()
     {
         unref();
     }
 
-public:
+
+    // Assignment operators.
+
     g_ptr &operator =(const g_ptr &other)
     {
         if (this != &other) {
@@ -86,7 +93,7 @@ public:
         swap(other);
     }
 
-public:
+
     void swap(g_ptr &other) noexcept
     {
         using std::swap;
@@ -95,7 +102,6 @@ public:
         }
     }
 
-public:
     void reset(T *ptr = nullptr)
     {
         if (_ptr != ptr) {
@@ -105,7 +111,6 @@ public:
         }
     }
 
-public:
     T *release() noexcept
     {
         using std::swap;
@@ -114,13 +119,11 @@ public:
         return ptr;
     }
 
-public:
     T *get() const noexcept
     {
         return _ptr;
     }
 
-public:
     T &operator *() const noexcept
     {
         return *_ptr;
@@ -132,6 +135,7 @@ public:
     }
 
 protected:
+
     void ref() const
     {
         if (_ptr != nullptr) {
@@ -139,7 +143,6 @@ protected:
         }
     }
 
-protected:
     void ref_sink() const
     {
         if (_ptr != nullptr) {
@@ -147,7 +150,6 @@ protected:
         }
     }
 
-protected:
     void unref() const
     {
         if (_ptr != nullptr) {
