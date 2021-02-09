@@ -47,7 +47,7 @@ using std::string;
 #define N_(String) gettext_noop(String)
 
 extern "C" void handle_activate(GApplication *app, gpointer data) noexcept;
-extern "C" void handle_app_exit(GSimpleAction *action, GVariant *parameter,
+extern "C" void handle_app_exit(GAction *action, GVariant *parameter,
     gpointer data) noexcept;
 extern "C" void handle_app_about(GAction *action, GVariant *parameter,
     gpointer data) noexcept;
@@ -55,7 +55,7 @@ extern "C" void handle_app_about(GAction *action, GVariant *parameter,
 /* Clock application.  */
 class rglclock_app
 {
-    friend void handle_app_exit(GSimpleAction *action, GVariant *parameter,
+    friend void handle_app_exit(GAction *action, GVariant *parameter,
         gpointer data) noexcept;
 
 private:
@@ -105,7 +105,7 @@ void handle_activate(GApplication *, gpointer data) noexcept
     clock->start();
 }
 
-void handle_app_exit(GSimpleAction *, GVariant *, gpointer data) noexcept
+void handle_app_exit(GAction *, GVariant *, gpointer data) noexcept
 {
     auto &&clock = static_cast<rglclock_app *>(data);
     g_application_quit(G_APPLICATION(&*(clock->_app)));
