@@ -101,14 +101,14 @@ public:
 
 void handle_activate(GApplication *, gpointer data) noexcept
 {
-    auto &&app = static_cast<rglclock_app *>(data);
-    app->start();
+    auto &&clock = static_cast<rglclock_app *>(data);
+    clock->start();
 }
 
 void handle_app_exit(GSimpleAction *, GVariant *, gpointer data) noexcept
 {
-    auto &&app = static_cast<rglclock_app *>(data);
-    g_application_quit(G_APPLICATION(&*(app->_app)));
+    auto &&clock = static_cast<rglclock_app *>(data);
+    g_application_quit(G_APPLICATION(&*(clock->_app)));
 }
 
 void handle_app_about(GAction *, GVariant *, gpointer data) noexcept
