@@ -26,6 +26,7 @@
 template<class T> class g_ptr
 {
 private:
+
     T *_ptr;
 
 public:
