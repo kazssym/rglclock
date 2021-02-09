@@ -68,6 +68,7 @@ extern "C" gboolean handle_button_release_event(GtkWidget *widget,
 class movement
 {
 public:
+
     /* Call-back interface that is used to implement hooks about
      * options.  */
     struct listener
@@ -76,98 +77,93 @@ public:
     };
 
 private:
+
     int _update_rate;
 
-private:
     std::unique_ptr<module> _module;
 
-private:
     guint _update_timeout {};
 
-private:
     std::vector<listener *> _listeners;
 
-private:
     g_ptr<GtkWidget> _widget;
 
-private:
     g_ptr<GtkWidget> _menu;
 
-private:
     std::unique_ptr<glgdkx_context> _context;
 
-private:
     double _velocity {0};
     std::array<double, 3> _axis {0, 0, 0};
 
-private:
     decltype(GdkEventButton::x) _x0;
     decltype(GdkEventButton::y) _y0;
 
 public:
+
+    // Constructors.
+
     /* Constructs this clock with default properties.  */
     movement();
 
     movement(const movement &) = delete;
 
-public:
+
+    // Destructors.
+
     /* Destructs this clock.  */
     virtual ~movement();
 
-public:
+
+    // Assignment operators.
+
     void operator =(const movement &) = delete;
 
-public:
+
     int update_rate() const
     {
         return _update_rate;
     }
 
-public:
     void set_update_rate(int rate);
 
 protected:
+
     void reset_timeout();
 
 public:
+
     void add_listener(listener *);
 
-public:
     void remove_listener(listener *);
 
-public:
     const g_ptr<GtkWidget> &widget(void) const
     {
         return _widget;
     }
 
-public:
     void update();
 
-public:
     void begin_drag(GtkWidget *widget, GdkEvent *event);
 
-public:
     void end_drag(GtkWidget *widget, GdkEvent *event);
 
-public:
     void popup_menu(GtkWidget *widget, GdkEvent *event) const;
 
-public:
     /* Returns the best visual for this class.  */
     static GdkVisual *best_visual();
 
 protected:
+
     static void remove_widget(GtkWidget *, gpointer);
 
 public:
+
     /* Sets modules's property NAME to VALUE.  */
     void set_module_prop(const std::string &name, const std::string &value)
     {_module->set_prop(name, value);}
 
     GtkWidget *create_widget();
 
-public:
     /* Shows the `Options' dialog.  */
     void show_options_dialog(GtkWindow *);
 };
