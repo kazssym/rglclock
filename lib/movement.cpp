@@ -27,15 +27,12 @@
 #include <gtk/gtk.h>
 #include <gettext.h>
 #include <sys/time.h>
-#include <algorithm>
 #include <stdexcept>
 #include <cmath>
 #include <cassert>
 
-using std::for_each;
 using std::invalid_argument;
 using std::make_unique;
-using std::remove;
 using glgdkx::glgdkx_context;
 
 #define _(String) gettext(String)
@@ -90,11 +87,6 @@ void movement::set_update_rate(int rate)
     if (rate != _update_rate) {
         _update_rate = rate;
         reset_timeout();
-
-        for_each(_listeners.begin(), _listeners.end(),
-            [this](auto &&listener) {
-                listener->options_changed(this);
-            });
     }
 }
 
@@ -108,17 +100,6 @@ void movement::reset_timeout()
     unsigned int interval = rate_to_interval(_update_rate);
     assert(interval > 0);
     _update_timeout = g_timeout_add(interval, handle_timeout, this);
-}
-
-void movement::add_listener(listener *listener)
-{
-    _listeners.push_back(listener);
-}
-
-void movement::remove_listener(listener *listener)
-{
-    auto &&last = remove(_listeners.begin(), _listeners.end(), listener);
-    _listeners.erase(last, _listeners.end());
 }
 
 void movement::update()

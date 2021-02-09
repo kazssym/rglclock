@@ -127,7 +127,6 @@ rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
 
     _profile.open (s.c_str ());
     _profile.restore (&_clock);
-    _clock.add_listener (&_profile);
 
     g_signal_connect(&*_app, "activate", G_CALLBACK(handle_activate), this);
 

@@ -84,8 +84,6 @@ private:
 
     guint _update_timeout {};
 
-    std::vector<listener *> _listeners;
-
     g_ptr<GtkWidget> _widget;
 
     g_ptr<GtkWidget> _menu;
@@ -131,10 +129,6 @@ protected:
     void reset_timeout();
 
 public:
-
-    void add_listener(listener *);
-
-    void remove_listener(listener *);
 
     const g_ptr<GtkWidget> &widget(void) const
     {
