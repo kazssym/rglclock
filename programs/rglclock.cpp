@@ -59,38 +59,42 @@ class rglclock_app
         gpointer data) noexcept;
 
 private:
+
     g_ptr<GtkApplication> _app;
 
-private:
     movement _clock;
 
-private:
     profile _profile;
 
 public:
+
+    // Constructors.
+
     explicit rglclock_app(const g_ptr<GtkApplication> &app);
 
     rglclock_app(const rglclock_app &) = delete;
 
-public:
+
+    // Destructor.
+
     ~rglclock_app();
 
-public:
+
+    // Assignment operators.
+
     void operator =(const rglclock_app &) = delete;
 
-public:
+
     void start();
 
-public:
     /* Shows the `Options' dialog.  */
-    void show_options_dialog ()
+    void show_options_dialog()
     {
 #if 0 /* temporarily disabled */
         _clock.show_options_dialog (GTK_WINDOW (main_window));
 #endif
     }
 
-public:
     /* Shows the about dialog and returns immediately.  */
     void show_about_dialog();
 };
