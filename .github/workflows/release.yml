@@ -1,5 +1,5 @@
 # release.yml
-# Copyright (C) 2020 Kaz Nishimura
+# Copyright (C) 2020-2021 Kaz Nishimura
 #
 # Copying and distribution of this file, with or without modification, are
 # permitted in any medium without royalty provided the copyright notice and
@@ -11,10 +11,9 @@ on:
     tags:
       - release/*
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - id: set-version
         run: |
           echo "::set-output name=version::`expr '${{ github.ref }}' : '.*/\(.*\)'`"
