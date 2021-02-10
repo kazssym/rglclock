@@ -60,12 +60,6 @@ public:
 };
 #endif
 
-extern "C" gboolean handle_timeout(gpointer data) noexcept;
-extern "C" gboolean handle_button_press_event(GtkWidget *widget,
-    GdkEvent *event, gpointer data) noexcept;
-extern "C" gboolean handle_button_release_event(GtkWidget *widget,
-    GdkEvent *event, gpointer data) noexcept;
-
 /* Clock movement. */
 class movement
 {

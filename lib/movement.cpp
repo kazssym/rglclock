@@ -45,6 +45,12 @@ using glgdkx::glgdkx_context;
 #define TIMEOUT_RES 1000
 #define rate_to_interval(rate) (TIMEOUT_RES / (rate))
 
+extern "C" gboolean handle_timeout(gpointer data) noexcept;
+extern "C" gboolean handle_button_press_event(GtkWidget *widget,
+    GdkEvent *event, gpointer data) noexcept;
+extern "C" gboolean handle_button_release_event(GtkWidget *widget,
+    GdkEvent *event, gpointer data) noexcept;
+
 movement::movement():
     _update_rate {DEFAULT_UPDATE_RATE},
     _module {new module()},
