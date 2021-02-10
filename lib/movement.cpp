@@ -23,6 +23,7 @@
 
 #include "clock.h"
 
+#include "simple.h"
 #include <GL/glu.h>
 #include <gtk/gtk.h>
 #include <gettext.h>
@@ -51,9 +52,9 @@ extern "C" gboolean handle_button_press_event(GtkWidget *widget,
 extern "C" gboolean handle_button_release_event(GtkWidget *widget,
     GdkEvent *event, gpointer data) noexcept;
 
-movement::movement():
+movement::movement()
+:
     _update_rate {DEFAULT_UPDATE_RATE},
-    _module {new module()},
     _widget {gtk_drawing_area_new()}
 {
     gtk_widget_set_events(&*_widget,
@@ -118,7 +119,8 @@ void movement::update()
     if (_context == nullptr) {
         _context = make_unique<glgdkx_context>(window);
         _context->make_current(window);
-        _module->init();
+
+        simple_init();
     }
 
     double angle = 0;
@@ -133,13 +135,39 @@ void movement::update()
         angle = _rate * t;
     }
     tv_last = tv;
-    _module->rotate((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
+    rotate(angle);
 
-    _module->viewport(0, 0,
+    glViewport(0, 0,
         gdk_window_get_width(window), gdk_window_get_height(window));
-    _module->draw_clock ();
+    render();
 
     _context->swap_buffers(window);
+}
+
+void movement::rotate(double angle)
+{
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    glLoadIdentity();
+    glRotatef((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
+    glMultMatrixd(&_attitude[0]);
+    glGetDoublev(GL_MODELVIEW_MATRIX, &_attitude[0]);
+
+    glPopMatrix();
+}
+
+void movement::render() const
+{
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    /* Rotates the model view matrix.  */
+    glMultMatrixd(&_attitude[0]);
+
+    simple_draw_clock();
+
+    glPopMatrix();
 }
 
 void movement::begin_drag(GtkWidget *, GdkEvent *event)

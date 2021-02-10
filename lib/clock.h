@@ -67,8 +67,6 @@ private:
 
     int _update_rate;
 
-    std::unique_ptr<module> _module;
-
     guint _update_timeout {};
 
     g_ptr<GtkWidget> _widget;
@@ -79,6 +77,13 @@ private:
 
     double _rate {0};
     std::array<double, 3> _axis {0, 0, 0};
+
+    std::array<double, 16> _attitude {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
 
     decltype(GdkEventButton::x) _x0;
     decltype(GdkEventButton::y) _y0;
@@ -124,26 +129,19 @@ public:
 
     void update();
 
+protected:
+
+    void rotate(double angle);
+
+    void render() const;
+
+public:
+
     void begin_drag(GtkWidget *widget, GdkEvent *event);
 
     void end_drag(GtkWidget *widget, GdkEvent *event);
 
     void popup_menu(GtkWidget *widget, GdkEvent *event) const;
-
-    /* Returns the best visual for this class.  */
-    static GdkVisual *best_visual();
-
-protected:
-
-    static void remove_widget(GtkWidget *, gpointer);
-
-public:
-
-    /* Sets modules's property NAME to VALUE.  */
-    void set_module_prop(const std::string &name, const std::string &value)
-    {_module->set_prop(name, value);}
-
-    GtkWidget *create_widget();
 
     /* Shows the `Options' dialog.  */
     void show_options_dialog(GtkWindow *);
