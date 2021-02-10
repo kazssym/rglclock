@@ -59,7 +59,7 @@ private:
 
     g_ptr<GtkApplication> _app;
 
-    movement _clock;
+    movement _movement;
 
     profile _profile;
 
@@ -90,7 +90,7 @@ public:
     void show_options_dialog()
     {
 #if 0 /* temporarily disabled */
-        _clock.show_options_dialog (GTK_WINDOW (main_window));
+        _movement.show_options_dialog (GTK_WINDOW (main_window));
 #endif
     }
 
@@ -125,7 +125,7 @@ rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
     s.append ("/options");
 
     _profile.open (s.c_str ());
-    _profile.restore (&_clock);
+    _profile.restore (&_movement);
 
     g_signal_connect(&*_app, "activate", G_CALLBACK(handle_activate), this);
 
@@ -150,7 +150,7 @@ rglclock_app::rglclock_app(const g_ptr<GtkApplication> &app):
 rglclock_app::~rglclock_app (void)
 {
     // FIXME This seems too late.
-    _profile.save (&_clock);
+    _profile.save (&_movement);
 }
 
 void rglclock_app::start()
@@ -159,7 +159,7 @@ void rglclock_app::start()
     // g_signal_connect(&*window, "delete_event",
     //     G_CALLBACK(gtk_main_quit), this);
 
-    auto &&content = _clock.widget();
+    auto &&content = _movement.widget();
     gtk_widget_show(&*content);
     gtk_container_add(GTK_CONTAINER(&*window), &*content);
 
