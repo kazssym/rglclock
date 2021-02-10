@@ -21,7 +21,6 @@
 #define CLOCK_H 1
 
 #include "utils.h"
-#include "module.h"
 #include "glgdkx.h"
 #include "g_ptr.h"
 #include <gtk/gtk.h>

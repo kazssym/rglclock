@@ -2,5 +2,4 @@
 
 include_HEADERS = rglclockmod.h
 
-noinst_HEADERS = g_ptr.h utils.h \
-module.h
+noinst_HEADERS = g_ptr.h utils.h
