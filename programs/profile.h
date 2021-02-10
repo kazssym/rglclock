@@ -31,7 +31,6 @@
 /* Options profile of a clock.  This object keeps the options setting
    in a file.  */
 class profile
-  : public virtual movement::listener
 {
 private:
   std::string file_name;

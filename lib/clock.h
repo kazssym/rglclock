@@ -63,15 +63,6 @@ public:
 /* Clock movement. */
 class movement
 {
-public:
-
-    /* Call-back interface that is used to implement hooks about
-     * options.  */
-    struct listener
-    {
-        virtual void options_changed(movement *) = 0;
-    };
-
 private:
 
     int _update_rate;
