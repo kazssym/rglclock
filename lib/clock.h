@@ -30,6 +30,7 @@
 
 using glgdkx::glgdkx_context;
 
+#if 0
 class movement;
 
 /* The options dialog.  */
@@ -57,6 +58,7 @@ private:
 public:
     explicit clock_options_dialog(movement *);
 };
+#endif
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
