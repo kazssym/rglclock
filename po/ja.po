@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
-"POT-Creation-Date: 2021-02-08 07:36+0900\n"
+"POT-Creation-Date: 2021-02-11 08:46+0900\n"
 "PO-Revision-Date: 2021-02-06 11:58+0000\n"
 "Last-Translator: Kaz Nishimura <kazssym@linuxfront.com>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/vx68k/teams/116848/ja/)\n"
@@ -20,11 +20,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: lib/movement.cpp:64
+#: lib/movement.cpp:68
 msgid "_About..."
 msgstr "バージョン情報(_A)..."
 
-#: lib/movement.cpp:65
+#: lib/movement.cpp:69
 msgid "E_xit"
 msgstr "終了(_X)"
 
@@ -48,7 +48,7 @@ msgstr "選択..."
 msgid "General"
 msgstr "一般"
 
-#: programs/rglclock.cpp:210
+#: programs/rglclock.cpp:217
 #, c-format
 msgid ""
 "%s version %s\n"
@@ -57,32 +57,32 @@ msgstr ""
 "%s バージョン%s\n"
 "Copyright (C) 1998, 1999, 2000, 2002, 2007 有限会社ハイパーコア"
 
-#: programs/rglclock.cpp:276
+#: programs/rglclock.cpp:283
 #, c-format
 msgid "Usage: %s [OPTION]...\n"
 msgstr "使用法: %s [オプション]...\n"
 
-#: programs/rglclock.cpp:277
+#: programs/rglclock.cpp:284
 #, c-format
 msgid "Display a 3D rotating clock.\n"
 msgstr "3Dで自転する時計を表示します。\n"
 
-#: programs/rglclock.cpp:279
+#: programs/rglclock.cpp:286
 #, c-format
 msgid "  -m, --hide-menu-bar   hide the menu bar\n"
 msgstr "  -m, --hide-menu-bar   メニューバーを隠す\n"
 
-#: programs/rglclock.cpp:280
+#: programs/rglclock.cpp:287
 #, c-format
 msgid "      --help            display this help and exit\n"
 msgstr "      --help            このヘルプを表示して終了する\n"
 
-#: programs/rglclock.cpp:281
+#: programs/rglclock.cpp:288
 #, c-format
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         バージョン情報を出力して終了する\n"
 
-#: programs/rglclock.cpp:283 programs/about.cpp:81
+#: programs/rglclock.cpp:290 programs/about.cpp:81
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr "バグは <%s> へご報告ください。"
