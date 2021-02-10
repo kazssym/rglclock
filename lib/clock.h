@@ -116,16 +116,16 @@ public:
 
     void set_update_rate(int rate);
 
+    const g_ptr<GtkWidget> &widget(void) const
+    {
+        return _widget;
+    }
+
 protected:
 
     void reset_timeout();
 
 public:
-
-    const g_ptr<GtkWidget> &widget(void) const
-    {
-        return _widget;
-    }
 
     void update();
 
