@@ -55,9 +55,6 @@ extern "C" void handle_app_about(GAction *action, GVariant *parameter,
 /* Clock application.  */
 class rglclock_app
 {
-    friend void handle_app_exit(GAction *action, GVariant *parameter,
-        gpointer data) noexcept;
-
 private:
 
     g_ptr<GtkApplication> _app;
@@ -87,6 +84,8 @@ public:
 
     void start();
 
+    void stop();
+
     /* Shows the `Options' dialog.  */
     void show_options_dialog()
     {
@@ -108,7 +107,7 @@ void handle_activate(GApplication *, gpointer data) noexcept
 void handle_app_exit(GAction *, GVariant *, gpointer data) noexcept
 {
     auto &&clock = static_cast<rglclock_app *>(data);
-    g_application_quit(G_APPLICATION(&*(clock->_app)));
+    clock->stop();
 }
 
 void handle_app_about(GAction *, GVariant *, gpointer data) noexcept
@@ -165,6 +164,11 @@ void rglclock_app::start()
     gtk_container_add(GTK_CONTAINER(&*window), &*content);
 
     gtk_widget_show(&*window);
+}
+
+void rglclock_app::stop()
+{
+    g_application_quit(G_APPLICATION(&*_app));
 }
 
 void rglclock_app::show_about_dialog()
