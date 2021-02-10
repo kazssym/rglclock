@@ -77,7 +77,7 @@ private:
 
     std::unique_ptr<glgdkx_context> _context;
 
-    double _velocity {0};
+    double _rate {0};
     std::array<double, 3> _axis {0, 0, 0};
 
     decltype(GdkEventButton::x) _x0;

@@ -130,7 +130,7 @@ void movement::update()
     {
         double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
         t += tv.tv_sec - tv_last.tv_sec;
-        angle = _velocity * t;
+        angle = _rate * t;
     }
     tv_last = tv;
     _module->rotate((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
@@ -157,7 +157,7 @@ void movement::end_drag(GtkWidget *widget, GdkEvent *event)
         double(event->button.x - _x0) / allocation.width,
         double(event->button.y - _y0) / allocation.height,
     };
-    _velocity = sqrt(v[0] * v[0] + v[1] * v[1]);
+    _rate = sqrt(v[0] * v[0] + v[1] * v[1]);
     _axis = {v[1], v[0], 0};
 }
 
