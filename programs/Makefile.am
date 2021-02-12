@@ -10,7 +10,7 @@ bin_PROGRAMS = rglclock
 
 noinst_HEADERS = about.h profile.h
 
-rglclock_LDFLAGS = -dlopen ../modules/libplain.la
+rglclock_LDFLAGS = -dlopen ../modules/simple.la
 rglclock_SOURCES = rglclock.cpp about.cpp profile.cpp \
 options.cpp modaldialog.cpp ../modules/simple.c
 rglclock_LDADD = ../lib/librglclock.la ../libgnu/libgnu.la \

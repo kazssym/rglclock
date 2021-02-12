@@ -1,11 +1,12 @@
 ## Process this file with automake to produce a Makefile.in.
 
+AM_CPPFLAGS = -I $(top_srcdir)/lib -I $(top_srcdir)/include \
+$(LIBPNG_CFLAGS)
+
 modulesdir = $(pkglibdir)/modules
 
-AM_CPPFLAGS = -I $(top_srcdir)/lib -I $(top_srcdir)/include $(LIBPNG_CFLAGS)
+modules_LTLIBRARIES = simple.la
 
-modules_LTLIBRARIES = libplain.la
-
-libplain_la_LDFLAGS = -module -avoid-version
-libplain_la_SOURCES = simple.c
-libplain_la_LIBADD = $(LIBPNG_LIBS)
+simple_la_LDFLAGS = -module -avoid-version
+simple_la_SOURCES = simple.c
+simple_la_LIBADD = $(LIBPNG_LIBS)
