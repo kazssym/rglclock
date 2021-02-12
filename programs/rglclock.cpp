@@ -173,7 +173,7 @@ void rglclock_app::stop()
 
 void rglclock_app::show_about_dialog()
 {
-    about_dialog dialog;
+    about_dialog dialog(gtk_application_get_active_window(&*_app));
     dialog.show_modal();
 }
 
