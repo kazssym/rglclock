@@ -37,7 +37,6 @@ about_dialog::about_dialog(GtkWindow *parent):
     _widget {gtk_dialog_new()}
 {
     gtk_window_set_resizable(GTK_WINDOW(&*_widget), false);
-    gtk_window_set_position(GTK_WINDOW(&*_widget), GTK_WIN_POS_CENTER);
     if (parent != nullptr) {
         gtk_window_set_transient_for(GTK_WINDOW(&*_widget), parent);
     }
