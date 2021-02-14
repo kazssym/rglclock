@@ -37,10 +37,6 @@ using glgdkx::glgdkx_context;
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
 
-#ifndef DEFAULT_UPDATE_RATE
-#define DEFAULT_UPDATE_RATE 20
-#endif
-
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
@@ -48,9 +44,11 @@ extern "C" gboolean handle_button_press_event(GtkWidget *widget,
 extern "C" gboolean handle_button_release_event(GtkWidget *widget,
     const GdkEvent *event, gpointer data) noexcept;
 
+
+const int movement::DEFAULT_UPDATE_RATE = 20;
+
 movement::movement()
 :
-    _update_rate {DEFAULT_UPDATE_RATE},
     _widget {gtk_drawing_area_new()}
 {
     gtk_widget_set_events(&*_widget,

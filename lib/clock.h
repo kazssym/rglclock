@@ -63,9 +63,13 @@ public:
 /* Clock movement. */
 class movement
 {
+public:
+
+    static const int DEFAULT_UPDATE_RATE;
+
 private:
 
-    int _update_rate;
+    int _update_rate = DEFAULT_UPDATE_RATE;
 
     guint _update_timeout {};
 
