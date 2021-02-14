@@ -139,11 +139,11 @@ protected:
 
 public:
 
-    void begin_drag(GtkWidget *widget, GdkEvent *event);
+    void begin_drag(GtkWidget *widget, const GdkEvent *event);
 
-    void end_drag(GtkWidget *widget, GdkEvent *event);
+    void end_drag(GtkWidget *widget, const GdkEvent *event);
 
-    void popup_menu(GtkWidget *widget, GdkEvent *event) const;
+    void popup_menu(GtkWidget *widget, const GdkEvent *event) const;
 
     /* Shows the `Options' dialog.  */
     void show_options_dialog(GtkWindow *);

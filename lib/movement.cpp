@@ -44,9 +44,9 @@ using glgdkx::glgdkx_context;
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
-    GdkEvent *event, gpointer data) noexcept;
+    const GdkEvent *event, gpointer data) noexcept;
 extern "C" gboolean handle_button_release_event(GtkWidget *widget,
-    GdkEvent *event, gpointer data) noexcept;
+    const GdkEvent *event, gpointer data) noexcept;
 
 movement::movement()
 :
@@ -165,13 +165,13 @@ void movement::render() const
     glPopMatrix();
 }
 
-void movement::begin_drag(GtkWidget *, GdkEvent *event)
+void movement::begin_drag(GtkWidget *, const GdkEvent *event)
 {
     _x0 = event->button.x;
     _y0 = event->button.y;
 }
 
-void movement::end_drag(GtkWidget *widget, GdkEvent *event)
+void movement::end_drag(GtkWidget *widget, const GdkEvent *event)
 {
     GtkAllocation allocation {};
     gtk_widget_get_allocation(widget, &allocation);
@@ -184,7 +184,7 @@ void movement::end_drag(GtkWidget *widget, GdkEvent *event)
     _axis = {v[1], v[0], 0};
 }
 
-void movement::popup_menu(GtkWidget *, GdkEvent *event) const
+void movement::popup_menu(GtkWidget *, const GdkEvent *event) const
 {
     gtk_menu_popup_at_pointer(GTK_MENU(&*_menu), event);
 }
@@ -199,7 +199,7 @@ gboolean handle_timeout(gpointer data) noexcept
 }
 
 gboolean handle_button_press_event(GtkWidget *widget,
-    GdkEvent *event, gpointer data) noexcept
+    const GdkEvent *event, gpointer data) noexcept
 {
     auto &&m = static_cast<movement *>(data);
 
@@ -215,7 +215,7 @@ gboolean handle_button_press_event(GtkWidget *widget,
 }
 
 gboolean handle_button_release_event(GtkWidget *widget,
-    GdkEvent *event, gpointer data) noexcept
+    const GdkEvent *event, gpointer data) noexcept
 {
     auto &&m = static_cast<movement *>(data);
 
