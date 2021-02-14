@@ -25,9 +25,7 @@
 
 #include "simple.h"
 #include <GL/glu.h>
-#include <gtk/gtk.h>
 #include <gettext.h>
-#include <sys/time.h>
 #include <stdexcept>
 #include <cmath>
 #include <cassert>
@@ -121,18 +119,17 @@ void movement::update()
         simple_init();
     }
 
+    struct timeval now {};
+    gettimeofday(&now, nullptr);
+
     double angle = 0;
-    // FIXME.  The last update time should be kept in the object.
-    static struct timeval tv_last = {0};
-    struct timeval tv;
-    gettimeofday(&tv, nullptr);
-    if (tv_last.tv_sec != 0)
+    if (_last_updated.tv_sec != 0)
     {
-        double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
-        t += tv.tv_sec - tv_last.tv_sec;
+        double t = (now.tv_usec - _last_updated.tv_usec) / 1e6;
+        t += now.tv_sec - _last_updated.tv_sec;
         angle = _rate * t;
     }
-    tv_last = tv;
+    _last_updated = now;
     rotate(angle);
 
     glViewport(0, 0,

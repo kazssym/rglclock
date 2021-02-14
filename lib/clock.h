@@ -24,6 +24,7 @@
 #include "glgdkx.h"
 #include "g_ptr.h"
 #include <gtk/gtk.h>
+#include <sys/time.h>
 #include <array>
 #include <memory>
 
@@ -83,6 +84,8 @@ private:
         0, 0, 1, 0,
         0, 0, 0, 1
     };
+
+    struct timeval _last_updated {};
 
     decltype(GdkEventButton::x) _x0;
     decltype(GdkEventButton::y) _y0;
