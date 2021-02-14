@@ -43,8 +43,6 @@ using glgdkx::glgdkx_context;
 #define DEFAULT_UPDATE_RATE 20
 #endif
 
-#define TIMEOUT_RES 1000
-#define rate_to_interval(rate) (TIMEOUT_RES / (rate))
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
@@ -104,7 +102,7 @@ void movement::reset_timeout()
         _update_timeout = 0;
     }
 
-    unsigned int interval = rate_to_interval(_update_rate);
+    unsigned int interval = 1000 / _update_rate;
     assert(interval > 0);
     _update_timeout = g_timeout_add(interval, handle_timeout, this);
 }
