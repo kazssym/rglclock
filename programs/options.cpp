@@ -34,6 +34,8 @@ using namespace std;
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
 
+#if 0
+
 void
 options_dialog::handle_ok(GtkWidget *button)
 {
@@ -162,3 +164,5 @@ options_dialog::add_page(const char *tab_text, options_page *page)
 {
     pages.push_back(make_pair(tab_text, page));
 }
+
+#endif

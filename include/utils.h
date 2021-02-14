@@ -87,6 +87,8 @@ protected:
   void destroy_window();
 };
 
+#if 0
+
 struct options_page
 {
   virtual GtkWidget *create_widget() = 0;
@@ -121,5 +123,7 @@ protected:
   /* Populates a dialog widgets with subwidgets.  */
   void populate(GtkDialog *widget);
 };
+
+#endif
 
 #endif /* not UTILS_H */
