@@ -33,10 +33,7 @@ public:
 
     // Constructors.
 
-    constexpr g_ptr() noexcept
-    {
-        // Nothing to do.
-    }
+    g_ptr() noexcept = default;
 
     constexpr explicit g_ptr(nullptr_t) noexcept
     {
