@@ -125,7 +125,7 @@ void movement::update()
     // FIXME.  The last update time should be kept in the object.
     static struct timeval tv_last = {0};
     struct timeval tv;
-    gettimeofday (&tv, NULL);
+    gettimeofday(&tv, nullptr);
     if (tv_last.tv_sec != 0)
     {
         double t = (tv.tv_usec - tv_last.tv_usec) / 1e6;
