@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
-"POT-Creation-Date: 2021-02-11 08:46+0900\n"
+"POT-Creation-Date: 2021-02-14 14:26+0900\n"
 "PO-Revision-Date: 2021-02-08 07:28+0900\n"
 "Last-Translator: Kaz Nishimura <kazssym@linuxfront.com>\n"
 "Language-Team: none\n"
@@ -25,26 +25,6 @@ msgstr "_About..."
 #: lib/movement.cpp:69
 msgid "E_xit"
 msgstr "E_xit"
-
-#: lib/clock_options.cpp:111
-msgid "Update rate: "
-msgstr "Update rate: "
-
-#: lib/clock_options.cpp:124
-msgid "Hz"
-msgstr "Hz"
-
-#: lib/clock_options.cpp:135
-msgid "Map texture file: "
-msgstr "Map texture file: "
-
-#: lib/clock_options.cpp:148
-msgid "Select..."
-msgstr "Select..."
-
-#: lib/clock_options.cpp:168
-msgid "General"
-msgstr "General"
 
 #: programs/rglclock.cpp:217
 #, c-format
@@ -80,21 +60,21 @@ msgstr "      --help            display this help and exit\n"
 msgid "      --version         output version information and exit\n"
 msgstr "      --version         output version information and exit\n"
 
-#: programs/rglclock.cpp:290 programs/about.cpp:81
+#: programs/rglclock.cpp:290 programs/about.cpp:80
 #, c-format
 msgid "Report bugs to <%s>."
 msgstr "Report bugs to <%s>."
 
-#: programs/about.cpp:46
+#: programs/about.cpp:45
 #, c-format
 msgid "About %s"
 msgstr "About %s"
 
-#: programs/about.cpp:60
+#: programs/about.cpp:59
 msgid "(C)"
 msgstr "©"
 
-#: programs/about.cpp:70
+#: programs/about.cpp:69
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the GNU General Public License as publishd by the Free Software "
@@ -106,7 +86,7 @@ msgstr ""
 "Foundation; either version 3 of the License, or (at your option) any later "
 "version."
 
-#: programs/about.cpp:90 programs/options.cpp:131
+#: programs/about.cpp:89 programs/options.cpp:131
 msgid "OK"
 msgstr "OK"
 
@@ -117,6 +97,21 @@ msgstr "Cancel"
 #: programs/options.cpp:153
 msgid "Options"
 msgstr "Options"
+
+#~ msgid "Update rate: "
+#~ msgstr "Update rate: "
+
+#~ msgid "Hz"
+#~ msgstr "Hz"
+
+#~ msgid "Map texture file: "
+#~ msgstr "Map texture file: "
+
+#~ msgid "Select..."
+#~ msgstr "Select..."
+
+#~ msgid "General"
+#~ msgstr "General"
 
 #~ msgid "/_File/_Options..."
 #~ msgstr "/_File/_Options..."
