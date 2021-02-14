@@ -8,6 +8,6 @@ lib_LTLIBRARIES = librglclock.la
 
 noinst_HEADERS = clock.h glgdkx.h simple.h
 
-librglclock_la_LDFLAGS = -release 2 -version-info 0:0:0
+librglclock_la_LDFLAGS = -no-undefined -version-info 1:0:0
 librglclock_la_SOURCES = movement.cpp glgdkx.cpp
 librglclock_la_LIBADD = $(GTK_LIBS)
