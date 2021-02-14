@@ -148,7 +148,7 @@ void movement::rotate(double angle)
     glPushMatrix();
 
     glLoadIdentity();
-    glRotatef((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
+    glRotated((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
     glMultMatrixd(&_attitude[0]);
     glGetDoublev(GL_MODELVIEW_MATRIX, &_attitude[0]);
 
