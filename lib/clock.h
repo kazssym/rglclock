@@ -79,8 +79,8 @@ private:
 
     std::unique_ptr<glgdkx_context> _context;
 
-    double _rate {0};
-    std::array<double, 3> _axis {0, 0, 0};
+    double _rate = 0;
+    std::array<double, 3> _axis;
 
     std::array<double, 16> _attitude {
         1, 0, 0, 0,
