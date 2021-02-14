@@ -38,6 +38,8 @@
 
 using namespace std;
 
+#if 0
+
 void
 modal_dialog::take_action(int key)
 {
@@ -135,3 +137,4 @@ modal_dialog::modal_dialog()
 {
 }
 
+#endif

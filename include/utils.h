@@ -24,6 +24,7 @@
 #include <vector>
 #include <string>
 
+#if 0
 /* Base component for modal dialogs.  */
 class modal_dialog
 {
@@ -86,6 +87,7 @@ protected:
   /* Destroys the window of this dialog.  */
   void destroy_window();
 };
+#endif
 
 #if 0
 
