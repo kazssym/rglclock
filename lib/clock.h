@@ -73,7 +73,7 @@ private:
 
     guint _update_timeout {};
 
-    g_ptr<GtkWidget> _widget;
+    g_ptr<GtkWidget> _widget {gtk_drawing_area_new()};
 
     g_ptr<GtkWidget> _menu;
 

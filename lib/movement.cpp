@@ -48,8 +48,6 @@ extern "C" gboolean handle_button_release_event(GtkWidget *widget,
 const int movement::DEFAULT_UPDATE_RATE = 20;
 
 movement::movement()
-:
-    _widget {gtk_drawing_area_new()}
 {
     gtk_widget_set_events(&*_widget,
         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
