@@ -201,7 +201,7 @@ gboolean handle_timeout(gpointer data) noexcept
 gboolean handle_button_press_event(GtkWidget *widget,
     GdkEvent *event, gpointer data) noexcept
 {
-    movement *m = static_cast<movement *>(data);
+    auto &&m = static_cast<movement *>(data);
 
     assert(event->type == GDK_BUTTON_PRESS);
     switch (event->button.button) {
@@ -217,7 +217,7 @@ gboolean handle_button_press_event(GtkWidget *widget,
 gboolean handle_button_release_event(GtkWidget *widget,
     GdkEvent *event, gpointer data) noexcept
 {
-    movement *m = static_cast<movement *>(data);
+    auto &&m = static_cast<movement *>(data);
 
     assert(event->type == GDK_BUTTON_RELEASE);
     switch (event->button.button)
