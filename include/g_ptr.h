@@ -27,22 +27,18 @@ template<class T> class g_ptr
 {
 private:
 
-    T *_ptr;
+    T *_ptr = nullptr;
 
 public:
 
     // Constructors.
 
     constexpr g_ptr() noexcept
-    :
-        g_ptr(nullptr)
     {
         // Nothing to do.
     }
 
     constexpr explicit g_ptr(nullptr_t) noexcept
-    :
-        _ptr {nullptr}
     {
         // Nothing to do.
     }
