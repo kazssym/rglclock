@@ -26,20 +26,19 @@
 class about_dialog
 {
 private:
-    GtkWidget *_widget;
+
+    g_ptr<GtkWidget> _widget {gtk_dialog_new()};
 
 public:
+
     explicit about_dialog(GtkWindow *parent = nullptr);
 
     about_dialog(const about_dialog &) = delete;
 
-public:
-    virtual ~about_dialog (void);
 
-public:
     void operator =(const about_dialog &) = delete;
 
-public:
+
     int show_modal();
 };
 
