@@ -33,6 +33,7 @@ using std::snprintf;
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
 
+
 about_dialog::about_dialog(GtkWindow *parent)
 {
     gtk_window_set_resizable(GTK_WINDOW(&*_widget), false);
@@ -88,7 +89,7 @@ about_dialog::about_dialog(GtkWindow *parent)
     gtk_dialog_add_button(GTK_DIALOG(&*_widget), _("OK"), GTK_RESPONSE_OK);
 }
 
-int about_dialog::show_modal()
+int about_dialog::show_modal() const
 {
     return gtk_dialog_run(GTK_DIALOG(&*_widget));
 }

@@ -39,7 +39,7 @@ public:
     void operator =(const about_dialog &) = delete;
 
 
-    int show_modal();
+    int show_modal() const;
 };
 
 #endif
