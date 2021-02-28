@@ -41,8 +41,10 @@ stages:
               autoreconf --verbose
             displayName: Bootstrap
           - bash: |
-              ./configure --disable-static &&
+              ./configure --disable-static
+              status=$?
               echo "##vso[task.uploadfile]`pwd`/config.log"
+              exit $status
             displayName: Configure
           - bash: |
               make check
@@ -91,8 +93,10 @@ stages:
           - bash: |
               $CC --version
               $CXX --version
-              ./configure --prefix='$(Build.BinariesDirectory)' &&
+              ./configure --prefix='$(Build.BinariesDirectory)'
+              status=$?
               echo "##vso[task.uploadfile]`pwd`/config.log"
+              exit $status
             displayName: Configure
           - bash: |
               make check
