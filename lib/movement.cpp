@@ -121,9 +121,9 @@ void movement::update()
     double angle = 0;
     if (_last_updated.tv_sec != 0)
     {
-        double t = (now.tv_usec - _last_updated.tv_usec) / 1e6;
-        t += now.tv_sec - _last_updated.tv_sec;
-        angle = _rate * t;
+        auto sec = now.tv_sec - _last_updated.tv_sec;
+        auto usec = sec * 1000000 + now.tv_usec - _last_updated.tv_usec;
+        angle = _rate * (usec * 1.0e-6);
     }
     _last_updated = now;
     rotate(angle);
