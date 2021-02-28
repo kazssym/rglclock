@@ -6,8 +6,9 @@
 # this notice are preserved.  This file is offered as-is, without any warranty.
 ---
 variables:
-  package.distName: rglclock-4.0
-  uploadRepository: kazssym/rglclock
+  package.name: rglclock
+  package.version: 4.0
+  upload.repository: kazssym/rglclock
 trigger:
   - master
   - release/*
@@ -51,7 +52,7 @@ stages:
           - bash: |
               make dist &&
               mkdir -p _dist &&
-              mv -f '$(package.distName)'.* _dist/
+              mv -f '$(package.name)-$(package.version)'.* _dist/
             displayName: Make distributables
           - publish: _dist
             artifact: dist
@@ -76,7 +77,7 @@ stages:
           - download: current
             artifact: dist
           - bash: |
-              gzip -dc '$(Agent.BuildDirectory)'/dist/*.tar.gz |
+              gzip -dc '$(Agent.BuildDirectory)'/dist/'$(package.name)-$(package.version)'.tar.gz |
               tar -x --strip-components=1
             displayName: Unpack
           - bash: |
@@ -116,6 +117,8 @@ stages:
           - download: current
             artifact: dist
           - bash: |
-              sh ./upload.sh -u '$(bitbucket.username):$(bitbucket.password)' \
-                -r '$(uploadRepository)' '$(Agent.BuildDirectory)'/dist/*
+              sh ./upload.sh \
+                -u '$(bitbucket.username):$(bitbucket.password)' \
+                -r '$(upload.repository)' \
+                '$(Agent.BuildDirectory)'/dist/'$(package.name)-$(package.version)'.*
             displayName: Upload
