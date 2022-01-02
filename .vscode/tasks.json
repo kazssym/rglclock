@@ -2,12 +2,23 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Configure",
+            "type": "process",
+            "command": "meson",
+            "args": [
+                "setup",
+                "--reconfigure",
+                "build"
+            ],
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
             "label": "Build",
             "type": "process",
-            "command": "make",
+            "command": "ninja",
             "args": [
-                "V=0",
-                "check"
+                "-Cbuild"
             ],
             "group": "build",
             "problemMatcher": [
@@ -15,25 +26,11 @@
             ]
         },
         {
-            "label": "Rebuild",
-            "type": "process",
-            "command": "make",
-            "args": [
-                "V=0",
-                "clean",
-                "check"
-            ],
-            "group": "none",
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
             "label": "Clean",
             "type": "process",
-            "command": "make",
+            "command": "ninja",
             "args": [
-                "V=0",
+                "-Cbuild",
                 "clean"
             ],
             "group": "none",
