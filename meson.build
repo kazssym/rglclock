@@ -1,7 +1,8 @@
 # meson.build
 
 project('rglclock', 'c', 'cpp',
-    version: '4.0')
+    version: '4.0',
+    default_options: ['cpp_std=c++17'])
 
 gtk = dependency('gtk+-3.0')
 x11 = dependency('x11')
