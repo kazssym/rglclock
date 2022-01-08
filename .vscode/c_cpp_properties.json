@@ -7,7 +7,6 @@
             "includePath": [
                 "${workspaceFolder}",
                 "${workspaceFolder}/programs",
-                "${workspaceFolder}/include",
                 "${workspaceFolder}/lib",
                 "${workspaceFolder}/libgnu",
                 "/usr/include/gtk-3.0",
