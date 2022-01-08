@@ -5,7 +5,7 @@ ACLOCAL_AMFLAGS = -Im4
 
 EXTRA_DIST = README.ja MEMO.ja
 
-SUBDIRS = $(subdirs) libgnu include lib modules programs testsuite doc po
+SUBDIRS = $(subdirs) libgnu lib modules programs testsuite doc po
 
 dist-hook:
 	cd $(distdir); \

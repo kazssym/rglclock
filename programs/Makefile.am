@@ -1,6 +1,6 @@
 ## Process this file with automake to produce a Makefile.in.
 
-AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir)/include \
+AM_CPPFLAGS = -I$(top_srcdir)/lib \
 -I$(top_srcdir)/libgnu -I$(top_builddir)/libgnu \
 -DPKGDATADIR=\"$(pkgdatadir)\" -DLOCALEDIR=\"$(localedir)\" \
 -DOPTIONS_DTD=\"$(pkgdatadir)/options-0.dtd\" \
