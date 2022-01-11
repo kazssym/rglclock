@@ -71,13 +71,11 @@ private:
 
     int _update_rate = DEFAULT_UPDATE_RATE;
 
-    guint _update_timeout {};
+    guint _update_timeout = 0;
 
-    g_ptr<GtkWidget> _widget {gtk_drawing_area_new()};
+    g_ptr<GtkWidget> _widget = g_ptr<GtkWidget>(gtk_gl_area_new());
 
     g_ptr<GtkWidget> _menu;
-
-    std::unique_ptr<glgdkx_context> _context;
 
     double _rate = 0;
     std::array<double, 3> _axis;
@@ -135,11 +133,13 @@ public:
 
     void update();
 
+    void realize(GtkWidget *widget) const;
+
+    void render();
+
 protected:
 
     void rotate(double angle);
-
-    void render() const;
 
 public:
 

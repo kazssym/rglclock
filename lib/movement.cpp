@@ -39,6 +39,9 @@ using glgdkx::glgdkx_context;
 
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
+extern "C" gboolean handle_realize(GtkWidget *widget, gpointer data) noexcept;
+extern "C" gboolean handle_render(GtkGLArea *widget, GdkGLContext *context,
+    gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
     const GdkEvent *event, gpointer data) noexcept;
 extern "C" gboolean handle_button_release_event(GtkWidget *widget,
@@ -49,6 +52,9 @@ const int movement::DEFAULT_UPDATE_RATE = 20;
 
 movement::movement()
 {
+    g_signal_connect(&*_widget, "realize", G_CALLBACK(handle_realize), this);
+    g_signal_connect(&*_widget, "render", G_CALLBACK(handle_render), this);
+
     gtk_widget_set_events(&*_widget,
         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     g_signal_connect(&*_widget, "button_press_event",
@@ -103,18 +109,18 @@ void movement::reset_timeout()
 
 void movement::update()
 {
-    if (&*_widget == nullptr || !gtk_widget_get_realized(&*_widget)) {
-        return;
-    }
+    gtk_gl_area_queue_render(GTK_GL_AREA(&*_widget));
+}
 
-    auto &&window = gtk_widget_get_window(&*_widget);
-    if (_context == nullptr) {
-        _context = make_unique<glgdkx_context>(window);
-        _context->make_current(window);
+void movement::realize(GtkWidget *widget) const
+{
+    gtk_gl_area_make_current(GTK_GL_AREA(widget));
 
-        simple_init();
-    }
+    simple_init();
+}
 
+void movement::render()
+{
     struct timeval now {};
     gettimeofday(&now, nullptr);
 
@@ -128,11 +134,15 @@ void movement::update()
     _last_updated = now;
     rotate(angle);
 
-    glViewport(0, 0,
-        gdk_window_get_width(window), gdk_window_get_height(window));
-    render();
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
 
-    _context->swap_buffers(window);
+    /* Rotates the model view matrix.  */
+    glMultMatrixd(&_attitude[0]);
+
+    simple_draw_clock();
+
+    glPopMatrix();
 }
 
 void movement::rotate(double angle)
@@ -144,19 +154,6 @@ void movement::rotate(double angle)
     glRotated((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
     glMultMatrixd(&_attitude[0]);
     glGetDoublev(GL_MODELVIEW_MATRIX, &_attitude[0]);
-
-    glPopMatrix();
-}
-
-void movement::render() const
-{
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-
-    /* Rotates the model view matrix.  */
-    glMultMatrixd(&_attitude[0]);
-
-    simple_draw_clock();
 
     glPopMatrix();
 }
@@ -190,6 +187,25 @@ gboolean handle_timeout(gpointer data) noexcept
     auto &&clock = static_cast<movement *>(data);
     assert(clock != NULL);
     clock->update();
+
+    return true;
+}
+
+gboolean handle_realize(GtkWidget *widget, gpointer data) noexcept
+{
+    auto *m = static_cast<movement *>(data);
+    assert(m != nullptr);
+    m->realize(widget);
+
+    return true;
+}
+
+gboolean handle_render([[maybe_unused]] GtkGLArea *widget,
+    [[maybe_unused]] GdkGLContext *context, gpointer data) noexcept
+{
+    auto *m = static_cast<movement *>(data);
+    assert(m != nullptr);
+    m->render();
 
     return true;
 }
