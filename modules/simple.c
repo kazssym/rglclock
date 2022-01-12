@@ -501,6 +501,31 @@ bailout:
     return 0U;
 }
 
+static void set_projection_matrix()
+{
+    // As glFrustum(-5, 5, -5, 5, 15, 250);
+    static const GLfloat left = -5;
+    static const GLfloat right = 5;
+    static const GLfloat bottom = -5;
+    static const GLfloat top = 5;
+    static const GLfloat nearVal = 15;
+    static const GLfloat farVal = 250;
+
+    // Note this is a column-major matrix.
+    GLfloat matrix[4][4] = {
+        {2 * nearVal / (right - left), 0, 0, 0},
+        {0, 2 * nearVal / (top - bottom), 0, 0},
+        {(right + left) / (right - left), (top + bottom) / (top - bottom),
+            -(farVal + nearVal) / (farVal - nearVal), -1},
+        {0, 0, -2 * farVal * nearVal / (farVal - nearVal), 0},
+    };
+
+    GLuint location = glGetUniformLocation(shader_program, "projectionMatrix");
+    glUniformMatrix4fv(location, 1U, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
 int
 simple_init(void)
 {
@@ -512,10 +537,7 @@ simple_init(void)
     glUseProgram(shader_program);
     check_gl_errors(__FILE__, __LINE__);
 
-  /* Sets the projection matrix.  */
-  glMatrixMode (GL_PROJECTION);
-  glLoadIdentity ();
-  glFrustum (-5., 5., -5., 5., 15., 250.);
+    set_projection_matrix();
 
   glMatrixMode (GL_MODELVIEW);
   gluLookAt (0, 0, 150,
