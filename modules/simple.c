@@ -527,6 +527,23 @@ static void set_projection_matrix()
     check_gl_errors(__FILE__, __LINE__);
 }
 
+static void set_view_matrix()
+{
+    // As gluLookAt(0, 0, 150, 0, 0, 0, 0, 1, 0);
+    // Note this is a column-major matrix.
+    GLfloat matrix[4][4] = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, -150, 1},
+    };
+
+    GLuint location = glGetUniformLocation(shader_program, "viewMatrix");
+    glUniformMatrix4fv(location, 1U, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
 int
 simple_init(void)
 {
@@ -539,18 +556,14 @@ simple_init(void)
     check_gl_errors(__FILE__, __LINE__);
 
     set_projection_matrix();
-
-  glMatrixMode (GL_MODELVIEW);
-  gluLookAt (0, 0, 150,
-	     0, 0, 0,
-	     0, 1, 0);
-
-    check_gl_errors(__FILE__, __LINE__);
+    set_view_matrix();
 
 #if 0
-  glEnable (GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 #endif
-  glEnable (GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
+
+    check_gl_errors(__FILE__, __LINE__);
 
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
@@ -564,7 +577,9 @@ simple_init(void)
   glLightfv(GL_LIGHT1, GL_SPECULAR, LIGHT1_INTENSITY);
   glLightfv(GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
 
-  return 0;
+    check_gl_errors(__FILE__, __LINE__);
+
+    return 0;
 }
 
 static int
