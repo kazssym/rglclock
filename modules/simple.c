@@ -440,14 +440,15 @@ static GLuint compile_vertex_shader()
 {
     const char *source =
         "#version 140\n"
-        "uniform mat4 modelviewMatrix;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
         "uniform mat4 projectionMatrix;\n"
         "in vec4 vertex;\n"
         "in vec3 normal;\n"
         "out vec4 color;\n"
         "void main()\n"
         "{\n"
-        "    gl_Position = projectionMatrix * modelviewMatrix * vertex;\n"
+        "    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vertex;\n"
         "}\n";
     return compile_shader(GL_VERTEX_SHADER, 1U, &source, NULL);
 }
