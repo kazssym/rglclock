@@ -25,6 +25,8 @@
 # include "config.h"
 #endif
 
+#define GL_GLEXT_PROTOTYPES 1
+
 #include <simple.h>
 #include <rglclockmod.h>
 
@@ -393,9 +395,123 @@ static const GLfloat LIGHT1_AMBIENT[] = {0.10, 0.10, 0.10, 1};
 static const GLfloat LIGHT1_INTENSITY[] = {0.60, 0.60, 0.60, 1};
 static const GLfloat LIGHT1_POSITION[] = {200, 200, 0, 0};
 
+static GLuint vertex_shader;
+static GLuint fragment_shader;
+
+static GLuint shader_program;
+
+static void check_gl_errors(const char *file, unsigned int line)
+{
+    for (;;) {
+        GLenum error = glGetError();
+        if (error == GL_NO_ERROR) {
+            break;
+        }
+        fprintf(stderr, "%s:%u: GL error: %s\n", file, line, gluErrorString(error));
+    }
+}
+
+static GLuint compile_shader(GLenum type, GLsizei count,
+  const GLchar *const *string, const GLint *length)
+{
+    GLuint shader = glCreateShader(type);
+    glShaderSource(shader, count, string, length);
+    glCompileShader(shader);
+
+    GLint status = 0;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+    if (!status) {
+        GLint info_log_length = 0;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &info_log_length);
+        char *info_log = alloca(info_log_length);
+        glGetShaderInfoLog(shader, info_log_length, NULL, info_log);
+        fprintf(stderr, "GLSL shader compile error\n%s", info_log);
+        goto bailout;
+    }
+
+    return shader;
+
+bailout:
+    glDeleteShader(shader);
+    return 0U;
+}
+
+static GLuint compile_vertex_shader()
+{
+    const char *source =
+        "#version 140\n"
+        "uniform mat4 modelviewMatrix;\n"
+        "uniform mat4 projectionMatrix;\n"
+        "in vec4 vertex;\n"
+        "in vec3 normal;\n"
+        "out vec4 color;\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Position = projectionMatrix * modelviewMatrix * vertex;\n"
+        "}\n";
+    return compile_shader(GL_VERTEX_SHADER, 1U, &source, NULL);
+}
+
+static GLuint compile_fragment_shader()
+{
+    const char *source =
+        "#version 140\n"
+        "in vec4 color;\n"
+        "out vec4 fragColor;\n"
+        "void main()\n"
+        "{\n"
+        "    fragColor = color;\n"
+        "}\n";
+    return compile_shader(GL_FRAGMENT_SHADER, 1U, &source, NULL);
+}
+
+static GLuint link_shader_program()
+{
+    vertex_shader = compile_vertex_shader();
+    fragment_shader = compile_fragment_shader();
+
+    GLuint program = glCreateProgram();
+    if (!vertex_shader || !fragment_shader) {
+        goto bailout;
+    }
+
+    glAttachShader(program, vertex_shader);
+    glAttachShader(program, fragment_shader);
+    glLinkProgram(program);
+
+    GLint status = 0;
+    glGetProgramiv(program, GL_LINK_STATUS, &status);
+    if (!status) {
+        GLint info_log_length = 0;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_log_length);
+        char *info_log = alloca(info_log_length);
+        glGetProgramInfoLog(program, info_log_length, NULL, info_log);
+        fprintf(stderr, "GLSL program link error\n%s", info_log);
+        goto bailout;
+    }
+
+    return program;
+
+bailout:
+    glDeleteProgram(program);
+    glDeleteShader(fragment_shader);
+    fragment_shader = 0U;
+    glDeleteShader(vertex_shader);
+    vertex_shader = 0U;
+    return 0U;
+}
+
 int
 simple_init(void)
 {
+    shader_program = link_shader_program();
+    if (!shader_program) {
+        return;
+    }
+
+    glUseProgram(shader_program);
+    check_gl_errors(__FILE__, __LINE__);
+
   /* Sets the projection matrix.  */
   glMatrixMode (GL_PROJECTION);
   glLoadIdentity ();
@@ -405,6 +521,8 @@ simple_init(void)
   gluLookAt (0, 0, 150,
 	     0, 0, 0,
 	     0, 1, 0);
+
+    check_gl_errors(__FILE__, __LINE__);
 
 #if 0
   glEnable (GL_DEPTH_TEST);
