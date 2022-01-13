@@ -256,119 +256,6 @@ draw_dial_disk(int back)
 }
 
 int
-simple_draw_clock(void)
-{
-#ifdef HAVE_GETTIMEOFDAY
-  struct timeval t;
-#else /* not HAVE_GETTIMEOFDAY */
-  time_t t;
-#endif /* not HAVE_GETTIMEOFDAY */
-  const struct tm *lt;
-
-  if (texture_changed)
-    {
-      texture_changed = 0;
-      set_texture();
-    }
-
-#ifdef HAVE_GETTIMEOFDAY
-  gettimeofday(&t, NULL);
-  lt = localtime(&t.tv_sec);
-#else /* not HAVE_GETTIMEOFDAY */
-  t = time(NULL);
-  lt = localtime(&t);
-#endif /* not HAVE_GETTIMEOFDAY */
-
-  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  glDisable(GL_DEPTH_TEST);
-  if (draw_dial_disk(0) == -1)
-    return -1;
-
-  glEnable(GL_DEPTH_TEST);
-  glDisable(GL_TEXTURE_2D);
-  glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
-  glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
-  glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
-
-  {
-    int i;
-
-    glPushMatrix();
-    for (i = 0; i != 12; ++i)
-      {
-	int l;
-	if (i == 0)
-	  l = 9;
-	else if (i % 3 == 0)
-	  l = 6;
-	else
-	  l = 4;
-	glBegin (GL_QUADS);
-	glNormal3f (0.5, 0., 1.);
-	glVertex3f (1., 43. - l, 0.);
-	glVertex3f (1., 43., 0.);
-	glVertex3f (0., 43., 0.5);
-	glVertex3f (0., 43. - l, 0.5);
-	glNormal3f (-0.5, 0., 1.);
-	glVertex3f (0., 43. - l, 0.5);
-	glVertex3f (0., 43., 0.5);
-	glVertex3f (-1., 43., 0.);
-	glVertex3f (-1., 43. - l, 0.);
-	glEnd ();
-	glRotatef(30, 0, 0, -1);
-      }
-    glPopMatrix();
-  }
-
-#ifdef ENABLE_LOCAL_VIEWER
-  glShadeModel(GL_SMOOTH);
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
-#endif
-
-  /* Short hand.  */
-  glPushMatrix ();
-  glRotatef (((lt->tm_hour * 60 + lt->tm_min) * 60
-	      + lt->tm_sec) / 120., 0, 0, -1);
-  glBegin (GL_TRIANGLES);
-  glNormal3f (0.333, 0., 1.);
-  glVertex3f (3., 3., 1.);
-  glVertex3f (0., 25., 2.);
-  glVertex3f (0., 0., 2.);
-  glNormal3f (-0.333, 0., 1.);
-  glVertex3f (0., 0., 2.);
-  glVertex3f (0., 25., 2.);
-  glVertex3f (-3., 3., 1.);
-  glEnd ();
-  glPopMatrix ();
-
-  /* Long hand.  */
-  glPushMatrix ();
-#ifdef HAVE_GETTIMEOFDAY
-  glRotatef ((lt->tm_min * 60 + lt->tm_sec + t.tv_usec / 1e6) / 10., 0, 0, -1);
-#else /* not HAVE_GETTIMEOFDAY */
-  glRotatef ((lt->tm_min * 60 + lt->tm_sec) / 10., 0, 0, -1);
-#endif /* not HAVE_GETTIMEOFDAY */
-  glBegin (GL_TRIANGLES);
-  glNormal3f (0.5, 0., 1.);
-  glVertex3f (2., 2., 3.);
-  glVertex3f (0., 40., 4.);
-  glVertex3f (0., 0., 4.);
-  glNormal3f (-0.5, 0., 1.);
-  glVertex3f (0., 0., 4.);
-  glVertex3f (0., 40., 4.);
-  glVertex3f (-2., 2., 3.);
-  glEnd ();
-  glPopMatrix ();
-
-  glDisable(GL_DEPTH_TEST);
-  if (draw_dial_disk(1) == -1)
-    return -1;
-
-  return 0;
-}
-
-int
 simple_set_prop(const char *name, const char *value)
 {
   if (strcmp(name, "texture_mapping") == 0)
@@ -617,10 +504,132 @@ simple_init(void)
     return 0;
 }
 
-static int
-simple_draw(void *data)
+int
+simple_draw_clock(const GLfloat *matrix)
 {
-  return simple_draw_clock();
+#ifdef HAVE_GETTIMEOFDAY
+  struct timeval t;
+#else /* not HAVE_GETTIMEOFDAY */
+  time_t t;
+#endif /* not HAVE_GETTIMEOFDAY */
+  const struct tm *lt;
+
+  if (texture_changed)
+    {
+      texture_changed = 0;
+      set_texture();
+    }
+
+#ifdef HAVE_GETTIMEOFDAY
+  gettimeofday(&t, NULL);
+  lt = localtime(&t.tv_sec);
+#else /* not HAVE_GETTIMEOFDAY */
+  t = time(NULL);
+  lt = localtime(&t);
+#endif /* not HAVE_GETTIMEOFDAY */
+
+    check_gl_errors(__FILE__, __LINE__);
+
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, matrix);
+
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glDisable(GL_DEPTH_TEST);
+#if 0
+    if (draw_dial_disk(0) == -1)
+        return -1;
+#endif
+
+    glEnable(GL_DEPTH_TEST);
+    // glDisable(GL_TEXTURE_2D);
+    // glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
+    // glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
+    // glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
+
+    check_gl_errors(__FILE__, __LINE__);
+
+  {
+    int i;
+
+    glPushMatrix();
+    for (i = 0; i != 12; ++i)
+      {
+	int l;
+	if (i == 0)
+	  l = 9;
+	else if (i % 3 == 0)
+	  l = 6;
+	else
+	  l = 4;
+	glBegin (GL_QUADS);
+	glNormal3f (0.5, 0., 1.);
+	glVertex3f (1., 43. - l, 0.);
+	glVertex3f (1., 43., 0.);
+	glVertex3f (0., 43., 0.5);
+	glVertex3f (0., 43. - l, 0.5);
+	glNormal3f (-0.5, 0., 1.);
+	glVertex3f (0., 43. - l, 0.5);
+	glVertex3f (0., 43., 0.5);
+	glVertex3f (-1., 43., 0.);
+	glVertex3f (-1., 43. - l, 0.);
+	glEnd ();
+	glRotatef(30, 0, 0, -1);
+      }
+    glPopMatrix();
+  }
+
+#ifdef ENABLE_LOCAL_VIEWER
+  glShadeModel(GL_SMOOTH);
+  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+#endif
+
+  /* Short hand.  */
+  glPushMatrix ();
+  glRotatef (((lt->tm_hour * 60 + lt->tm_min) * 60
+	      + lt->tm_sec) / 120., 0, 0, -1);
+  glBegin (GL_TRIANGLES);
+  glNormal3f (0.333, 0., 1.);
+  glVertex3f (3., 3., 1.);
+  glVertex3f (0., 25., 2.);
+  glVertex3f (0., 0., 2.);
+  glNormal3f (-0.333, 0., 1.);
+  glVertex3f (0., 0., 2.);
+  glVertex3f (0., 25., 2.);
+  glVertex3f (-3., 3., 1.);
+  glEnd ();
+  glPopMatrix ();
+
+  /* Long hand.  */
+  glPushMatrix ();
+#ifdef HAVE_GETTIMEOFDAY
+  glRotatef ((lt->tm_min * 60 + lt->tm_sec + t.tv_usec / 1e6) / 10., 0, 0, -1);
+#else /* not HAVE_GETTIMEOFDAY */
+  glRotatef ((lt->tm_min * 60 + lt->tm_sec) / 10., 0, 0, -1);
+#endif /* not HAVE_GETTIMEOFDAY */
+  glBegin (GL_TRIANGLES);
+  glNormal3f (0.5, 0., 1.);
+  glVertex3f (2., 2., 3.);
+  glVertex3f (0., 40., 4.);
+  glVertex3f (0., 0., 4.);
+  glNormal3f (-0.5, 0., 1.);
+  glVertex3f (0., 0., 4.);
+  glVertex3f (0., 40., 4.);
+  glVertex3f (-2., 2., 3.);
+  glEnd ();
+  glPopMatrix ();
+
+  glDisable(GL_DEPTH_TEST);
+  if (draw_dial_disk(1) == -1)
+    return -1;
+
+  return 0;
+}
+
+static int
+simple_draw(void *data, const GLfloat *matrix)
+{
+    return simple_draw_clock(matrix);
 }
 
 static int

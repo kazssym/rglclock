@@ -38,7 +38,7 @@ BEGIN_DECLS
 
 int simple_init(void);
 int simple_set_prop(const char *, const char *);
-int simple_draw_clock(void);
+int simple_draw_clock(const GLfloat *matrix);
 
 int simple_LTX_query_interface(const char *, int,
 			       union rglclockmod_interface *);

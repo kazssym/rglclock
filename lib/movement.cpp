@@ -134,15 +134,7 @@ void movement::render()
     _last_updated = now;
     rotate(angle);
 
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-
-    /* Rotates the model view matrix.  */
-    glMultMatrixf(&_attitude[0][0]);
-
-    simple_draw_clock();
-
-    glPopMatrix();
+    simple_draw_clock(&_attitude[0][0]);
 }
 
 void movement::rotate(double angle)
