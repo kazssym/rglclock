@@ -388,13 +388,6 @@ simple_set_prop(const char *name, const char *value)
   return -1;
 }
 
-static const GLfloat LIGHT0_AMBIENT[] = {0.10, 0.10, 0.10, 1};
-static const GLfloat LIGHT0_INTENSITY[] = {0.80, 0.80, 0.80, 1};
-static const GLfloat LIGHT0_POSITION[] = {-200, 200, 200, 0};
-static const GLfloat LIGHT1_AMBIENT[] = {0.10, 0.10, 0.10, 1};
-static const GLfloat LIGHT1_INTENSITY[] = {0.60, 0.60, 0.60, 1};
-static const GLfloat LIGHT1_POSITION[] = {200, 200, 0, 0};
-
 static GLuint vertex_shader;
 static GLuint fragment_shader;
 
@@ -412,7 +405,7 @@ static void check_gl_errors(const char *file, unsigned int line)
 }
 
 static GLuint compile_shader(GLenum type, GLsizei count,
-  const GLchar *const *string, const GLint *length)
+    const GLchar *const *string, const GLint *length)
 {
     GLuint shader = glCreateShader(type);
     glShaderSource(shader, count, string, length);
@@ -433,24 +426,43 @@ static GLuint compile_shader(GLenum type, GLsizei count,
 
 bailout:
     glDeleteShader(shader);
-    return 0U;
+    return 0;
 }
 
 static GLuint compile_vertex_shader()
 {
     const char *source =
         "#version 140\n"
+        "const int LIGHT_MAX = 2;"
         "uniform mat4 modelMatrix;\n"
         "uniform mat4 viewMatrix;\n"
         "uniform mat4 projectionMatrix;\n"
+        "uniform vec4 lightAmbient[LIGHT_MAX];\n"
+        "uniform vec4 lightDiffuse[LIGHT_MAX];\n"
+        "uniform vec4 lightSpecular[LIGHT_MAX];\n"
+        "uniform vec4 lightPosition[LIGHT_MAX];\n"
         "in vec4 vertex;\n"
         "in vec3 normal;\n"
+        "in vec4 materialAmbient;\n"
+        "in vec4 materialDiffuse;\n"
+        "in vec4 materialSpecular;\n"
+        "in float materialShininess;\n"
         "out vec4 color;\n"
         "void main()\n"
         "{\n"
-        "    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vertex;\n"
+        "    mat4 modelViewMatrix = viewMatrix * modelMatrix;\n"
+        "    mat3 normalMatrix = transpose(inverse(mat3(modelViewMatrix)));\n"
+        "    vec4 v = modelViewMatrix * vertex;\n"
+        "    vec3 n = normalize(normalMatrix * normal);\n"
+        "    color = vec4(0, 0, 0, 0);\n"
+        "    for (int i = 0; i != LIGHT_MAX; i++) {\n"
+        "        vec3 l = normalize(vec3(lightPosition[i]));\n"
+        "        color += lightAmbient[i] * materialAmbient;\n"
+        "        color += max(dot(l, n), 0) * lightDiffuse[i] * materialDiffuse[i];\n"
+        "    }\n"
+        "    gl_Position = projectionMatrix * v;\n"
         "}\n";
-    return compile_shader(GL_VERTEX_SHADER, 1U, &source, NULL);
+    return compile_shader(GL_VERTEX_SHADER, 1, &source, NULL);
 }
 
 static GLuint compile_fragment_shader()
@@ -463,7 +475,7 @@ static GLuint compile_fragment_shader()
         "{\n"
         "    fragColor = color;\n"
         "}\n";
-    return compile_shader(GL_FRAGMENT_SHADER, 1U, &source, NULL);
+    return compile_shader(GL_FRAGMENT_SHADER, 1, &source, NULL);
 }
 
 static GLuint link_shader_program()
@@ -496,10 +508,10 @@ static GLuint link_shader_program()
 bailout:
     glDeleteProgram(program);
     glDeleteShader(fragment_shader);
-    fragment_shader = 0U;
+    fragment_shader = 0;
     glDeleteShader(vertex_shader);
-    vertex_shader = 0U;
-    return 0U;
+    vertex_shader = 0;
+    return 0;
 }
 
 static void set_projection_matrix()
@@ -521,8 +533,8 @@ static void set_projection_matrix()
         {0, 0, -2 * farVal * nearVal / (farVal - nearVal), 0},
     };
 
-    GLuint location = glGetUniformLocation(shader_program, "projectionMatrix");
-    glUniformMatrix4fv(location, 1U, GL_FALSE, &matrix[0][0]);
+    GLint location = glGetUniformLocation(shader_program, "projectionMatrix");
+    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
 
     check_gl_errors(__FILE__, __LINE__);
 }
@@ -538,8 +550,43 @@ static void set_view_matrix()
         {0, 0, -150, 1},
     };
 
-    GLuint location = glGetUniformLocation(shader_program, "viewMatrix");
-    glUniformMatrix4fv(location, 1U, GL_FALSE, &matrix[0][0]);
+    GLint location = glGetUniformLocation(shader_program, "viewMatrix");
+    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+static void set_lights()
+{
+    static const GLsizei LIGHT_MAX = 2;
+    static const GLfloat ambient[2][4] = {
+        {0.08, 0.08, 0.08, 1},
+        {0.06, 0.06, 0.06, 1},
+    };
+    static const GLfloat diffuse[2][4] = {
+        {0.80, 0.80, 0.80, 1},
+        {0.60, 0.60, 0.60, 1},
+    };
+    static const GLfloat specular[2][4] = {
+        {0.80, 0.80, 0.80, 1},
+        {0.60, 0.60, 0.60, 1},
+    };
+    static const GLfloat position[2][4] = {
+        {-200, 200, 200, 0},
+        {200, 200, 0, 0},
+    };
+
+    GLint ambient_location = glGetUniformLocation(shader_program, "lightAmbient");
+    glUniform4fv(ambient_location, LIGHT_MAX, &ambient[0][0]);
+
+    GLint diffuse_location = glGetUniformLocation(shader_program, "lightDiffuse");
+    glUniform4fv(diffuse_location, LIGHT_MAX, &diffuse[0][0]);
+
+    GLint specular_location = glGetUniformLocation(shader_program, "lightSpecular");
+    glUniform4fv(specular_location, LIGHT_MAX, &specular[0][0]);
+
+    GLint position_location = glGetUniformLocation(shader_program, "lightPosition");
+    glUniform4fv(position_location, LIGHT_MAX, &position[0][0]);
 
     check_gl_errors(__FILE__, __LINE__);
 }
@@ -549,7 +596,7 @@ simple_init(void)
 {
     shader_program = link_shader_program();
     if (!shader_program) {
-        return;
+        return -1;
     }
 
     glUseProgram(shader_program);
@@ -558,24 +605,12 @@ simple_init(void)
     set_projection_matrix();
     set_view_matrix();
 
+    set_lights();
+
 #if 0
     glEnable(GL_DEPTH_TEST);
 #endif
     glEnable(GL_CULL_FACE);
-
-    check_gl_errors(__FILE__, __LINE__);
-
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glLightfv(GL_LIGHT0, GL_AMBIENT, LIGHT0_AMBIENT);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, LIGHT0_INTENSITY);
-  glLightfv(GL_LIGHT0, GL_SPECULAR, LIGHT0_INTENSITY);
-  glLightfv(GL_LIGHT0, GL_POSITION, LIGHT0_POSITION);
-  glEnable(GL_LIGHT1);
-  glLightfv(GL_LIGHT1, GL_AMBIENT, LIGHT1_AMBIENT);
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, LIGHT1_INTENSITY);
-  glLightfv(GL_LIGHT1, GL_SPECULAR, LIGHT1_INTENSITY);
-  glLightfv(GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
 
     check_gl_errors(__FILE__, __LINE__);
 
