@@ -80,11 +80,11 @@ private:
     double _rate = 0;
     std::array<double, 3> _axis;
 
-    std::array<double, 16> _attitude {
+    std::array<float [4], 4> _attitude = {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        0, 0, 0, 1
+        0, 0, 0, 1,
     };
 
     struct timeval _last_updated {};

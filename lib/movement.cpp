@@ -138,7 +138,7 @@ void movement::render()
     glPushMatrix();
 
     /* Rotates the model view matrix.  */
-    glMultMatrixd(&_attitude[0]);
+    glMultMatrixf(&_attitude[0][0]);
 
     simple_draw_clock();
 
@@ -152,8 +152,8 @@ void movement::rotate(double angle)
 
     glLoadIdentity();
     glRotated((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
-    glMultMatrixd(&_attitude[0]);
-    glGetDoublev(GL_MODELVIEW_MATRIX, &_attitude[0]);
+    glMultMatrixf(&_attitude[0][0]);
+    glGetFloatv(GL_MODELVIEW_MATRIX, &_attitude[0][0]);
 
     glPopMatrix();
 }
