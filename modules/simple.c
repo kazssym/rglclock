@@ -30,6 +30,7 @@
 #include <simple.h>
 #include <rglclockmod.h>
 
+#include <mat4.h>
 #include <png.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -270,23 +271,6 @@ simple_set_prop(const char *name, const char *value)
     }
 
   return -1;
-}
-
- void multiply_matrices(const GLfloat x[restrict 4][4],
-    const GLfloat y[restrict 4][4], GLfloat z[restrict 4][4])
-{
-    for (int i = 0; i != 4; i++) {
-        for (int j = 0; j != 4; j++) {
-            z[i][j] = 0;
-        }
-    }
-    for (int i = 0; i != 4; i++) {
-        for (int j = 0; j != 4; j++) {
-            for (int k = 0; k != 4; k++) {
-                z[i][k] += x[j][k] * y[i][j];
-            }
-        }
-    }
 }
 
 enum vertex_attrib {
@@ -545,7 +529,7 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
             {0,            0,           0, 1},
         };
         GLfloat matrix[4][4] = {};
-        multiply_matrices(model_matrix, rotation_matrix, matrix);
+        mat4_multiply(model_matrix, rotation_matrix, matrix);
 
         GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
         glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
