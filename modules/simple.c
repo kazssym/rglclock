@@ -355,8 +355,10 @@ static GLuint compile_vertex_shader()
         "    color = vec4(0, 0, 0, 0);\n"
         "    for (int i = 0; i != LIGHT_MAX; i++) {\n"
         "        vec3 l = normalize(vec3(lightPosition[i]));\n"
+        "        vec3 h = normalize(l - normalize(vec3(v)));\n"
         "        color += lightAmbient[i] * materialAmbient;\n"
         "        color += max(dot(l, n), 0) * lightDiffuse[i] * materialDiffuse[i];\n"
+        "        color += pow(max(dot(h, n), 0), materialShininess) * lightSpecular[i] * materialSpecular[i];\n"
         "    }\n"
         "    gl_Position = projectionMatrix * v;\n"
         "}\n";
@@ -485,8 +487,8 @@ static void set_lights()
         {0.60, 0.60, 0.60, 1},
     };
     static const GLfloat specular[2][4] = {
-        {0.80, 0.80, 0.80, 1},
-        {0.60, 0.60, 0.60, 1},
+        {1.00, 1.00, 1.00, 1},
+        {1.00, 1.00, 1.00, 1},
     };
     static const GLfloat position[2][4] = {
         {-200, 200, 200, 0},
@@ -512,7 +514,7 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
 {
     static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
     static const GLfloat diffuse[4] = {0.05, 0.05, 0.05, 1};
-    static const GLfloat specular[4] = {0.20, 0.20, 0.20, 1};
+    static const GLfloat specular[4] = {1.00, 1.00, 1.00, 1};
     static const GLfloat shininess = 16;
 
     glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
