@@ -522,7 +522,7 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
 
     for (int i = 0; i != 12; ++i) {
         GLfloat angle = (GLfloat)M_PI / 6 * i;
-        const GLfloat rotation_matrix[4][4] = {
+        GLfloat rotation_matrix[4][4] = {
             {cosf(angle), -sinf(angle), 0, 0},
             {sinf(angle),  cosf(angle), 0, 0},
             {0,            0,           1, 0},
