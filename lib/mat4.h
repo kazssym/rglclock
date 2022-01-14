@@ -31,6 +31,8 @@
 
 BEGIN_C_DECLS
 
+extern void mat4_copy(const GLfloat x[4][4], GLfloat y[4][4]);
+
 extern void mat4_multiply(const GLfloat x[4][4], const GLfloat y[4][4], GLfloat z[4][4]);
 
 END_C_DECLS

@@ -22,6 +22,15 @@
 
 #include "mat4.h"
 
+void mat4_copy(const GLfloat x[restrict 4][4], GLfloat y[restrict 4][4])
+{
+    for (int i = 0; i != 4; i++) {
+        for (int j = 0; j != 4; j++) {
+            y[i][j] = x[i][j];
+        }
+    }
+}
+
 void mat4_multiply(const GLfloat x[restrict 4][4], const GLfloat y[restrict 4][4],
     GLfloat z[restrict 4][4])
 {
