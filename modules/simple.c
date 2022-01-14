@@ -41,6 +41,7 @@
 #else /* not HAVE_SYS_TIME_H */
 # include <time.h>
 #endif
+#include <math.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -49,10 +50,6 @@
 static const GLfloat vs[4] = {0, 0, 0, 1};
 static const GLfloat v[4] = {0.20, 0.20, 0.40, 1.};
 static const GLfloat vt[4] = {1.00, 1.00, 1.00, 1.};
-
-static const GLfloat HAND_ADC[4] = {0.05, 0.05, 0.05, 1};
-static const GLfloat HAND_SC[4] = {0.20, 0.20, 0.20, 1};
-static const GLfloat HAND_SR = 16;
 
 #ifndef DISABLE_LOCAL_VIEWER
 # define ENABLE_LOCAL_VIEWER 1
@@ -275,10 +272,40 @@ simple_set_prop(const char *name, const char *value)
   return -1;
 }
 
+ void multiply_matrices(const GLfloat x[restrict 4][4],
+    const GLfloat y[restrict 4][4], GLfloat z[restrict 4][4])
+{
+    for (int i = 0; i != 4; i++) {
+        for (int j = 0; j != 4; j++) {
+            z[i][j] = 0;
+        }
+    }
+    for (int i = 0; i != 4; i++) {
+        for (int j = 0; j != 4; j++) {
+            for (int k = 0; k != 4; k++) {
+                z[i][k] += x[j][k] * y[i][j];
+            }
+        }
+    }
+}
+
+enum vertex_attrib {
+    VERTEX,
+    NORMAL,
+    MATERIAL_AMBIENT,
+    MATERIAL_DIFFUSE,
+    MATERIAL_SPECULAR,
+    MATERIAL_SHININESS,
+};
+
 static GLuint vertex_shader;
 static GLuint fragment_shader;
 
 static GLuint shader_program;
+
+static GLuint buffers[1];
+
+static GLuint vertex_arrays[1];
 
 static void check_gl_errors(const char *file, unsigned int line)
 {
@@ -321,13 +348,6 @@ static GLuint compile_vertex_shader()
     const char *source =
         "#version 140\n"
         "const int LIGHT_MAX = 2;"
-        "uniform mat4 modelMatrix;\n"
-        "uniform mat4 viewMatrix;\n"
-        "uniform mat4 projectionMatrix;\n"
-        "uniform vec4 lightAmbient[LIGHT_MAX];\n"
-        "uniform vec4 lightDiffuse[LIGHT_MAX];\n"
-        "uniform vec4 lightSpecular[LIGHT_MAX];\n"
-        "uniform vec4 lightPosition[LIGHT_MAX];\n"
         "in vec4 vertex;\n"
         "in vec3 normal;\n"
         "in vec4 materialAmbient;\n"
@@ -335,6 +355,13 @@ static GLuint compile_vertex_shader()
         "in vec4 materialSpecular;\n"
         "in float materialShininess;\n"
         "out vec4 color;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projectionMatrix;\n"
+        "uniform vec4 lightAmbient[LIGHT_MAX];\n"
+        "uniform vec4 lightDiffuse[LIGHT_MAX];\n"
+        "uniform vec4 lightSpecular[LIGHT_MAX];\n"
+        "uniform vec4 lightPosition[LIGHT_MAX];\n"
         "void main()\n"
         "{\n"
         "    mat4 modelViewMatrix = viewMatrix * modelMatrix;\n"
@@ -375,6 +402,13 @@ static GLuint link_shader_program()
         goto bailout;
     }
 
+    glBindAttribLocation(program, VERTEX, "vertex");
+    glBindAttribLocation(program, NORMAL, "normal");
+    glBindAttribLocation(program, MATERIAL_AMBIENT, "materialAmbient");
+    glBindAttribLocation(program, MATERIAL_DIFFUSE, "materialDiffuse");
+    glBindAttribLocation(program, MATERIAL_SPECULAR, "materialSpecular");
+    glBindAttribLocation(program, MATERIAL_SHININESS, "materialShininess");
+
     glAttachShader(program, vertex_shader);
     glAttachShader(program, fragment_shader);
     glLinkProgram(program);
@@ -399,6 +433,18 @@ bailout:
     glDeleteShader(vertex_shader);
     vertex_shader = 0;
     return 0;
+}
+
+static void init_gl_objects()
+{
+    glGenBuffers(1, buffers);
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, 1024, NULL, GL_DYNAMIC_DRAW);
+
+    glGenVertexArrays(1, vertex_arrays);
+    glBindVertexArray(vertex_arrays[0]);
+
+    check_gl_errors(__FILE__, __LINE__);
 }
 
 static void set_projection_matrix()
@@ -478,6 +524,73 @@ static void set_lights()
     check_gl_errors(__FILE__, __LINE__);
 }
 
+static void draw_tick_marks(const GLfloat model_matrix[4][4])
+{
+    static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
+    static const GLfloat diffuse[4] = {0.05, 0.05, 0.05, 1};
+    static const GLfloat specular[4] = {0.20, 0.20, 0.20, 1};
+    static const GLfloat shininess = 16;
+
+    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
+    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
+    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
+    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
+
+    for (int i = 0; i != 12; ++i) {
+        GLfloat angle = (GLfloat)M_PI / 6 * i;
+        const GLfloat rotation_matrix[4][4] = {
+            {cosf(angle), -sinf(angle), 0, 0},
+            {sinf(angle),  cosf(angle), 0, 0},
+            {0,            0,           1, 0},
+            {0,            0,           0, 1},
+        };
+        GLfloat matrix[4][4] = {};
+        multiply_matrices(model_matrix, rotation_matrix, matrix);
+
+        GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+        glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+
+        GLfloat l = 4;
+        if (i == 0) {
+            l = 9;
+        }
+        else if (i % 3 == 0) {
+            l = 6;
+        }
+
+        const GLfloat vertices[8][4] = {
+            { 1, 43 - l, 0,    1},
+            { 1, 43,     0,    1},
+            { 0, 43,     0.5F, 1},
+            { 0, 43 - l, 0.5F, 1},
+            { 0, 43 - l, 0.5F, 1},
+            { 0, 43,     0.5F, 1},
+            {-1, 43,     0,    1},
+            {-1, 43 - l, 0,    1},
+        };
+        const GLfloat normals[8][3] = {
+            { 0.5F, 0, 1},
+            { 0.5F, 0, 1},
+            { 0.5F, 0, 1},
+            { 0.5F, 0, 1},
+            {-0.5F, 0, 1},
+            {-0.5F, 0, 1},
+            {-0.5F, 0, 1},
+            {-0.5F, 0, 1},
+        };
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
+        glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
+        glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
+        glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)256);
+
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
+        // glRotatef(30, 0, 0, -1);
+    }
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
 int
 simple_init(void)
 {
@@ -489,6 +602,8 @@ simple_init(void)
     glUseProgram(shader_program);
     check_gl_errors(__FILE__, __LINE__);
 
+    init_gl_objects();
+
     set_projection_matrix();
     set_view_matrix();
 
@@ -499,13 +614,16 @@ simple_init(void)
 #endif
     glEnable(GL_CULL_FACE);
 
+    glEnableVertexAttribArray(VERTEX);
+    glEnableVertexAttribArray(NORMAL);
+
     check_gl_errors(__FILE__, __LINE__);
 
     return 0;
 }
 
 int
-simple_draw_clock(const GLfloat *matrix)
+simple_draw_clock(const GLfloat model_matrix[4][4])
 {
 #ifdef HAVE_GETTIMEOFDAY
   struct timeval t;
@@ -530,10 +648,13 @@ simple_draw_clock(const GLfloat *matrix)
 
     check_gl_errors(__FILE__, __LINE__);
 
+#if 0
     GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
-    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, matrix);
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, model_matrix);
+#endif
 
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.5F, 0.5F, 0.5F, 1); // FIXME
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glDisable(GL_DEPTH_TEST);
 #if 0
@@ -543,41 +664,10 @@ simple_draw_clock(const GLfloat *matrix)
 
     glEnable(GL_DEPTH_TEST);
     // glDisable(GL_TEXTURE_2D);
-    // glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
-    // glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
-    // glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
 
     check_gl_errors(__FILE__, __LINE__);
 
-  {
-    int i;
-
-    glPushMatrix();
-    for (i = 0; i != 12; ++i)
-      {
-	int l;
-	if (i == 0)
-	  l = 9;
-	else if (i % 3 == 0)
-	  l = 6;
-	else
-	  l = 4;
-	glBegin (GL_QUADS);
-	glNormal3f (0.5, 0., 1.);
-	glVertex3f (1., 43. - l, 0.);
-	glVertex3f (1., 43., 0.);
-	glVertex3f (0., 43., 0.5);
-	glVertex3f (0., 43. - l, 0.5);
-	glNormal3f (-0.5, 0., 1.);
-	glVertex3f (0., 43. - l, 0.5);
-	glVertex3f (0., 43., 0.5);
-	glVertex3f (-1., 43., 0.);
-	glVertex3f (-1., 43. - l, 0.);
-	glEnd ();
-	glRotatef(30, 0, 0, -1);
-      }
-    glPopMatrix();
-  }
+    draw_tick_marks(model_matrix);
 
 #ifdef ENABLE_LOCAL_VIEWER
   glShadeModel(GL_SMOOTH);
@@ -627,9 +717,9 @@ simple_draw_clock(const GLfloat *matrix)
 }
 
 static int
-simple_draw(void *data, const GLfloat *matrix)
+simple_draw(void *data, const GLfloat model_matrix[4][4])
 {
-    return simple_draw_clock(matrix);
+    return simple_draw_clock(model_matrix);
 }
 
 static int

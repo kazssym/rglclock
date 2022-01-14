@@ -134,7 +134,7 @@ void movement::render()
     _last_updated = now;
     rotate(angle);
 
-    simple_draw_clock(&_attitude[0][0]);
+    simple_draw_clock(_attitude);
 }
 
 void movement::rotate(double angle)
