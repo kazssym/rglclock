@@ -77,10 +77,10 @@ private:
 
     g_ptr<GtkWidget> _menu;
 
-    double _rate = 0;
-    std::array<double, 3> _axis;
+    GLfloat _rate = 0;
+    std::array<GLfloat, 3> _axis;
 
-    float _attitude[4][4] = {
+    GLfloat _attitude[4][4] = {
         {1, 0, 0, 0},
         {0, 1, 0, 0},
         {0, 0, 1, 0},

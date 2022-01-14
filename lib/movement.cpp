@@ -24,6 +24,7 @@
 #include "clock.h"
 
 #include "simple.h"
+#include <mat4.h>
 #include <GL/glu.h>
 #include <gettext.h>
 #include <stdexcept>
@@ -139,15 +140,22 @@ void movement::render()
 
 void movement::rotate(double angle)
 {
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-
-    glLoadIdentity();
-    glRotated((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
-    glMultMatrixf(&_attitude[0][0]);
-    glGetFloatv(GL_MODELVIEW_MATRIX, &_attitude[0][0]);
-
-    glPopMatrix();
+    GLfloat n = sqrt(_axis[0] * _axis[0] + _axis[1] * _axis[1] + _axis[2] * _axis[2]);
+    if (n != 0) {
+        GLfloat a[3] = {_axis[0] / n, _axis[1] / n, _axis[2] / n};
+        GLfloat c = cos(angle);
+        GLfloat s = sin(angle);
+        // Note these are colum-major matrices.
+        GLfloat rotation_matrix[4][4] = {
+            {a[0] * a[0] * (1 - c) +        c, a[0] * a[1] * (1 - c) + a[2] * s, a[0] * a[2] * (1 - c) - a[1] * s, 0},
+            {a[0] * a[1] * (1 - c) - a[2] * s, a[1] * a[1] * (1 - c) +        c, a[1] * a[2] * (1 - c) + a[0] * s, 0},
+            {a[0] * a[2] * (1 - c) + a[1] * s, a[1] * a[2] * (1 - c) - a[0] * s, a[1] * a[1] * (1 - c) +        c, 0},
+            {0,                                0,                                0,                                1},
+        };
+        GLfloat matrix[4][4] = {};
+        mat4_multiply(rotation_matrix, _attitude, matrix);
+        mat4_copy(matrix, _attitude);
+    }
 }
 
 void movement::begin_drag(GtkWidget *, const GdkEvent *event)
@@ -161,9 +169,9 @@ void movement::end_drag(GtkWidget *widget, const GdkEvent *event)
     GtkAllocation allocation {};
     gtk_widget_get_allocation(widget, &allocation);
 
-    double v[2] {
-        double(event->button.x - _x0) / allocation.width,
-        double(event->button.y - _y0) / allocation.height,
+    GLfloat v[2] {
+        GLfloat(event->button.x - _x0) / allocation.width,
+        GLfloat(event->button.y - _y0) / allocation.height,
     };
     _rate = sqrt(v[0] * v[0] + v[1] * v[1]);
     _axis = {v[1], v[0], 0};
