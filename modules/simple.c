@@ -571,8 +571,58 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
         glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
-        // glRotatef(30, 0, 0, -1);
     }
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t)
+{
+    static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
+    static const GLfloat diffuse[4] = {0.05, 0.05, 0.05, 1};
+    static const GLfloat specular[4] = {1.00, 1.00, 1.00, 1};
+    static const GLfloat shininess = 16;
+
+    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
+    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
+    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
+    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
+
+    GLfloat angle = (GLfloat)M_PI / 21600 * ((t->tm_hour * 60 + t->tm_min) * 60 + t->tm_sec);
+    GLfloat rotation_matrix[4][4] = {
+        {cosf(angle), -sinf(angle), 0, 0},
+        {sinf(angle),  cosf(angle), 0, 0},
+        {0,            0,           1, 0},
+        {0,            0,           0, 1},
+    };
+    GLfloat matrix[4][4] = {};
+    mat4_multiply(model_matrix, rotation_matrix, matrix);
+
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+
+    const GLfloat vertices[6][4] = {
+        { 3,  3, 1, 1},
+        { 0, 25, 2, 1},
+        { 0,  0, 2, 1},
+        { 0,  0, 2, 1},
+        { 0, 25, 2, 1},
+        {-3,  3, 1, 1},
+    };
+    const GLfloat normals[6][3] = {
+        { 0.333, 0, 1},
+        { 0.333, 0, 1},
+        { 0.333, 0, 1},
+        {-0.333, 0, 1},
+        {-0.333, 0, 1},
+        {-0.333, 0, 1},
+    };
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
+    glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
+    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)256);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     check_gl_errors(__FILE__, __LINE__);
 }
@@ -611,26 +661,14 @@ simple_init(void)
 int
 simple_draw_clock(const GLfloat model_matrix[4][4])
 {
-#ifdef HAVE_GETTIMEOFDAY
-  struct timeval t;
-#else /* not HAVE_GETTIMEOFDAY */
-  time_t t;
-#endif /* not HAVE_GETTIMEOFDAY */
-  const struct tm *lt;
-
   if (texture_changed)
     {
       texture_changed = 0;
       set_texture();
     }
 
-#ifdef HAVE_GETTIMEOFDAY
-  gettimeofday(&t, NULL);
-  lt = localtime(&t.tv_sec);
-#else /* not HAVE_GETTIMEOFDAY */
-  t = time(NULL);
-  lt = localtime(&t);
-#endif /* not HAVE_GETTIMEOFDAY */
+    time_t t = time(NULL);
+    struct tm *lt = localtime(&t);
 
     check_gl_errors(__FILE__, __LINE__);
 
@@ -642,47 +680,21 @@ simple_draw_clock(const GLfloat model_matrix[4][4])
     glClearColor(0.5F, 0.5F, 0.5F, 1); // FIXME
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glDisable(GL_DEPTH_TEST);
 #if 0
     if (draw_dial_disk(0) == -1)
         return -1;
 #endif
 
-    glEnable(GL_DEPTH_TEST);
-    // glDisable(GL_TEXTURE_2D);
-
     check_gl_errors(__FILE__, __LINE__);
 
+    // glDisable(GL_TEXTURE_2D);
+
     draw_tick_marks(model_matrix);
-
-#ifdef ENABLE_LOCAL_VIEWER
-  glShadeModel(GL_SMOOTH);
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
-#endif
-
-  /* Short hand.  */
-  glPushMatrix ();
-  glRotatef (((lt->tm_hour * 60 + lt->tm_min) * 60
-	      + lt->tm_sec) / 120., 0, 0, -1);
-  glBegin (GL_TRIANGLES);
-  glNormal3f (0.333, 0., 1.);
-  glVertex3f (3., 3., 1.);
-  glVertex3f (0., 25., 2.);
-  glVertex3f (0., 0., 2.);
-  glNormal3f (-0.333, 0., 1.);
-  glVertex3f (0., 0., 2.);
-  glVertex3f (0., 25., 2.);
-  glVertex3f (-3., 3., 1.);
-  glEnd ();
-  glPopMatrix ();
+    draw_short_hand(model_matrix, lt);
 
   /* Long hand.  */
   glPushMatrix ();
-#ifdef HAVE_GETTIMEOFDAY
-  glRotatef ((lt->tm_min * 60 + lt->tm_sec + t.tv_usec / 1e6) / 10., 0, 0, -1);
-#else /* not HAVE_GETTIMEOFDAY */
   glRotatef ((lt->tm_min * 60 + lt->tm_sec) / 10., 0, 0, -1);
-#endif /* not HAVE_GETTIMEOFDAY */
   glBegin (GL_TRIANGLES);
   glNormal3f (0.5, 0., 1.);
   glVertex3f (2., 2., 3.);
