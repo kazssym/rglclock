@@ -317,12 +317,12 @@ static GLuint compile_shader(GLenum type, GLsizei count,
         char *info_log = alloca(info_log_length);
         glGetShaderInfoLog(shader, info_log_length, NULL, info_log);
         fprintf(stderr, "GLSL shader compile error\n%s", info_log);
-        goto bailout;
+        goto BAILOUT;
     }
 
     return shader;
 
-bailout:
+BAILOUT:
     glDeleteShader(shader);
     return 0;
 }
@@ -385,7 +385,7 @@ static GLuint link_shader_program()
 
     GLuint program = glCreateProgram();
     if (!vertex_shader || !fragment_shader) {
-        goto bailout;
+        goto BAILOUT;
     }
 
     glBindAttribLocation(program, VERTEX, "vertex");
@@ -407,12 +407,12 @@ static GLuint link_shader_program()
         char *info_log = alloca(info_log_length);
         glGetProgramInfoLog(program, info_log_length, NULL, info_log);
         fprintf(stderr, "GLSL program link error\n%s", info_log);
-        goto bailout;
+        goto BAILOUT;
     }
 
     return program;
 
-bailout:
+BAILOUT:
     glDeleteProgram(program);
     glDeleteShader(fragment_shader);
     fragment_shader = 0;
