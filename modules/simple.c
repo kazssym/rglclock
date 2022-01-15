@@ -479,20 +479,20 @@ static void set_lights()
 {
     static const GLsizei LIGHT_MAX = 2;
     static const GLfloat ambient[2][4] = {
-        {0.08, 0.08, 0.08, 1},
-        {0.06, 0.06, 0.06, 1},
+        {0.08F, 0.08F, 0.08F, 1},
+        {0.06F, 0.06F, 0.06F, 1},
     };
     static const GLfloat diffuse[2][4] = {
-        {0.80, 0.80, 0.80, 1},
-        {0.60, 0.60, 0.60, 1},
+        {0.80F, 0.80F, 0.80F, 1},
+        {0.60F, 0.60F, 0.60F, 1},
     };
     static const GLfloat specular[2][4] = {
-        {1.00, 1.00, 1.00, 1},
-        {1.00, 1.00, 1.00, 1},
+        {1.00F, 1.00F, 1.00F, 1},
+        {1.00F, 1.00F, 1.00F, 1},
     };
     static const GLfloat position[2][4] = {
         {-200, 200, 200, 0},
-        {200, 200, 0, 0},
+        { 200, 200,   0, 0},
     };
 
     GLint ambient_location = glGetUniformLocation(shader_program, "lightAmbient");
@@ -527,9 +527,9 @@ static void rotate_z(const GLfloat model_matrix[4][4], GLfloat angle)
 
 static void draw_tick_marks(const GLfloat model_matrix[4][4])
 {
-    static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
-    static const GLfloat diffuse[4] = {0.05, 0.05, 0.05, 1};
-    static const GLfloat specular[4] = {1.00, 1.00, 1.00, 1};
+    static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat diffuse[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat specular[4] = {1.00F, 1.00F, 1.00F, 1};
     static const GLfloat shininess = 16;
 
     glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
@@ -583,9 +583,9 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
 
 static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t)
 {
-    static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
-    static const GLfloat diffuse[4] = {0.05, 0.05, 0.05, 1};
-    static const GLfloat specular[4] = {1.00, 1.00, 1.00, 1};
+    static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat diffuse[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat specular[4] = {1.00F, 1.00F, 1.00F, 1};
     static const GLfloat shininess = 16;
 
     glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
@@ -606,12 +606,12 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
         {-3,  3, 1, 1},
     };
     const GLfloat normals[6][3] = {
-        { 0.333, 0, 1},
-        { 0.333, 0, 1},
-        { 0.333, 0, 1},
-        {-0.333, 0, 1},
-        {-0.333, 0, 1},
-        {-0.333, 0, 1},
+        { 0.333F, 0, 1},
+        { 0.333F, 0, 1},
+        { 0.333F, 0, 1},
+        {-0.333F, 0, 1},
+        {-0.333F, 0, 1},
+        {-0.333F, 0, 1},
     };
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
     glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
@@ -625,9 +625,9 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
 
 static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
 {
-    static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
-    static const GLfloat diffuse[4] = {0.05, 0.05, 0.05, 1};
-    static const GLfloat specular[4] = {1.00, 1.00, 1.00, 1};
+    static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat diffuse[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat specular[4] = {1.00F, 1.00F, 1.00F, 1};
     static const GLfloat shininess = 16;
 
     glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
@@ -647,12 +647,12 @@ static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
         {-2,  2, 3, 1},
     };
     const GLfloat normals[6][3] = {
-        { 0.5, 0, 1},
-        { 0.5, 0, 1},
-        { 0.5, 0, 1},
-        {-0.5, 0, 1},
-        {-0.5, 0, 1},
-        {-0.5, 0, 1},
+        { 0.5F, 0, 1},
+        { 0.5F, 0, 1},
+        { 0.5F, 0, 1},
+        {-0.5F, 0, 1},
+        {-0.5F, 0, 1},
+        {-0.5F, 0, 1},
     };
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
     glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
