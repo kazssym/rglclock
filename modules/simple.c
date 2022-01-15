@@ -34,6 +34,9 @@
 #include <png.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #ifdef HAVE_SYS_TIME_H
 # include <sys/time.h>
 # ifdef TIME_WITH_SYS_TIME
@@ -435,7 +438,7 @@ static void init_gl_objects()
 
 static void set_projection_matrix()
 {
-    // As glFrustum(-5, 5, -5, 5, 15, 250);
+    // As glFrustum(-5, 5, -5, 5, 15, 250)
     static const GLfloat left = -5;
     static const GLfloat right = 5;
     static const GLfloat bottom = -5;
@@ -460,7 +463,7 @@ static void set_projection_matrix()
 
 static void set_view_matrix()
 {
-    // As gluLookAt(0, 0, 150, 0, 0, 0, 0, 1, 0);
+    // As gluLookAt(0, 0, 150, 0, 0, 0, 0, 1, 0)
     // Note this is a column-major matrix.
     GLfloat matrix[4][4] = {
         {1, 0, 0, 0},
@@ -682,9 +685,6 @@ simple_init(void)
 
     set_lights();
 
-#if 0
-    glEnable(GL_DEPTH_TEST);
-#endif
     glEnable(GL_CULL_FACE);
 
     glEnableVertexAttribArray(VERTEX);
@@ -704,7 +704,12 @@ simple_draw_clock(const GLfloat model_matrix[4][4])
     }
 
     time_t t = time(NULL);
+#if _POSIX_VERSION
+    struct tm lt[1];
+    localtime_r(&t, lt);
+#else
     struct tm *lt = localtime(&t);
+#endif
 
     check_gl_errors(__FILE__, __LINE__);
 
