@@ -38,8 +38,6 @@ void mat4_multiply(const GLfloat x[restrict 4][4], const GLfloat y[restrict 4][4
         for (int j = 0; j != 4; j++) {
             z[i][j] = 0;
         }
-    }
-    for (int i = 0; i != 4; i++) {
         for (int j = 0; j != 4; j++) {
             for (int k = 0; k != 4; k++) {
                 z[i][k] += x[j][k] * y[i][j];
