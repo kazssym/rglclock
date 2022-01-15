@@ -627,6 +627,58 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
     check_gl_errors(__FILE__, __LINE__);
 }
 
+static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
+{
+    static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
+    static const GLfloat diffuse[4] = {0.05, 0.05, 0.05, 1};
+    static const GLfloat specular[4] = {1.00, 1.00, 1.00, 1};
+    static const GLfloat shininess = 16;
+
+    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
+    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
+    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
+    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
+
+    GLfloat angle = (GLfloat)M_PI / 1800 * (t->tm_min * 60 + t->tm_sec);
+    GLfloat rotation_matrix[4][4] = {
+        {cosf(angle), -sinf(angle), 0, 0},
+        {sinf(angle),  cosf(angle), 0, 0},
+        {0,            0,           1, 0},
+        {0,            0,           0, 1},
+    };
+    GLfloat matrix[4][4] = {};
+    mat4_multiply(model_matrix, rotation_matrix, matrix);
+
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+
+
+    const GLfloat vertices[6][4] = {
+        { 2,  2, 3, 1},
+        { 0, 40, 4, 1},
+        { 0,  0, 4, 1},
+        { 0,  0, 4, 1},
+        { 0, 40, 4, 1},
+        {-2,  2, 3, 1},
+    };
+    const GLfloat normals[6][3] = {
+        { 0.5, 0, 1},
+        { 0.5, 0, 1},
+        { 0.5, 0, 1},
+        {-0.5, 0, 1},
+        {-0.5, 0, 1},
+        {-0.5, 0, 1},
+    };
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
+    glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
+    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)256);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
 int
 simple_init(void)
 {
@@ -661,10 +713,9 @@ simple_init(void)
 int
 simple_draw_clock(const GLfloat model_matrix[4][4])
 {
-  if (texture_changed)
-    {
-      texture_changed = 0;
-      set_texture();
+    if (texture_changed) {
+        texture_changed = 0;
+        set_texture();
     }
 
     time_t t = time(NULL);
@@ -691,27 +742,14 @@ simple_draw_clock(const GLfloat model_matrix[4][4])
 
     draw_tick_marks(model_matrix);
     draw_short_hand(model_matrix, lt);
+    draw_long_hand(model_matrix, lt);
 
-  /* Long hand.  */
-  glPushMatrix ();
-  glRotatef ((lt->tm_min * 60 + lt->tm_sec) / 10., 0, 0, -1);
-  glBegin (GL_TRIANGLES);
-  glNormal3f (0.5, 0., 1.);
-  glVertex3f (2., 2., 3.);
-  glVertex3f (0., 40., 4.);
-  glVertex3f (0., 0., 4.);
-  glNormal3f (-0.5, 0., 1.);
-  glVertex3f (0., 0., 4.);
-  glVertex3f (0., 40., 4.);
-  glVertex3f (-2., 2., 3.);
-  glEnd ();
-  glPopMatrix ();
+#if 0
+    if (draw_dial_disk(1) == -1)
+        return -1;
+#endif
 
-  glDisable(GL_DEPTH_TEST);
-  if (draw_dial_disk(1) == -1)
-    return -1;
-
-  return 0;
+    return 0;
 }
 
 static int
