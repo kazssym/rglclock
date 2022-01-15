@@ -510,6 +510,21 @@ static void set_lights()
     check_gl_errors(__FILE__, __LINE__);
 }
 
+static void rotate_z(const GLfloat model_matrix[4][4], GLfloat angle)
+{
+    GLfloat rotation_matrix[4][4] = {
+        {cosf(angle), -sinf(angle), 0, 0},
+        {sinf(angle),  cosf(angle), 0, 0},
+        {0,            0,           1, 0},
+        {0,            0,           0, 1},
+    };
+    GLfloat matrix[4][4] = {};
+    mat4_multiply(model_matrix, rotation_matrix, matrix);
+
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+}
+
 static void draw_tick_marks(const GLfloat model_matrix[4][4])
 {
     static const GLfloat ambient[4] = {0.05, 0.05, 0.05, 1};
@@ -523,18 +538,8 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
     glVertexAttrib1f(MATERIAL_SHININESS, shininess);
 
     for (int i = 0; i != 12; ++i) {
-        GLfloat angle = (GLfloat)M_PI / 6 * i;
-        GLfloat rotation_matrix[4][4] = {
-            {cosf(angle), -sinf(angle), 0, 0},
-            {sinf(angle),  cosf(angle), 0, 0},
-            {0,            0,           1, 0},
-            {0,            0,           0, 1},
-        };
-        GLfloat matrix[4][4] = {};
-        mat4_multiply(model_matrix, rotation_matrix, matrix);
-
-        GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
-        glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+        GLfloat angle = (GLfloat)M_PI / 6 * (GLfloat)i;
+        rotate_z(model_matrix, angle);
 
         GLfloat l = 4;
         if (i == 0) {
@@ -588,18 +593,9 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
     glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
     glVertexAttrib1f(MATERIAL_SHININESS, shininess);
 
-    GLfloat angle = (GLfloat)M_PI / 21600 * ((t->tm_hour * 60 + t->tm_min) * 60 + t->tm_sec);
-    GLfloat rotation_matrix[4][4] = {
-        {cosf(angle), -sinf(angle), 0, 0},
-        {sinf(angle),  cosf(angle), 0, 0},
-        {0,            0,           1, 0},
-        {0,            0,           0, 1},
-    };
-    GLfloat matrix[4][4] = {};
-    mat4_multiply(model_matrix, rotation_matrix, matrix);
-
-    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
-    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+    GLfloat angle = (GLfloat)M_PI / 21600
+        * (GLfloat)((t->tm_hour * 60 + t->tm_min) * 60 + t->tm_sec);
+    rotate_z(model_matrix, angle);
 
     const GLfloat vertices[6][4] = {
         { 3,  3, 1, 1},
@@ -639,19 +635,8 @@ static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
     glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
     glVertexAttrib1f(MATERIAL_SHININESS, shininess);
 
-    GLfloat angle = (GLfloat)M_PI / 1800 * (t->tm_min * 60 + t->tm_sec);
-    GLfloat rotation_matrix[4][4] = {
-        {cosf(angle), -sinf(angle), 0, 0},
-        {sinf(angle),  cosf(angle), 0, 0},
-        {0,            0,           1, 0},
-        {0,            0,           0, 1},
-    };
-    GLfloat matrix[4][4] = {};
-    mat4_multiply(model_matrix, rotation_matrix, matrix);
-
-    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
-    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
-
+    GLfloat angle = (GLfloat)M_PI / 1800 * (GLfloat)(t->tm_min * 60 + t->tm_sec);
+    rotate_z(model_matrix, angle);
 
     const GLfloat vertices[6][4] = {
         { 2,  2, 3, 1},
