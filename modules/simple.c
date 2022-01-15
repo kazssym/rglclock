@@ -330,7 +330,7 @@ BAILOUT:
     return 0;
 }
 
-static GLuint compile_vertex_shader()
+static GLuint compile_vertex_shader(void)
 {
     const char *source =
         "#version 140\n"
@@ -368,7 +368,7 @@ static GLuint compile_vertex_shader()
     return compile_shader(GL_VERTEX_SHADER, 1, &source, NULL);
 }
 
-static GLuint compile_fragment_shader()
+static GLuint compile_fragment_shader(void)
 {
     const char *source =
         "#version 140\n"
@@ -381,7 +381,7 @@ static GLuint compile_fragment_shader()
     return compile_shader(GL_FRAGMENT_SHADER, 1, &source, NULL);
 }
 
-static GLuint link_shader_program()
+static GLuint link_shader_program(void)
 {
     vertex_shader = compile_vertex_shader();
     fragment_shader = compile_fragment_shader();
@@ -424,7 +424,7 @@ BAILOUT:
     return 0;
 }
 
-static void init_gl_objects()
+static void init_gl_objects(void)
 {
     glGenBuffers(1, buffers);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
@@ -436,7 +436,8 @@ static void init_gl_objects()
     check_gl_errors(__FILE__, __LINE__);
 }
 
-static void set_projection_matrix()
+// Sets the projection matrix.
+static void set_projection_matrix(void)
 {
     // As glFrustum(-5, 5, -5, 5, 15, 250)
     static const GLfloat left = -5;
@@ -461,7 +462,8 @@ static void set_projection_matrix()
     check_gl_errors(__FILE__, __LINE__);
 }
 
-static void set_view_matrix()
+// Sets the view matrix.
+static void set_view_matrix(void)
 {
     // As gluLookAt(0, 0, 150, 0, 0, 0, 0, 1, 0)
     // Note this is a column-major matrix.
@@ -478,7 +480,16 @@ static void set_view_matrix()
     check_gl_errors(__FILE__, __LINE__);
 }
 
-static void set_lights()
+// Sets the model matrix.
+static void set_model_matrix(const GLfloat matrix[4][4])
+{
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+static void set_lights(void)
 {
     static const GLsizei LIGHT_MAX = 2;
     static const GLfloat ambient[2][4] = {
@@ -524,10 +535,10 @@ static void rotate_z(const GLfloat model_matrix[4][4], GLfloat angle)
     GLfloat matrix[4][4] = {};
     mat4_multiply(model_matrix, rotation_matrix, matrix);
 
-    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
-    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+    set_model_matrix(matrix);
 }
 
+// Draws the tick marks.
 static void draw_tick_marks(const GLfloat model_matrix[4][4])
 {
     static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
@@ -584,6 +595,7 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
     check_gl_errors(__FILE__, __LINE__);
 }
 
+// Draws the short hand.
 static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t)
 {
     static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
@@ -626,6 +638,7 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
     check_gl_errors(__FILE__, __LINE__);
 }
 
+// Draws the long hand.
 static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
 {
     static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
@@ -667,8 +680,7 @@ static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
     check_gl_errors(__FILE__, __LINE__);
 }
 
-int
-simple_init(void)
+int simple_init(void)
 {
     shader_program = link_shader_program();
     if (!shader_program) {
