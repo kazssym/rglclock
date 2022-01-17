@@ -431,6 +431,15 @@ BAILOUT:
     return 0;
 }
 
+// Initializes the vertex and fragment shaders.
+static void init_shaders(void)
+{
+    shader_program = link_shader_program();
+    glUseProgram(shader_program);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
 // Initializes the buffers.
 static void init_buffers(void)
 {
@@ -696,14 +705,7 @@ static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
 
 int simple_init(void)
 {
-    shader_program = link_shader_program();
-    if (!shader_program) {
-        return -1;
-    }
-
-    glUseProgram(shader_program);
-    check_gl_errors(__FILE__, __LINE__);
-
+    init_shaders();
     init_buffers();
     init_vertex_arrays();
 
