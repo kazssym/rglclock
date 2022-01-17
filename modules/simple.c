@@ -276,6 +276,11 @@ simple_set_prop(const char *name, const char *value)
   return -1;
 }
 
+enum {
+    BUFFER_MAX = 1,
+    VERTEX_ARRAY_MAX = 1,
+};
+
 enum vertex_attrib {
     VERTEX,
     NORMAL,
@@ -290,9 +295,11 @@ static GLuint fragment_shader;
 
 static GLuint shader_program;
 
-static GLuint buffers[1];
+// OpenGL buffers.
+static GLuint buffers[BUFFER_MAX];
 
-static GLuint vertex_arrays[1];
+// OpenGL vertex arrays.
+static GLuint vertex_arrays[VERTEX_ARRAY_MAX];
 
 static void check_gl_errors(const char *file, unsigned int line)
 {
@@ -424,13 +431,20 @@ BAILOUT:
     return 0;
 }
 
-static void init_gl_objects(void)
+// Initializes the buffers.
+static void init_buffers(void)
 {
-    glGenBuffers(1, buffers);
+    glGenBuffers(BUFFER_MAX, buffers);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-    glBufferData(GL_ARRAY_BUFFER, 1024, NULL, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 0x2000, NULL, GL_DYNAMIC_DRAW);
 
-    glGenVertexArrays(1, vertex_arrays);
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Initializes the vertex arrays.
+static void init_vertex_arrays(void)
+{
+    glGenVertexArrays(VERTEX_ARRAY_MAX, vertex_arrays);
     glBindVertexArray(vertex_arrays[0]);
 
     check_gl_errors(__FILE__, __LINE__);
@@ -690,7 +704,8 @@ int simple_init(void)
     glUseProgram(shader_program);
     check_gl_errors(__FILE__, __LINE__);
 
-    init_gl_objects();
+    init_buffers();
+    init_vertex_arrays();
 
     set_projection_matrix();
     set_view_matrix();
