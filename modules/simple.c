@@ -459,8 +459,35 @@ static void init_vertex_arrays(void)
     check_gl_errors(__FILE__, __LINE__);
 }
 
+// Sets the model matrix.
+static void set_model_matrix(const GLfloat matrix[4][4])
+{
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Sets the view matrix.
+static void set_view_matrix(const GLfloat matrix[4][4])
+{
+    GLint location = glGetUniformLocation(shader_program, "viewMatrix");
+    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
 // Sets the projection matrix.
-static void set_projection_matrix(void)
+static void set_projection_matrix(const GLfloat matrix[4][4])
+{
+    GLint location = glGetUniformLocation(shader_program, "projectionMatrix");
+    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Initializes the projection matrix.
+static void init_projection_matrix(void)
 {
     // As glFrustum(-5, 5, -5, 5, 15, 250)
     static const GLfloat left = -5;
@@ -478,15 +505,11 @@ static void set_projection_matrix(void)
             -(farVal + nearVal) / (farVal - nearVal), -1},
         {0, 0, -2 * farVal * nearVal / (farVal - nearVal), 0},
     };
-
-    GLint location = glGetUniformLocation(shader_program, "projectionMatrix");
-    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
-
-    check_gl_errors(__FILE__, __LINE__);
+    set_projection_matrix(matrix);
 }
 
-// Sets the view matrix.
-static void set_view_matrix(void)
+// Initializes the view matrix.
+static void init_view_matrix(void)
 {
     // As gluLookAt(0, 0, 150, 0, 0, 0, 0, 1, 0)
     // Note this is a column-major matrix.
@@ -496,20 +519,7 @@ static void set_view_matrix(void)
         {0, 0, 1, 0},
         {0, 0, -150, 1},
     };
-
-    GLint location = glGetUniformLocation(shader_program, "viewMatrix");
-    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
-
-    check_gl_errors(__FILE__, __LINE__);
-}
-
-// Sets the model matrix.
-static void set_model_matrix(const GLfloat matrix[4][4])
-{
-    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
-    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
-
-    check_gl_errors(__FILE__, __LINE__);
+    set_view_matrix(matrix);
 }
 
 static void set_lights(void)
@@ -709,8 +719,8 @@ int simple_init(void)
     init_buffers();
     init_vertex_arrays();
 
-    set_projection_matrix();
-    set_view_matrix();
+    init_projection_matrix();
+    init_view_matrix();
 
     set_lights();
 
