@@ -146,22 +146,12 @@ void movement::render()
 
 void movement::rotate(GLfloat angle)
 {
-    auto n = sqrt(_axis[0] * _axis[0] + _axis[1] * _axis[1] + _axis[2] * _axis[2]);
-    if (n != 0) {
-        auto a = array<GLfloat, 3> {_axis[0] / n, _axis[1] / n, _axis[2] / n};
-        auto c = cos(angle);
-        auto s = sin(angle);
-        // Note these are colum-major matrices.
-        GLfloat rotation_matrix[4][4] = {
-            {a[0] * a[0] * (1 - c) +        c, a[0] * a[1] * (1 - c) + a[2] * s, a[0] * a[2] * (1 - c) - a[1] * s, 0},
-            {a[0] * a[1] * (1 - c) - a[2] * s, a[1] * a[1] * (1 - c) +        c, a[1] * a[2] * (1 - c) + a[0] * s, 0},
-            {a[0] * a[2] * (1 - c) + a[1] * s, a[1] * a[2] * (1 - c) - a[0] * s, a[2] * a[2] * (1 - c) +        c, 0},
-            {0,                                0,                                0,                                1},
-        };
-        GLfloat matrix[4][4] = {};
-        mat4_multiply(rotation_matrix, _attitude, matrix);
-        mat4_copy(matrix, _attitude);
-    }
+    GLfloat rotation[4][4] = {};
+    mat4_rotate(angle, _axis[0], _axis[1], _axis[2], rotation);
+
+    GLfloat matrix[4][4] = {};
+    mat4_multiply(rotation, _attitude, matrix);
+    mat4_copy(matrix, _attitude);
 }
 
 void movement::begin_drag(GtkWidget *, const GdkEvent *event)
