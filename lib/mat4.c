@@ -45,3 +45,23 @@ void mat4_multiply(const GLfloat x[restrict 4][4], const GLfloat y[restrict 4][4
         }
     }
 }
+
+void mat4_rotate(GLfloat angle, GLfloat x, GLfloat y, GLfloat z, GLfloat rotation[restrict 4][4])
+{
+    GLfloat n = sqrtf(x * x + y * y + z * z);
+    if (n != 0) {
+        x /= n;
+        y /= n;
+        z /= n;
+    }
+
+    GLfloat c = cosf(angle);
+    GLfloat s = sinf(angle);
+    GLfloat matrix[4][4] = {
+        {x * x * (1 - c) +     c, x * y * (1 - c) + z * s, x * z * (1 - c) - y * s, 0},
+        {x * y * (1 - c) - z * s, y * y * (1 - c) +     c, y * z * (1 - c) + x * s, 0},
+        {x * z * (1 - c) + y * s, y * z * (1 - c) - x * s, y * y * (1 - c) +     c, 0},
+        {0,                       0,                       0,                       1},
+    };
+    mat4_copy(matrix, rotation);
+}
