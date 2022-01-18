@@ -57,10 +57,11 @@ void mat4_rotate(GLfloat angle, GLfloat x, GLfloat y, GLfloat z, GLfloat rotatio
 
     GLfloat c = cosf(angle);
     GLfloat s = sinf(angle);
+    // Note this is a column-major matrix.
     GLfloat matrix[4][4] = {
-        {x * x * (1 - c) +     c, x * y * (1 - c) + z * s, x * z * (1 - c) - y * s, 0},
-        {x * y * (1 - c) - z * s, y * y * (1 - c) +     c, y * z * (1 - c) + x * s, 0},
-        {x * z * (1 - c) + y * s, y * z * (1 - c) - x * s, y * y * (1 - c) +     c, 0},
+        {x * x * (1 - c) +     c, y * x * (1 - c) + z * s, z * x * (1 - c) - y * s, 0},
+        {x * y * (1 - c) - z * s, y * y * (1 - c) +     c, z * y * (1 - c) + x * s, 0},
+        {x * z * (1 - c) + y * s, y * z * (1 - c) - x * s, z * z * (1 - c) +     c, 0},
         {0,                       0,                       0,                       1},
     };
     mat4_copy(matrix, rotation);

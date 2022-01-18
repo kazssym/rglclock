@@ -155,7 +155,7 @@ void movement::rotate(GLfloat angle)
         GLfloat rotation_matrix[4][4] = {
             {a[0] * a[0] * (1 - c) +        c, a[0] * a[1] * (1 - c) + a[2] * s, a[0] * a[2] * (1 - c) - a[1] * s, 0},
             {a[0] * a[1] * (1 - c) - a[2] * s, a[1] * a[1] * (1 - c) +        c, a[1] * a[2] * (1 - c) + a[0] * s, 0},
-            {a[0] * a[2] * (1 - c) + a[1] * s, a[1] * a[2] * (1 - c) - a[0] * s, a[1] * a[1] * (1 - c) +        c, 0},
+            {a[0] * a[2] * (1 - c) + a[1] * s, a[1] * a[2] * (1 - c) - a[0] * s, a[2] * a[2] * (1 - c) +        c, 0},
             {0,                                0,                                0,                                1},
         };
         GLfloat matrix[4][4] = {};
