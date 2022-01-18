@@ -139,7 +139,7 @@ public:
 
 protected:
 
-    void rotate(double angle);
+    void rotate(GLfloat angle);
 
 public:
 

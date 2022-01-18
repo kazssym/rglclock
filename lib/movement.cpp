@@ -27,12 +27,18 @@
 #include <mat4.h>
 #include <GL/glu.h>
 #include <gettext.h>
+#include <array>
+#include <memory>
 #include <stdexcept>
 #include <cmath>
 #include <cassert>
 
+using std::array;
+using std::cos;
 using std::invalid_argument;
 using std::make_unique;
+using std::sin;
+using std::sqrt;
 using glgdkx::glgdkx_context;
 
 #define _(String) gettext(String)
@@ -138,13 +144,13 @@ void movement::render()
     simple_draw_clock(_attitude);
 }
 
-void movement::rotate(double angle)
+void movement::rotate(GLfloat angle)
 {
-    GLfloat n = sqrt(_axis[0] * _axis[0] + _axis[1] * _axis[1] + _axis[2] * _axis[2]);
+    auto n = sqrt(_axis[0] * _axis[0] + _axis[1] * _axis[1] + _axis[2] * _axis[2]);
     if (n != 0) {
-        GLfloat a[3] = {_axis[0] / n, _axis[1] / n, _axis[2] / n};
-        GLfloat c = cos(angle);
-        GLfloat s = sin(angle);
+        auto a = array<GLfloat, 3> {_axis[0] / n, _axis[1] / n, _axis[2] / n};
+        auto c = cos(angle);
+        auto s = sin(angle);
         // Note these are colum-major matrices.
         GLfloat rotation_matrix[4][4] = {
             {a[0] * a[0] * (1 - c) +        c, a[0] * a[1] * (1 - c) + a[2] * s, a[0] * a[2] * (1 - c) - a[1] * s, 0},
