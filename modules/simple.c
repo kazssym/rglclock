@@ -498,7 +498,7 @@ static void init_projection_matrix(void)
     static const GLfloat farVal = 250;
 
     // Note this is a column-major matrix.
-    GLfloat matrix[4][4] = {
+    static const GLfloat matrix[4][4] = {
         {2 * nearVal / (right - left), 0, 0, 0},
         {0, 2 * nearVal / (top - bottom), 0, 0},
         {(right + left) / (right - left), (top + bottom) / (top - bottom),
@@ -513,7 +513,7 @@ static void init_view_matrix(void)
 {
     // As gluLookAt(0, 0, 150, 0, 0, 0, 0, 1, 0)
     // Note this is a column-major matrix.
-    GLfloat matrix[4][4] = {
+    static const GLfloat matrix[4][4] = {
         {1, 0, 0, 0},
         {0, 1, 0, 0},
         {0, 0, 1, 0},
@@ -559,16 +559,13 @@ static void set_lights(void)
 
 static void rotate_z(const GLfloat model_matrix[4][4], GLfloat angle)
 {
-    GLfloat rotation_matrix[4][4] = {
-        {cosf(angle), -sinf(angle), 0, 0},
-        {sinf(angle),  cosf(angle), 0, 0},
-        {0,            0,           1, 0},
-        {0,            0,           0, 1},
-    };
-    GLfloat matrix[4][4] = {};
-    mat4_multiply(model_matrix, rotation_matrix, matrix);
+    GLfloat rotation[4][4];
+    mat4_rotate(angle, 0, 0, -1, rotation);
 
-    set_model_matrix(matrix);
+    GLfloat m[4][4];
+    mat4_multiply(model_matrix, (const GLfloat (*)[4])rotation, m);
+
+    set_model_matrix((const GLfloat (*)[4])m);
 }
 
 // Draws the tick marks.
