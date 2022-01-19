@@ -95,7 +95,7 @@ stages:
               CC: gcc
               CXX: g++
             macOS:
-              VM_IMAGE: macOS-10.14
+              VM_IMAGE: macOS-10.15
               CC: clang
               CXX: clang++ -std=c++14
         continueOnError: true
