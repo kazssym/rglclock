@@ -22,6 +22,8 @@
 
 #include "mat4.h"
 
+#include <math.h>
+
 void mat4_copy(const GLfloat x[restrict 4][4], GLfloat y[restrict 4][4])
 {
     for (int i = 0; i != 4; i++) {
