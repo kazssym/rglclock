@@ -131,12 +131,12 @@ void movement::render()
     struct timeval now {};
     gettimeofday(&now, nullptr);
 
-    double angle = 0;
+    GLfloat angle = 0;
     if (_last_updated.tv_sec != 0)
     {
         auto sec = now.tv_sec - _last_updated.tv_sec;
         auto usec = sec * 1000000 + now.tv_usec - _last_updated.tv_usec;
-        angle = _rate * (usec * 1.0e-6);
+        angle = _rate * (usec * 1.0e-6F);
     }
     _last_updated = now;
     rotate(angle);
