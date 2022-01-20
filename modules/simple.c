@@ -522,22 +522,24 @@ static void init_view_matrix(void)
     set_view_matrix(matrix);
 }
 
-static void set_lights(void)
+static void init_lights(void)
 {
-    static const GLsizei LIGHT_MAX = 2;
-    static const GLfloat ambient[2][4] = {
+    enum {
+        LIGHT_MAX = 2,
+    };
+    static const GLfloat ambient[LIGHT_MAX][4] = {
         {0.08F, 0.08F, 0.08F, 1},
         {0.06F, 0.06F, 0.06F, 1},
     };
-    static const GLfloat diffuse[2][4] = {
+    static const GLfloat diffuse[LIGHT_MAX][4] = {
         {0.80F, 0.80F, 0.80F, 1},
         {0.60F, 0.60F, 0.60F, 1},
     };
-    static const GLfloat specular[2][4] = {
+    static const GLfloat specular[LIGHT_MAX][4] = {
         {1.00F, 1.00F, 1.00F, 1},
         {1.00F, 1.00F, 1.00F, 1},
     };
-    static const GLfloat position[2][4] = {
+    static const GLfloat position[LIGHT_MAX][4] = {
         {-200, 200, 200, 0},
         { 200, 200,   0, 0},
     };
@@ -719,7 +721,7 @@ int simple_init(void)
     init_projection_matrix();
     init_view_matrix();
 
-    set_lights();
+    init_lights();
 
     glEnable(GL_CULL_FACE);
 
