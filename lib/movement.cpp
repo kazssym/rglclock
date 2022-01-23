@@ -167,7 +167,7 @@ void movement::end_drag(GtkWidget *widget, const GdkEvent *event)
     GtkAllocation allocation {};
     gtk_widget_get_allocation(widget, &allocation);
 
-    GLfloat v[2] {
+    auto v = array<GLfloat, 2> {
         GLfloat(event->button.x - _x0) / allocation.width,
         GLfloat(event->button.y - _y0) / allocation.height,
     };
