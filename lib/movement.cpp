@@ -1,6 +1,6 @@
-// glclock.cpp
+// movement.cpp
 // Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
-// Copyright (C) 2021 Kaz Nishimura
+// Copyright (C) 2021-2022 Kaz Nishimura
 //
 // This program is free software: you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
