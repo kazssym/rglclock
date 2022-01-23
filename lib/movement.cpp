@@ -47,7 +47,7 @@ using glgdkx::glgdkx_context;
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
 extern "C" gboolean handle_realize(GtkWidget *widget, gpointer data) noexcept;
-extern "C" gboolean handle_render(const GtkGLArea *widget, const GdkGLContext *context,
+extern "C" gboolean handle_render(GtkGLArea *widget, GdkGLContext *context,
     gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
     const GdkEvent *event, gpointer data) noexcept;
@@ -202,8 +202,8 @@ gboolean handle_realize(GtkWidget *widget, gpointer data) noexcept
     return true;
 }
 
-gboolean handle_render([[maybe_unused]] const GtkGLArea *widget,
-    [[maybe_unused]] const GdkGLContext *context, gpointer data) noexcept
+gboolean handle_render([[maybe_unused]] GtkGLArea *widget,
+    [[maybe_unused]] GdkGLContext *context, gpointer data) noexcept
 {
     auto *m = static_cast<movement *>(data);
     assert(m != nullptr);
