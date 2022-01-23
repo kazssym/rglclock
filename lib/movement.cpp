@@ -222,6 +222,8 @@ gboolean handle_button_press_event(GtkWidget *widget,
     case 1:
         m->begin_drag(widget, event);
         return true;
+    case 3:
+        return false;
     default:
         return false;
     }
