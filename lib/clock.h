@@ -143,9 +143,9 @@ protected:
 
 public:
 
-    void begin_drag(GtkWidget *widget, const GdkEvent *event);
+    void begin_drag(GtkWidget *widget, const GdkEventButton *event);
 
-    void end_drag(GtkWidget *widget, const GdkEvent *event);
+    void end_drag(GtkWidget *widget, const GdkEventButton *event);
 
     void popup_menu(GtkWidget *widget, const GdkEvent *event) const;
 
