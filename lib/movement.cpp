@@ -59,6 +59,8 @@ const int movement::DEFAULT_UPDATE_RATE = 20;
 
 movement::movement()
 {
+    gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(&*_widget), true);
+
     g_signal_connect(&*_widget, "realize", G_CALLBACK(handle_realize), this);
     g_signal_connect(&*_widget, "render", G_CALLBACK(handle_render), this);
 
