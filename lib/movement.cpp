@@ -191,7 +191,7 @@ gboolean handle_timeout(gpointer data) noexcept
 
 gboolean handle_realize(GtkWidget *widget, gpointer data) noexcept
 {
-    auto *m = static_cast<movement *>(data);
+    auto *m = static_cast<const movement *>(data);
     assert(m != nullptr);
     m->realize(widget);
 
