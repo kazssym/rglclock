@@ -131,7 +131,7 @@ protected:
 
 public:
 
-    void update();
+    void update() const;
 
     void realize(GtkWidget *widget) const;
 

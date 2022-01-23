@@ -116,7 +116,7 @@ void movement::reset_timeout()
     _update_timeout = g_timeout_add(interval, handle_timeout, this);
 }
 
-void movement::update()
+void movement::update() const
 {
     gtk_gl_area_queue_render(GTK_GL_AREA(&*_widget));
 }
