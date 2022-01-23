@@ -136,7 +136,7 @@ void movement::render()
     {
         auto sec = now.tv_sec - _last_updated.tv_sec;
         auto usec = sec * 1000000 + now.tv_usec - _last_updated.tv_usec;
-        angle = _rate * (usec * 1.0e-6F);
+        angle = _rate * (float(usec) / 1000000);
     }
     _last_updated = now;
     rotate(angle);
