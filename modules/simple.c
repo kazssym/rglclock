@@ -48,6 +48,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include <assert.h>
 
@@ -712,6 +713,51 @@ static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
     check_gl_errors(__FILE__, __LINE__);
 }
 
+// Draws the base.
+static void draw_base(const GLfloat model_matrix[4][4], bool back)
+{
+    static const GLfloat ambient[4] = {0.20F, 0.20F, 0.40F, 1};
+    static const GLfloat diffuse[4] = {0.20F, 0.20F, 0.40F, 1};
+    static const GLfloat specular[4] = {0.40F, 0.40F, 0.40F, 1};
+    static const GLfloat shininess = 16;
+
+    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
+    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
+    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
+    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
+
+    set_model_matrix(model_matrix);
+
+    enum {
+        N = 36,
+    };
+    GLfloat vertices[N + 2][4] = {
+        {0, 0, 0, 1},
+    };
+    GLfloat normals[N + 2][3] = {
+        {0, 0, back ? -1 : 1},
+    };
+
+    for (int i = 0; i != N + 1; i++) {
+        GLfloat angle = -2 * (GLfloat)M_PI / N * i * (back ? -1 : 1);
+        vertices[i + 1][0] = 45 * sinf(angle);
+        vertices[i + 1][1] = 45 * cosf(angle);
+        vertices[i + 1][2] =  0;
+        vertices[i + 1][3] =  1;
+        normals[i + 1][0] = 0;
+        normals[i + 1][1] = 0;
+        normals[i + 1][2] = back ? -1 : 1;
+    }
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 0x800, sizeof normals, normals);
+    glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
+    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)0x800);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, N + 2);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
 int simple_init(void)
 {
     init_shaders();
@@ -724,6 +770,7 @@ int simple_init(void)
     init_lights();
 
     glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 
     glEnableVertexAttribArray(VERTEX);
     glEnableVertexAttribArray(NORMAL);
@@ -756,26 +803,16 @@ simple_draw_clock(const GLfloat model_matrix[4][4])
     glUniformMatrix4fv(matrix_location, 1, GL_FALSE, model_matrix);
 #endif
 
-    glClearColor(0.5F, 0.5F, 0.5F, 1); // FIXME
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-#if 0
-    if (draw_dial_disk(0) == -1)
-        return -1;
-#endif
-
     check_gl_errors(__FILE__, __LINE__);
-
-    // glDisable(GL_TEXTURE_2D);
 
     draw_tick_marks(model_matrix);
     draw_short_hand(model_matrix, lt);
     draw_long_hand(model_matrix, lt);
 
-#if 0
-    if (draw_dial_disk(1) == -1)
-        return -1;
-#endif
+    draw_base(model_matrix, false);
+    draw_base(model_matrix, true);
 
     return 0;
 }
