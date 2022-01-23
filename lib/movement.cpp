@@ -156,14 +156,18 @@ void movement::rotate(GLfloat angle)
     mat4_copy(matrix, _attitude);
 }
 
-void movement::begin_drag(GtkWidget *, const GdkEvent *event)
+void movement::begin_drag(GtkWidget *widget, const GdkEvent *event)
 {
+    gtk_grab_add(widget);
+
     _x0 = event->button.x;
     _y0 = event->button.y;
 }
 
 void movement::end_drag(GtkWidget *widget, const GdkEvent *event)
 {
+    gtk_grab_remove(widget);
+
     GtkAllocation allocation {};
     gtk_widget_get_allocation(widget, &allocation);
 
@@ -216,7 +220,6 @@ gboolean handle_button_press_event(GtkWidget *widget,
     assert(event->type == GDK_BUTTON_PRESS);
     switch (event->button.button) {
     case 1:
-        gtk_grab_add(widget);
         m->begin_drag(widget, event);
         return true;
     default:
@@ -233,7 +236,6 @@ gboolean handle_button_release_event(GtkWidget *widget,
     switch (event->button.button)
     {
     case 1:
-        gtk_grab_remove(widget);
         m->end_drag(widget, event);
         return true;
     case 3:
