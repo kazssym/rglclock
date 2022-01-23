@@ -597,20 +597,20 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
     rotate_z(model_matrix, angle);
 
     const GLfloat vertices[6][4] = {
-        { 3,  3, 1, 1},
+        { 2,  0, 1, 1},
         { 0, 25, 2, 1},
-        { 0,  0, 2, 1},
-        { 0,  0, 2, 1},
+        { 0, -2, 2, 1},
+        { 0, -2, 2, 1},
         { 0, 25, 2, 1},
-        {-3,  3, 1, 1},
+        {-2,  0, 1, 1},
     };
     const GLfloat normals[6][3] = {
-        { 0.333F, 0, 1},
-        { 0.333F, 0, 1},
-        { 0.333F, 0, 1},
-        {-0.333F, 0, 1},
-        {-0.333F, 0, 1},
-        {-0.333F, 0, 1},
+        { 0.5F, 0, 1},
+        { 0.5F, 0, 1},
+        { 0.5F, 0, 1},
+        {-0.5F, 0, 1},
+        {-0.5F, 0, 1},
+        {-0.5F, 0, 1},
     };
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
     glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
@@ -639,12 +639,12 @@ static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
     rotate_z(model_matrix, angle);
 
     const GLfloat vertices[6][4] = {
-        { 2,  2, 3, 1},
+        { 2,  0, 3, 1},
         { 0, 40, 4, 1},
-        { 0,  0, 4, 1},
-        { 0,  0, 4, 1},
+        { 0, -2, 4, 1},
+        { 0, -2, 4, 1},
         { 0, 40, 4, 1},
-        {-2,  2, 3, 1},
+        {-2,  0, 3, 1},
     };
     const GLfloat normals[6][3] = {
         { 0.5F, 0, 1},
