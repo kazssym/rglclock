@@ -686,7 +686,7 @@ static void draw_base(const GLfloat model_matrix[4][4], bool back)
     };
 
     for (int i = 0; i != N + 1; i++) {
-        GLfloat angle = -2 * (GLfloat)M_PI / N * i * (back ? -1 : 1);
+        GLfloat angle = -2 * (GLfloat)M_PI / N * (GLfloat)i * (back ? -1 : 1);
         vertices[i + 1][0] = 45 * sinf(angle);
         vertices[i + 1][1] = 45 * cosf(angle);
         vertices[i + 1][2] =  0;
