@@ -52,17 +52,9 @@
 
 #include <assert.h>
 
-static const GLfloat vs[4] = {0, 0, 0, 1};
-static const GLfloat v[4] = {0.20, 0.20, 0.40, 1.};
-static const GLfloat vt[4] = {1.00, 1.00, 1.00, 1.};
-
-#ifndef DISABLE_LOCAL_VIEWER
-# define ENABLE_LOCAL_VIEWER 1
-#endif
-
 struct simple_module
 {
-  int dummy;
+    int dummy;
 };
 
 static int texture_mapping = 0;
@@ -214,47 +206,6 @@ set_texture()
 	       GL_RGB, GL_UNSIGNED_BYTE, texture_image);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-}
-
-/* Draws a disk for dial.  If BACK is true, the back face is drawn,
-   otherwise the front.  */
-static int
-draw_dial_disk(int back)
-{
-  GLUquadricObj *qobj;
-
-  qobj = gluNewQuadric ();
-  if (qobj == NULL)
-    return -1;
-
-  /* Use flat shading for the dial disk.  */
-  glShadeModel(GL_FLAT);
-#ifdef ENABLE_LOCAL_VIEWER
-  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
-#endif
-
-  if (texture_mapping && texture_width != 0)
-    {
-      glEnable(GL_TEXTURE_2D);
-      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vt);
-      gluQuadricTexture(qobj, GL_TRUE);
-    }
-  else
-    {
-      glDisable(GL_TEXTURE_2D);
-      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
-    }
-
-  glMaterialfv(GL_FRONT, GL_SPECULAR, vs);
-  glMaterialf(GL_FRONT, GL_SHININESS, 0.);
-
-  if (back)
-    gluQuadricOrientation(qobj, GLU_INSIDE);
-
-  gluDisk(qobj, 0., 45., 36, 1);
-
-  gluDeleteQuadric (qobj);
-  return 0;
 }
 
 int
