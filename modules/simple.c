@@ -575,8 +575,9 @@ static void draw_tick_marks(const GLfloat model_matrix[4][4])
     check_gl_errors(__FILE__, __LINE__);
 }
 
-// Draws the short hand.
-static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t)
+// Draw a hand.
+static void draw_hand(const GLfloat model_matrix[4][4], GLfloat angle,
+    GLfloat length, GLfloat height)
 {
     static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
     static const GLfloat diffuse[4] = {0.05F, 0.05F, 0.05F, 1};
@@ -588,17 +589,15 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
     glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
     glVertexAttrib1f(MATERIAL_SHININESS, shininess);
 
-    GLfloat angle = (GLfloat)M_PI / 21600
-        * (GLfloat)((t->tm_hour * 60 + t->tm_min) * 60 + t->tm_sec);
     rotate_z(model_matrix, angle);
 
     const GLfloat vertices[6][4] = {
-        { 2,  0, 1, 1},
-        { 0, 25, 2, 1},
-        { 0, -2, 2, 1},
-        { 0, -2, 2, 1},
-        { 0, 25, 2, 1},
-        {-2,  0, 1, 1},
+        { 2,  0,     height - 1, 1},
+        { 0, length, height,     1},
+        { 0, -2,     height,     1},
+        { 0, -2,     height,     1},
+        { 0, length, height,     1},
+        {-2,  0,     height - 1, 1},
     };
     const GLfloat normals[6][3] = {
         { 0.5F, 0, 1},
@@ -618,46 +617,19 @@ static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t
     check_gl_errors(__FILE__, __LINE__);
 }
 
+// Draws the short hand.
+static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t)
+{
+    GLfloat angle = (GLfloat)M_PI / 21600
+        * (GLfloat)((t->tm_hour * 60 + t->tm_min) * 60 + t->tm_sec);
+    draw_hand(model_matrix, angle, 25, 2);
+}
+
 // Draws the long hand.
 static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
 {
-    static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
-    static const GLfloat diffuse[4] = {0.05F, 0.05F, 0.05F, 1};
-    static const GLfloat specular[4] = {1.00F, 1.00F, 1.00F, 1};
-    static const GLfloat shininess = 16;
-
-    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
-    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
-    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
-    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
-
     GLfloat angle = (GLfloat)M_PI / 1800 * (GLfloat)(t->tm_min * 60 + t->tm_sec);
-    rotate_z(model_matrix, angle);
-
-    const GLfloat vertices[6][4] = {
-        { 2,  0, 3, 1},
-        { 0, 40, 4, 1},
-        { 0, -2, 4, 1},
-        { 0, -2, 4, 1},
-        { 0, 40, 4, 1},
-        {-2,  0, 3, 1},
-    };
-    const GLfloat normals[6][3] = {
-        { 0.5F, 0, 1},
-        { 0.5F, 0, 1},
-        { 0.5F, 0, 1},
-        {-0.5F, 0, 1},
-        {-0.5F, 0, 1},
-        {-0.5F, 0, 1},
-    };
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
-    glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
-    glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
-    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)256);
-
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-
-    check_gl_errors(__FILE__, __LINE__);
+    draw_hand(model_matrix, angle, 40, 4);
 }
 
 // Draws the base.
