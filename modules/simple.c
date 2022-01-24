@@ -17,14 +17,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
+#if HAVE_CONFIG_H
+#include <config.h>
 #endif
 
 #define GL_GLEXT_PROTOTYPES 1
 
-#include <simple.h>
-#include <rglclockmod.h>
+#include "simple.h"
 
 #include <mat4.h>
 #include <png.h>
@@ -33,13 +32,10 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifdef HAVE_SYS_TIME_H
-# include <sys/time.h>
-# ifdef TIME_WITH_SYS_TIME
-#  include <time.h>
-# endif /* TIME_WITH_SYS_TIME */
+#if HAVE_SYS_TIME_H
+#include <sys/time.h>
 #else /* not HAVE_SYS_TIME_H */
-# include <time.h>
+#include <time.h>
 #endif
 #include <math.h>
 #include <string.h>
