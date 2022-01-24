@@ -25,7 +25,7 @@
 
 #include "simple.h"
 #include <mat4.h>
-#include <GL/glu.h>
+#include <GL/gl.h>
 #include <gettext.h>
 #include <array>
 #include <memory>
@@ -39,7 +39,6 @@ using std::invalid_argument;
 using std::make_unique;
 using std::sin;
 using std::sqrt;
-using glgdkx::glgdkx_context;
 
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)

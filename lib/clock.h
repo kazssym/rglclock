@@ -21,14 +21,12 @@
 #define CLOCK_H 1
 
 #include "utils.h"
-#include "glgdkx.h"
 #include "g_ptr.h"
 #include <gtk/gtk.h>
+#include <GL/gl.h>
 #include <sys/time.h>
 #include <array>
 #include <memory>
-
-using glgdkx::glgdkx_context;
 
 #if 0
 class movement;
