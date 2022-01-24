@@ -16,7 +16,6 @@ case "$host_os" in
 mingw32* | mingw64*)
   ;;
 *)
-  AC_SEARCH_LIBS([XFree], [X11])
   AC_SEARCH_LIBS([glClear], [GL],, [AC_MSG_ERROR([missing OpenGL library])])
   AC_SEARCH_LIBS([gluLookAt], [GLU],, [AC_MSG_ERROR([missing GLU library])])
   ;;
