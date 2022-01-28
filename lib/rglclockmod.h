@@ -32,6 +32,7 @@
 # define __END_DECLS
 #endif
 
+#include <GL/gl.h>
 #include <sys/types.h>
 
 #define RGLCLOCK_INTERFACE_NAME "rglclock"
@@ -54,7 +55,7 @@ struct rglclockmod_version_1
   int (*open)(void **);
   int (*close)(void *);
   int (*set_up)(void *);
-  int (*draw)(void *);
+  int (*draw)(void *, const GLfloat model_matrix[4][4]);
   int (*get_property_names)(void *, const char **, size_t);
   int (*get_property)(void *, const char *, char *, size_t);
   int (*set_property)(void *, const char *, const char *);

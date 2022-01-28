@@ -1,6 +1,5 @@
-// glgdkx.h
-// Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
-// Copyright (C) 2021 Kaz Nishimura
+// mat4.h
+// Copyright (C) 2022 Kaz Nishimura
 //
 // This program is free software: you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
@@ -17,29 +16,27 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef GLGDKX_H
-#define GLGDKX_H 1
+#ifndef MAT4_H
+#define MAT4_H 1
 
-#include <GL/glx.h>
-#include <gdk/gdk.h>
+#include <GL/gl.h>
 
-namespace glgdkx
-{
-    class glgdkx_context
-    {
-    private:
-        Display *_display;
-        GLXContext _context;
+#if __cplusplus
+#define BEGIN_C_DECLS extern "C" {
+#define END_C_DECLS }
+#else
+#define BEGIN_C_DECLS
+#define END_C_DECLS
+#endif
 
-    public:
-        explicit glgdkx_context (GdkWindow *drawable);
-        glgdkx_context (const glgdkx_context &object);
+BEGIN_C_DECLS
 
-    public:
-        virtual ~glgdkx_context ();
-        bool make_current (GdkWindow *drawable);
-        void swap_buffers (GdkWindow *drawable);
-    };
-}
+extern void mat4_copy(const GLfloat x[4][4], GLfloat y[4][4]);
+
+extern void mat4_multiply(const GLfloat x[4][4], const GLfloat y[4][4], GLfloat z[4][4]);
+
+extern void mat4_rotate(GLfloat angle, GLfloat x, GLfloat y, GLfloat z, GLfloat rotation[4][4]);
+
+END_C_DECLS
 
 #endif
