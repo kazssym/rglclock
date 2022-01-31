@@ -18,6 +18,16 @@ config.set_quoted('PACKAGE_TARNAME', meson.project_name())
 
 config.set('ENABLE_NLS', 1)
 
+if meson.get_compiler('c').check_header('unistd.h')
+    config.set('HAVE_UNISTD_H', 1,
+        description: 'Define to 1 if you have the <unistd.h> header file.')
+endif
+
+if meson.get_compiler('c').check_header('sys/time.h')
+    config.set('HAVE_SYS_TIME_H', 1,
+        description: 'Define to 1 if you have the <sys/time.h> header file.')
+endif
+
 configure_file(
     configuration: config,
     output: 'config.h')
