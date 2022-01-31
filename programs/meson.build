@@ -2,7 +2,7 @@
 
 localedir = get_option('prefix') / get_option('localedir')
 
-includes = include_directories('..', '../lib', '../include', '../libgnu')
+includes = include_directories('..', '../lib', '../libgnu')
 
 executable('rglclock', 'rglclock.cpp', 'about.cpp', 'profile.cpp',
     'options.cpp', 'modaldialog.cpp',

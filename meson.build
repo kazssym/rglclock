@@ -5,7 +5,6 @@ project('rglclock', 'c', 'cpp',
     default_options: ['cpp_std=c++17'])
 
 gtk = dependency('gtk+-3.0')
-x11 = dependency('x11')
 glu = dependency('glu')
 libxml = dependency('libxml-2.0')
 libpng = dependency('libpng')
