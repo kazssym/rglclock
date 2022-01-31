@@ -1,6 +1,6 @@
 // clock.h
 // Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
-// Copyright (C) 2021 Kaz Nishimura
+// Copyright (C) 2021-2022 Kaz Nishimura
 //
 // This program is free software: you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
@@ -21,14 +21,12 @@
 #define CLOCK_H 1
 
 #include "utils.h"
-#include "glgdkx.h"
 #include "g_ptr.h"
 #include <gtk/gtk.h>
+#include <GL/gl.h>
 #include <sys/time.h>
 #include <array>
 #include <memory>
-
-using glgdkx::glgdkx_context;
 
 #if 0
 class movement;
@@ -71,22 +69,20 @@ private:
 
     int _update_rate = DEFAULT_UPDATE_RATE;
 
-    guint _update_timeout {};
+    guint _update_timeout = 0;
 
-    g_ptr<GtkWidget> _widget {gtk_drawing_area_new()};
+    g_ptr<GtkWidget> _widget = g_ptr<GtkWidget>(gtk_gl_area_new());
 
     g_ptr<GtkWidget> _menu;
 
-    std::unique_ptr<glgdkx_context> _context;
+    GLfloat _rate = 0;
+    std::array<GLfloat, 3> _axis;
 
-    double _rate = 0;
-    std::array<double, 3> _axis;
-
-    std::array<double, 16> _attitude {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
+    GLfloat _attitude[4][4] = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 1},
     };
 
     struct timeval _last_updated {};
@@ -133,19 +129,21 @@ protected:
 
 public:
 
-    void update();
+    void update() const;
+
+    void realize(GtkWidget *widget) const;
+
+    void render();
 
 protected:
 
-    void rotate(double angle);
-
-    void render() const;
+    void rotate(GLfloat angle);
 
 public:
 
-    void begin_drag(GtkWidget *widget, const GdkEvent *event);
+    void begin_drag(GtkWidget *widget, const GdkEventButton *event);
 
-    void end_drag(GtkWidget *widget, const GdkEvent *event);
+    void end_drag(GtkWidget *widget, const GdkEventButton *event);
 
     void popup_menu(GtkWidget *widget, const GdkEvent *event) const;
 

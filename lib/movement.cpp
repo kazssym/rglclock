@@ -1,6 +1,6 @@
-// glclock.cpp
+// movement.cpp
 // Copyright (C) 1998-2007 Hypercore Software Design, Ltd.
-// Copyright (C) 2021 Kaz Nishimura
+// Copyright (C) 2021-2022 Kaz Nishimura
 //
 // This program is free software: you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
@@ -24,31 +24,45 @@
 #include "clock.h"
 
 #include "simple.h"
-#include <GL/glu.h>
+#include <mat4.h>
+#include <GL/gl.h>
 #include <gettext.h>
+#include <array>
+#include <memory>
 #include <stdexcept>
 #include <cmath>
 #include <cassert>
 
+using std::array;
+using std::cos;
 using std::invalid_argument;
 using std::make_unique;
-using glgdkx::glgdkx_context;
+using std::sin;
+using std::sqrt;
 
 #define _(String) gettext(String)
 #define N_(String) gettext_noop(String)
 
 
 extern "C" gboolean handle_timeout(gpointer data) noexcept;
+extern "C" gboolean handle_realize(GtkWidget *widget, gpointer data) noexcept;
+extern "C" gboolean handle_render(GtkGLArea *widget, GdkGLContext *context,
+    gpointer data) noexcept;
 extern "C" gboolean handle_button_press_event(GtkWidget *widget,
-    const GdkEvent *event, gpointer data) noexcept;
+    GdkEventButton *event, gpointer data) noexcept;
 extern "C" gboolean handle_button_release_event(GtkWidget *widget,
-    const GdkEvent *event, gpointer data) noexcept;
+    GdkEventButton *event, gpointer data) noexcept;
 
 
 const int movement::DEFAULT_UPDATE_RATE = 20;
 
 movement::movement()
 {
+    gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(&*_widget), true);
+
+    g_signal_connect(&*_widget, "realize", G_CALLBACK(handle_realize), this);
+    g_signal_connect(&*_widget, "render", G_CALLBACK(handle_render), this);
+
     gtk_widget_set_events(&*_widget,
         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     g_signal_connect(&*_widget, "button_press_event",
@@ -101,80 +115,64 @@ void movement::reset_timeout()
     _update_timeout = g_timeout_add(interval, handle_timeout, this);
 }
 
-void movement::update()
+void movement::update() const
 {
-    if (&*_widget == nullptr || !gtk_widget_get_realized(&*_widget)) {
-        return;
-    }
+    gtk_gl_area_queue_render(GTK_GL_AREA(&*_widget));
+}
 
-    auto &&window = gtk_widget_get_window(&*_widget);
-    if (_context == nullptr) {
-        _context = make_unique<glgdkx_context>(window);
-        _context->make_current(window);
+void movement::realize(GtkWidget *widget) const
+{
+    gtk_gl_area_make_current(GTK_GL_AREA(widget));
 
-        simple_init();
-    }
+    simple_init();
+}
 
+void movement::render()
+{
     struct timeval now {};
     gettimeofday(&now, nullptr);
 
-    double angle = 0;
+    GLfloat angle = 0;
     if (_last_updated.tv_sec != 0)
     {
         auto sec = now.tv_sec - _last_updated.tv_sec;
         auto usec = sec * 1000000 + now.tv_usec - _last_updated.tv_usec;
-        angle = _rate * (usec * 1.0e-6);
+        angle = _rate * (float(usec) / 1000000);
     }
     _last_updated = now;
     rotate(angle);
 
-    glViewport(0, 0,
-        gdk_window_get_width(window), gdk_window_get_height(window));
-    render();
-
-    _context->swap_buffers(window);
+    simple_draw_clock(_attitude);
 }
 
-void movement::rotate(double angle)
+void movement::rotate(GLfloat angle)
 {
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+    GLfloat rotation[4][4] = {};
+    mat4_rotate(angle, _axis[0], _axis[1], _axis[2], rotation);
 
-    glLoadIdentity();
-    glRotated((180 / M_PI) * angle, _axis[0], _axis[1], _axis[2]);
-    glMultMatrixd(&_attitude[0]);
-    glGetDoublev(GL_MODELVIEW_MATRIX, &_attitude[0]);
-
-    glPopMatrix();
+    GLfloat matrix[4][4] = {};
+    mat4_multiply(rotation, _attitude, matrix);
+    mat4_copy(matrix, _attitude);
 }
 
-void movement::render() const
+void movement::begin_drag(GtkWidget *widget, const GdkEventButton *event)
 {
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
+    gtk_grab_add(widget);
 
-    /* Rotates the model view matrix.  */
-    glMultMatrixd(&_attitude[0]);
-
-    simple_draw_clock();
-
-    glPopMatrix();
+    _x0 = event->x;
+    _y0 = event->y;
 }
 
-void movement::begin_drag(GtkWidget *, const GdkEvent *event)
+void movement::end_drag(GtkWidget *widget, const GdkEventButton *event)
 {
-    _x0 = event->button.x;
-    _y0 = event->button.y;
-}
+    gtk_grab_remove(widget);
 
-void movement::end_drag(GtkWidget *widget, const GdkEvent *event)
-{
     GtkAllocation allocation {};
     gtk_widget_get_allocation(widget, &allocation);
 
-    double v[2] {
-        double(event->button.x - _x0) / allocation.width,
-        double(event->button.y - _y0) / allocation.height,
+    auto v = array<GLfloat, 2> {
+        GLfloat(event->x - _x0) / allocation.width,
+        GLfloat(event->y - _y0) / allocation.height,
     };
     _rate = sqrt(v[0] * v[0] + v[1] * v[1]);
     _axis = {v[1], v[0], 0};
@@ -194,36 +192,55 @@ gboolean handle_timeout(gpointer data) noexcept
     return true;
 }
 
+gboolean handle_realize(GtkWidget *widget, gpointer data) noexcept
+{
+    const auto *m = static_cast<movement *>(data);
+    assert(m != nullptr);
+    m->realize(widget);
+
+    return true;
+}
+
+gboolean handle_render([[maybe_unused]] GtkGLArea *widget,
+    [[maybe_unused]] GdkGLContext *context, gpointer data) noexcept
+{
+    auto *m = static_cast<movement *>(data);
+    assert(m != nullptr);
+    m->render();
+
+    return true;
+}
+
 gboolean handle_button_press_event(GtkWidget *widget,
-    const GdkEvent *event, gpointer data) noexcept
+    GdkEventButton *event, gpointer data) noexcept
 {
     auto &&m = static_cast<movement *>(data);
 
     assert(event->type == GDK_BUTTON_PRESS);
-    switch (event->button.button) {
+    switch (event->button) {
     case 1:
-        gtk_grab_add(widget);
         m->begin_drag(widget, event);
         return true;
+    case 3:
+        return false;
     default:
         return false;
     }
 }
 
 gboolean handle_button_release_event(GtkWidget *widget,
-    const GdkEvent *event, gpointer data) noexcept
+    GdkEventButton *event, gpointer data) noexcept
 {
     auto &&m = static_cast<movement *>(data);
 
     assert(event->type == GDK_BUTTON_RELEASE);
-    switch (event->button.button)
+    switch (event->button)
     {
     case 1:
-        gtk_grab_remove(widget);
         m->end_drag(widget, event);
         return true;
     case 3:
-        m->popup_menu(widget, event);
+        m->popup_menu(widget, reinterpret_cast<GdkEvent *>(event));
         return true;
     default:
         return false;

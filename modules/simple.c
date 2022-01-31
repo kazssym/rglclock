@@ -1,64 +1,52 @@
-/* rglclock - Rotating GL Clock.
-   Copyright (C) 1998, 2000 Hypercore Software Design, Ltd.
+// simple.c
+// Copyright (C) 1998, 2000 Hypercore Software Design, Ltd.
+// Copyright (C) 2021-2022 Kaz Nishimura
+//
+// This program is free software: you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
-   This program is free software; you can redistribute it and/or
-   modify it under the terms of the GNU General Public License as
-   published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful, but
-   WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307, USA.
-
-   As a special exception, you may copy and distribute this program
-   linked with an OpenGL library in executable form without the source
-   code for the library, only if such distribution is not prohibited
-   by the library's license.  */
-
-#ifdef HAVE_CONFIG_H
-# include "config.h"
+#if HAVE_CONFIG_H
+#include <config.h>
 #endif
 
-#include <simple.h>
-#include <rglclockmod.h>
+#define GL_GLEXT_PROTOTYPES 1
 
+#include "simple.h"
+
+#include <mat4.h>
 #include <png.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#ifdef HAVE_SYS_TIME_H
-# include <sys/time.h>
-# ifdef TIME_WITH_SYS_TIME
-#  include <time.h>
-# endif /* TIME_WITH_SYS_TIME */
-#else /* not HAVE_SYS_TIME_H */
-# include <time.h>
+#if HAVE_UNISTD_H
+#include <unistd.h>
 #endif
+#if HAVE_SYS_TIME_H
+#include <sys/time.h>
+#else /* not HAVE_SYS_TIME_H */
+#include <time.h>
+#endif
+#include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include <assert.h>
 
-static const GLfloat vs[4] = {0, 0, 0, 1};
-static const GLfloat v[4] = {0.20, 0.20, 0.40, 1.};
-static const GLfloat vt[4] = {1.00, 1.00, 1.00, 1.};
-
-static const GLfloat HAND_ADC[4] = {0.05, 0.05, 0.05, 1};
-static const GLfloat HAND_SC[4] = {0.20, 0.20, 0.20, 1};
-static const GLfloat HAND_SR = 16;
-
-#ifndef DISABLE_LOCAL_VIEWER
-# define ENABLE_LOCAL_VIEWER 1
-#endif
-
 struct simple_module
 {
-  int dummy;
+    int dummy;
 };
 
 static int texture_mapping = 0;
@@ -212,160 +200,6 @@ set_texture()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
-/* Draws a disk for dial.  If BACK is true, the back face is drawn,
-   otherwise the front.  */
-static int
-draw_dial_disk(int back)
-{
-  GLUquadricObj *qobj;
-
-  qobj = gluNewQuadric ();
-  if (qobj == NULL)
-    return -1;
-
-  /* Use flat shading for the dial disk.  */
-  glShadeModel(GL_FLAT);
-#ifdef ENABLE_LOCAL_VIEWER
-  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
-#endif
-
-  if (texture_mapping && texture_width != 0)
-    {
-      glEnable(GL_TEXTURE_2D);
-      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vt);
-      gluQuadricTexture(qobj, GL_TRUE);
-    }
-  else
-    {
-      glDisable(GL_TEXTURE_2D);
-      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, v);
-    }
-
-  glMaterialfv(GL_FRONT, GL_SPECULAR, vs);
-  glMaterialf(GL_FRONT, GL_SHININESS, 0.);
-
-  if (back)
-    gluQuadricOrientation(qobj, GLU_INSIDE);
-
-  gluDisk(qobj, 0., 45., 36, 1);
-
-  gluDeleteQuadric (qobj);
-  return 0;
-}
-
-int
-simple_draw_clock(void)
-{
-#ifdef HAVE_GETTIMEOFDAY
-  struct timeval t;
-#else /* not HAVE_GETTIMEOFDAY */
-  time_t t;
-#endif /* not HAVE_GETTIMEOFDAY */
-  const struct tm *lt;
-
-  if (texture_changed)
-    {
-      texture_changed = 0;
-      set_texture();
-    }
-
-#ifdef HAVE_GETTIMEOFDAY
-  gettimeofday(&t, NULL);
-  lt = localtime(&t.tv_sec);
-#else /* not HAVE_GETTIMEOFDAY */
-  t = time(NULL);
-  lt = localtime(&t);
-#endif /* not HAVE_GETTIMEOFDAY */
-
-  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  glDisable(GL_DEPTH_TEST);
-  if (draw_dial_disk(0) == -1)
-    return -1;
-
-  glEnable(GL_DEPTH_TEST);
-  glDisable(GL_TEXTURE_2D);
-  glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, HAND_ADC);
-  glMaterialfv (GL_FRONT, GL_SPECULAR, HAND_SC);
-  glMaterialf (GL_FRONT, GL_SHININESS, HAND_SR);
-
-  {
-    int i;
-
-    glPushMatrix();
-    for (i = 0; i != 12; ++i)
-      {
-	int l;
-	if (i == 0)
-	  l = 9;
-	else if (i % 3 == 0)
-	  l = 6;
-	else
-	  l = 4;
-	glBegin (GL_QUADS);
-	glNormal3f (0.5, 0., 1.);
-	glVertex3f (1., 43. - l, 0.);
-	glVertex3f (1., 43., 0.);
-	glVertex3f (0., 43., 0.5);
-	glVertex3f (0., 43. - l, 0.5);
-	glNormal3f (-0.5, 0., 1.);
-	glVertex3f (0., 43. - l, 0.5);
-	glVertex3f (0., 43., 0.5);
-	glVertex3f (-1., 43., 0.);
-	glVertex3f (-1., 43. - l, 0.);
-	glEnd ();
-	glRotatef(30, 0, 0, -1);
-      }
-    glPopMatrix();
-  }
-
-#ifdef ENABLE_LOCAL_VIEWER
-  glShadeModel(GL_SMOOTH);
-  glLightModeli (GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
-#endif
-
-  /* Short hand.  */
-  glPushMatrix ();
-  glRotatef (((lt->tm_hour * 60 + lt->tm_min) * 60
-	      + lt->tm_sec) / 120., 0, 0, -1);
-  glBegin (GL_TRIANGLES);
-  glNormal3f (0.333, 0., 1.);
-  glVertex3f (3., 3., 1.);
-  glVertex3f (0., 25., 2.);
-  glVertex3f (0., 0., 2.);
-  glNormal3f (-0.333, 0., 1.);
-  glVertex3f (0., 0., 2.);
-  glVertex3f (0., 25., 2.);
-  glVertex3f (-3., 3., 1.);
-  glEnd ();
-  glPopMatrix ();
-
-  /* Long hand.  */
-  glPushMatrix ();
-#ifdef HAVE_GETTIMEOFDAY
-  glRotatef ((lt->tm_min * 60 + lt->tm_sec + t.tv_usec / 1e6) / 10., 0, 0, -1);
-#else /* not HAVE_GETTIMEOFDAY */
-  glRotatef ((lt->tm_min * 60 + lt->tm_sec) / 10., 0, 0, -1);
-#endif /* not HAVE_GETTIMEOFDAY */
-  glBegin (GL_TRIANGLES);
-  glNormal3f (0.5, 0., 1.);
-  glVertex3f (2., 2., 3.);
-  glVertex3f (0., 40., 4.);
-  glVertex3f (0., 0., 4.);
-  glNormal3f (-0.5, 0., 1.);
-  glVertex3f (0., 0., 4.);
-  glVertex3f (0., 40., 4.);
-  glVertex3f (-2., 2., 3.);
-  glEnd ();
-  glPopMatrix ();
-
-  glDisable(GL_DEPTH_TEST);
-  if (draw_dial_disk(1) == -1)
-    return -1;
-
-  return 0;
-}
-
 int
 simple_set_prop(const char *name, const char *value)
 {
@@ -386,50 +220,522 @@ simple_set_prop(const char *name, const char *value)
   return -1;
 }
 
-static const GLfloat LIGHT0_AMBIENT[] = {0.10, 0.10, 0.10, 1};
-static const GLfloat LIGHT0_INTENSITY[] = {0.80, 0.80, 0.80, 1};
-static const GLfloat LIGHT0_POSITION[] = {-200, 200, 200, 0};
-static const GLfloat LIGHT1_AMBIENT[] = {0.10, 0.10, 0.10, 1};
-static const GLfloat LIGHT1_INTENSITY[] = {0.60, 0.60, 0.60, 1};
-static const GLfloat LIGHT1_POSITION[] = {200, 200, 0, 0};
+enum {
+    BUFFER_MAX = 1,
+    VERTEX_ARRAY_MAX = 1,
+};
+
+enum vertex_attrib {
+    VERTEX,
+    NORMAL,
+    MATERIAL_AMBIENT,
+    MATERIAL_DIFFUSE,
+    MATERIAL_SPECULAR,
+    MATERIAL_SHININESS,
+};
+
+static GLuint vertex_shader;
+static GLuint fragment_shader;
+
+static GLuint shader_program;
+
+// OpenGL buffers.
+static GLuint buffers[BUFFER_MAX];
+
+// OpenGL vertex arrays.
+static GLuint vertex_arrays[VERTEX_ARRAY_MAX];
+
+static void check_gl_errors(const char *file, unsigned int line)
+{
+    for (;;) {
+        GLenum error = glGetError();
+        if (error == GL_NO_ERROR) {
+            break;
+        }
+        fprintf(stderr, "%s:%u: GL error: %s\n", file, line, gluErrorString(error));
+    }
+}
+
+static GLuint compile_shader(GLenum type, GLsizei count,
+    const GLchar *const *string, const GLint *length)
+{
+    GLuint shader = glCreateShader(type);
+    glShaderSource(shader, count, string, length);
+    glCompileShader(shader);
+
+    GLint status = 0;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+    if (!status) {
+        GLint info_log_length = 0;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &info_log_length);
+        char *info_log = alloca(info_log_length);
+        glGetShaderInfoLog(shader, info_log_length, NULL, info_log);
+        fprintf(stderr, "GLSL shader compile error\n%s", info_log);
+        goto BAILOUT;
+    }
+
+    return shader;
+
+BAILOUT:
+    glDeleteShader(shader);
+    return 0;
+}
+
+static GLuint compile_vertex_shader(void)
+{
+    const char *source =
+        "#version 140\n"
+        "const int LIGHT_MAX = 2;"
+        "in vec4 vertex;\n"
+        "in vec3 normal;\n"
+        "in vec4 materialAmbient;\n"
+        "in vec4 materialDiffuse;\n"
+        "in vec4 materialSpecular;\n"
+        "in float materialShininess;\n"
+        "out vec4 color;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projectionMatrix;\n"
+        "uniform vec4 lightAmbient[LIGHT_MAX];\n"
+        "uniform vec4 lightDiffuse[LIGHT_MAX];\n"
+        "uniform vec4 lightSpecular[LIGHT_MAX];\n"
+        "uniform vec4 lightPosition[LIGHT_MAX];\n"
+        "mat4 modelViewMatrix = viewMatrix * modelMatrix;\n"
+        "mat3 normalMatrix = transpose(inverse(mat3(modelViewMatrix)));\n"
+        "void main()\n"
+        "{\n"
+        "    vec4 v = modelViewMatrix * vertex;\n"
+        "    vec3 n = normalize(normalMatrix * normal);\n"
+        "    color = vec4(0, 0, 0, 0);\n"
+        "    for (int i = 0; i != LIGHT_MAX; i++) {\n"
+        "        vec3 l = normalize(vec3(lightPosition[i]));\n"
+        "        vec3 h = normalize(l - normalize(vec3(v)));\n"
+        "        color += lightAmbient[i] * materialAmbient;\n"
+        "        color += max(dot(l, n), 0) * lightDiffuse[i] * materialDiffuse[i];\n"
+        "        color += pow(max(dot(h, n), 0), materialShininess) * lightSpecular[i] * materialSpecular[i];\n"
+        "    }\n"
+        "    gl_Position = projectionMatrix * v;\n"
+        "}\n";
+    return compile_shader(GL_VERTEX_SHADER, 1, &source, NULL);
+}
+
+static GLuint compile_fragment_shader(void)
+{
+    const char *source =
+        "#version 140\n"
+        "in vec4 color;\n"
+        "out vec4 fragColor;\n"
+        "void main()\n"
+        "{\n"
+        "    fragColor = color;\n"
+        "}\n";
+    return compile_shader(GL_FRAGMENT_SHADER, 1, &source, NULL);
+}
+
+static GLuint link_shader_program(void)
+{
+    vertex_shader = compile_vertex_shader();
+    fragment_shader = compile_fragment_shader();
+
+    GLuint program = glCreateProgram();
+    if (!vertex_shader || !fragment_shader) {
+        goto BAILOUT;
+    }
+
+    glBindAttribLocation(program, VERTEX, "vertex");
+    glBindAttribLocation(program, NORMAL, "normal");
+    glBindAttribLocation(program, MATERIAL_AMBIENT, "materialAmbient");
+    glBindAttribLocation(program, MATERIAL_DIFFUSE, "materialDiffuse");
+    glBindAttribLocation(program, MATERIAL_SPECULAR, "materialSpecular");
+    glBindAttribLocation(program, MATERIAL_SHININESS, "materialShininess");
+
+    glAttachShader(program, vertex_shader);
+    glAttachShader(program, fragment_shader);
+    glLinkProgram(program);
+
+    GLint status = 0;
+    glGetProgramiv(program, GL_LINK_STATUS, &status);
+    if (!status) {
+        GLint info_log_length = 0;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &info_log_length);
+        char *info_log = alloca(info_log_length);
+        glGetProgramInfoLog(program, info_log_length, NULL, info_log);
+        fprintf(stderr, "GLSL program link error\n%s", info_log);
+        goto BAILOUT;
+    }
+
+    return program;
+
+BAILOUT:
+    glDeleteProgram(program);
+    glDeleteShader(fragment_shader);
+    fragment_shader = 0;
+    glDeleteShader(vertex_shader);
+    vertex_shader = 0;
+    return 0;
+}
+
+// Initializes the vertex and fragment shaders.
+static void init_shaders(void)
+{
+    shader_program = link_shader_program();
+    glUseProgram(shader_program);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Initializes the buffers.
+static void init_buffers(void)
+{
+    glGenBuffers(BUFFER_MAX, buffers);
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, 0x2000, NULL, GL_DYNAMIC_DRAW);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Initializes the vertex arrays.
+static void init_vertex_arrays(void)
+{
+    glGenVertexArrays(VERTEX_ARRAY_MAX, vertex_arrays);
+    glBindVertexArray(vertex_arrays[0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Sets the model matrix.
+static void set_model_matrix(const GLfloat matrix[4][4])
+{
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Sets the view matrix.
+static void set_view_matrix(const GLfloat matrix[4][4])
+{
+    GLint location = glGetUniformLocation(shader_program, "viewMatrix");
+    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Sets the projection matrix.
+static void set_projection_matrix(const GLfloat matrix[4][4])
+{
+    GLint location = glGetUniformLocation(shader_program, "projectionMatrix");
+    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Initializes the projection matrix.
+static void init_projection_matrix(void)
+{
+    // As glFrustum(-5, 5, -5, 5, 15, 250)
+    static const GLfloat left = -5;
+    static const GLfloat right = 5;
+    static const GLfloat bottom = -5;
+    static const GLfloat top = 5;
+    static const GLfloat nearVal = 15;
+    static const GLfloat farVal = 250;
+
+    // Note this is a column-major matrix.
+    static const GLfloat matrix[4][4] = {
+        {2 * nearVal / (right - left), 0, 0, 0},
+        {0, 2 * nearVal / (top - bottom), 0, 0},
+        {(right + left) / (right - left), (top + bottom) / (top - bottom),
+            -(farVal + nearVal) / (farVal - nearVal), -1},
+        {0, 0, -2 * farVal * nearVal / (farVal - nearVal), 0},
+    };
+    set_projection_matrix(matrix);
+}
+
+// Initializes the view matrix.
+static void init_view_matrix(void)
+{
+    // As gluLookAt(0, 0, 150, 0, 0, 0, 0, 1, 0)
+    // Note this is a column-major matrix.
+    static const GLfloat matrix[4][4] = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, -150, 1},
+    };
+    set_view_matrix(matrix);
+}
+
+static void init_lights(void)
+{
+    enum {
+        LIGHT_MAX = 2,
+    };
+    static const GLfloat ambient[LIGHT_MAX][4] = {
+        {0.08F, 0.08F, 0.08F, 1},
+        {0.06F, 0.06F, 0.06F, 1},
+    };
+    static const GLfloat diffuse[LIGHT_MAX][4] = {
+        {0.80F, 0.80F, 0.80F, 1},
+        {0.60F, 0.60F, 0.60F, 1},
+    };
+    static const GLfloat specular[LIGHT_MAX][4] = {
+        {1.00F, 1.00F, 1.00F, 1},
+        {1.00F, 1.00F, 1.00F, 1},
+    };
+    static const GLfloat position[LIGHT_MAX][4] = {
+        {-200, 200, 200, 0},
+        { 200, 200,   0, 0},
+    };
+
+    GLint ambient_location = glGetUniformLocation(shader_program, "lightAmbient");
+    glUniform4fv(ambient_location, LIGHT_MAX, &ambient[0][0]);
+
+    GLint diffuse_location = glGetUniformLocation(shader_program, "lightDiffuse");
+    glUniform4fv(diffuse_location, LIGHT_MAX, &diffuse[0][0]);
+
+    GLint specular_location = glGetUniformLocation(shader_program, "lightSpecular");
+    glUniform4fv(specular_location, LIGHT_MAX, &specular[0][0]);
+
+    GLint position_location = glGetUniformLocation(shader_program, "lightPosition");
+    glUniform4fv(position_location, LIGHT_MAX, &position[0][0]);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+static void rotate_z(const GLfloat model_matrix[4][4], GLfloat angle)
+{
+    GLfloat rotation[4][4];
+    mat4_rotate(angle, 0, 0, -1, rotation);
+
+    GLfloat m[4][4];
+    mat4_multiply(model_matrix, (const GLfloat (*)[4])rotation, m);
+
+    set_model_matrix((const GLfloat (*)[4])m);
+}
+
+// Draws the tick marks.
+static void draw_tick_marks(const GLfloat model_matrix[4][4])
+{
+    static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat diffuse[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat specular[4] = {1.00F, 1.00F, 1.00F, 1};
+    static const GLfloat shininess = 16;
+
+    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
+    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
+    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
+    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
+
+    for (int i = 0; i != 12; ++i) {
+        GLfloat angle = (GLfloat)M_PI / 6 * (GLfloat)i;
+        rotate_z(model_matrix, angle);
+
+        GLfloat l = 4;
+        if (i == 0) {
+            l = 9;
+        }
+        else if (i % 3 == 0) {
+            l = 6;
+        }
+
+        const GLfloat vertices[8][4] = {
+            { 1, 43 - l, 0,    1},
+            { 1, 43,     0,    1},
+            { 0, 43,     0.5F, 1},
+            { 0, 43 - l, 0.5F, 1},
+            { 0, 43 - l, 0.5F, 1},
+            { 0, 43,     0.5F, 1},
+            {-1, 43,     0,    1},
+            {-1, 43 - l, 0,    1},
+        };
+        const GLfloat normals[8][3] = {
+            { 0.5F, 0, 1},
+            { 0.5F, 0, 1},
+            { 0.5F, 0, 1},
+            { 0.5F, 0, 1},
+            {-0.5F, 0, 1},
+            {-0.5F, 0, 1},
+            {-0.5F, 0, 1},
+            {-0.5F, 0, 1},
+        };
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
+        glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
+        glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
+        glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)256);
+
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glDrawArrays(GL_TRIANGLE_FAN, 4, 4);
+    }
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Draw a hand.
+static void draw_hand(const GLfloat model_matrix[4][4], GLfloat angle,
+    GLfloat length, GLfloat height)
+{
+    static const GLfloat ambient[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat diffuse[4] = {0.05F, 0.05F, 0.05F, 1};
+    static const GLfloat specular[4] = {1.00F, 1.00F, 1.00F, 1};
+    static const GLfloat shininess = 16;
+
+    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
+    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
+    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
+    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
+
+    rotate_z(model_matrix, angle);
+
+    const GLfloat vertices[6][4] = {
+        { 2,  0,     height - 1, 1},
+        { 0, length, height,     1},
+        { 0, -2,     height,     1},
+        { 0, -2,     height,     1},
+        { 0, length, height,     1},
+        {-2,  0,     height - 1, 1},
+    };
+    const GLfloat normals[6][3] = {
+        { 0.5F, 0, 1},
+        { 0.5F, 0, 1},
+        { 0.5F, 0, 1},
+        {-0.5F, 0, 1},
+        {-0.5F, 0, 1},
+        {-0.5F, 0, 1},
+    };
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 256, sizeof normals, normals);
+    glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
+    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)256);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+// Draws the short hand.
+static void draw_short_hand(const GLfloat model_matrix[4][4], const struct tm *t)
+{
+    GLfloat angle = (GLfloat)M_PI / 21600
+        * (GLfloat)((t->tm_hour * 60 + t->tm_min) * 60 + t->tm_sec);
+    draw_hand(model_matrix, angle, 25, 2);
+}
+
+// Draws the long hand.
+static void draw_long_hand(const GLfloat model_matrix[4][4], const struct tm *t)
+{
+    GLfloat angle = (GLfloat)M_PI / 1800 * (GLfloat)(t->tm_min * 60 + t->tm_sec);
+    draw_hand(model_matrix, angle, 40, 4);
+}
+
+// Draws the base.
+static void draw_base(const GLfloat model_matrix[4][4], bool back)
+{
+    static const GLfloat ambient[4] = {0.20F, 0.20F, 0.40F, 1};
+    static const GLfloat diffuse[4] = {0.20F, 0.20F, 0.40F, 1};
+    static const GLfloat specular[4] = {0.40F, 0.40F, 0.40F, 1};
+    static const GLfloat shininess = 16;
+
+    glVertexAttrib4fv(MATERIAL_AMBIENT, &ambient[0]);
+    glVertexAttrib4fv(MATERIAL_DIFFUSE, &diffuse[0]);
+    glVertexAttrib4fv(MATERIAL_SPECULAR, &specular[0]);
+    glVertexAttrib1f(MATERIAL_SHININESS, shininess);
+
+    set_model_matrix(model_matrix);
+
+    enum {
+        N = 36,
+    };
+    GLfloat vertices[N + 2][4] = {
+        {0, 0, 0, 1},
+    };
+    GLfloat normals[N + 2][3] = {
+        {0, 0, back ? -1 : 1},
+    };
+
+    for (int i = 0; i != N + 1; i++) {
+        GLfloat angle = -2 * (GLfloat)M_PI / N * (GLfloat)i * (back ? -1 : 1);
+        vertices[i + 1][0] = 45 * sinf(angle);
+        vertices[i + 1][1] = 45 * cosf(angle);
+        vertices[i + 1][2] =  0;
+        vertices[i + 1][3] =  1;
+        normals[i + 1][0] = 0;
+        normals[i + 1][1] = 0;
+        normals[i + 1][2] = back ? -1 : 1;
+    }
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof vertices, vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 0x800, sizeof normals, normals);
+    glVertexAttribPointer(VERTEX, 4, GL_FLOAT, GL_FALSE, 0, (void *)0);
+    glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 0, (void *)0x800);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, N + 2);
+
+    check_gl_errors(__FILE__, __LINE__);
+}
+
+int simple_init(void)
+{
+    init_shaders();
+    init_buffers();
+    init_vertex_arrays();
+
+    init_projection_matrix();
+    init_view_matrix();
+
+    init_lights();
+
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+
+    glEnableVertexAttribArray(VERTEX);
+    glEnableVertexAttribArray(NORMAL);
+
+    check_gl_errors(__FILE__, __LINE__);
+
+    return 0;
+}
 
 int
-simple_init(void)
+simple_draw_clock(const GLfloat model_matrix[4][4])
 {
-  /* Sets the projection matrix.  */
-  glMatrixMode (GL_PROJECTION);
-  glLoadIdentity ();
-  glFrustum (-5., 5., -5., 5., 15., 250.);
+    if (texture_changed) {
+        texture_changed = 0;
+        set_texture();
+    }
 
-  glMatrixMode (GL_MODELVIEW);
-  gluLookAt (0, 0, 150,
-	     0, 0, 0,
-	     0, 1, 0);
+    time_t t = time(NULL);
+#if _POSIX_VERSION
+    struct tm lt[1];
+    localtime_r(&t, lt);
+#else
+    struct tm *lt = localtime(&t);
+#endif
+
+    check_gl_errors(__FILE__, __LINE__);
 
 #if 0
-  glEnable (GL_DEPTH_TEST);
+    GLint matrix_location = glGetUniformLocation(shader_program, "modelMatrix");
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, model_matrix);
 #endif
-  glEnable (GL_CULL_FACE);
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glLightfv(GL_LIGHT0, GL_AMBIENT, LIGHT0_AMBIENT);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, LIGHT0_INTENSITY);
-  glLightfv(GL_LIGHT0, GL_SPECULAR, LIGHT0_INTENSITY);
-  glLightfv(GL_LIGHT0, GL_POSITION, LIGHT0_POSITION);
-  glEnable(GL_LIGHT1);
-  glLightfv(GL_LIGHT1, GL_AMBIENT, LIGHT1_AMBIENT);
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, LIGHT1_INTENSITY);
-  glLightfv(GL_LIGHT1, GL_SPECULAR, LIGHT1_INTENSITY);
-  glLightfv(GL_LIGHT1, GL_POSITION, LIGHT1_POSITION);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  return 0;
+    check_gl_errors(__FILE__, __LINE__);
+
+    draw_tick_marks(model_matrix);
+    draw_short_hand(model_matrix, lt);
+    draw_long_hand(model_matrix, lt);
+
+    draw_base(model_matrix, false);
+    draw_base(model_matrix, true);
+
+    return 0;
 }
 
 static int
-simple_draw(void *data)
+simple_draw(void *data, const GLfloat model_matrix[4][4])
 {
-  return simple_draw_clock();
+    return simple_draw_clock(model_matrix);
 }
 
 static int

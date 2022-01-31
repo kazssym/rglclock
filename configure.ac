@@ -16,7 +16,6 @@ case "$host_os" in
 mingw32* | mingw64*)
   ;;
 *)
-  AC_SEARCH_LIBS([XFree], [X11])
   AC_SEARCH_LIBS([glClear], [GL],, [AC_MSG_ERROR([missing OpenGL library])])
   AC_SEARCH_LIBS([gluLookAt], [GLU],, [AC_MSG_ERROR([missing GLU library])])
   ;;
@@ -41,7 +40,7 @@ PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 PKG_CHECK_MODULES([LIBPNG], [libpng])
 
 AC_CONFIG_FILES([Makefile libgnu/Makefile \
-include/Makefile lib/Makefile modules/Makefile programs/Makefile \
+lib/Makefile modules/Makefile programs/Makefile \
 testsuite/Makefile doc/Makefile po/Makefile.in])
 AC_CONFIG_HEADER([config.h])
 AC_OUTPUT
