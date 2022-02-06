@@ -39,8 +39,7 @@ PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 PKG_CHECK_MODULES([LIBPNG], [libpng])
 
-AC_CONFIG_FILES([Makefile libgnu/Makefile \
-lib/Makefile modules/Makefile programs/Makefile \
-testsuite/Makefile doc/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile libgnu/Makefile lib/Makefile modules/Makefile \
+programs/Makefile doc/Makefile po/Makefile.in])
 AC_CONFIG_HEADER([config.h])
 AC_OUTPUT
