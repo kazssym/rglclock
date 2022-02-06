@@ -85,7 +85,7 @@ stages:
             displayName: Make distributables
           - publish: _dist
             artifact: dist
-  - stage: Test Ubuntu
+  - stage: Test_Ubuntu
     jobs:
       - job: Build
         strategy:
@@ -126,7 +126,7 @@ stages:
               make install &&
               make installcheck
             displayName: Install
-  - stage: Test macOS
+  - stage: Test_macOS
     jobs:
       - job: Build
         strategy:
