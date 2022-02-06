@@ -85,19 +85,15 @@ stages:
             displayName: Make distributables
           - publish: _dist
             artifact: dist
-  - stage: Test
+  - stage: Test Ubuntu
     jobs:
       - job: Build
         strategy:
           matrix:
-            Ubuntu:
+            Ubuntu-18.04:
               VM_IMAGE: ubuntu-18.04
               CC: gcc
               CXX: g++
-            macOS:
-              VM_IMAGE: macOS-10.15
-              CC: clang
-              CXX: clang++ -std=c++14
         continueOnError: true
         pool:
           vmImage: $(VM_IMAGE)
@@ -110,12 +106,49 @@ stages:
               tar -x --strip-components=1
             displayName: Unpack
           - bash: |
-              if apt-get --version > /dev/null 2>&1; then
-                sudo apt-get install -q --no-install-recommends \
-                  libgl-dev \
-                  libglu1-mesa-dev \
-                  libgtk-3-dev
-              fi
+              sudo apt-get install -q --no-install-recommends \
+                libgl-dev \
+                libglu1-mesa-dev \
+                libgtk-3-dev
+            displayName: Install build dependencies
+          - bash: |
+              $CC --version
+              $CXX --version
+              ./configure --prefix='$(Build.BinariesDirectory)'
+              status=$?
+              echo "##vso[task.uploadfile]`pwd`/config.log"
+              exit $status
+            displayName: Configure
+          - bash: |
+              make check
+            displayName: Build
+          - bash: |
+              make install &&
+              make installcheck
+            displayName: Install
+  - stage: Test macOS
+    jobs:
+      - job: Build
+        strategy:
+          matrix:
+            macOS-10.15:
+              VM_IMAGE: macOS-10.15
+              CC: clang
+              CXX: clang++ -std=c++17
+        continueOnError: true
+        pool:
+          vmImage: $(VM_IMAGE)
+        steps:
+          - checkout: none
+          - download: current
+            artifact: dist
+          - bash: |
+              gzip -dc '$(Agent.BuildDirectory)'/dist/'$(package.name)-$(package.version)'.tar.gz |
+              tar -x --strip-components=1
+            displayName: Unpack
+          - bash: |
+              brew install -q \
+                gtk+3
             displayName: Install build dependencies
           - bash: |
               $CC --version
