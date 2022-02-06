@@ -86,6 +86,7 @@ stages:
           - publish: _dist
             artifact: dist
   - stage: Test_Ubuntu
+    dependsOn: Default
     jobs:
       - job: Build
         strategy:
@@ -127,6 +128,7 @@ stages:
               make installcheck
             displayName: Install
   - stage: Test_macOS
+    dependsOn: Default
     jobs:
       - job: Build
         strategy:
