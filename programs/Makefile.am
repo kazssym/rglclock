@@ -4,7 +4,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/lib \
 -I$(top_srcdir)/libgnu -I$(top_builddir)/libgnu \
 -DPKGDATADIR=\"$(pkgdatadir)\" -DLOCALEDIR=\"$(localedir)\" \
 -DOPTIONS_DTD=\"$(pkgdatadir)/options-0.dtd\" \
-$(LIBPNG_CFLAGS) $(LIBXML2_CFLAGS) $(GTK_CFLAGS)
+$(LIBXML2_CFLAGS) $(GTK_CFLAGS)
 
 bin_PROGRAMS = rglclock
 
@@ -14,7 +14,7 @@ rglclock_LDFLAGS = -dlopen ../modules/simple.la
 rglclock_SOURCES = rglclock.cpp about.cpp profile.cpp \
 options.cpp modaldialog.cpp
 rglclock_LDADD = ../lib/librglclock.la ../libgnu/libgnu.la \
-$(LIBPNG_LIBS) $(LIBXML2_LIBS) $(GTK_LIBS) $(LTDL_LIBS)
+$(LIBXML2_LIBS) $(GTK_LIBS) $(LTDL_LIBS)
 
 man_MANS = rglclock.1
 
