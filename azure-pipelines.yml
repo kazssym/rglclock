@@ -115,6 +115,9 @@ stages:
                   libgl-dev \
                   libglu1-mesa-dev \
                   libgtk-3-dev
+              elif brew --version > /dev/null 2>&1; then
+                brew install -q \
+                  gtk+3
               fi
             displayName: Install build dependencies
           - bash: |
