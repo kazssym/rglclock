@@ -12,8 +12,12 @@ AC_PROG_CXX
 gl_EARLY
 # Checks for libraries.
 AC_CANONICAL_HOST
-case "$host_os" in
-mingw32* | mingw64*)
+case "$host" in
+*-*-mingw32* | *-*-mingw64*)
+  ;;
+*-apple-darwin*)
+  CPPFLAGS="$CPPFLAGS -I\$(top_srcdir)/config/apple/include"
+  LIBS="-framework OpenGL $LIBS"
   ;;
 *)
   AC_SEARCH_LIBS([glClear], [GL],, [AC_MSG_ERROR([missing OpenGL library])])
