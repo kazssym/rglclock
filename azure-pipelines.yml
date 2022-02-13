@@ -46,6 +46,7 @@ stages:
             displayName: Download SonarCloud build wrapper
             workingDirectory: $(Agent.TempDirectory)
           - bash: |
+              sudo apt-get update -q
               sudo apt-get install -q --no-install-recommends \
                 libgl-dev \
                 libglu1-mesa-dev \
