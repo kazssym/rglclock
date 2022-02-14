@@ -46,6 +46,7 @@ stages:
             displayName: Download SonarCloud build wrapper
             workingDirectory: $(Agent.TempDirectory)
           - bash: |
+              sudo apt-get update -q
               sudo apt-get install -q --no-install-recommends \
                 libgl-dev \
                 libglu1-mesa-dev \
@@ -73,7 +74,7 @@ stages:
           - task: PublishTestResults@2
             condition: succeededOrFailed()
           - bash: |
-              for subdir in lib modules programs testsuite; do
+              for subdir in lib modules programs; do
                 (cd "$subdir" && find . -name '*.gcda' -print | xargs -r gcov -r)
               done
             displayName: Produce test coverage reports
@@ -111,10 +112,14 @@ stages:
             displayName: Unpack
           - bash: |
               if apt-get --version > /dev/null 2>&1; then
+                sudo apt-get update -q
                 sudo apt-get install -q --no-install-recommends \
                   libgl-dev \
                   libglu1-mesa-dev \
                   libgtk-3-dev
+              elif brew --version > /dev/null 2>&1; then
+                brew install -q \
+                  gtk+3
               fi
             displayName: Install build dependencies
           - bash: |

@@ -12,8 +12,12 @@ AC_PROG_CXX
 gl_EARLY
 # Checks for libraries.
 AC_CANONICAL_HOST
-case "$host_os" in
-mingw32* | mingw64*)
+case "$host" in
+*-*-mingw32* | *-*-mingw64*)
+  ;;
+*-apple-darwin*)
+  CPPFLAGS="$CPPFLAGS -I\$(top_srcdir)/config/apple/include"
+  LIBS="-framework OpenGL $LIBS"
   ;;
 *)
   AC_SEARCH_LIBS([glClear], [GL],, [AC_MSG_ERROR([missing OpenGL library])])
@@ -39,8 +43,7 @@ PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 PKG_CHECK_MODULES([LIBPNG], [libpng])
 
-AC_CONFIG_FILES([Makefile libgnu/Makefile \
-lib/Makefile modules/Makefile programs/Makefile \
-testsuite/Makefile doc/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile libgnu/Makefile lib/Makefile modules/Makefile \
+programs/Makefile doc/Makefile po/Makefile.in])
 AC_CONFIG_HEADER([config.h])
 AC_OUTPUT

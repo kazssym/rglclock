@@ -1,2 +1,0 @@
-proc rglclock_exit {} {}
-proc rglclock_version {} {}

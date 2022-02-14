@@ -284,7 +284,7 @@ BAILOUT:
 static GLuint compile_vertex_shader(void)
 {
     const char *source =
-        "#version 140\n"
+        "#version 150\n"
         "const int LIGHT_MAX = 2;"
         "in vec4 vertex;\n"
         "in vec3 normal;\n"
@@ -322,7 +322,7 @@ static GLuint compile_vertex_shader(void)
 static GLuint compile_fragment_shader(void)
 {
     const char *source =
-        "#version 140\n"
+        "#version 150\n"
         "in vec4 color;\n"
         "out vec4 fragColor;\n"
         "void main()\n"
