@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
-"POT-Creation-Date: 2021-02-14 14:26+0900\n"
+"POT-Creation-Date: 2022-02-20 14:25+0900\n"
 "PO-Revision-Date: 2021-02-06 11:58+0000\n"
 "Last-Translator: Kaz Nishimura <kazssym@linuxfront.com>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/vx68k/teams/116848/ja/)\n"
@@ -20,11 +20,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: lib/movement.cpp:68
+#: lib/movement.cpp:74
 msgid "_About..."
 msgstr "バージョン情報(_A)..."
 
-#: lib/movement.cpp:69
+#: lib/movement.cpp:75
 msgid "E_xit"
 msgstr "終了(_X)"
 
@@ -84,15 +84,15 @@ msgid ""
 "version."
 msgstr ""
 
-#: programs/about.cpp:89 programs/options.cpp:131
+#: programs/about.cpp:89 programs/options.cpp:133
 msgid "OK"
 msgstr "OK"
 
-#: programs/options.cpp:139
+#: programs/options.cpp:141
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: programs/options.cpp:153
+#: programs/options.cpp:155
 msgid "Options"
 msgstr "オプション"
 

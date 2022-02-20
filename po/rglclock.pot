@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
-"POT-Creation-Date: 2021-02-14 14:26+0900\n"
+"POT-Creation-Date: 2022-02-20 14:25+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lib/movement.cpp:68
+#: lib/movement.cpp:74
 msgid "_About..."
 msgstr ""
 
-#: lib/movement.cpp:69
+#: lib/movement.cpp:75
 msgid "E_xit"
 msgstr ""
 
@@ -79,14 +79,14 @@ msgid ""
 "version."
 msgstr ""
 
-#: programs/about.cpp:89 programs/options.cpp:131
+#: programs/about.cpp:89 programs/options.cpp:133
 msgid "OK"
 msgstr ""
 
-#: programs/options.cpp:139
+#: programs/options.cpp:141
 msgid "Cancel"
 msgstr ""
 
-#: programs/options.cpp:153
+#: programs/options.cpp:155
 msgid "Options"
 msgstr ""
