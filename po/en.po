@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
-"POT-Creation-Date: 2021-02-14 14:26+0900\n"
+"POT-Creation-Date: 2022-02-20 14:25+0900\n"
 "PO-Revision-Date: 2021-02-08 07:28+0900\n"
 "Last-Translator: Kaz Nishimura <kazssym@linuxfront.com>\n"
 "Language-Team: none\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/movement.cpp:68
+#: lib/movement.cpp:74
 msgid "_About..."
 msgstr "_About..."
 
-#: lib/movement.cpp:69
+#: lib/movement.cpp:75
 msgid "E_xit"
 msgstr "E_xit"
 
@@ -86,15 +86,15 @@ msgstr ""
 "Foundation; either version 3 of the License, or (at your option) any later "
 "version."
 
-#: programs/about.cpp:89 programs/options.cpp:131
+#: programs/about.cpp:89 programs/options.cpp:133
 msgid "OK"
 msgstr "OK"
 
-#: programs/options.cpp:139
+#: programs/options.cpp:141
 msgid "Cancel"
 msgstr "Cancel"
 
-#: programs/options.cpp:153
+#: programs/options.cpp:155
 msgid "Options"
 msgstr "Options"
 

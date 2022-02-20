@@ -1,7 +1,7 @@
 # English translations for rglclock package.
-# Copyright (C) 2021 Kaz Nishimura
+# Copyright (C) 2022 Kaz Nishimura
 # This file is distributed under the same license as the rglclock package.
-# Automatically generated, 2021.
+# Automatically generated, 2022.
 #
 # All this catalog "translates" are quotation characters.
 # The msgids must be ASCII and therefore cannot contain real quotation
@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rglclock 4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/kazssym/rglclock/issues/new\n"
-"POT-Creation-Date: 2021-02-14 14:26+0900\n"
-"PO-Revision-Date: 2021-02-14 14:26+0900\n"
+"POT-Creation-Date: 2022-02-20 14:25+0900\n"
+"PO-Revision-Date: 2022-02-20 14:25+0900\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -42,11 +42,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/movement.cpp:68
+#: lib/movement.cpp:74
 msgid "_About..."
 msgstr "_About..."
 
-#: lib/movement.cpp:69
+#: lib/movement.cpp:75
 msgid "E_xit"
 msgstr "E_xit"
 
@@ -110,14 +110,14 @@ msgstr ""
 "Foundation; either version 3 of the License, or (at your option) any later "
 "version."
 
-#: programs/about.cpp:89 programs/options.cpp:131
+#: programs/about.cpp:89 programs/options.cpp:133
 msgid "OK"
 msgstr "OK"
 
-#: programs/options.cpp:139
+#: programs/options.cpp:141
 msgid "Cancel"
 msgstr "Cancel"
 
-#: programs/options.cpp:153
+#: programs/options.cpp:155
 msgid "Options"
 msgstr "Options"
